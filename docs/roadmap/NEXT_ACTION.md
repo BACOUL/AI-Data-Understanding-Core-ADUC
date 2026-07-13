@@ -2,52 +2,43 @@
 
 ## Single active task
 
-Implement Gate 2 by replacing the broad bootstrap validation model with the first machine-readable semantic mapping profile schema.
+Implement Gate 3 by creating a user-facing ADUC validator and machine-readable conformance report.
 
-Create or update:
+Create:
 
 ```text
-schema/aduc-mapping-profile.schema.json
-tests/fixtures/mapping-profile/valid/
-tests/fixtures/mapping-profile/invalid/
-tools/validate_contracts.py
+tools/aduc_validate.py
+spec/VALIDATION_ERROR_CATALOG_0_1.md
+tests/validator/
 ```
 
-## Required schema behavior
+## Required behavior
 
-The schema must enforce:
+The validator must:
 
-1. profile identity, conformance version, source description and immutable source-version binding;
-2. one declared local-reference scheme per v0.1 document;
-3. one or more immutable mapping assertions;
-4. absolute identifiers for documents, assertions, semantic targets, relations and asserting agents;
-5. statuses limited to `inferred`, `reviewed`, `canonical` and `contested`;
-6. confidence required for `inferred`, optional for `reviewed` and forbidden for `canonical`;
-7. confidence method required whenever confidence is present;
-8. evidence required for `inferred` and `contested`;
-9. explicit mapping relation;
-10. rejection of the unsafe counterexamples documented in `spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md` where structurally enforceable.
+1. validate a supplied profile against `schema/aduc-mapping-profile.schema.json`;
+2. return a non-zero exit code for non-conforming input;
+3. produce readable text output and optional JSON output;
+4. assign stable error codes;
+5. detect duplicate assertion identifiers;
+6. reject an assertion that supersedes itself;
+7. detect `supersedes` cycles within one profile document;
+8. report incompatible canonical targets for the same local reference;
+9. distinguish schema errors, semantic-profile errors and unverifiable trust claims;
+10. state clearly that canonical source authority cannot be proven without external trust configuration.
 
-## Required fixtures
+## Required tests
 
-At minimum:
-
-- two complete valid fixtures matching the specification examples;
-- valid reviewed mapping;
-- valid contested mapping;
-- invalid inferred mapping without confidence;
-- invalid confidence without method;
-- invalid canonical mapping with confidence;
-- invalid contested mapping without evidence;
-- invalid status;
-- invalid missing source-version binding;
-- invalid relative semantic target;
-- invalid empty assertion list.
+- conforming profile exits successfully;
+- each semantic error produces its expected stable code;
+- JSON report has a documented shape;
+- command works from the repository root;
+- existing 4 valid and 10 invalid schema fixtures continue to pass.
 
 ## Scope boundary
 
-Do not add compiler, inference, registry, signatures, API/event support or anticipation-engine behavior. Cross-assertion conflicts and authority verification that JSON Schema cannot prove must be listed for the future semantic validator.
+Do not implement cryptographic signatures, network resolution, remote authority verification, inference, registry, RDF round-trip or multi-model evaluation in this task.
 
 ## Completion test
 
-GitHub Actions must accept every official valid fixture and reject every official invalid fixture. The schema, validator and fixture count must be reported in the Pull Request evidence.
+A third party must be able to run one documented command against an arbitrary local profile and receive deterministic, actionable validation results.
