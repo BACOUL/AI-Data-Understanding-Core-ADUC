@@ -12,3 +12,9 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Bootstrap specification skeleton
 - Bootstrap JSON Schema
 - Example fixtures and validation workflow
+- Gate 0 prior-art matrix covering thirteen relevant standards and approaches
+
+### Changed
+
+- Narrowed the candidate project direction from a standalone universal data model to an AI semantic mapping profile that reuses established standards
+- Made mapping authority, confidence/evidence, deterministic consumer behavior and multi-model conformance the candidate differentiators requiring validation
