@@ -50,7 +50,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - ADR-0004 positioning the existing semantic-mapping implementation inside the broader ADUC Core
 - First informative ten-block full-Core JSON example
 - English static public website with Home, Specification, Architecture, Roadmap, Example and Try in 5 Minutes pages
-- GitHub Pages deployment workflow
+- GitHub Pages and Vercel static-site deployment configuration
 - Website metadata, robots policy and XML sitemap
 - Deterministic website and full-Core example validation script
 - ADR-0005 defining the complete seven-state effective epistemic lifecycle
@@ -99,6 +99,13 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Nine identity evaluator and CLI tests
 - Stable identifier, relation, privacy, lifecycle, and merge error families
 - Purpose-limited pseudonymous and linkage-token identity examples
+- ADR-0010 defining PROV-O-based provenance, transformation lineage, disclosure, invalidation, and reproducibility gates
+- `spec/PROVENANCE_PROFILE_0_1.md` for bound entities, activities, agents, derivations, AI execution, and lineage disclosure
+- Seven valid provenance reference cases including an end-to-end source-to-comparison chain
+- Twenty invalid provenance mutation fixtures
+- Deterministic provenance and lineage evaluator `tools/aduc_provenance.py`
+- Eight provenance evaluator and CLI tests
+- Stable provenance, reproduction, AI-evidence, manual-intervention, and disclosure error families
 
 ### Changed
 
@@ -109,8 +116,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Reduced the implemented mapping-profile authority states to `inferred`, `reviewed`, `canonical` and `contested`
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
-- Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, temporal, identity, roadmap, and website checks
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, temporal, identity, provenance, roadmap, website, and deployment checks
 - Updated the README to distinguish the full-Core mission from the implemented reference components
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
@@ -131,4 +137,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required namespace, issuer, scheme, canonical value, and temporal validity for local identity
 - Reserved `owl:sameAs` for qualifying verified or canonical exact identity
 - Blocked automatic merge for candidate, conflicting, expired, reassigned, type-incompatible, or privacy-incompatible identity
-- Advanced the single active task from entity identity to provenance and transformation lineage
+- Reused W3C PROV-O rather than defining a competing provenance ontology
+- Required bound inputs/outputs, responsible agents, immutable execution evidence, and explicit disclosure for transformation lineage
+- Distinguished deterministic reproduction from nondeterministic replay, manual intervention, attestation, reconstruction, missing lineage, and redaction
+- Advanced the single active task from provenance and transformation lineage to uncertainty and data quality
