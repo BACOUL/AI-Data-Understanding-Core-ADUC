@@ -1,10 +1,10 @@
 # Project Status
 
 - Project: AI Data Understanding Core (working title)
-- Current phase: Gate 3 — Reference validator
+- Current phase: Gate 4 — Source authoring workflow
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 2 passed; semantic-validator work authorized
+- Overall status: Gate 3 passed; authoring-workflow work authorized
 
 ## Completed
 
@@ -21,10 +21,13 @@
 - Immutable assertion lifecycle and deterministic consumer invariants
 - Candidate Draft 2020-12 semantic mapping profile schema
 - Four valid and ten invalid official schema fixtures
-- Reference fixture runner validating the active mapping-profile schema
-- Explicit and reproducible JSON Schema format dependencies
 - GitHub Actions validation of all 14 official mapping-profile fixtures
-- Documented boundary between structural schema conformance and semantic/trust validation
+- User-facing text and JSON validator
+- Stable validation error catalogue
+- Semantic checks for duplicate IDs, self-replacement, replacement cycles and canonical conflicts
+- Local trusted-authority warnings for canonical mappings
+- Eight validator unit tests including CLI exit codes
+- GitHub Actions execution of schema fixtures and all eight validator tests
 
 ## Evidence-based findings
 
@@ -33,11 +36,11 @@
 - ADUC focuses on mapping status, authority, confidence/evidence, explicit relation, deterministic AI-consumer behavior and cross-model conformance.
 - `unknown`, `verified` and `deprecated` are not required as mapping authority states in v0.1.
 - JSON Schema can enforce conditional field rules but cannot prove publisher authority, target equivalence or cross-document trust.
-- URI validation requires explicit format-checking dependencies; the CI environment now installs them reproducibly.
+- A local trust option can suppress an authority warning but does not constitute cryptographic or global proof.
 
 ## Not yet validated
 
-- User-facing semantic validator and stable error catalogue
+- Manual authoring and review workflow
 - JSON-LD context and RDF round-trip
 - Falsifiable multi-model demonstration protocol details
 - Public name and acronym
@@ -45,7 +48,7 @@
 
 ## Active blockers
 
-- Semantic validation rules not implemented
+- Authoring and review lifecycle not specified end to end
 - Authority verification mechanism not defined
 - Demonstration fixtures and evaluation protocol not frozen
 

@@ -2,43 +2,46 @@
 
 ## Single active task
 
-Implement Gate 3 by creating a user-facing ADUC validator and machine-readable conformance report.
+Begin Gate 4 by defining the source-authoring and review workflow without implementing automatic AI inference yet.
 
 Create:
 
 ```text
-tools/aduc_validate.py
-spec/VALIDATION_ERROR_CATALOG_0_1.md
-tests/validator/
+spec/AUTHORING_WORKFLOW_0_1.md
+examples/authoring/
 ```
 
-## Required behavior
+## Objective
 
-The validator must:
+Specify how a user or future compiler creates, reviews, promotes, contests and publishes immutable semantic mapping assertions while preserving their provenance and prior versions.
 
-1. validate a supplied profile against `schema/aduc-mapping-profile.schema.json`;
-2. return a non-zero exit code for non-conforming input;
-3. produce readable text output and optional JSON output;
-4. assign stable error codes;
-5. detect duplicate assertion identifiers;
-6. reject an assertion that supersedes itself;
-7. detect `supersedes` cycles within one profile document;
-8. report incompatible canonical targets for the same local reference;
-9. distinguish schema errors, semantic-profile errors and unverifiable trust claims;
-10. state clearly that canonical source authority cannot be proven without external trust configuration.
+## Required workflow
 
-## Required tests
+1. identify the described source and immutable source version;
+2. enumerate local fields from Croissant or JSON Schema;
+3. create inferred mapping proposals with method-bound confidence and evidence;
+4. expose unmapped fields explicitly through coverage reporting rather than targetless assertions;
+5. review proposals without editing published assertions in place;
+6. create a new reviewed or canonical assertion that supersedes its predecessor;
+7. contest a mapping without silently selecting an alternative;
+8. export a schema-valid profile;
+9. run the Gate 3 validator;
+10. preserve a machine-readable authoring ledger.
 
-- conforming profile exits successfully;
-- each semantic error produces its expected stable code;
-- JSON report has a documented shape;
-- command works from the repository root;
-- existing 4 valid and 10 invalid schema fixtures continue to pass.
+## Required artifacts
+
+- role definitions: inference producer, reviewer, source authority and consumer;
+- immutable lifecycle diagrams;
+- proposal and review record shapes;
+- minimum human-review questions;
+- two end-to-end examples from source field to published profile;
+- failure cases preventing silent authority promotion;
+- clear separation between authoring metadata and the portable profile.
 
 ## Scope boundary
 
-Do not implement cryptographic signatures, network resolution, remote authority verification, inference, registry, RDF round-trip or multi-model evaluation in this task.
+Do not call external models, build a web UI, create a registry, resolve ontology terms over the network or implement the anticipation engine. This task defines the workflow and evidence required before authoring automation is built.
 
 ## Completion test
 
-A third party must be able to run one documented command against an arbitrary local profile and receive deterministic, actionable validation results.
+An independent developer must be able to follow the document manually and produce a valid profile whose lifecycle can be audited from inference through review or canonical publication.
