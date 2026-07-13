@@ -2,42 +2,52 @@
 
 ## Single active task
 
-Create:
+Implement Gate 2 by replacing the broad bootstrap validation model with the first machine-readable semantic mapping profile schema.
+
+Create or update:
 
 ```text
-spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md
+schema/aduc-mapping-profile.schema.json
+tests/fixtures/mapping-profile/valid/
+tests/fixtures/mapping-profile/invalid/
+tools/validate_contracts.py
 ```
 
-## Objective
+## Required schema behavior
 
-Define the smallest information model required to express one portable semantic mapping assertion without duplicating Croissant, JSON-LD/RDF, PROV-O, DQV or ODRL.
+The schema must enforce:
 
-## Candidate concepts to test
+1. profile identity, conformance version, source description and immutable source-version binding;
+2. one declared local-reference scheme per v0.1 document;
+3. one or more immutable mapping assertions;
+4. absolute identifiers for documents, assertions, semantic targets, relations and asserting agents;
+5. statuses limited to `inferred`, `reviewed`, `canonical` and `contested`;
+6. confidence required for `inferred`, optional for `reviewed` and forbidden for `canonical`;
+7. confidence method required whenever confidence is present;
+8. evidence required for `inferred` and `contested`;
+9. explicit mapping relation;
+10. rejection of the unsafe counterexamples documented in `spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md` where structurally enforceable.
 
-- local source reference;
-- semantic target identifier;
-- mapping status;
-- confidence for non-authoritative mappings;
-- mapping authority or asserting agent;
-- evidence references;
-- source/schema version for which the mapping is valid;
-- creation or publication time.
+## Required fixtures
 
-Every candidate concept must be justified by a concrete interoperability failure that occurs when it is absent. Unnecessary concepts must be removed.
+At minimum:
 
-## Required output
+- two complete valid fixtures matching the specification examples;
+- valid reviewed mapping;
+- valid contested mapping;
+- invalid inferred mapping without confidence;
+- invalid confidence without method;
+- invalid canonical mapping with confidence;
+- invalid contested mapping without evidence;
+- invalid status;
+- invalid missing source-version binding;
+- invalid relative semantic target;
+- invalid empty assertion list.
 
-1. normative terminology candidates;
-2. required versus optional properties;
-3. status definitions and allowed transitions;
-4. invariants preventing authority promotion;
-5. relationship to Croissant fields and JSON-LD/RDF identifiers;
-6. provenance representation through PROV-O;
-7. distinction between mapping confidence, data quality and factual truth;
-8. at least two complete examples;
-9. at least five invalid or unsafe counterexamples;
-10. unresolved questions and explicit exclusions.
+## Scope boundary
+
+Do not add compiler, inference, registry, signatures, API/event support or anticipation-engine behavior. Cross-assertion conflicts and authority verification that JSON Schema cannot prove must be listed for the future semantic validator.
 
 ## Completion test
 
-Gate 1 cannot proceed to a normative JSON Schema until the model demonstrates that each required property is necessary, provider-independent and representable without duplicating an established standard.
+GitHub Actions must accept every official valid fixture and reject every official invalid fixture. The schema, validator and fixture count must be reported in the Pull Request evidence.
