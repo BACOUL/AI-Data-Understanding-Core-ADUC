@@ -45,6 +45,22 @@ The existing semantic-mapping schema, validator, comparator, JSON-LD/RDF tooling
 
 They are not the complete ADUC Core.
 
+## Complete epistemic lifecycle
+
+ADR-0005 and `spec/EPISTEMIC_STATUS_MODEL_0_1.md` define seven effective states without placing all of them in one ambiguous property:
+
+```text
+unknown      coverage record without a semantic target
+inferred     assertion authority level
+reviewed     assertion authority level
+verified     assertion authority level
+canonical    assertion authority level
+contested    effective state from an unresolved challenge or conflict
+deprecated   effective state from an immutable deprecation record
+```
+
+Assertions, challenges, resolutions, and deprecations are immutable records. Confidence is required for inferred assertions, conditional for reviewed or verified assertions, and forbidden for canonical assertions.
+
 ## Mandatory construction order
 
 ```text
@@ -65,6 +81,7 @@ TimeProofs and the anticipation engine remain separate projects. TimeProofs may 
 - Phase: Phase 0 — complete Core definition and public foundation
 - Release: unreleased
 - Target release: `0.1.0-alpha.0`
+- Epistemic lifecycle: specified and reference-tested
 - Full-Core conformance: not yet implemented
 - Multi-model interoperability: harness available; qualifying external proof absent
 
@@ -77,13 +94,15 @@ See:
 ## Read first
 
 1. [`ADUC_CORE_SPEC_0_1.md`](spec/ADUC_CORE_SPEC_0_1.md)
-2. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
-3. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-4. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
-5. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
-6. [`ADR-0004`](docs/decisions/ADR-0004-full-core-program-and-semantic-profile-position.md)
-7. [`METHOD.md`](docs/method/METHOD.md)
-8. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
+2. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
+3. [`ADR-0005`](docs/decisions/ADR-0005-complete-epistemic-lifecycle.md)
+4. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
+5. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+6. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
+7. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
+8. [`ADR-0004`](docs/decisions/ADR-0004-full-core-program-and-semantic-profile-position.md)
+9. [`METHOD.md`](docs/method/METHOD.md)
+10. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
 
 ## First complete full-Core example
 
@@ -98,6 +117,9 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 
 ## What is implemented today
 
+- full-Core mission, structure, working draft, and master plan;
+- complete seven-state effective epistemic model;
+- deterministic epistemic reference evaluator and counterexample suite;
 - semantic-mapping assertion model;
 - Draft 2020-12 mapping-profile schema;
 - valid and invalid mapping fixtures;
@@ -110,8 +132,9 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 
 ## What is not yet implemented
 
+- source-description and immutable source-binding model;
 - final full-Core object model and schema family;
-- complete seven-state epistemic lifecycle in the schema;
+- full-Core schema serialization of coverage, challenge, resolution, and deprecation records;
 - JSON and CSV compiler;
 - minimal review web interface;
 - complete unit conversion, temporal alignment, and entity-resolution comparison;
@@ -121,12 +144,12 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 
 ## Repository areas
 
-- `spec/`: Core and profile specification drafts
+- `spec/`: Core, epistemic, and profile specification drafts
 - `schema/`: machine-validatable JSON Schemas
 - `context/`: pinned JSON-LD contexts
-- `examples/`: raw sources, Core drafts, profiles, and conformance fixtures
-- `tools/`: validation, comparison, RDF, conformance, and website checks
-- `tests/`: schema, validator, comparator, JSON-LD, and conformance tests
+- `examples/`: raw sources, Core drafts, profiles, epistemic cases, and conformance fixtures
+- `tools/`: validation, lifecycle evaluation, comparison, RDF, conformance, and website checks
+- `tests/`: validator, comparator, JSON-LD, conformance, and epistemic lifecycle tests
 - `website/`: static English public website
 - `docs/decisions/`: architecture decision records
 - `docs/roadmap/`: master plan, project status, next action, and execution ledger
@@ -145,8 +168,27 @@ python -m unittest discover -s tests/validator -p "test_*.py"
 python -m unittest discover -s tests/comparator -p "test_*.py"
 python -m unittest discover -s tests/jsonld -p "test_*.py"
 python -m unittest discover -s tests/conformance -p "test_*.py"
+python -m unittest discover -s tests/epistemic -p "test_*.py"
 python tools/validate_website.py
 ```
+
+## Evaluate the epistemic reference cases
+
+Valid lifecycle cases:
+
+```bash
+python tools/aduc_epistemic.py \
+  examples/epistemic-status/reference-cases.json
+```
+
+Required counterexamples:
+
+```bash
+python tools/aduc_epistemic.py \
+  examples/epistemic-status/invalid-cases.json
+```
+
+Both commands return success only when every case produces its declared expected result. The invalid-case file succeeds as a test artifact because each unsafe record set is correctly rejected.
 
 ## Validate one semantic-mapping profile
 

@@ -53,6 +53,13 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - GitHub Pages deployment workflow
 - Website metadata, robots policy and XML sitemap
 - Deterministic website and full-Core example validation script
+- ADR-0005 defining the complete seven-state effective epistemic lifecycle
+- `spec/EPISTEMIC_STATUS_MODEL_0_1.md` with authority, conflict, lifecycle, confidence, evidence, and migration rules
+- Separate coverage, semantic assertion, challenge, resolution, and deprecation record families
+- Reference epistemic evaluator `tools/aduc_epistemic.py`
+- Nine valid lifecycle cases covering all seven effective states
+- Eight rejected lifecycle counterexamples
+- Epistemic lifecycle unit and CLI tests
 
 ### Changed
 
@@ -64,9 +71,12 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance and website checks
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, and website checks
 - Updated the README to distinguish the full-Core mission from the implemented semantic-mapping subset
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
 - Migrated official mapping profiles and fixtures from the placeholder `example.org` context to the pinned experimental context
 - Replaced the obsolete Gate 6 next action with the full epistemic-lifecycle decision required before the full-Core schema
+- Replaced the proposed one-property seven-state model with separate authority, conflict, deprecation, and unknown-coverage representations
+- Defined `reviewed`, `verified`, and `canonical` as distinct claims with different evidence and consumer rules
+- Required legacy `status=contested` migration to recover its underlying authority level instead of guessing it

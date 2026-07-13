@@ -1,0 +1,366 @@
+{
+  "protocol": "urn:aduc:epistemic-reference-cases:0.1",
+  "cases": [
+    {
+      "caseId": "unknown-no-target",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/quality",
+        "coverage": [
+          {
+            "id": "urn:coverage:quality:unknown",
+            "resolutionStatus": "unknown",
+            "reason": "missingDocumentation",
+            "recordedBy": "urn:agent:inspector",
+            "recordedAt": "2026-07-13T14:00:00Z"
+          }
+        ],
+        "assertions": [],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "unknown",
+        "action": "unmapped",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "inferred-remains-candidate",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:inferred",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "inferred",
+            "assertedBy": "urn:model:mapper-v1",
+            "assertedAt": "2026-07-13T14:01:00Z",
+            "confidence": 0.86,
+            "confidenceMethod": "urn:method:mapper-calibration-v1",
+            "evidence": ["urn:evidence:api-documentation"]
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "policy": {
+        "recognizedConfidenceMethods": ["urn:method:mapper-calibration-v1"],
+        "minimumInferredConfidence": 0.8,
+        "allowInferredAutomatic": false
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "inferred",
+        "action": "candidate",
+        "selectedAssertionId": "urn:assertion:flow:inferred"
+      }
+    },
+    {
+      "caseId": "reviewed-usable-by-policy",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:reviewed",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:data-steward",
+            "assertedAt": "2026-07-13T14:02:00Z",
+            "review": {
+              "reviewedBy": "urn:person:data-steward",
+              "reviewedAt": "2026-07-13T14:02:00Z",
+              "reviewScope": "field meaning and unit documentation",
+              "evidence": ["urn:evidence:review-ticket-42"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "policy": {
+        "allowReviewed": true
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "reviewed",
+        "action": "usable",
+        "selectedAssertionId": "urn:assertion:flow:reviewed"
+      }
+    },
+    {
+      "caseId": "verified-usable-by-method-policy",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:verified",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "verified",
+            "assertedBy": "urn:org:verification-lab",
+            "assertedAt": "2026-07-13T14:03:00Z",
+            "verification": {
+              "verifiedBy": "urn:org:verification-lab",
+              "verifiedAt": "2026-07-13T14:03:00Z",
+              "method": "urn:method:documentation-and-sample-check-v1",
+              "scope": "semantic target and mapping relation",
+              "evidence": ["urn:evidence:verification-report-7"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "policy": {
+        "recognizedVerifiers": ["urn:org:verification-lab"],
+        "recognizedVerificationMethods": [
+          "urn:method:documentation-and-sample-check-v1"
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "verified",
+        "action": "usable",
+        "selectedAssertionId": "urn:assertion:flow:verified"
+      }
+    },
+    {
+      "caseId": "canonical-recognized-authority",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:canonical",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "canonical",
+            "assertedBy": "urn:org:river-agency",
+            "assertedAt": "2026-07-13T14:04:00Z",
+            "authority": {
+              "sourceAuthority": "urn:org:river-agency",
+              "evidence": ["urn:evidence:publisher-declaration-v1"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "policy": {
+        "recognizedSourceAuthorities": ["urn:org:river-agency"]
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "canonical",
+        "action": "authoritative",
+        "selectedAssertionId": "urn:assertion:flow:canonical"
+      }
+    },
+    {
+      "caseId": "open-challenge-blocks-selection",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:challenged",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:data-steward",
+            "assertedAt": "2026-07-13T14:05:00Z",
+            "review": {
+              "reviewedBy": "urn:person:data-steward",
+              "reviewedAt": "2026-07-13T14:05:00Z",
+              "reviewScope": "field meaning",
+              "evidence": ["urn:evidence:review-ticket-43"]
+            }
+          }
+        ],
+        "challenges": [
+          {
+            "id": "urn:challenge:flow:1",
+            "targetsAssertion": "urn:assertion:flow:challenged",
+            "challengeStatus": "open",
+            "reason": "documentation indicates a corrected rolling average",
+            "challengedBy": "urn:person:domain-expert",
+            "challengedAt": "2026-07-13T14:06:00Z",
+            "evidence": ["urn:evidence:technical-manual-page-18"]
+          }
+        ],
+        "deprecations": []
+      },
+      "policy": {
+        "allowReviewed": true
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "contested",
+        "action": "blocked",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "only-deprecated-assertion-remains",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:retired",
+            "semanticTarget": "urn:concept:WaterFlowRate",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#closeMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:data-steward",
+            "assertedAt": "2026-07-13T14:07:00Z",
+            "review": {
+              "reviewedBy": "urn:person:data-steward",
+              "reviewedAt": "2026-07-13T14:07:00Z",
+              "reviewScope": "legacy documentation",
+              "evidence": ["urn:evidence:legacy-review"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": [
+          {
+            "id": "urn:deprecation:flow:1",
+            "targetsAssertion": "urn:assertion:flow:retired",
+            "reason": "publisher withdrew the legacy interpretation",
+            "deprecatedBy": "urn:org:river-agency",
+            "effectiveAt": "2026-07-13T14:08:00Z"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "deprecated",
+        "action": "historical",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "incompatible-canonical-assertions-conflict",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:canonical-a",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "canonical",
+            "assertedBy": "urn:org:river-agency",
+            "assertedAt": "2026-07-13T14:09:00Z",
+            "authority": {
+              "sourceAuthority": "urn:org:river-agency",
+              "evidence": ["urn:evidence:publisher-declaration-a"]
+            }
+          },
+          {
+            "id": "urn:assertion:flow:canonical-b",
+            "semanticTarget": "urn:concept:CorrectedQuarterHourDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "canonical",
+            "assertedBy": "urn:org:river-agency",
+            "assertedAt": "2026-07-13T14:10:00Z",
+            "authority": {
+              "sourceAuthority": "urn:org:river-agency",
+              "evidence": ["urn:evidence:publisher-declaration-b"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "policy": {
+        "recognizedSourceAuthorities": ["urn:org:river-agency"]
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "contested",
+        "action": "blocked",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "deprecated-assertion-with-active-replacement",
+      "recordSet": {
+        "source": "urn:source:river-api",
+        "validFor": "urn:schema:river-api:1",
+        "localReference": "/properties/flow",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:flow:old",
+            "semanticTarget": "urn:concept:WaterFlowRate",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#closeMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:data-steward",
+            "assertedAt": "2026-07-13T14:11:00Z",
+            "review": {
+              "reviewedBy": "urn:person:data-steward",
+              "reviewedAt": "2026-07-13T14:11:00Z",
+              "reviewScope": "legacy documentation",
+              "evidence": ["urn:evidence:legacy-review-2"]
+            }
+          },
+          {
+            "id": "urn:assertion:flow:new",
+            "semanticTarget": "urn:concept:WaterDischarge",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "canonical",
+            "assertedBy": "urn:org:river-agency",
+            "assertedAt": "2026-07-13T14:12:00Z",
+            "authority": {
+              "sourceAuthority": "urn:org:river-agency",
+              "evidence": ["urn:evidence:new-publisher-declaration"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": [
+          {
+            "id": "urn:deprecation:flow:old",
+            "targetsAssertion": "urn:assertion:flow:old",
+            "reason": "replaced by publisher-defined exact concept",
+            "deprecatedBy": "urn:org:river-agency",
+            "effectiveAt": "2026-07-13T14:12:00Z",
+            "replacementAssertion": "urn:assertion:flow:new"
+          }
+        ]
+      },
+      "policy": {
+        "recognizedSourceAuthorities": ["urn:org:river-agency"]
+      },
+      "expected": {
+        "valid": true,
+        "effectiveState": "canonical",
+        "action": "authoritative",
+        "selectedAssertionId": "urn:assertion:flow:new"
+      }
+    }
+  ]
+}

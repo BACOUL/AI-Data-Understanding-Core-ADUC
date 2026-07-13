@@ -2,73 +2,62 @@
 
 ## Single active task
 
-Define and accept the complete ADUC epistemic lifecycle before implementing the full-Core JSON Schema.
+Define and accept the ADUC source-description and source-binding model before implementing the full-Core JSON Schema.
 
 Create:
 
 ```text
-docs/decisions/ADR-0005-complete-epistemic-lifecycle.md
-spec/EPISTEMIC_STATUS_MODEL_0_1.md
+docs/decisions/ADR-0006-source-description-and-binding.md
+spec/SOURCE_DESCRIPTION_PROFILE_0_1.md
+examples/source-description/
 ```
 
 ## Objective
 
-Define exactly how ADUC represents and consumes:
-
-```text
-unknown
-inferred
-reviewed
-verified
-canonical
-contested
-deprecated
-```
-
-The decision must preserve the existing immutable mapping-assertion model while adding the missing full-Core lifecycle states without ambiguous authority or confidence semantics.
+Define exactly how a full-Core ADUC contract identifies the resource it describes, binds itself to an immutable source or schema version, and references local fields without duplicating established dataset, API, and schema standards.
 
 ## Required decisions
 
-1. whether all seven values are one property or whether publication authority, review state, conflict state, and lifecycle state require separate properties;
-2. the precise difference between `reviewed` and `verified`;
-3. the precise difference between `verified` and `canonical`;
-4. how `unknown` is represented without inventing a semantic target;
-5. how `deprecated` relates to immutable replacement and `supersedes`;
-6. whether `contested` is a mapping status, conflict state, or separate assertion relation;
-7. when confidence is required, optional, or forbidden;
-8. evidence requirements for every state;
-9. consumer selection and blocking rules;
-10. migration from the current four-state semantic-mapping schema.
+1. which existing descriptions ADUC may reference, including Croissant, JSON Schema, OpenAPI, DCAT, and versioned custom descriptions;
+2. the minimum `resource`, `structure`, and `validFor` information required in the Core envelope;
+3. whether source descriptions are embedded, linked, or both;
+4. how a contract binds to a source version, immutable identifier, or SHA-256 digest;
+5. supported local-reference schemes for JSON and CSV v0.1;
+6. how consumers detect stale contracts after source or schema changes;
+7. how field identity survives renaming or reordering;
+8. how ADUC avoids redefining Croissant files, record sets, extraction rules, OpenAPI operations, or JSON Schema types;
+9. offline and unavailable-reference behavior;
+10. migration from the current mapping-profile `describes`, `validFor`, and `referenceScheme` fields.
 
 ## Required counterexamples
 
 The specification must reject or explicitly block:
 
-- an `unknown` mapping that includes a fabricated semantic target;
-- an automatically inferred mapping marked `verified`;
-- a reviewed mapping presented as source-owner canonical;
-- a canonical mapping that uses probability as a substitute for authority;
-- a contested mapping silently selected as authoritative;
-- a deprecated mapping without a documented reason or replacement behavior;
-- an in-place mutation of a published assertion.
+- an unversioned mutable source URL used as the only binding;
+- a CSV header reference without a fixed header identity and encoding;
+- a JSON Pointer applied to the wrong schema version;
+- a contract silently reused after the described source changed;
+- an embedded source description whose digest does not match `validFor`;
+- a local reference whose resolution scheme is undeclared;
+- duplicated source structure that conflicts with the authoritative external description.
 
 ## Compatibility requirement
 
-The current implemented states:
+The current semantic-mapping profile fields:
 
 ```text
-inferred
-reviewed
-canonical
-contested
+describes
+validFor
+referenceScheme
+localReference
 ```
 
-must remain interpretable. The ADR must define whether they map directly into the full model or require a versioned migration.
+must remain interpretable through a versioned migration path. The new model must preserve existing examples without silently changing which source or field an assertion addresses.
 
 ## Scope boundary
 
-Do not implement the complete full-Core schema, compiler, review UI, registry, extensions, or anticipation engine in this task. Do not add states merely because they sound useful; every state must change deterministic producer or consumer behavior.
+Do not implement the full-Core schema, units strategy, temporal strategy, identity strategy, compiler, registry, review UI, extensions, or anticipation engine in this task.
 
 ## Completion test
 
-An independent implementer must be able to classify the reference examples and every counterexample consistently, explain the authority and confidence represented by each state, and derive deterministic consumer behavior without private guidance.
+An independent implementer must be able to bind an ADUC contract to one JSON source and one CSV source, resolve every local reference deterministically, detect a source-version mismatch, and explain which structural details remain owned by Croissant, JSON Schema, or OpenAPI rather than ADUC.
