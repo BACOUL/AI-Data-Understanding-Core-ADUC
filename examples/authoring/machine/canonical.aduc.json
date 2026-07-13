@@ -1,5 +1,5 @@
 {
-  "@context": "https://example.org/aduc/context/0.1",
+  "@context": "urn:aduc:context:0.1",
   "id": "urn:aduc:profile:motor-reading-12-canonical",
   "conformsTo": "urn:aduc:profile:0.1",
   "describes": "https://factory.example/schema/motor-reading/12",
