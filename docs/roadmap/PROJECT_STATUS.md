@@ -4,7 +4,7 @@
 - Current phase: Gate 3 — Reference validator
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 2 implemented; independent CI evidence pending merge
+- Overall status: Gate 2 passed; semantic-validator work authorized
 
 ## Completed
 
@@ -22,6 +22,8 @@
 - Candidate Draft 2020-12 semantic mapping profile schema
 - Four valid and ten invalid official schema fixtures
 - Reference fixture runner validating the active mapping-profile schema
+- Explicit and reproducible JSON Schema format dependencies
+- GitHub Actions validation of all 14 official mapping-profile fixtures
 - Documented boundary between structural schema conformance and semantic/trust validation
 
 ## Evidence-based findings
@@ -31,10 +33,10 @@
 - ADUC focuses on mapping status, authority, confidence/evidence, explicit relation, deterministic AI-consumer behavior and cross-model conformance.
 - `unknown`, `verified` and `deprecated` are not required as mapping authority states in v0.1.
 - JSON Schema can enforce conditional field rules but cannot prove publisher authority, target equivalence or cross-document trust.
+- URI validation requires explicit format-checking dependencies; the CI environment now installs them reproducibly.
 
 ## Not yet validated
 
-- GitHub Actions result for the active mapping-profile fixtures
 - User-facing semantic validator and stable error catalogue
 - JSON-LD context and RDF round-trip
 - Falsifiable multi-model demonstration protocol details
@@ -43,7 +45,6 @@
 
 ## Active blockers
 
-- Gate 2 PR and CI not yet merged
 - Semantic validation rules not implemented
 - Authority verification mechanism not defined
 - Demonstration fixtures and evaluation protocol not frozen
