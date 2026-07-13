@@ -54,7 +54,7 @@ class ConformanceHarnessTests(unittest.TestCase):
         self.assertTrue(self.package_report["valid"], self.package_report["errors"])
         self.assertEqual(
             self.package_report["packageDigest"],
-            "sha256:de17a4ab6b6f26d961de1e791e256f8e33b51fa2ffc4518d230add6b46a3892f",
+            "sha256:688e505409a10ffc73c8c7792cabe3822e6b7c26c0bf6f60a56c1af3d810d3f8",
         )
         self.assertEqual(len(self.package_report["files"]), 3)
 
