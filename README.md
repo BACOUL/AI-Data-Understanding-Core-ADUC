@@ -12,17 +12,15 @@ AI Data Understanding Core (ADUC) is a model-independent contract intended to le
 
 > Two incompatible sources described with ADUC can be understood and compared consistently by multiple AI systems without rebuilding a different semantic integration for every model.
 
-ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, or MCP.
+ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, QUDT, UCUM, or MCP.
 
 ## Public website
-
-The English-only public website source is maintained under `website/` for GitHub Pages:
 
 - provisional URL: <https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/>
 - source: [`website/`](website/)
 - deployment: [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
 
-## Official Core direction
+## Core direction
 
 The complete candidate Core contains ten blocks:
 
@@ -39,55 +37,38 @@ relations
 policy
 ```
 
-The existing semantic-mapping tools are the first implemented experimental subset of the `semantics` block. They are not the complete ADUC Core.
+The existing tools are reference implementations of selected Core behavior. They are not yet the complete ADUC Core.
 
-## Complete epistemic lifecycle
+## Accepted foundations
 
-ADR-0005 and [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md) define seven effective states without placing all of them in one ambiguous property:
+### Epistemic lifecycle
+
+ADR-0005 and [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md) separate:
 
 ```text
-unknown      coverage record without a semantic target
-inferred     assertion authority level
-reviewed     assertion authority level
-verified     assertion authority level
-canonical    assertion authority level
-contested    effective state from an unresolved challenge or conflict
-deprecated   effective state from an immutable deprecation record
+unknown      unresolved coverage without a fabricated target
+inferred     automated or non-authoritative assertion
+reviewed     accountable examination
+verified     evidence-based verification procedure
+canonical    source-authority publication
+contested    unresolved immutable challenge
+deprecated   immutable retirement record
 ```
 
-Assertions, challenges, resolutions, and deprecations are immutable records. Confidence is required for inferred assertions, conditional for reviewed or verified assertions, and forbidden for canonical assertions.
+Authority, confidence, conflict, and lifecycle remain separate claims.
 
-## Source description and immutable binding
+### Source description and immutable binding
 
-ADR-0006 and [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md) define how an ADUC contract addresses the exact resource, structural description, and local field to which an assertion applies.
-
-The model separates:
+ADR-0006 and [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md) bind assertions to exact resource bytes, structural descriptions, and local fields.
 
 ```text
 resource content
-structural description
-local field reference
++ structural description
++ explicit local-reference scheme
++ version and SHA-256 evidence
 ```
 
-Supported binding modes are:
-
-```text
-content
-description
-content-and-description
-```
-
-Core rules:
-
-- v0.1 reference bindings use SHA-256;
-- a mutable URL or version label is not sufficient integrity evidence;
-- linked descriptions bind exact raw bytes;
-- embedded JSON descriptions use an RFC 8785 canonicalization scope;
-- Croissant, JSON Schema, OpenAPI, and DCAT retain ownership of their structural models;
-- JSON Pointer, Croissant field IDs, CSV headers, OpenAPI references, DCAT IRIs, and custom references use explicit schemes and bases;
-- CSV header references require a fixed dialect and unique exact headers;
-- stale, unavailable, ambiguous, or conflicting descriptions block automatic semantic use;
-- legacy mappings are never migrated by guessing missing source evidence.
+Croissant, JSON Schema, OpenAPI, and DCAT retain ownership of their structural models. Mutable URLs, stale descriptions, ambiguous CSV headers, unresolved pointers, and conflicting copied structure block automatic use.
 
 Reference verification:
 
@@ -97,20 +78,50 @@ python tools/aduc_source_binding.py \
   examples/source-description/invalid-cases.json
 ```
 
+### Units and deterministic conversions
+
+ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, unit identity, dimensional compatibility, quantity roles, exact conversion, uncertainty propagation, rounding, and provenance.
+
+Reference rules:
+
+- QUDT IRIs identify quantity kinds, units, and dimension vectors;
+- case-sensitive UCUM codes are compact aliases where available;
+- local codes such as `C`, `F`, or `%` never replace global identifiers;
+- `known`, `unitless`, `unknown`, `arbitrary`, and `contextual` are distinct states;
+- absolute temperature and temperature difference are distinct roles;
+- v0.1 supports exact identity, multiplicative, and affine conversions;
+- the conversion registry is pinned by identifier, version, and SHA-256;
+- currency, calendar, nonlinear, and procedure-defined conversions remain blocked without dedicated context.
+
+Reference evaluation:
+
+```bash
+python tools/aduc_units.py \
+  examples/units/reference-cases.json \
+  examples/units/invalid-cases.json
+```
+
+Validated examples include:
+
+```text
+89 °C = 192.2 °F
+10 °C difference = 18.0 °F difference
+1.5 m³/s = 1500.0 L/s
+50 % = 0.500 unitless ratio
+```
+
 ## Adoption and value validation
 
 The official cross-cutting plan is [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md).
 
-ADUC tooling is not successful merely because it generates a valid contract. Before the compiler and review interface can be called successful, the project must prove that:
+ADUC tooling is not successful merely because it produces valid files. Before the compiler and review interface can be called successful, the project must prove that:
 
 - `infer + review` is materially faster than equivalent manual mapping;
 - final semantic correctness is not lower than the manual baseline;
-- low-support, unknown, and conflicting mappings remain visible;
-- numeric confidence is method-bound and empirically calibrated before being described as probability;
+- unknown, low-support, and conflicting mappings remain visible;
+- numeric confidence is calibrated before being described as probability;
 - multi-model evaluation compares the same tasks with and without ADUC;
 - MCP remains an optional adoption adapter rather than a Core dependency.
-
-The future compiler must declare whether it used structure-only, sample-assisted, documentation-assisted, or publisher-assisted evidence. A high model score never creates review, verification, or canonical authority.
 
 ## Mandatory construction order
 
@@ -130,14 +141,14 @@ TimeProofs and the anticipation engine remain separate projects.
 ## Current status
 
 - Phase: Phase 0 — complete Core definition and public foundation
-- Release: unreleased
 - Target release: `0.1.0-alpha.0`
 - Epistemic lifecycle: specified and reference-tested
 - Source binding: specified and reference-tested
-- Adoption/value validation: officially defined; benchmarks not yet run
-- Next Core decision: units and conversions
-- Full-Core conformance: not yet implemented
-- Multi-model interoperability: harness available; qualifying external proof absent
+- Units and conversions: specified and reference-tested
+- Adoption/value validation: defined; benchmarks not yet run
+- Next Core decision: temporal semantics and timezone alignment
+- Full-Core JSON Schema: not yet implemented
+- External multi-model proof: absent
 
 See:
 
@@ -150,83 +161,42 @@ See:
 
 1. [`ADUC_CORE_SPEC_0_1.md`](spec/ADUC_CORE_SPEC_0_1.md)
 2. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
-3. [`ADR-0005`](docs/decisions/ADR-0005-complete-epistemic-lifecycle.md)
-4. [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md)
-5. [`ADR-0006`](docs/decisions/ADR-0006-source-description-and-binding.md)
-6. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-7. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
-8. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-9. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
-10. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
-11. [`METHOD.md`](docs/method/METHOD.md)
-12. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
-
-## First full-Core example
-
-```text
-examples/basic-json/river-r42.data.json
-examples/basic-json/river-r42.aduc.json
-```
-
-The example is informative until the official full-Core JSON Schema exists.
+3. [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md)
+4. [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md)
+5. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+6. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+7. [`METHOD.md`](docs/method/METHOD.md)
+8. [`AGENTS.md`](AGENTS.md) for AI coding agents
 
 ## Implemented today
 
-- full-Core mission, structure, working draft, and master plan;
-- complete seven-state effective epistemic model;
-- deterministic epistemic evaluator and counterexample suite;
-- source-description and immutable source-binding profile;
-- JSON, CSV, and embedded OpenAPI binding examples;
-- deterministic source-binding evaluator and counterexamples;
-- official adoption and value-validation plan;
-- semantic-mapping assertion model;
-- Draft 2020-12 mapping-profile schema;
-- valid and invalid mapping fixtures;
-- CLI validator with stable error codes;
-- immutable authoring and review workflow;
-- deterministic semantic comparator;
+- project governance, roadmap, ADR method, and CI;
+- full-Core working draft and first ten-block example;
+- complete epistemic reference model and evaluator;
+- source-binding profile and evaluator;
+- unit profile, pinned registry subset, exact converter, and evaluator;
+- semantic-mapping profile, validator, and comparator;
 - JSON-LD context and offline RDF round-trip;
 - provider-neutral multi-model conformance harness;
 - English public website.
 
 ## Not yet implemented
 
-- unit identifier and conversion strategy;
-- final full-Core object model and schema family;
-- temporal and entity-identity strategies;
-- full-Core serialization of coverage, challenge, resolution, and deprecation records;
-- JSON and CSV compiler;
-- inference calibration report and labeled benchmark set;
-- manual mapping versus `infer + review` benchmark;
-- with and without ADUC multi-model comparison;
-- minimal review web interface;
-- complete unit conversion, temporal alignment, and entity-resolution comparison;
-- public semantic registry;
-- two qualifying external AI runs;
-- optional MCP adapter;
-- extensions and anticipation engine.
+- temporal semantics and timezone alignment;
+- entity identity and equivalence;
+- remaining provenance, uncertainty, relation, and policy decisions;
+- official full-Core JSON Schema family;
+- ten valid and ten invalid complete Core examples;
+- complete Core validator and SDKs;
+- JSON/CSV compiler and review UI;
+- inference calibration and manual-versus-assisted benchmark;
+- controlled with/without-ADUC external model proof;
+- optional MCP adapter, extensions, and anticipation engine.
 
-## Repository areas
-
-- `spec/`: Core, epistemic, source-binding, and profile specifications
-- `schema/`: machine-validatable JSON Schemas
-- `context/`: pinned JSON-LD contexts
-- `examples/`: raw sources, Core drafts, profiles, source bindings, epistemic cases, and conformance fixtures
-- `tools/`: validation, source binding, lifecycle evaluation, comparison, RDF, conformance, and website checks
-- `tests/`: validator, comparator, source binding, JSON-LD, conformance, epistemic, and roadmap tests
-- `website/`: static English public website
-- `docs/decisions/`: architecture decision records
-- `docs/roadmap/`: master plan, adoption/value validation, project status, next action, and execution ledger
-
-## Install development dependencies
+## Run all checks
 
 ```bash
 python -m pip install -r requirements-dev.txt
-```
-
-## Run all local checks
-
-```bash
 python tools/validate_contracts.py
 python -m unittest discover -s tests/validator -p "test_*.py"
 python -m unittest discover -s tests/comparator -p "test_*.py"
@@ -234,27 +204,22 @@ python -m unittest discover -s tests/jsonld -p "test_*.py"
 python -m unittest discover -s tests/conformance -p "test_*.py"
 python -m unittest discover -s tests/epistemic -p "test_*.py"
 python -m unittest discover -s tests/source_binding -p "test_*.py"
+python -m unittest discover -s tests/units -p "test_*.py"
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python tools/validate_website.py
 ```
 
-## Evaluate epistemic cases
+## Existing reference commands
 
 ```bash
 python tools/aduc_epistemic.py \
-  examples/epistemic-status/reference-cases.json
-
-python tools/aduc_epistemic.py \
+  examples/epistemic-status/reference-cases.json \
   examples/epistemic-status/invalid-cases.json
 ```
-
-## Validate one semantic-mapping profile
 
 ```bash
 python tools/aduc_validate.py examples/authoring/river/reviewed.aduc.json
 ```
-
-## Compare two semantic-mapping profiles
 
 ```bash
 python tools/aduc_compare.py \
@@ -263,23 +228,15 @@ python tools/aduc_compare.py \
   --trusted-authority-b https://example.org/id/us-data-authority
 ```
 
-The current comparator uses published semantic targets and mapping relations only. Unit conversion, time alignment, and entity identity remain `notEvaluated` when they are not declared.
-
-## Expand and normalize a profile as RDF
-
 ```bash
 python tools/aduc_rdf.py examples/authoring/river/reviewed.aduc.json
 ```
 
-Official implemented mapping profiles use `urn:aduc:context:0.1`, resolved locally from `context/aduc-context-0.1.jsonld`.
-
-## Preview the website locally
+## Website preview
 
 ```bash
 python -m http.server 8000 --directory website
 ```
-
-Open `http://localhost:8000`.
 
 ## Licensing
 
