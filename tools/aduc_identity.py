@@ -37,11 +37,8 @@ def error(code: str, message: str) -> dict[str, str]:
     return {"code": code, "message": message}
 
 
-def is_absolute_iri(value: Any) -> bool:
-    if not isinstance(value, str) or not value:
-        return False
-    parsed = urlparse(value)
-    return bool(parsed.scheme)
+def is_iri(value: Any) -> bool:
+    return isinstance(value, str) and bool(value) and bool(urlparse(value).scheme)
 
 
 def parse_instant(value: Any) -> datetime:
@@ -62,8 +59,7 @@ def parse_validity(value: Any) -> tuple[datetime | None, datetime | None, list[d
         return None, None, [error("ADUC-ID-006", "validity object with start is required")]
     try:
         start = parse_instant(value.get("start"))
-        end_value = value.get("end")
-        end = parse_instant(end_value) if end_value is not None else None
+        end = parse_instant(value["end"]) if "end" in value else None
     except ValueError as exc:
         return None, None, [error("ADUC-ID-006", str(exc))]
     if end is not None and end <= start:
@@ -71,119 +67,89 @@ def parse_validity(value: Any) -> tuple[datetime | None, datetime | None, list[d
     return start, end, []
 
 
-def interval_active(start: datetime, end: datetime | None, instant: datetime) -> bool:
+def active(start: datetime, end: datetime | None, instant: datetime) -> bool:
     return start <= instant and (end is None or instant < end)
 
 
-def intervals_overlap(
-    start_a: datetime,
-    end_a: datetime | None,
-    start_b: datetime,
-    end_b: datetime | None,
-) -> bool:
-    latest_start = max(start_a, start_b)
-    if end_a is None and end_b is None:
+def overlaps(a_start: datetime, a_end: datetime | None, b_start: datetime, b_end: datetime | None) -> bool:
+    latest = max(a_start, b_start)
+    if a_end is None and b_end is None:
         return True
-    if end_a is None:
-        return latest_start < end_b  # type: ignore[operator]
-    if end_b is None:
-        return latest_start < end_a
-    return latest_start < min(end_a, end_b)
+    if a_end is None:
+        return latest < b_end  # type: ignore[operator]
+    if b_end is None:
+        return latest < a_end
+    return latest < min(a_end, b_end)
 
 
 def validate_entities(value: Any) -> tuple[dict[str, dict[str, Any]], list[dict[str, str]]]:
+    entities: dict[str, dict[str, Any]] = {}
     errors: list[dict[str, str]] = []
-    result: dict[str, dict[str, Any]] = {}
     if not isinstance(value, list):
-        return result, [error("ADUC-ID-001", "entities must be an array")]
+        return entities, [error("ADUC-ID-001", "entities must be an array")]
     for item in value:
-        if not isinstance(item, dict):
-            errors.append(error("ADUC-ID-001", "entity record must be an object"))
-            continue
-        entity_id = item.get("entityId")
-        entity_type = item.get("entityType")
-        if not is_absolute_iri(entity_id) or not is_absolute_iri(entity_type):
+        if not isinstance(item, dict) or not is_iri(item.get("entityId")) or not is_iri(item.get("entityType")):
             errors.append(error("ADUC-ID-001", "entityId and entityType must be absolute IRIs"))
             continue
-        if entity_id in result:
+        entity_id = item["entityId"]
+        if entity_id in entities:
             errors.append(error("ADUC-ID-001", f"duplicate entityId: {entity_id}"))
             continue
         labels = item.get("labels", [])
-        if not isinstance(labels, list):
-            errors.append(error("ADUC-ID-001", f"labels must be an array for {entity_id}"))
-        else:
-            for label in labels:
-                if not isinstance(label, dict) or not isinstance(label.get("value"), str):
-                    errors.append(error("ADUC-ID-001", f"invalid label for {entity_id}"))
-        result[entity_id] = item
-    return result, errors
+        if not isinstance(labels, list) or any(not isinstance(label, dict) or not isinstance(label.get("value"), str) for label in labels):
+            errors.append(error("ADUC-ID-001", f"invalid labels for {entity_id}"))
+        entities[entity_id] = item
+    return entities, errors
 
 
-def validate_common_identity_fields(
-    record: dict[str, Any],
-    id_field: str,
-    validity_code: str = "ADUC-ID-006",
-) -> tuple[datetime | None, datetime | None, list[dict[str, str]]]:
+def validate_authority(record: dict[str, Any], relation: bool = False) -> list[dict[str, str]]:
     errors: list[dict[str, str]] = []
-    record_id = record.get(id_field)
-    if not is_absolute_iri(record_id):
-        errors.append(error("ADUC-ID-001", f"{id_field} must be an absolute IRI"))
-    for field in ("sourceBinding", "assertedBy"):
-        if not is_absolute_iri(record.get(field)):
-            errors.append(error("ADUC-ID-001", f"{field} must be an absolute IRI"))
     authority = record.get("authorityLevel")
     if authority not in AUTHORITY_LEVELS:
         errors.append(error("ADUC-ID-001", "unsupported authorityLevel"))
-    evidence = record.get("evidence")
-    if not isinstance(evidence, list) or not evidence or not all(is_absolute_iri(item) for item in evidence):
-        errors.append(error("ADUC-ID-001", "non-empty IRI evidence array is required"))
-    if record.get("conflictState", "clear") not in {"clear", "contested"}:
-        errors.append(error("ADUC-ID-001", "unsupported conflictState"))
-    if record.get("lifecycleState", "active") not in {"active", "deprecated"}:
-        errors.append(error("ADUC-ID-001", "unsupported lifecycleState"))
     confidence = record.get("confidence")
-    if authority == "inferred":
-        if not isinstance(confidence, (int, float)) or isinstance(confidence, bool) or not 0 <= confidence <= 1:
-            errors.append(error("ADUC-ID-001", "inferred assertion requires confidence between 0 and 1"))
+    if authority == "inferred" and (
+        not isinstance(confidence, (int, float)) or isinstance(confidence, bool) or not 0 <= confidence <= 1
+    ):
+        errors.append(error("ADUC-ID-001", "inferred assertion requires confidence between 0 and 1"))
     if authority == "canonical" and confidence is not None:
-        errors.append(error("ADUC-REL-002", "canonical assertion must not include confidence"))
-    start, end, validity_errors = parse_validity(record.get("validity"))
-    for item in validity_errors:
-        item["code"] = validity_code
-    errors.extend(validity_errors)
-    return start, end, errors
+        errors.append(error("ADUC-REL-002" if relation else "ADUC-ID-001", "canonical assertion must not include confidence"))
+    if not is_iri(record.get("assertedBy")):
+        errors.append(error("ADUC-REL-003" if relation else "ADUC-ID-001", "asserting authority must be an absolute IRI"))
+    evidence = record.get("evidence")
+    if not isinstance(evidence, list) or not evidence or not all(is_iri(item) for item in evidence):
+        errors.append(error("ADUC-REL-003" if relation else "ADUC-ID-001", "non-empty IRI evidence array is required"))
+    return errors
 
 
-def validate_identifier(
-    record: Any,
-    entities: dict[str, dict[str, Any]],
-) -> tuple[dict[str, Any] | None, list[dict[str, str]]]:
-    errors: list[dict[str, str]] = []
+def validate_identifier(record: Any, entities: dict[str, dict[str, Any]]) -> tuple[dict[str, Any] | None, list[dict[str, str]]]:
     if not isinstance(record, dict):
         return None, [error("ADUC-ID-001", "identifier record must be an object")]
-
+    errors: list[dict[str, str]] = []
     kind = record.get("identifierKind")
     if kind == "label":
         return record, [error("ADUC-ID-004", "labels must not be used as identifier records")]
     if kind not in IDENTIFIER_KINDS:
         errors.append(error("ADUC-ID-001", "unsupported identifierKind"))
-
-    _, _, common_errors = validate_common_identity_fields(record, "identifierId")
-    errors.extend(common_errors)
-
+    if not is_iri(record.get("identifierId")):
+        errors.append(error("ADUC-ID-001", "identifierId must be an absolute IRI"))
+    for field in ("namespace", "scheme", "issuer", "sourceBinding"):
+        if not is_iri(record.get(field)):
+            errors.append(error("ADUC-ID-002" if kind == "local" else "ADUC-ID-001", f"{field} must be an absolute IRI"))
     subject = record.get("subjectEntity")
-    entity_type = record.get("entityType")
     if subject not in entities:
         errors.append(error("ADUC-ID-001", f"subjectEntity does not exist: {subject}"))
-    elif entities[subject].get("entityType") != entity_type:
+    elif entities[subject].get("entityType") != record.get("entityType"):
         errors.append(error("ADUC-ID-001", "identifier entityType disagrees with entity record"))
-    if not is_absolute_iri(entity_type):
+    if not is_iri(record.get("entityType")):
         errors.append(error("ADUC-ID-001", "entityType must be an absolute IRI"))
-
-    for field in ("namespace", "scheme", "issuer"):
-        if not is_absolute_iri(record.get(field)):
-            code = "ADUC-ID-002" if kind == "local" else "ADUC-ID-001"
-            errors.append(error(code, f"{field} must be an absolute IRI"))
+    errors.extend(validate_authority(record))
+    if record.get("conflictState", "clear") not in {"clear", "contested"}:
+        errors.append(error("ADUC-ID-001", "unsupported conflictState"))
+    if record.get("lifecycleState", "active") not in {"active", "deprecated"}:
+        errors.append(error("ADUC-ID-001", "unsupported lifecycleState"))
+    _, _, validity_errors = parse_validity(record.get("validity"))
+    errors.extend(validity_errors)
 
     if kind == "local":
         if not isinstance(record.get("lexicalValue"), str) or not record.get("lexicalValue"):
@@ -191,101 +157,72 @@ def validate_identifier(
         if not isinstance(record.get("canonicalValue"), str) or not record.get("canonicalValue"):
             errors.append(error("ADUC-ID-002", "local identifier requires canonicalValue"))
     elif kind == "global":
-        if not is_absolute_iri(record.get("globalIdentifier")):
+        if not is_iri(record.get("globalIdentifier")):
             errors.append(error("ADUC-ID-003", "globalIdentifier must be an absolute IRI"))
     elif kind in PROTECTED_KINDS:
         if any(field in record for field in ("lexicalValue", "canonicalValue", "rawValue")):
             errors.append(error("ADUC-ID-005", "protected identifier must not expose raw or canonical secret values"))
-        protected = record.get("protectedValue")
-        purposes = record.get("permittedPurposes")
-        if not isinstance(protected, str) or not HEX_64.fullmatch(protected):
+        if not isinstance(record.get("protectedValue"), str) or not HEX_64.fullmatch(record["protectedValue"]):
             errors.append(error("ADUC-ID-005", "protectedValue must be a lowercase 64-character digest/token"))
-        if not is_absolute_iri(record.get("protectionMethod")) or not isinstance(record.get("methodVersion"), str):
+        if not is_iri(record.get("protectionMethod")) or not isinstance(record.get("methodVersion"), str):
             errors.append(error("ADUC-ID-005", "protection method and version are required"))
-        if not is_absolute_iri(record.get("linkageDomain")):
+        if not is_iri(record.get("linkageDomain")):
             errors.append(error("ADUC-ID-005", "linkageDomain must be an absolute IRI"))
+        purposes = record.get("permittedPurposes")
         if not isinstance(purposes, list) or not purposes or not all(isinstance(item, str) and item for item in purposes):
             errors.append(error("ADUC-ID-005", "protected identifier requires permittedPurposes"))
-
     return record, errors
 
 
 def identifier_key(record: dict[str, Any]) -> tuple[Any, ...] | None:
     kind = record.get("identifierKind")
     if kind == "local":
-        return (
-            "local",
-            record.get("scheme"),
-            record.get("namespace"),
-            record.get("issuer"),
-            record.get("canonicalValue"),
-        )
+        return (kind, record.get("scheme"), record.get("namespace"), record.get("issuer"), record.get("canonicalValue"))
     if kind == "global":
-        return ("global", record.get("globalIdentifier"))
+        return (kind, record.get("globalIdentifier"))
     if kind in PROTECTED_KINDS:
-        return (
-            kind,
-            record.get("scheme"),
-            record.get("namespace"),
-            record.get("issuer"),
-            record.get("linkageDomain"),
-            record.get("protectedValue"),
-        )
+        return (kind, record.get("scheme"), record.get("namespace"), record.get("issuer"), record.get("linkageDomain"), record.get("protectedValue"))
     return None
 
 
-def relation_pair(record: dict[str, Any]) -> tuple[str, str]:
-    return tuple(sorted((str(record.get("subjectIdentifier")), str(record.get("objectIdentifier")))))  # type: ignore[return-value]
-
-
-def validate_relation(
-    record: Any,
-    identifiers: dict[str, dict[str, Any]],
-) -> tuple[dict[str, Any] | None, list[dict[str, str]]]:
-    errors: list[dict[str, str]] = []
+def validate_relation(record: Any, identifiers: dict[str, dict[str, Any]]) -> tuple[dict[str, Any] | None, list[dict[str, str]]]:
     if not isinstance(record, dict):
         return None, [error("ADUC-REL-003", "identity relation must be an object")]
-
-    _, _, common_errors = validate_common_identity_fields(record, "assertionId", validity_code="ADUC-ID-006")
-    errors.extend(common_errors)
-
+    errors: list[dict[str, str]] = []
+    if not is_iri(record.get("assertionId")):
+        errors.append(error("ADUC-REL-003", "assertionId must be an absolute IRI"))
     subject = record.get("subjectIdentifier")
     obj = record.get("objectIdentifier")
     if subject not in identifiers or obj not in identifiers:
         errors.append(error("ADUC-REL-001", "relation endpoints must reference existing identifier records"))
         return record, errors
     if subject == obj:
-        errors.append(error("ADUC-REL-003", "identity relation endpoints must be distinct records"))
-
+        errors.append(error("ADUC-REL-003", "relation endpoints must be distinct identifier records"))
     relation = record.get("relation")
     authority = record.get("authorityLevel")
-    if relation not in RELATIONS:
-        errors.append(error("ADUC-REL-002", "unsupported identity relation"))
-    elif authority not in RELATION_AUTHORITIES[relation]:
+    if relation not in RELATIONS or authority not in RELATION_AUTHORITIES.get(relation, set()):
         errors.append(error("ADUC-REL-002", f"authority {authority} is not allowed for {relation}"))
-
-    if not is_absolute_iri(record.get("method")):
+    errors.extend(validate_authority(record, relation=True))
+    if not is_iri(record.get("method")):
         errors.append(error("ADUC-REL-003", "relation method must be an absolute IRI"))
-    if not is_absolute_iri(record.get("assertedBy")):
-        errors.append(error("ADUC-REL-003", "asserting authority must be identified"))
-    evidence = record.get("evidence")
-    if not isinstance(evidence, list) or not evidence:
-        errors.append(error("ADUC-REL-003", "relation evidence is required"))
-
+    _, _, validity_errors = parse_validity(record.get("validity"))
+    errors.extend(validity_errors)
+    if record.get("conflictState", "clear") not in {"clear", "contested"}:
+        errors.append(error("ADUC-REL-003", "unsupported conflictState"))
+    if record.get("lifecycleState", "active") not in {"active", "deprecated"}:
+        errors.append(error("ADUC-REL-003", "unsupported lifecycleState"))
     if relation == "sameEntity":
         type_a = identifiers[subject].get("entityType")
         type_b = identifiers[obj].get("entityType")
         if type_a != type_b and record.get("typeCompatibilityVerified") is not True:
             errors.append(error("ADUC-REL-005", "sameEntity endpoints have incompatible entity types"))
-
     return record, errors
 
 
 def evaluate_case(case: Any) -> dict[str, Any]:
-    errors: list[dict[str, str]] = []
     if not isinstance(case, dict):
         return {"valid": False, "decision": "mergeBlocked", "errors": [error("ADUC-ID-001", "case must be an object")]}
-
+    errors: list[dict[str, str]] = []
     try:
         evaluation_at = parse_instant(case.get("evaluationAt"))
     except ValueError as exc:
@@ -293,28 +230,25 @@ def evaluate_case(case: Any) -> dict[str, Any]:
 
     entities, entity_errors = validate_entities(case.get("entities"))
     errors.extend(entity_errors)
-
     identifiers: dict[str, dict[str, Any]] = {}
-    identifier_intervals: dict[str, tuple[datetime, datetime | None]] = {}
-    identifier_value = case.get("identifiers")
-    if not isinstance(identifier_value, list):
+    intervals: dict[str, tuple[datetime, datetime | None]] = {}
+    raw_identifiers = case.get("identifiers")
+    if not isinstance(raw_identifiers, list):
+        raw_identifiers = []
         errors.append(error("ADUC-ID-001", "identifiers must be an array"))
-        identifier_value = []
-    for raw in identifier_value:
+    for raw in raw_identifiers:
         record, record_errors = validate_identifier(raw, entities)
         errors.extend(record_errors)
-        if record is None:
+        if not record or not isinstance(record.get("identifierId"), str):
             continue
-        identifier_id = record.get("identifierId")
-        if not isinstance(identifier_id, str):
-            continue
+        identifier_id = record["identifierId"]
         if identifier_id in identifiers:
             errors.append(error("ADUC-ID-001", f"duplicate identifierId: {identifier_id}"))
             continue
         identifiers[identifier_id] = record
         start, end, validity_errors = parse_validity(record.get("validity"))
         if not validity_errors and start is not None:
-            identifier_intervals[identifier_id] = (start, end)
+            intervals[identifier_id] = (start, end)
 
     grouped: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for record in identifiers.values():
@@ -326,57 +260,55 @@ def evaluate_case(case: Any) -> dict[str, Any]:
             for right in records[index + 1 :]:
                 if left.get("subjectEntity") == right.get("subjectEntity"):
                     continue
-                left_interval = identifier_intervals.get(str(left.get("identifierId")))
-                right_interval = identifier_intervals.get(str(right.get("identifierId")))
-                if left_interval and right_interval and intervals_overlap(*left_interval, *right_interval):
+                left_interval = intervals.get(str(left.get("identifierId")))
+                right_interval = intervals.get(str(right.get("identifierId")))
+                if left_interval and right_interval and overlaps(*left_interval, *right_interval):
                     errors.append(error("ADUC-ID-007", "identifier key is assigned to different entities during overlapping validity"))
 
     relations: list[dict[str, Any]] = []
     relation_intervals: dict[str, tuple[datetime, datetime | None]] = {}
-    relation_value = case.get("relations", [])
-    if not isinstance(relation_value, list):
+    raw_relations = case.get("relations", [])
+    if not isinstance(raw_relations, list):
+        raw_relations = []
         errors.append(error("ADUC-REL-003", "relations must be an array"))
-        relation_value = []
-    relation_ids: set[str] = set()
-    for raw in relation_value:
+    seen_assertions: set[str] = set()
+    for raw in raw_relations:
         record, record_errors = validate_relation(raw, identifiers)
         errors.extend(record_errors)
-        if record is None:
+        if not record or not isinstance(record.get("assertionId"), str):
             continue
-        assertion_id = record.get("assertionId")
-        if isinstance(assertion_id, str):
-            if assertion_id in relation_ids:
-                errors.append(error("ADUC-REL-003", f"duplicate assertionId: {assertion_id}"))
-            relation_ids.add(assertion_id)
-            start, end, validity_errors = parse_validity(record.get("validity"))
-            if not validity_errors and start is not None:
-                relation_intervals[assertion_id] = (start, end)
+        assertion_id = record["assertionId"]
+        if assertion_id in seen_assertions:
+            errors.append(error("ADUC-REL-003", f"duplicate assertionId: {assertion_id}"))
+        seen_assertions.add(assertion_id)
         relations.append(record)
+        start, end, validity_errors = parse_validity(record.get("validity"))
+        if not validity_errors and start is not None:
+            relation_intervals[assertion_id] = (start, end)
 
     for index, left in enumerate(relations):
+        left_pair = frozenset((left.get("subjectIdentifier"), left.get("objectIdentifier")))
         for right in relations[index + 1 :]:
-            if relation_pair(left) != relation_pair(right):
+            right_pair = frozenset((right.get("subjectIdentifier"), right.get("objectIdentifier")))
+            if left_pair != right_pair or {left.get("relation"), right.get("relation")} != {"sameEntity", "differentEntity"}:
                 continue
-            if {left.get("relation"), right.get("relation")} != {"sameEntity", "differentEntity"}:
-                continue
-            left_interval = relation_intervals.get(str(left.get("assertionId")))
-            right_interval = relation_intervals.get(str(right.get("assertionId")))
-            if left_interval and right_interval and intervals_overlap(*left_interval, *right_interval):
+            a = relation_intervals.get(str(left.get("assertionId")))
+            b = relation_intervals.get(str(right.get("assertionId")))
+            if a and b and overlaps(*a, *b):
                 errors.append(error("ADUC-REL-004", "contradictory sameEntity and differentEntity assertions overlap"))
 
-    active_identifiers: dict[str, dict[str, Any]] = {}
-    for identifier_id, record in identifiers.items():
-        interval = identifier_intervals.get(identifier_id)
-        if interval and interval_active(*interval, evaluation_at):
-            active_identifiers[identifier_id] = record
-
+    active_identifiers = {
+        identifier_id: record
+        for identifier_id, record in identifiers.items()
+        if identifier_id in intervals and active(*intervals[identifier_id], evaluation_at)
+    }
     active_subjects = sorted({str(record.get("subjectEntity")) for record in active_identifiers.values()})
-    active_relations: list[dict[str, Any]] = []
-    for record in relations:
-        assertion_id = str(record.get("assertionId"))
-        interval = relation_intervals.get(assertion_id)
-        if interval and interval_active(*interval, evaluation_at):
-            active_relations.append(record)
+    active_relations = [
+        relation
+        for relation in relations
+        if str(relation.get("assertionId")) in relation_intervals
+        and active(*relation_intervals[str(relation.get("assertionId"))], evaluation_at)
+    ]
 
     purpose = case.get("purpose")
     for relation in active_relations:
@@ -388,34 +320,30 @@ def evaluate_case(case: Any) -> dict[str, Any]:
         if relation.get("conflictState", "clear") != "clear" or relation.get("lifecycleState", "active") != "active":
             errors.append(error("ADUC-MERGE-002", "contested or deprecated identity relation blocks automatic use"))
         privacy = relation.get("privacy")
-        if isinstance(privacy, dict):
+        if isinstance(privacy, dict) and purpose is not None:
             permitted = privacy.get("permittedPurposes")
-            if purpose is not None and (not isinstance(permitted, list) or purpose not in permitted):
+            if not isinstance(permitted, list) or purpose not in permitted:
                 errors.append(error("ADUC-PRIV-001", "requested purpose is not permitted by identity relation"))
-        for endpoint in (active_identifiers.get(subject), active_identifiers.get(obj)):
-            if endpoint and endpoint.get("identifierKind") in PROTECTED_KINDS:
+        for endpoint in (active_identifiers[subject], active_identifiers[obj]):
+            if endpoint.get("identifierKind") in PROTECTED_KINDS and purpose is not None:
                 permitted = endpoint.get("permittedPurposes")
-                if purpose is not None and (not isinstance(permitted, list) or purpose not in permitted):
+                if not isinstance(permitted, list) or purpose not in permitted:
                     errors.append(error("ADUC-PRIV-001", "requested purpose is not permitted by protected identifier"))
 
-    decision = "unresolved"
-    if active_relations:
-        relation_names = {record.get("relation") for record in active_relations}
-        if "differentEntity" in relation_names:
-            decision = "differentEntity"
-        elif "sameEntity" in relation_names:
-            decision = "mergeAllowed"
-        elif "possibleMatch" in relation_names:
-            decision = "candidateOnly"
-        elif relation_names & {"broaderEntity", "narrowerEntity"}:
-            decision = "relationOnly"
+    relation_names = {relation.get("relation") for relation in active_relations}
+    if "differentEntity" in relation_names:
+        decision = "differentEntity"
+    elif "sameEntity" in relation_names:
+        decision = "mergeAllowed"
+    elif "possibleMatch" in relation_names:
+        decision = "candidateOnly"
+    elif relation_names & {"broaderEntity", "narrowerEntity"}:
+        decision = "relationOnly"
+    else:
+        decision = "unresolved"
 
-    if errors:
-        if any(item["code"] == "ADUC-MERGE-001" for item in errors):
-            decision = "candidateOnly"
-        elif decision not in {"differentEntity", "relationOnly"}:
-            decision = "mergeBlocked"
-
+    if errors and decision not in {"differentEntity", "relationOnly"}:
+        decision = "mergeBlocked"
     owl_same_as_allowed = decision == "mergeAllowed" and not errors
     if case.get("exportOwlSameAs") is True and not owl_same_as_allowed:
         errors.append(error("ADUC-REL-006", "owl:sameAs export requires a qualifying exact identity merge"))
@@ -443,11 +371,9 @@ def check_reference_file(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
         result = evaluate_case(case)
         results.append(result)
         expected = case.get("expected", {}) if isinstance(case, dict) else {}
-        for field in ("valid", "decision", "owlSameAsAllowed"):
+        for field in ("valid", "decision", "owlSameAsAllowed", "activeSubjects"):
             if field in expected and result.get(field) != expected.get(field):
                 failures.append(f"{case.get('id')}: expected {field}={expected.get(field)!r}, got {result.get(field)!r}")
-        if "activeSubjects" in expected and result.get("activeSubjects") != expected.get("activeSubjects"):
-            failures.append(f"{case.get('id')}: activeSubjects mismatch")
     return results, failures
 
 
@@ -461,31 +387,19 @@ def check_invalid_file(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
     for case in cases:
         result = evaluate_case(case)
         results.append(result)
-        expected_error = case.get("expectedError") if isinstance(case, dict) else None
+        expected = case.get("expectedError") if isinstance(case, dict) else None
         codes = {item.get("code") for item in result.get("errors", [])}
         if result.get("valid") is not False:
             failures.append(f"{case.get('id')}: invalid case was accepted")
-        if expected_error not in codes:
-            failures.append(f"{case.get('id')}: expected error {expected_error}, got {sorted(code for code in codes if code)}")
+        if expected not in codes:
+            failures.append(f"{case.get('id')}: expected error {expected}, got {sorted(code for code in codes if code)}")
     return results, failures
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "reference",
-        nargs="?",
-        type=Path,
-        default=DEFAULT_EXAMPLES / "reference-cases.json",
-        help="valid/reference identity cases",
-    )
-    parser.add_argument(
-        "invalid",
-        nargs="?",
-        type=Path,
-        default=DEFAULT_EXAMPLES / "invalid-cases.json",
-        help="invalid identity cases",
-    )
+    parser.add_argument("reference", nargs="?", type=Path, default=DEFAULT_EXAMPLES / "reference-cases.json")
+    parser.add_argument("invalid", nargs="?", type=Path, default=DEFAULT_EXAMPLES / "invalid-cases.json")
     parser.add_argument("--format", choices=("text", "json"), default="text")
     return parser
 
@@ -498,7 +412,6 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, json.JSONDecodeError) as exc:
         print(f"identity evaluation failed: {exc}", file=sys.stderr)
         return 2
-
     failures = reference_failures + invalid_failures
     report = {
         "validCases": len(reference_results),
