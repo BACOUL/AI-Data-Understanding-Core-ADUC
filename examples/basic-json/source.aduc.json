@@ -1,0 +1,46 @@
+{
+  "aduc": {
+    "version": "0.1.0-alpha.0",
+    "contractId": "urn:aduc:example:river-r42",
+    "status": "inferred",
+    "createdAt": "2026-07-13T12:00:00Z"
+  },
+  "resource": {
+    "type": "recordSet",
+    "format": "application/json",
+    "location": "./source.json"
+  },
+  "structure": {
+    "representation": "object"
+  },
+  "semantics": {
+    "fields": {
+      "station": {
+        "concept": "example:HydrometricStationIdentifier",
+        "mappingStatus": "inferred",
+        "confidence": 0.82
+      },
+      "flow": {
+        "concept": "example:WaterDischarge",
+        "unit": "example:CubicMetrePerSecond",
+        "mappingStatus": "inferred",
+        "confidence": 0.91
+      },
+      "quality": {
+        "concept": "example:MeasurementQualityCode",
+        "mappingStatus": "unknown",
+        "confidence": 0.0
+      }
+    }
+  },
+  "identity": {
+    "subjectField": "station"
+  },
+  "context": {},
+  "provenance": {
+    "sourceType": "unknown"
+  },
+  "uncertainty": {},
+  "relations": [],
+  "policy": {}
+}
