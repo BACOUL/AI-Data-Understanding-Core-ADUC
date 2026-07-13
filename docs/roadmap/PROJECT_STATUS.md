@@ -4,7 +4,7 @@
 - Current phase: Gate 4 — Source authoring workflow
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 3 implemented; independent CI evidence pending merge
+- Overall status: Gate 3 passed; authoring-workflow work authorized
 
 ## Completed
 
@@ -27,6 +27,7 @@
 - Semantic checks for duplicate IDs, self-replacement, replacement cycles and canonical conflicts
 - Local trusted-authority warnings for canonical mappings
 - Eight validator unit tests including CLI exit codes
+- GitHub Actions execution of schema fixtures and all eight validator tests
 
 ## Evidence-based findings
 
@@ -39,7 +40,6 @@
 
 ## Not yet validated
 
-- GitHub Actions result for the semantic-validator unit tests
 - Manual authoring and review workflow
 - JSON-LD context and RDF round-trip
 - Falsifiable multi-model demonstration protocol details
@@ -48,7 +48,6 @@
 
 ## Active blockers
 
-- Gate 3 PR and combined CI not yet merged
 - Authoring and review lifecycle not specified end to end
 - Authority verification mechanism not defined
 - Demonstration fixtures and evaluation protocol not frozen
