@@ -37,6 +37,27 @@ https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/
 
 The repository Pages source may need to be set to **GitHub Actions** once in repository settings. The workflow itself does not register a custom domain.
 
+## Vercel deployment
+
+The repository root contains `vercel.json` with:
+
+```json
+{
+  "framework": null,
+  "outputDirectory": "website"
+}
+```
+
+This makes Vercel publish `website/index.html` at `/` instead of looking for an entrypoint at the repository root. The Vercel project should keep its Root Directory at the repository root so that the checked-in `vercel.json` is discovered.
+
+Every merge to `main` should trigger a new Vercel deployment when the Git repository is connected. If a dashboard setting overrides the repository configuration, use:
+
+```text
+Framework Preset: Other
+Root Directory: ./
+Output Directory: website
+```
+
 ## Public-content rules
 
 The website must always:
