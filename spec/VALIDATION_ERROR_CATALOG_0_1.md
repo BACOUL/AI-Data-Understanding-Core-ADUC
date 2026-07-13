@@ -1,12 +1,12 @@
 # ADUC Validation Error Catalog 0.1
 
-- Status: Gate 3 candidate
+- Status: Gate 6 preparation candidate
 - Date: 2026-07-13
-- Applies to: `tools/aduc_validate.py`
+- Applies to: `tools/aduc_validate.py` and `tools/aduc_rdf.py`
 
 ## 1. Report model
 
-Every issue contains:
+Every validator issue contains:
 
 ```json
 {
@@ -23,20 +23,21 @@ Categories:
 - `input`: file, JSON or validator-schema loading problem;
 - `schema`: Draft 2020-12 structural conformance problem;
 - `semantic`: profile-level rule that JSON Schema alone cannot enforce;
-- `trust`: assertion requiring external authority configuration or verification.
+- `trust`: assertion requiring external authority configuration or verification;
+- `jsonld`: context resolution, expansion or RDF round-trip problem.
 
 Severities:
 
-- `error`: profile is non-conforming and the command exits `1`;
-- `warning`: profile may be structurally conforming, but a trust or operational limitation remains.
+- `error`: profile or processing result is non-conforming and the command exits `1`;
+- `warning`: profile may be conforming, but a trust or operational limitation remains.
 
 ## 2. Exit codes
 
 | Exit | Meaning |
 |---:|---|
-| `0` | Schema and semantic checks pass. Warnings may remain. |
-| `1` | One or more conformance errors exist. |
-| `2` | Input file, JSON, schema file or command usage prevents validation. |
+| `0` | Required checks pass. Warnings may remain. |
+| `1` | One or more conformance, semantic or JSON-LD errors exist. |
+| `2` | Input file, JSON, schema file or command usage prevents processing. |
 
 ## 3. Stable codes
 
@@ -129,7 +130,44 @@ This code is a warning because the profile can be structurally and semantically 
 - Category: trust
 - Exit: 0 when no errors exist
 
-## 4. JSON report
+### `ADUC-JSONLD-001`
+
+The profile cannot be processed with the pinned ADUC JSON-LD context.
+
+This includes:
+
+- an unknown or unauthorized `@context` identifier;
+- a missing or malformed local context document;
+- JSON-LD expansion, compaction or normalization failure;
+- an attempted remote context fetch in conformance mode.
+
+Conformance mode accepts only:
+
+```text
+urn:aduc:context:0.1
+```
+
+resolved locally from:
+
+```text
+context/aduc-context-0.1.jsonld
+```
+
+- Severity: error
+- Category: jsonld
+- Exit: 1
+
+### `ADUC-JSONLD-002`
+
+The normalized RDF graph changes after expansion and compaction with the official context.
+
+This indicates that the JSON-LD round-trip lost or changed ADUC meaning.
+
+- Severity: error
+- Category: jsonld
+- Exit: 1
+
+## 4. JSON validator report
 
 Example shape:
 
@@ -163,6 +201,8 @@ Example shape:
 }
 ```
 
+The RDF command emits normalized N-Quads, expanded JSON-LD or compacted JSON-LD on success. JSON-LD errors are written to standard error with their stable code.
+
 ## 5. Stability policy
 
 - Existing code meanings must not change silently.
@@ -173,13 +213,13 @@ Example shape:
 
 ## 6. Explicit limitations
 
-The Gate 3 validator does not:
+The current tools do not:
 
-- resolve identifiers over the network;
+- resolve arbitrary identifiers or contexts over the network;
 - verify signatures;
 - prove that a publisher controls an asserted authority IRI;
 - determine whether two ontology concepts are actually equivalent;
-- expand JSON-LD or validate RDF semantics;
 - validate mappings across multiple profile files;
 - prove that source values are accurate or truthful;
-- enforce permissions.
+- enforce permissions;
+- turn normalized RDF into a cryptographic trust proof.

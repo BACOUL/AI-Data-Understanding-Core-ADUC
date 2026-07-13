@@ -1,10 +1,10 @@
 # Project Status
 
 - Project: AI Data Understanding Core (working title)
-- Current phase: Gate 6 preparation — JSON-LD and RDF interoperability
+- Current phase: Gate 6 — Multi-model conformance protocol
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 5 passed; JSON-LD/RDF work authorized
+- Overall status: JSON-LD/RDF interoperability passed; multi-model protocol work authorized
 
 ## Completed
 
@@ -21,7 +21,6 @@
 - Immutable assertion lifecycle and deterministic consumer invariants
 - Candidate Draft 2020-12 semantic mapping profile schema
 - Four valid and ten invalid official schema fixtures
-- GitHub Actions validation of all 14 official mapping-profile fixtures
 - User-facing text and JSON validator
 - Stable validation error catalogue
 - Semantic checks for duplicate IDs, self-replacement, replacement cycles and canonical conflicts
@@ -34,7 +33,14 @@
 - Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
 - French and US source examples with differently named fields mapped to one semantic target
 - Explicit `notEvaluated` reporting for missing unit, time and entity information
-- GitHub Actions execution of 14 fixtures, 6 published profiles, 8 validator tests and 9 comparator tests
+- ADR-0003 experimental JSON-LD namespace and offline context strategy
+- Protected local context `urn:aduc:context:0.1`
+- ADUC experimental term namespace `urn:aduc:term:`
+- RDF representation reusing Dublin Core Terms, PROV-O, SKOS IRIs and XSD datatypes
+- JSON-LD expansion, compaction and URDNA2015 N-Quads normalization tool
+- Migration of all official profiles and fixtures from the placeholder context URI
+- Six JSON-LD/RDF tests covering ten official profiles, graph evidence, ordering independence and offline context rejection
+- GitHub Actions execution of 14 fixtures, 6 published profiles, 8 validator tests, 9 comparator tests and 6 JSON-LD/RDF tests
 
 ## Evidence-based findings
 
@@ -48,21 +54,23 @@
 - Comparable semantics do not by themselves establish unit conversion, temporal alignment or entity identity.
 - Same-looking field names are insufficient when their published semantic targets differ.
 - Deterministic semantic comparison is possible using only shared targets, relations and authority states.
+- Official profiles can be expanded and round-tripped as RDF without network access or graph loss.
+- URN-based experimental identifiers avoid false ownership claims but are not yet dereferenceable public Web identifiers.
 
 ## Not yet validated
 
-- JSON-LD context and RDF round-trip
-- Stable experimental namespace
-- Falsifiable multi-model demonstration protocol details
+- Provider-neutral multi-model conformance package and result schema
+- Actual runs against two independent AI consumers
+- Public HTTPS namespace
 - Public name and acronym
 - Commercial model
 
 ## Active blockers
 
-- JSON-LD context is still a placeholder URI
-- RDF representation and round-trip tests are not defined
+- Multi-model evaluation protocol and normalized result schema are not frozen
+- No qualifying external model runs have been committed
 - Authority verification mechanism is not defined
-- Multi-model evaluation protocol is not frozen
+- Public namespace migration is deferred
 
 ## Rule
 

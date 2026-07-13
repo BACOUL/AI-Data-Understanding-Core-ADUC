@@ -1,1 +1,2 @@
 jsonschema[format]>=4.26,<5
+PyLD>=2.0,<3

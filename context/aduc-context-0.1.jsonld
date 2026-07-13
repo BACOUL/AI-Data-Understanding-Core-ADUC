@@ -1,0 +1,101 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "@vocab": "urn:aduc:term:",
+    "aduc": "urn:aduc:term:",
+    "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "id": "@id",
+    "conformsTo": {
+      "@id": "dcterms:conformsTo",
+      "@type": "@id"
+    },
+    "describes": {
+      "@id": "aduc:describes",
+      "@type": "@id"
+    },
+    "validFor": {
+      "@id": "aduc:validFor"
+    },
+    "source": {
+      "@id": "aduc:source",
+      "@type": "@id"
+    },
+    "version": {
+      "@id": "dcterms:hasVersion"
+    },
+    "digest": {
+      "@id": "aduc:digest"
+    },
+    "referenceScheme": {
+      "@id": "aduc:referenceScheme",
+      "@type": "@vocab"
+    },
+    "issuedAt": {
+      "@id": "dcterms:issued",
+      "@type": "xsd:dateTime"
+    },
+    "assertions": {
+      "@id": "aduc:assertion",
+      "@container": "@set"
+    },
+    "localReference": {
+      "@id": "aduc:localReference"
+    },
+    "semanticTarget": {
+      "@id": "aduc:semanticTarget",
+      "@type": "@id"
+    },
+    "mappingRelation": {
+      "@id": "aduc:mappingRelation",
+      "@type": "@id"
+    },
+    "status": {
+      "@id": "aduc:status",
+      "@type": "@vocab"
+    },
+    "confidence": {
+      "@id": "aduc:confidence",
+      "@type": "xsd:decimal"
+    },
+    "confidenceMethod": {
+      "@id": "aduc:confidenceMethod",
+      "@type": "@id"
+    },
+    "assertedBy": {
+      "@id": "prov:wasAttributedTo",
+      "@type": "@id"
+    },
+    "assertedAt": {
+      "@id": "prov:generatedAtTime",
+      "@type": "xsd:dateTime"
+    },
+    "evidence": {
+      "@id": "prov:wasDerivedFrom",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "supersedes": {
+      "@id": "prov:wasRevisionOf",
+      "@type": "@id"
+    },
+    "note": {
+      "@id": "rdfs:comment"
+    },
+    "inferred": {
+      "@id": "aduc:inferred"
+    },
+    "reviewed": {
+      "@id": "aduc:reviewed"
+    },
+    "canonical": {
+      "@id": "aduc:canonical"
+    },
+    "contested": {
+      "@id": "aduc:contested"
+    }
+  }
+}
