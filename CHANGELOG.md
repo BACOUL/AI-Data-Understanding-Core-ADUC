@@ -26,6 +26,11 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Semantic checks for duplicate assertion identifiers, self-superseding assertions, supersedes cycles and canonical conflicts
 - Local trusted-authority option with explicit unverified-authority warnings
 - Eight semantic-validator unit tests including CLI behavior
+- Manual authoring and review workflow with role separation and immutable publication steps
+- Separate authoring-state coverage and event ledgers
+- River example progressing from inferred to reviewed mapping
+- Machine example progressing from inferred to publisher-canonical mapping
+- CI discovery of published authoring profile examples
 
 ### Changed
 
@@ -38,3 +43,4 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Updated CI to install explicit format-checking dependencies so URI validation is reproducible
 - Expanded CI to execute semantic-validator unit tests
 - Updated the README to reflect the narrowed profile and validator commands
+- Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
