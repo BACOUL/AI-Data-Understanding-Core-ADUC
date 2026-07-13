@@ -2,21 +2,32 @@
 
 ## Single active task
 
-Define and accept the ADUC general-relation semantics before implementing the full-Core JSON Schema.
+Define and accept the ADUC policy and permitted-use profile before freezing the normative full-Core object model.
 
 Create:
 
 ```text
-docs/decisions/ADR-0012-general-relation-semantics.md
-spec/RELATION_PROFILE_0_1.md
-examples/relations/
-tools/aduc_relations.py
-tests/relations/
+docs/decisions/ADR-0013-policy-and-permitted-use.md
+spec/POLICY_PROFILE_0_1.md
+examples/policy/
+tools/aduc_policy.py
+tests/policy/
 ```
 
 ## Objective
 
-Define how ADUC represents portable relationships between resources, fields, concepts, entities, assertions, activities, versions, and results without inventing equality, transitivity, symmetry, or causal meaning that the relation does not explicitly support.
+Define how an ADUC contract communicates machine-readable use conditions without pretending that the Core can determine legal validity, consent, ownership, jurisdiction, fairness, or regulatory compliance by itself.
+
+The profile must allow a consumer to answer:
+
+```text
+Is this requested purpose permitted?
+Is the requester or recipient allowed?
+Is a required duty satisfied?
+Has the permission expired?
+Does a prohibition or conflict block use?
+Is the policy complete enough for automatic reliance?
+```
 
 ## Completed dependencies
 
@@ -28,54 +39,64 @@ ADR-0008  temporal semantics and timezone alignment
 ADR-0009  entity identity and safe equivalence
 ADR-0010  provenance and transformation lineage
 ADR-0011  uncertainty and data quality
+ADR-0012  general relation semantics
 ```
 
-Every relation assertion must bind its endpoints through accepted profiles, preserve authority and lifecycle through ADR-0005, use ADR-0008 for temporal scope, retain ADR-0010 provenance, and preserve ADR-0011 uncertainty where the relation is probabilistic or incomplete.
+Every policy must bind its target through ADR-0006, identify parties through ADR-0009, use ADR-0008 for temporal validity, retain ADR-0010 provenance, preserve ADR-0005 authority/conflict/lifecycle, and avoid inventing relation semantics contrary to ADR-0012.
 
 ## Required decisions
 
-1. distinguish relation assertion, relation vocabulary definition, and consumer inference;
-2. reuse RDF, RDFS, OWL, SKOS, PROV-O, DC Terms, and domain vocabularies rather than inventing duplicate predicates;
-3. define subject, predicate, object, direction, inverse, scope, validity, authority, method, evidence, and provenance;
-4. distinguish object relations from literal-valued properties;
-5. define when symmetry, transitivity, reflexivity, functionality, inverse functionality, and inverse relations may be used;
-6. forbid consumers from assuming these characteristics when they are not declared by an authoritative vocabulary;
-7. define exact, broader, narrower, related, part-whole, version, derivation, causal-candidate, and dependency behavior without conflation;
-8. define temporal and contextual qualification of relations;
-9. define conflict, challenge, deprecation, replacement, and contradictory relation handling;
-10. define relation-chain and graph-cycle rules;
-11. preserve open-world unknowns rather than interpreting absence as falsehood;
-12. define safe export to RDF/JSON-LD and deterministic consumer outcomes.
+1. reuse ODRL and relevant established vocabularies instead of creating a competing rights language;
+2. distinguish permission, prohibition, duty, constraint, recommendation, legal notice, and descriptive classification;
+3. define policy, rule, target, assigner, assignee, action, purpose, recipient, spatial scope, temporal scope, duty, remedy, consequence, evidence, provenance, authority, conflict, and lifecycle;
+4. distinguish a machine-evaluable rule from a human-only legal statement;
+5. define deterministic precedence and conflict behavior without claiming universal legal interpretation;
+6. require explicit purpose identifiers instead of free-text purpose matching;
+7. define recipient and requester identity requirements;
+8. define temporal, territorial, organizational, and environment constraints;
+9. define pre-use and post-use duties and how satisfaction evidence is linked;
+10. preserve unknown, partial, redacted, contested, deprecated, and externally governed policy states;
+11. define policy inheritance, composition, versioning, replacement, and target scope;
+12. define safe consumer outcomes such as `permit`, `deny`, `notApplicable`, `indeterminate`, and `requiresHumanReview`;
+13. ensure that absence of a permission does not automatically mean permission or prohibition unless the governing profile explicitly declares a closed policy mode;
+14. define deterministic JSON-LD/RDF export and an offline evaluation subset.
 
 ## Required counterexamples
 
-The specification must reject or explicitly block:
+The specification must reject or block:
 
-- treating `skos:closeMatch` as exact equality;
-- using `owl:sameAs` for a candidate or partial match;
-- assuming transitivity for a non-transitive relation;
-- reversing a directed relation without an explicit inverse;
-- inferring causation from correlation or temporal order;
-- applying a relation outside its temporal or contextual scope;
-- accepting missing or unbound endpoints;
-- silently merging contradictory canonical relations;
-- treating absent relations as proof of negation;
-- creating cycles where the declared relation is acyclic;
-- applying deprecated or contested relations automatically;
-- allowing local predicate labels to act as global relation identifiers.
+- treating a descriptive `public` classification as permission for every purpose;
+- matching a free-text purpose to a controlled purpose identifier;
+- allowing use after policy expiry;
+- allowing an unidentified requester when a named assignee is required;
+- ignoring a prohibition because a permission also exists;
+- claiming consent without evidence and provenance;
+- treating a legal notice as an executable permission;
+- silently dropping attribution, deletion, reporting, or downstream-use duties;
+- considering a duty satisfied without bound evidence;
+- evaluating a redacted or incomplete policy as fully permissive;
+- applying a policy to the wrong resource version;
+- inventing jurisdictional or regulatory compliance;
+- treating absence of a rule as permission in open policy mode;
+- automatically using contested or deprecated policies;
+- accepting local action or purpose labels as global identifiers.
 
 ## Scope boundary
 
-Do not implement the complete policy profile, full-Core schema, compiler, review UI, registry service, MCP adapter, extensions, or anticipation engine in this task.
+Do not implement the normative full-Core object model, full-Core JSON Schema, compiler, review UI, registry service, MCP adapter, extensions, anticipation engine, or legal-advice system in this task.
 
 ## Completion test
 
 An independent implementer must be able to:
 
-1. represent a directed, qualified relation between two bound ADUC objects;
-2. distinguish exact, close, broader, narrower, part-whole, version, and derivation relations;
-3. derive an inverse only when the vocabulary authorizes it;
-4. block unsupported transitive or causal inference;
-5. preserve authority, evidence, time, context, provenance, uncertainty, conflict, and lifecycle;
-6. reject one contradictory, cyclic, or out-of-scope relation graph;
-7. serialize qualifying relations to deterministic JSON-LD/RDF without private guidance.
+1. represent a permission, prohibition, and duty for an exactly bound resource;
+2. evaluate a request with purpose, requester, recipient, time, place, and environment;
+3. return a deterministic permit, deny, indeterminate, not-applicable, or human-review outcome;
+4. prove that required duties are or are not satisfied using bound evidence;
+5. block expired, contested, incomplete, redacted, or misbound policies;
+6. preserve provenance, authority, lifecycle, versioning, and replacement;
+7. export qualifying policy records deterministically to JSON-LD/RDF.
+
+## Cross-cutting adoption constraint
+
+[`ADOPTION_AND_VALUE_VALIDATION.md`](ADOPTION_AND_VALUE_VALIDATION.md) remains mandatory. Do not implement the JSON/CSV compiler now.
