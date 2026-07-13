@@ -4,7 +4,7 @@
 - Current phase: Gate 5 — Semantic comparison
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 4 implemented; independent CI evidence pending merge
+- Overall status: Gate 4 passed; semantic-comparison work authorized
 
 ## Completed
 
@@ -32,7 +32,7 @@
 - Separation of portable profiles from authoring-state and coverage records
 - Role definitions for curator, inference producer, reviewer, source authority and consumer
 - Two end-to-end authoring examples covering reviewed and canonical publication
-- Four published authoring profiles added to fixture validation
+- Four published authoring profiles validated in GitHub Actions
 
 ## Evidence-based findings
 
@@ -47,7 +47,6 @@
 
 ## Not yet validated
 
-- GitHub Actions result for the four authoring example profiles
 - Deterministic comparison of two semantic mapping profiles
 - JSON-LD context and RDF round-trip
 - Falsifiable multi-model demonstration protocol details
@@ -56,7 +55,6 @@
 
 ## Active blockers
 
-- Gate 4 PR and combined CI not yet merged
 - Comparison protocol and reference comparator not implemented
 - Authority verification mechanism not defined
 - Demonstration fixtures and evaluation protocol not frozen
