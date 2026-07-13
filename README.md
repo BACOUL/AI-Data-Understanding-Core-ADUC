@@ -2,7 +2,7 @@
 
 > Working name and experimental open specification. ADUC is not yet a recognized standard, and the public name must not be frozen before naming and trademark checks.
 
-AI Data Understanding Core (ADUC) is a model-independent contract intended to let a data resource describe its structure, meaning, context, provenance, uncertainty, relations, and conditions of use to AI systems, agents, and applications.
+AI Data Understanding Core (ADUC) is a model-independent contract intended to let a data resource describe its structure, meaning, identity, context, provenance, uncertainty, relations, and conditions of use to AI systems, agents, and applications.
 
 ## Mission
 
@@ -12,7 +12,7 @@ AI Data Understanding Core (ADUC) is a model-independent contract intended to le
 
 > Two incompatible sources described with ADUC can be understood and compared consistently by multiple AI systems without rebuilding a different semantic integration for every model.
 
-ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, QUDT, UCUM, or MCP.
+ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, QUDT, UCUM, RFC 3339, RFC 9557, IANA TZDB, OWL-Time, or MCP.
 
 ## Public website
 
@@ -22,7 +22,7 @@ ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, P
 
 ## Core direction
 
-The complete candidate Core contains ten blocks:
+The candidate Core contains ten blocks:
 
 ```text
 aduc
@@ -90,7 +90,6 @@ Reference rules:
 - `known`, `unitless`, `unknown`, `arbitrary`, and `contextual` are distinct states;
 - absolute temperature and temperature difference are distinct roles;
 - v0.1 supports exact identity, multiplicative, and affine conversions;
-- the conversion registry is pinned by identifier, version, and SHA-256;
 - currency, calendar, nonlinear, and procedure-defined conversions remain blocked without dedicated context.
 
 Reference evaluation:
@@ -109,6 +108,41 @@ Validated examples include:
 1.5 m³/s = 1500.0 L/s
 50 % = 0.500 unitless ratio
 ```
+
+### Temporal semantics and timezone alignment
+
+ADR-0008 and [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md) define temporal kinds, roles, lexical evidence, timezone resolution, DST ambiguity, intervals, durations, precision, uncertainty, and deterministic alignment.
+
+Reference rules:
+
+- RFC 3339 represents fixed instants with explicit offsets;
+- RFC 9557 may attach a named timezone to a fixed timestamp;
+- IANA TZDB identifiers and pinned releases resolve local civil times;
+- a numeric offset is not a named timezone;
+- observation, publication, processing, validity, sampling, and aggregation are distinct roles;
+- ambiguous and nonexistent civil times block automatic use;
+- exact durations and calendar-relative periods remain distinct;
+- interval boundaries and uncertainty are explicit.
+
+Reference evaluation:
+
+```bash
+python tools/aduc_time.py \
+  examples/time/reference-cases.json \
+  examples/time/invalid-cases.json
+```
+
+Validated conclusions include:
+
+```text
+13/07/2026 14:00 Europe/Paris = 2026-07-13T12:00:00Z
+2026-10-25T02:30:00 Europe/Paris is ambiguous without an occurrence
+2026-03-29T02:30:00 Europe/Paris does not exist
+PT15M = 900 exact seconds
+P1M remains a calendar period requiring context
+```
+
+The reference timezone subset is pinned to IANA TZDB `2026c` evidence and a repository SHA-256 digest.
 
 ## Adoption and value validation
 
@@ -145,8 +179,9 @@ TimeProofs and the anticipation engine remain separate projects.
 - Epistemic lifecycle: specified and reference-tested
 - Source binding: specified and reference-tested
 - Units and conversions: specified and reference-tested
+- Temporal semantics: specified and reference-tested
 - Adoption/value validation: defined; benchmarks not yet run
-- Next Core decision: temporal semantics and timezone alignment
+- Next Core decision: entity identity and equivalence
 - Full-Core JSON Schema: not yet implemented
 - External multi-model proof: absent
 
@@ -163,10 +198,11 @@ See:
 2. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
 3. [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md)
 4. [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md)
-5. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-6. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-7. [`METHOD.md`](docs/method/METHOD.md)
-8. [`AGENTS.md`](AGENTS.md) for AI coding agents
+5. [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md)
+6. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+7. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+8. [`METHOD.md`](docs/method/METHOD.md)
+9. [`AGENTS.md`](AGENTS.md) for AI coding agents
 
 ## Implemented today
 
@@ -175,6 +211,7 @@ See:
 - complete epistemic reference model and evaluator;
 - source-binding profile and evaluator;
 - unit profile, pinned registry subset, exact converter, and evaluator;
+- temporal profile, pinned timezone subset, resolver, and alignment evaluator;
 - semantic-mapping profile, validator, and comparator;
 - JSON-LD context and offline RDF round-trip;
 - provider-neutral multi-model conformance harness;
@@ -182,7 +219,6 @@ See:
 
 ## Not yet implemented
 
-- temporal semantics and timezone alignment;
 - entity identity and equivalence;
 - remaining provenance, uncertainty, relation, and policy decisions;
 - official full-Core JSON Schema family;
@@ -205,6 +241,7 @@ python -m unittest discover -s tests/conformance -p "test_*.py"
 python -m unittest discover -s tests/epistemic -p "test_*.py"
 python -m unittest discover -s tests/source_binding -p "test_*.py"
 python -m unittest discover -s tests/units -p "test_*.py"
+python -m unittest discover -s tests/time -p "test_*.py"
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python tools/validate_website.py
 ```

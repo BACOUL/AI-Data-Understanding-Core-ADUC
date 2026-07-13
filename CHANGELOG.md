@@ -85,6 +85,13 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Deterministic exact conversion evaluator `tools/aduc_units.py`
 - Nine unit compatibility, conversion, uncertainty, registry-integrity, rounding, and CLI tests
 - Stable unit, compatibility, conversion, registry, rounding, and uncertainty error families
+- ADR-0008 defining temporal kinds, roles, lexical evidence, timezone resolution, intervals, duration classes, uncertainty, and deterministic alignment
+- `spec/TEMPORAL_PROFILE_0_1.md` reusing RFC 3339, RFC 9557, IANA TZDB, ISO 8601, and OWL-Time
+- Pinned IANA TZDB `2026c` reference subset for `Europe/Paris` and `UTC`
+- Nine valid temporal reference cases and fifteen invalid counterexamples
+- Deterministic temporal resolver and alignment evaluator `tools/aduc_time.py`
+- Seven temporal unit and CLI tests
+- Stable temporal, timezone, duration, interval, role, and alignment error families
 
 ### Changed
 
@@ -96,7 +103,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, roadmap, and website checks
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, temporal, roadmap, and website checks
 - Updated the README to distinguish the full-Core mission from the implemented reference components
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
@@ -110,4 +117,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required global unit identifiers, quantity kinds, dimension vectors, and quantity roles instead of relying on source symbols
 - Required pinned conversion evidence and exact decimal/rational arithmetic instead of mutable remote data or normative binary floating point
 - Distinguished absolute temperature, temperature difference, unitless ratio, percentage, unknown, arbitrary, and contextual units
-- Advanced the single active task from units and conversions to temporal semantics and timezone alignment
+- Required explicit temporal roles, formats, precision, uncertainty, interval boundaries, and pinned timezone evidence
+- Blocked ambiguous and nonexistent civil times instead of selecting a UTC instant silently
+- Distinguished exact elapsed durations from calendar-relative periods
+- Advanced the single active task from temporal semantics to entity identity and equivalence
