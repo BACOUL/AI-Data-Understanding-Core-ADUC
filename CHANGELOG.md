@@ -36,6 +36,13 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
 - French and US comparison examples with differently named fields sharing a semantic target
 - Explicit `notEvaluated` output for unit, time and entity dimensions
+- ADR-0003 defining the experimental JSON-LD namespace and offline context strategy
+- Protected local JSON-LD context identified by `urn:aduc:context:0.1`
+- Experimental ADUC RDF term namespace `urn:aduc:term:`
+- RDF representation specification reusing Dublin Core Terms, PROV-O, SKOS IRIs and XSD datatypes
+- JSON-LD expansion, compaction and URDNA2015 normalization CLI
+- Six JSON-LD/RDF tests covering ten official profiles and deterministic round-trip behavior
+- Stable JSON-LD processing error codes
 
 ### Changed
 
@@ -45,8 +52,9 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Reduced v0.1 authority states to `inferred`, `reviewed`, `canonical` and `contested`
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
-- Updated CI to install explicit format-checking dependencies so URI validation is reproducible
-- Expanded CI to execute semantic-validator and comparator unit tests
-- Updated the README with authoring, validation and comparison commands
+- Updated CI to install explicit format-checking and JSON-LD dependencies
+- Expanded CI to execute semantic-validator, comparator and JSON-LD/RDF unit tests
+- Updated the README with authoring, validation, comparison and RDF commands
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
+- Migrated official profiles and fixtures from the placeholder `example.org` context to the pinned experimental context
