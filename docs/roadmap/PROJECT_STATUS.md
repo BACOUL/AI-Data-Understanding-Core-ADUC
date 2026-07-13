@@ -1,10 +1,10 @@
 # Project Status
 
 - Project: AI Data Understanding Core (working title)
-- Current phase: Gate 2 — Machine-readable schema
+- Current phase: Gate 3 — Reference validator
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 1 passed; schema implementation authorized
+- Overall status: Gate 2 implemented; independent CI evidence pending merge
 
 ## Completed
 
@@ -19,7 +19,10 @@
 - Minimal semantic mapping assertion model
 - Reduced status model: `inferred`, `reviewed`, `canonical`, `contested`
 - Immutable assertion lifecycle and deterministic consumer invariants
-- Necessity analysis for document and assertion properties
+- Candidate Draft 2020-12 semantic mapping profile schema
+- Four valid and ten invalid official schema fixtures
+- Reference fixture runner validating the active mapping-profile schema
+- Documented boundary between structural schema conformance and semantic/trust validation
 
 ## Evidence-based findings
 
@@ -27,20 +30,21 @@
 - Croissant is the closest existing foundation for datasets and must not be duplicated.
 - ADUC focuses on mapping status, authority, confidence/evidence, explicit relation, deterministic AI-consumer behavior and cross-model conformance.
 - `unknown`, `verified` and `deprecated` are not required as mapping authority states in v0.1.
-- The current broad bootstrap schema is not the accepted future normative model.
+- JSON Schema can enforce conditional field rules but cannot prove publisher authority, target equivalence or cross-document trust.
 
 ## Not yet validated
 
-- Machine-readable mapping-profile schema
+- GitHub Actions result for the active mapping-profile fixtures
+- User-facing semantic validator and stable error catalogue
 - JSON-LD context and RDF round-trip
-- Semantic checks that JSON Schema cannot enforce
 - Falsifiable multi-model demonstration protocol details
 - Public name and acronym
 - Commercial model
 
 ## Active blockers
 
-- Gate 2 schema and official fixtures not implemented
+- Gate 2 PR and CI not yet merged
+- Semantic validation rules not implemented
 - Authority verification mechanism not defined
 - Demonstration fixtures and evaluation protocol not frozen
 
