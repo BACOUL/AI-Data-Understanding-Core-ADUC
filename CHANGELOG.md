@@ -21,6 +21,11 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Four valid and ten invalid official mapping-profile fixtures
 - Active fixture validator and documented schema limitations
 - Reproducible development dependency file including JSON Schema format validation support
+- User-facing semantic validator with text and JSON conformance reports
+- Stable Gate 3 validation error catalogue and exit-code contract
+- Semantic checks for duplicate assertion identifiers, self-superseding assertions, supersedes cycles and canonical conflicts
+- Local trusted-authority option with explicit unverified-authority warnings
+- Eight semantic-validator unit tests including CLI behavior
 
 ### Changed
 
@@ -31,3 +36,5 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking dependencies so URI validation is reproducible
+- Expanded CI to execute semantic-validator unit tests
+- Updated the README to reflect the narrowed profile and validator commands
