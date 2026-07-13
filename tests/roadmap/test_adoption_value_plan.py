@@ -30,10 +30,11 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_source_binding_remains_the_single_active_task(self) -> None:
+    def test_units_strategy_is_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("source-description and source-binding model", text)
+        self.assertIn("unit identifier and conversion strategy", text)
         self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
+        self.assertIn("source-description binding", text)
         self.assertNotIn("implement the JSON/CSV compiler now", text.lower())
 
     def test_readme_exposes_the_cross_cutting_gate(self) -> None:
