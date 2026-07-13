@@ -1,0 +1,59 @@
+{
+  "registryId": "urn:aduc:tzdb-reference:2026c:subset-1",
+  "registryVersion": "2026c",
+  "released": "2026-07-08",
+  "source": "IANA Time Zone Database",
+  "sourceUrl": "https://www.iana.org/time-zones",
+  "scope": "Reference subset for ADUC temporal tests; not a replacement for the IANA database.",
+  "zones": {
+    "Europe/Paris": {
+      "periods": [
+        {
+          "startUtc": null,
+          "endUtc": "2026-03-29T01:00:00Z",
+          "offset": "+01:00",
+          "abbreviation": "CET"
+        },
+        {
+          "startUtc": "2026-03-29T01:00:00Z",
+          "endUtc": "2026-10-25T01:00:00Z",
+          "offset": "+02:00",
+          "abbreviation": "CEST"
+        },
+        {
+          "startUtc": "2026-10-25T01:00:00Z",
+          "endUtc": null,
+          "offset": "+01:00",
+          "abbreviation": "CET"
+        }
+      ],
+      "civilTransitions": [
+        {
+          "type": "gap",
+          "localStart": "2026-03-29T02:00:00",
+          "localEnd": "2026-03-29T03:00:00",
+          "offsetBefore": "+01:00",
+          "offsetAfter": "+02:00"
+        },
+        {
+          "type": "overlap",
+          "localStart": "2026-10-25T02:00:00",
+          "localEnd": "2026-10-25T03:00:00",
+          "offsetBefore": "+02:00",
+          "offsetAfter": "+01:00"
+        }
+      ]
+    },
+    "UTC": {
+      "periods": [
+        {
+          "startUtc": null,
+          "endUtc": null,
+          "offset": "+00:00",
+          "abbreviation": "UTC"
+        }
+      ],
+      "civilTransitions": []
+    }
+  }
+}
