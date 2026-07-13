@@ -4,7 +4,7 @@
 - Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: mission, architecture, epistemic lifecycle, adoption gates, and source binding are defined; units are the next Core decision and the official full-Core schema is not yet implemented
+- Overall status: mission, architecture, epistemic lifecycle, adoption gates, source binding, and units are defined; temporal semantics are next and the official full-Core schema is not yet implemented
 
 ## Official direction
 
@@ -40,55 +40,32 @@ policy
 
 `spec/ADUC_CORE_SPEC_0_1.md` is the authoritative full-Core working draft.
 
-ADR-0004 preserves the existing semantic-mapping implementation as the first experimental subset of the `semantics` block. It is not the complete Core.
+## Completed foundation
 
-## Completed project foundation
-
-- repository governance and contribution structure;
-- project charter and non-goals;
-- execution method and decision records;
-- prior-art matrix covering thirteen standards and approaches;
-- official project structure and master plan;
-- complete full-Core working draft;
-- ADR-0004 positioning the existing semantic profile inside the full Core;
-- first informative ten-block full-Core example;
-- English static public website source and GitHub Pages workflow;
-- deterministic website and example validation;
-- ADR-0005 complete epistemic lifecycle decision;
-- `spec/EPISTEMIC_STATUS_MODEL_0_1.md`;
-- nine reference lifecycle cases and eight rejected counterexamples;
-- deterministic lifecycle evaluator and unit tests;
-- official `docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md` plan;
-- roadmap tests preserving measurable adoption gates;
-- accepted ADR-0006 source-description and immutable source-binding decision;
-- `spec/SOURCE_DESCRIPTION_PROFILE_0_1.md`;
-- JSON, CSV, and embedded OpenAPI binding examples;
-- three valid and ten invalid source-binding cases;
-- deterministic source-binding evaluator and seven tests.
+- repository governance, contribution rules, ADR method, roadmap, execution ledger, and CI;
+- prior-art matrix and official full-Core program;
+- first informative ten-block example;
+- English public website and GitHub Pages workflow;
+- ADR-0005 complete epistemic lifecycle and reference evaluator;
+- ADR-0006 source-description and immutable source-binding profile and evaluator;
+- ADR-0007 unit identifiers, dimensional compatibility, and conversion profile and evaluator;
+- official adoption and value-validation gates;
+- existing semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling, and multi-model harness.
 
 ## Accepted epistemic model
 
-The seven effective states are not stored in one overloaded property.
-
-| Concern | Full-Core representation |
+| Concern | Representation |
 |---|---|
 | unresolved field | coverage record with `resolutionStatus: unknown` |
 | assertion authority | `inferred`, `reviewed`, `verified`, or `canonical` |
-| unresolved dispute | separate immutable challenge record producing `contested` |
-| retired assertion | separate immutable deprecation record producing `deprecated` |
+| unresolved dispute | immutable challenge producing `contested` |
+| retired assertion | immutable deprecation producing `deprecated` |
 
-Key consequences:
-
-- `reviewed` means accountable examination;
-- `verified` requires a declared verification method and evidence;
-- `canonical` requires recognized source authority and forbids confidence;
-- open challenges block automatic use without erasing original authority;
-- deprecated assertions remain historical and immutable;
-- old `contested` mapping-profile assertions require explicit migration because their underlying authority state was not preserved.
+Authority, confidence, conflict, and lifecycle remain separate claims.
 
 ## Accepted source-binding model
 
-ADUC now distinguishes:
+ADUC separates:
 
 ```text
 resource content
@@ -96,128 +73,119 @@ structural description
 local field reference
 ```
 
-The accepted binding modes are:
+The accepted binding modes are `content`, `description`, and `content-and-description`.
 
-```text
-content
-description
-content-and-description
-```
+Key rules:
 
-Key consequences:
-
-- mutable URLs and version labels are not sufficient integrity evidence;
 - v0.1 reference bindings use SHA-256;
+- mutable URLs and version labels are not sufficient integrity evidence;
 - linked descriptions bind raw bytes;
 - embedded JSON descriptions use an RFC 8785 canonicalization scope;
-- Croissant, JSON Schema, OpenAPI, and DCAT remain authoritative for the structures they define;
-- JSON Pointer, Croissant field ID, CSV header, OpenAPI, DCAT, and custom references require explicit schemes and bases;
-- CSV headers require a fixed dialect and uniqueness;
-- stale, unavailable, ambiguous, or conflicting descriptions block automatic semantic use;
-- legacy source fields receive a migration path and become `legacy-unverified` when evidence is insufficient.
+- Croissant, JSON Schema, OpenAPI, and DCAT remain authoritative for their structures;
+- local-reference schemes and bases are explicit;
+- stale, unavailable, ambiguous, or conflicting descriptions block automatic use.
 
-## Accepted adoption and value-validation constraints
+## Accepted unit and conversion model
 
-ADUC tools must be evaluated as tools, not assumed valuable because the specification is coherent.
+ADR-0007 separates:
 
-Required future evidence includes:
+```text
+source-bound field
+quantity kind
+dimension vector
+quantity role
+unit state
+global unit identifier
+local code or display symbol
+epistemic authority
+```
 
-- four declared inference modes: `structure-only`, `sample-assisted`, `documentation-assisted`, and `publisher-assisted`;
-- method identifiers, versions, evidence references, and exact source bindings for every inferred proposal;
-- no presentation of uncalibrated model self-confidence as probability;
-- a manual mapping versus `infer + review` benchmark;
-- a review-tax report;
-- a controlled with-ADUC versus without-ADUC multi-model comparison;
-- an initial alpha target of at least 30% lower median assisted human time without lower final correctness;
-- no silently accepted critical false mapping in the reference benchmark;
-- MCP treated as a future optional adapter, not a Core dependency.
+Key rules:
 
-## Completed experimental semantic-mapping implementation
+- QUDT IRIs are preferred semantic identifiers;
+- UCUM codes are retained as compact aliases where available;
+- local codes and symbols do not act as global identifiers;
+- `known`, `unitless`, `unknown`, `arbitrary`, and `contextual` remain distinct;
+- matching dimensions are necessary but not sufficient;
+- quantity kind and quantity role must also match;
+- absolute temperatures and temperature differences are distinct;
+- v0.1 supports exact identity, multiplicative, and affine conversion;
+- conversion data are pinned by registry identifier, version, and SHA-256;
+- decimal/rational arithmetic, rounding, uncertainty, source binding, and provenance are preserved;
+- contextual conversions remain blocked without their required context.
 
-- minimal semantic-mapping assertion model;
-- immutable assertion lifecycle;
-- implemented legacy statuses: `inferred`, `reviewed`, `canonical`, and `contested`;
-- Draft 2020-12 semantic-mapping profile schema;
-- four valid and ten invalid mapping fixtures;
-- text and JSON CLI validator with stable error codes;
-- duplicate-ID, lifecycle-cycle, canonical-conflict, and authority-warning checks;
-- manual authoring and review workflow;
-- deterministic semantic comparison protocol and CLI;
-- French and US comparison examples;
-- explicit `notEvaluated` behavior for absent unit, time, and identity dimensions;
-- protected local JSON-LD context and RDF round-trip;
-- provider-neutral multi-model conformance protocol, frozen package, result schema, and evaluator.
+Reference evidence:
 
-## Evidence-based findings
+- five valid conversion cases;
+- fifteen invalid counterexamples;
+- nine unit tests;
+- deterministic results including `89 °C = 192.2 °F`, `10 °C difference = 18.0 °F difference`, `1.5 m³/s = 1500.0 L/s`, and `50 % = 0.500` unitless ratio.
 
-- Existing standards cover most individual capabilities and must be reused rather than duplicated.
-- Croissant, JSON Schema, OpenAPI, and DCAT provide reusable source-description anchors, but identity and version labels alone do not prove exact bytes.
-- Comparable semantic targets alone do not establish units, time alignment, or entity identity.
-- Unknown, inferred, contested, and deprecated information must not be silently upgraded or hidden.
-- Authority, verification, probability, conflict, and lifecycle are separate claims.
-- JSON Schema cannot prove publisher authority, factual truth, global identity, or legal permission.
-- A frozen multi-model harness can test agreement, but illustrative results are not external interoperability proof.
-- Compiler usefulness must be measured against equivalent manual work rather than assumed.
+## Adoption and value-validation constraints
+
+Before compiler or interoperability success claims, the project must provide:
+
+- declared inference modes and exact evidence;
+- method/version-bound confidence;
+- manual mapping versus `infer + review` benchmark;
+- review-tax report;
+- controlled with-ADUC versus without-ADUC evaluation;
+- at least 30% lower median assisted human time in the initial alpha target without lower final correctness;
+- no silently accepted critical false mapping;
+- MCP only as an optional future adapter.
 
 ## Full-Core version 0.1 scoreboard
 
 | Deliverable | Status |
 |---|---|
 | Core specification | Working draft created |
-| Complete epistemic lifecycle | Defined and reference-tested |
-| Adoption and value-validation plan | Defined; benchmarks not yet run |
-| Source-description binding model | Defined and reference-tested |
-| Unit and conversion strategy | Next action |
+| Epistemic lifecycle | Defined and reference-tested |
+| Adoption/value plan | Defined; benchmarks not yet run |
+| Source binding | Defined and reference-tested |
+| Units and conversions | Defined and reference-tested |
+| Temporal semantics | Next action |
+| Entity identity | Not implemented |
 | Official full-Core JSON Schema | Not implemented |
-| Ten valid full-Core examples | 1 informative example created |
+| Ten valid full-Core examples | 1 informative complete example; profile-specific fixtures exist |
 | Ten invalid full-Core examples | Not implemented |
-| CLI validator | Partial: mapping, lifecycle, and source-binding tools |
+| CLI validator | Partial reference tools exist |
 | JSON/CSV compiler | Not implemented |
-| Inference calibration | Protocol and report not implemented |
-| Manual vs assisted benchmark | Not implemented |
-| Minimal review interface | Not implemented |
-| Review-tax report | Not implemented |
-| Core vocabulary | Partial: semantic-mapping JSON-LD context only |
-| Two-source comparison | Partial: semantic targets; units/time/identity absent |
+| Review interface | Not implemented |
+| Core vocabulary | Partial |
+| Two-source comparison | Semantic and unit reference behavior exist; time and identity absent |
 | Two-model demonstration | Harness exists; external proof and baseline comparison absent |
-| Conformance suite | Partial implementation |
 | MCP adapter | Deferred until Core stability |
-| Try in 5 minutes | English website guide created for current tools |
+| Try in 5 minutes | English guide exists for current tools |
 
 ## Not yet validated
 
-- unit identifier, dimensional compatibility, and conversion strategy;
-- normative cardinalities and rules for all ten Core blocks;
-- temporal semantics and alignment;
+- temporal semantics, timezone evidence, intervals, and alignment;
 - entity identity and equivalence;
-- complete policy profile;
-- full-Core JSON Schema;
-- migration tooling from the mapping-profile document to the full Core envelope;
-- JSON and CSV compiler;
-- inference evidence protocol and calibrated benchmark set;
-- manual mapping versus `infer + review` performance;
-- review interface and review-tax outcome;
-- with-ADUC versus without-ADUC model performance;
-- qualifying external runs from two independent AI consumers;
-- public HTTPS namespace and final project name;
-- optional MCP adapter;
-- commercial adoption model.
+- remaining provenance, uncertainty, relation, and policy rules;
+- full-Core schema boundaries and JSON Schema family;
+- migration tooling into the complete Core envelope;
+- JSON/CSV compiler and review interface;
+- inference calibration and manual-versus-assisted performance;
+- with/without-ADUC external model performance;
+- two qualifying independent AI runs;
+- final HTTPS namespace and project name;
+- optional MCP adapter and commercial adoption model.
 
 ## Active blockers
 
-- the unit and conversion ADR is not accepted;
-- full-Core schema boundaries and schema family do not exist;
-- the first complete example is informative rather than schema-validatable;
-- unit, time, and identity comparison cannot yet be demonstrated end to end;
-- no qualifying external model runs have been committed;
-- no manual-versus-assisted or with-versus-without-ADUC benchmark has been run;
+- ADR-0008 temporal semantics is not accepted;
+- entity identity remains undefined;
+- full-Core schema boundaries do not exist;
+- the complete example is not yet schema-validatable;
+- end-to-end comparison still lacks temporal and identity behavior;
+- no qualifying external model runs or value benchmarks exist;
 - the public name remains provisional.
 
 ## Next gate
 
-Define globally portable unit identifiers, quantity kinds, dimensional compatibility, affine and multiplicative conversions, unknown and unitless values, precision, uncertainty, and conversion provenance.
+Define temporal semantics and timezone alignment, including instants, local civil time, intervals, precision, resolution, ambiguity, timezone-database provenance, and deterministic alignment.
 
-Every unit assertion must remain bound to the exact source and local field through ADR-0006.
+Every temporal assertion must remain bound to the exact source and local field through ADR-0006.
 
 ## Rule
 
