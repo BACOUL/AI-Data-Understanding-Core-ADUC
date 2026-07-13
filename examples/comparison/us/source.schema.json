@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schema/us-motor-reading/1",
+  "title": "US motor reading",
+  "type": "object",
+  "required": ["asset", "motor_temp", "unit", "recorded_at"],
+  "properties": {
+    "asset": {"type": "string"},
+    "motor_temp": {"type": "number"},
+    "unit": {"type": "string"},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

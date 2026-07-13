@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate official ADUC fixtures and published authoring examples."""
+"""Validate official ADUC fixtures and published profile examples."""
 
 from __future__ import annotations
 
@@ -18,7 +18,10 @@ VALID_CASES_PATH = (
 INVALID_CASES_PATH = (
     ROOT / "tests" / "fixtures" / "mapping-profile" / "invalid" / "cases.json"
 )
-AUTHORING_EXAMPLES_PATH = ROOT / "examples" / "authoring"
+PUBLISHED_EXAMPLE_PATHS = (
+    ROOT / "examples" / "authoring",
+    ROOT / "examples" / "comparison",
+)
 
 
 def load_json(path: Path) -> Any:
@@ -67,7 +70,11 @@ def main() -> int:
 
     valid_cases = load_cases(VALID_CASES_PATH)
     invalid_cases = load_cases(INVALID_CASES_PATH)
-    authoring_examples = sorted(AUTHORING_EXAMPLES_PATH.rglob("*.aduc.json"))
+    published_examples = sorted(
+        path
+        for root in PUBLISHED_EXAMPLE_PATHS
+        for path in root.rglob("*.aduc.json")
+    )
     failures: list[str] = []
 
     for case in valid_cases:
@@ -81,10 +88,10 @@ def main() -> int:
         if not errors:
             failures.append(f"Expected INVALID: {case['name']}")
 
-    for path in authoring_examples:
+    for path in published_examples:
         errors = format_errors(validator, load_json(path))
         if errors:
-            failures.append(f"Expected VALID authoring example: {path.relative_to(ROOT)}")
+            failures.append(f"Expected VALID published example: {path.relative_to(ROOT)}")
             failures.extend(f"  {error}" for error in errors)
 
     if failures:
@@ -95,7 +102,7 @@ def main() -> int:
     print(
         f"Validated {len(valid_cases)} valid fixtures, "
         f"{len(invalid_cases)} invalid fixtures, and "
-        f"{len(authoring_examples)} authoring examples."
+        f"{len(published_examples)} published profile examples."
     )
     return 0
 

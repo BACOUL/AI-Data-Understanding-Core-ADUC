@@ -2,47 +2,56 @@
 
 ## Single active task
 
-Begin Gate 5 by specifying and implementing deterministic comparison of two validated ADUC mapping profiles.
+Begin Gate 6 preparation by freezing the JSON-LD and RDF representation of the ADUC mapping profile.
 
 Create:
 
 ```text
-spec/COMPARISON_PROTOCOL_0_1.md
-tools/aduc_compare.py
-tests/comparator/
-examples/comparison/
+docs/decisions/ADR-0003-json-ld-context-and-rdf-representation.md
+context/aduc-context-0.1.jsonld
+spec/RDF_REPRESENTATION_0_1.md
+tests/jsonld/
 ```
 
 ## Objective
 
-Given two schema-valid and semantically valid profiles, identify which local fields are semantically comparable using only the published assertions and without hidden provider-specific mappings.
+Ensure an ADUC JSON profile expands to an RDF graph and round-trips back to a deterministic normalized representation without losing:
 
-## Required behavior
+- profile identity;
+- source binding;
+- local reference;
+- semantic target;
+- mapping relation;
+- mapping status;
+- confidence and confidence method;
+- asserting agent and assertion time;
+- evidence;
+- supersedes relationships.
 
-1. validate both input profiles before comparison;
-2. preserve each local reference, source binding, assertion status and mapping relation;
-3. report an exact semantic match only when the declared targets and relation rules justify it;
-4. report `closeMatch`, `broadMatch`, `narrowMatch` and `relatedMatch` as non-exact candidates;
-5. block automatic comparison when an applicable mapping is `contested`;
-6. expose incompatible canonical mappings instead of choosing one;
-7. distinguish `comparable`, `candidate`, `blocked`, `unmapped` and `notEvaluated` results;
-8. emit deterministic text and JSON reports;
-9. avoid network ontology resolution and hidden aliases in conformance mode;
-10. state explicitly when unit conversion, temporal alignment or entity resolution cannot be evaluated from the supplied artifacts.
+## Required decisions
 
-## Required demonstration
+1. stable namespace strategy during the experimental phase;
+2. remote versus inline JSON-LD context support;
+3. mapping of provenance terms to PROV-O;
+4. mapping-relation compatibility with SKOS;
+5. representation of source binding and local references;
+6. datatype of confidence and timestamps;
+7. deterministic normalized output used for tests;
+8. migration path from placeholder `example.org` context URIs in existing fixtures.
 
-Provide two differently named source fields that map to the same semantic target, plus negative cases showing:
+## Required tests
 
-- same-looking names without a shared target are not matched;
-- a `closeMatch` is not upgraded to exact equivalence;
-- a contested mapping blocks automatic use;
-- missing unit, time or entity metadata is returned as `notEvaluated`, not guessed.
+- expand every official profile example;
+- verify required RDF triples;
+- compact or normalize without losing ADUC meaning;
+- preserve all assertion identifiers;
+- reject or report unresolved context configuration;
+- prove that the JSON Schema and RDF representation describe the same information model.
 
 ## Scope boundary
 
-Do not build automatic ontology search, unit conversion, entity resolution, temporal reasoning, model calls, a registry or the anticipation engine. Gate 5 proves portable semantic comparison only and identifies which additional source-description standards are required for later dimensions.
+Do not begin external model-provider testing, public namespace registration, cryptographic signing, ontology discovery, registry work or the anticipation engine until the representation decision and round-trip tests pass.
 
 ## Completion test
 
-Two independent executions over the same profile pair must produce byte-for-byte equivalent JSON comparison output, and CI must verify all positive and negative cases.
+Every official ADUC profile example must pass JSON Schema validation, semantic validation, JSON-LD expansion and deterministic RDF round-trip tests in GitHub Actions.

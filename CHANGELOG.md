@@ -31,6 +31,11 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - River example progressing from inferred to reviewed mapping
 - Machine example progressing from inferred to publisher-canonical mapping
 - CI discovery of published authoring profile examples
+- Gate 5 deterministic semantic comparison protocol
+- Reference text/JSON profile comparator
+- Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
+- French and US comparison examples with differently named fields sharing a semantic target
+- Explicit `notEvaluated` output for unit, time and entity dimensions
 
 ### Changed
 
@@ -41,6 +46,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking dependencies so URI validation is reproducible
-- Expanded CI to execute semantic-validator unit tests
-- Updated the README to reflect the narrowed profile and validator commands
+- Expanded CI to execute semantic-validator and comparator unit tests
+- Updated the README with authoring, validation and comparison commands
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
+- Extended published-example validation to comparison profiles
