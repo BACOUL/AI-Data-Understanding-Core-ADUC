@@ -1,6 +1,6 @@
 # ADR-0006 — Source Description and Immutable Source Binding
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-07-13
 - Issue: #27
 - Decision owners: ADUC maintainers
@@ -26,7 +26,7 @@ A contract declares one binding mode:
 
 ```text
 content
- description
+description
 content-and-description
 ```
 
