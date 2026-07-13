@@ -6,3 +6,4 @@ Append one entry per merged task. Never rewrite prior entries except to correct 
 |---|---|---|---|---|---|
 | 2026-07-13 | #1 / #2 | Create repository operating structure | 37 changed files; local validator passed; GitHub Actions `contracts` validation passed | Ready for bootstrap merge | Build prior-art matrix |
 | 2026-07-13 | #3 / #4 | Establish the prior-art and standards boundary | Matrix of 13 standards and approaches based on official specifications | Conditional continuation; reject a standalone universal model and evaluate a narrow AI semantic mapping profile | Accept or reject ADR-0002 |
+| 2026-07-13 | #5 / #6 | Freeze the ADUC profile scope and falsifiable promise | Accepted ADR-0002 with v0.1 boundary, consumer rules and stop/pivot conditions | Gate 0 passed; Gate 1 information-model work authorized | Define the minimal semantic mapping assertion model |
