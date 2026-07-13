@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/sitemap.xml

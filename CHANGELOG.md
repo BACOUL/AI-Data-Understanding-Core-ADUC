@@ -43,18 +43,30 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - JSON-LD expansion, compaction and URDNA2015 normalization CLI
 - Six JSON-LD/RDF tests covering ten official profiles and deterministic round-trip behavior
 - Stable JSON-LD processing error codes
+- Provider-neutral multi-model conformance protocol and frozen package
+- Normalized model-result schema and deterministic conformance evaluator
+- Official full-Core working draft `spec/ADUC_CORE_SPEC_0_1.md`
+- Official project structure and master roadmap
+- ADR-0004 positioning the existing semantic-mapping implementation inside the broader ADUC Core
+- First informative ten-block full-Core JSON example
+- English static public website with Home, Specification, Architecture, Roadmap, Example and Try in 5 Minutes pages
+- GitHub Pages deployment workflow
+- Website metadata, robots policy and XML sitemap
+- Deterministic website and full-Core example validation script
 
 ### Changed
 
-- Narrowed the candidate project direction from a standalone universal data model to an AI semantic mapping profile that reuses established standards
-- Made mapping authority, confidence/evidence, deterministic consumer behavior and multi-model conformance the candidate differentiators requiring validation
+- Narrowed the initial implementation direction from a standalone universal data model to a semantic mapping profile that reuses established standards
+- Subsequently clarified through ADR-0004 that the semantic mapping profile is the first implemented subset of the maintainer-approved full ADUC Core program
+- Made mapping authority, confidence/evidence, deterministic consumer behavior and multi-model conformance implemented differentiators requiring validation
 - Marked the broad bootstrap schema as historical and removed it from active fixture validation
-- Reduced v0.1 authority states to `inferred`, `reviewed`, `canonical` and `contested`
+- Reduced the implemented mapping-profile authority states to `inferred`, `reviewed`, `canonical` and `contested`
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator and JSON-LD/RDF unit tests
-- Updated the README with authoring, validation, comparison and RDF commands
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance and website checks
+- Updated the README to distinguish the full-Core mission from the implemented semantic-mapping subset
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
-- Migrated official profiles and fixtures from the placeholder `example.org` context to the pinned experimental context
+- Migrated official mapping profiles and fixtures from the placeholder `example.org` context to the pinned experimental context
+- Replaced the obsolete Gate 6 next action with the full epistemic-lifecycle decision required before the full-Core schema

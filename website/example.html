@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ADUC Complete Example</title>
+  <meta name="description" content="See how raw river monitoring JSON becomes understandable through a complete ADUC Core draft contract.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html">
+  <link rel="stylesheet" href="assets/styles.css"><script defer src="assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><span class="brand-mark">A</span><span class="brand-text">ADUC<small>Working draft</small></span></a><button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">☰</button><nav class="site-nav" id="site-nav" data-site-nav data-open="false"><a href="index.html">Home</a><a href="specification.html">Specification</a><a href="architecture.html">Architecture</a><a href="roadmap.html">Roadmap</a><a href="example.html" aria-current="page">Example</a><a class="nav-cta" href="docs.html">Try in 5 minutes</a></nav></div></header>
+  <main id="main">
+    <header class="page-hero"><div class="container"><div class="breadcrumbs"><a href="index.html">Home</a> / Example</div><div class="eyebrow">Raw data → portable understanding</div><h1>River station R42</h1><p class="lead">A four-field JSON record is easy to parse but incomplete to interpret. The accompanying ADUC contract adds structure, meaning, identity, time, provenance, uncertainty, relations and usage conditions.</p><div class="action-row"><a class="button" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/tree/main/examples/basic-json">Open example files</a><a class="button secondary" href="specification.html">Read the specification</a></div></div></header>
+
+    <section><div class="container">
+      <div class="notice"><strong>Draft limitation:</strong> this is the first informative full-Core example. The final <code>aduc-core.schema.json</code> has not yet been implemented, so the example must not be described as fully validated Core conformance.</div>
+      <div class="code-grid" style="margin-top:1.2rem">
+        <div class="code-panel"><div class="code-panel-header"><span>river-r42.data.json</span><button class="copy-button" data-copy-target="#raw-data">Copy</button></div><pre id="raw-data"><code>{
+  "station": "R42",
+  "flow": 118,
+  "quality": 2,
+  "timestamp": "2026-07-13T12:00:00Z"
+}</code></pre></div>
+        <div class="card"><h2 style="font-size:1.8rem">What is missing?</h2><ul><li>What does <code>flow</code> mean?</li><li>Which unit applies?</li><li>What does quality code <code>2</code> mean?</li><li>Is the timestamp observation time or ingestion time?</li><li>What identity system defines <code>R42</code>?</li><li>Who produced the measurement?</li><li>What uncertainty applies?</li><li>Which uses are permitted?</li></ul></div>
+      </div>
+    </div></section>
+
+    <section class="section-soft"><div class="container">
+      <div class="section-heading"><div><div class="eyebrow">The contract</div><h2>Meaning attached without rewriting the source.</h2></div><p>The complete example uses all ten candidate Core blocks. The extract below focuses on the field semantics and context; the repository file also includes resource binding, identity, provenance, uncertainty, relations and policy.</p></div>
+      <div class="code-panel"><div class="code-panel-header"><span>river-r42.aduc.json — selected extract</span><button class="copy-button" data-copy-target="#contract-code">Copy</button></div><pre id="contract-code"><code>{
+  "aduc": {
+    "version": "0.1.0-draft",
+    "contractId": "urn:aduc:contract:river-r42:2026-07-13",
+    "status": "reviewed"
+  },
+  "semantics": {
+    "fields": {
+      "flow": {
+        "concept": "https://example.org/vocab/env/WaterDischarge",
+        "unit": "https://qudt.org/vocab/unit/M3-PER-SEC",
+        "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "mappingStatus": "reviewed",
+        "confidence": 0.96,
+        "confidenceMethod": "urn:aduc:method:human-review-v1"
+      },
+      "quality": {
+        "concept": "https://example.org/vocab/quality/ObservationQualityCode",
+        "valueMap": {
+          "2": "https://example.org/vocab/quality/Provisional"
+        },
+        "mappingStatus": "canonical"
+      }
+    }
+  },
+  "context": {
+    "timeField": "timestamp",
+    "timeMeaning": "observationTime",
+    "timezone": "UTC",
+    "spatialCoverage": "France"
+  },
+  "uncertainty": {
+    "measurements": [{
+      "appliesTo": "flow",
+      "relativeError": 0.04,
+      "confidenceLevel": 0.95
+    }]
+  }
+}</code></pre></div>
+    </div></section>
+
+    <section><div class="container">
+      <div class="section-heading"><div><div class="eyebrow">Expected interpretation</div><h2>What a compatible consumer should preserve.</h2></div><p>ADUC does not simply produce a prettier data dictionary. It defines portable claims and the confidence or authority attached to each claim.</p></div>
+      <div class="grid-3">
+        <article class="card"><div class="icon-box">≈</div><h3>Semantic meaning</h3><p><code>flow</code> represents water discharge measured in cubic metres per second.</p></article>
+        <article class="card"><div class="icon-box">2</div><h3>Code meaning</h3><p><code>quality = 2</code> means the observation is provisional, according to the source authority’s value map.</p></article>
+        <article class="card"><div class="icon-box">◷</div><h3>Time meaning</h3><p><code>timestamp</code> is observation time in UTC, not merely an undocumented date string.</p></article>
+        <article class="card"><div class="icon-box">ID</div><h3>Identity</h3><p><code>R42</code> uses the declared station identifier scheme and represents a hydrometric station.</p></article>
+        <article class="card"><div class="icon-box">±</div><h3>Uncertainty</h3><p>The flow measurement carries a declared relative error of 4% at a 95% confidence level.</p></article>
+        <article class="card"><div class="icon-box">§</div><h3>Usage conditions</h3><p>The example declares public classification and intended uses such as research and flood-risk analysis.</p></article>
+      </div>
+    </div></section>
+
+    <section class="section-soft"><div class="container">
+      <div class="section-heading"><div><div class="eyebrow">Why status matters</div><h2>Reviewed is not canonical.</h2></div><p>The <code>flow</code> mapping is reviewed by a hydrologist, while the quality-code mapping is canonical because it is published by the source authority. A compatible AI must preserve that difference.</p></div>
+      <div class="grid-2"><div class="notice success"><strong>Reviewed claim:</strong> strong human review evidence, but not necessarily published by the source owner.</div><div class="notice"><strong>Canonical claim:</strong> published by the declared source authority, but still dependent on authority verification and conflict handling.</div></div>
+    </div></section>
+
+    <section><div class="container cta-panel"><div><div class="eyebrow">Next demonstration</div><h2>Two sources, units, time and uncertain identity.</h2><p class="lead">The target interoperability example compares a French Celsius source and a US Fahrenheit source while keeping the possible machine identity unresolved until evidence exists.</p></div><div class="action-row"><a class="button" href="roadmap.html">See the demonstration plan</a><a class="button secondary" href="docs.html">Run current tools</a></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="container"><div class="footer-grid"><div><a class="brand" href="index.html"><span class="brand-mark">A</span><span class="brand-text">ADUC<small>AI Data Understanding Core</small></span></a><p>Experimental open specification for portable data understanding.</p></div><div><h3>Project</h3><a href="specification.html">Specification</a><a href="architecture.html">Architecture</a><a href="roadmap.html">Roadmap</a></div><div><h3>Build</h3><a href="example.html">Example</a><a href="docs.html">Try in 5 minutes</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a></div><div><h3>Files</h3><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/examples/basic-json/river-r42.data.json">Raw data</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/examples/basic-json/river-r42.aduc.json">ADUC contract</a></div></div><div class="footer-bottom"><span>© <span data-year>2026</span> ADUC contributors.</span><span>Working draft · Not yet a recognized standard</span></div></div></footer>
+</body>
+</html>

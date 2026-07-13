@@ -2,61 +2,73 @@
 
 ## Single active task
 
-Begin Gate 6 by freezing the provider-neutral multi-model conformance protocol without claiming that interoperability has already been demonstrated.
+Define and accept the complete ADUC epistemic lifecycle before implementing the full-Core JSON Schema.
 
 Create:
 
 ```text
-spec/MULTI_MODEL_CONFORMANCE_PROTOCOL_0_1.md
-schema/model-conformance-result.schema.json
-examples/conformance/
-tests/conformance/
-tools/aduc_conformance.py
+docs/decisions/ADR-0005-complete-epistemic-lifecycle.md
+spec/EPISTEMIC_STATUS_MODEL_0_1.md
 ```
 
 ## Objective
 
-Define a reproducible evaluation in which at least two independent AI consumers receive the same source descriptions, ADUC profiles and task instructions, then return normalized results that can be compared without provider-specific hidden mappings.
+Define exactly how ADUC represents and consumes:
 
-## Required protocol decisions
+```text
+unknown
+inferred
+reviewed
+verified
+canonical
+contested
+deprecated
+```
 
-1. fixed input package and cryptographic file inventory;
-2. provider-neutral task instructions;
-3. prohibited hidden context, memory, browsing and ontology lookup;
-4. required output fields and evidence references;
-5. normalization of model output before scoring;
-6. pass/fail rules for comparable, candidate, blocked and unmapped mappings;
-7. preservation of authority status, relation and `notEvaluated` dimensions;
-8. recording of provider, model, version, date, parameters and raw output;
-9. disagreement and failure reporting;
-10. distinction between deterministic tool conformance and probabilistic model behavior.
+The decision must preserve the existing immutable mapping-assertion model while adding the missing full-Core lifecycle states without ambiguous authority or confidence semantics.
 
-## Required test package
+## Required decisions
 
-At minimum include scenarios for:
+1. whether all seven values are one property or whether publication authority, review state, conflict state, and lifecycle state require separate properties;
+2. the precise difference between `reviewed` and `verified`;
+3. the precise difference between `verified` and `canonical`;
+4. how `unknown` is represented without inventing a semantic target;
+5. how `deprecated` relates to immutable replacement and `supersedes`;
+6. whether `contested` is a mapping status, conflict state, or separate assertion relation;
+7. when confidence is required, optional, or forbidden;
+8. evidence requirements for every state;
+9. consumer selection and blocking rules;
+10. migration from the current four-state semantic-mapping schema.
 
-- differently named fields with one reviewed/canonical exact target;
-- an inferred mapping that must remain a candidate;
-- a `closeMatch` that must not become exact;
-- a contested mapping that must remain blocked;
-- identical local names with different targets that must not be joined;
-- unit, time and entity dimensions that must remain `notEvaluated` when absent.
+## Required counterexamples
 
-## Required tooling
+The specification must reject or explicitly block:
 
-The local harness must:
+- an `unknown` mapping that includes a fabricated semantic target;
+- an automatically inferred mapping marked `verified`;
+- a reviewed mapping presented as source-owner canonical;
+- a canonical mapping that uses probability as a substitute for authority;
+- a contested mapping silently selected as authoritative;
+- a deprecated mapping without a documented reason or replacement behavior;
+- an in-place mutation of a published assertion.
 
-- create a frozen conformance package;
-- validate the package inventory;
-- validate normalized result files against the result schema;
-- compare independent result files deterministically;
-- generate a machine-readable conformance report;
-- never call a model provider automatically in CI.
+## Compatibility requirement
+
+The current implemented states:
+
+```text
+inferred
+reviewed
+canonical
+contested
+```
+
+must remain interpretable. The ADR must define whether they map directly into the full model or require a versioned migration.
 
 ## Scope boundary
 
-Do not embed API keys, call paid model APIs in GitHub Actions, tune prompts for one provider, add hidden semantic aliases, claim interoperability before real external runs, build a public registry or implement the anticipation engine.
+Do not implement the complete full-Core schema, compiler, review UI, registry, extensions, or anticipation engine in this task. Do not add states merely because they sound useful; every state must change deterministic producer or consumer behavior.
 
 ## Completion test
 
-Gate 6 protocol preparation passes when an independent tester can download one frozen package, run it manually against two different AI systems, store raw and normalized outputs, and obtain a deterministic local pass/fail comparison. Actual multi-model interoperability remains unproven until two qualifying external runs are committed with reproducible evidence.
+An independent implementer must be able to classify the reference examples and every counterexample consistently, explain the authority and confidence represented by each state, and derive deterministic consumer behavior without private guidance.

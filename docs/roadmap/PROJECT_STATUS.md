@@ -1,76 +1,139 @@
 # Project Status
 
-- Project: AI Data Understanding Core (working title)
-- Current phase: Gate 6 — Multi-model conformance protocol
+- Project: AI Data Understanding Core (working name)
+- Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: JSON-LD/RDF interoperability passed; multi-model protocol work authorized
+- Overall status: full-Core mission and architecture are defined; the implemented mapping profile remains a partial experimental subset
 
-## Completed
+## Official direction
 
-- Initial repository operating structure
-- Initial project charter
-- Initial non-goals
-- Initial execution method
-- Prior-art matrix covering structure, semantics, datasets, APIs, events, provenance, quality, policy, observations, validation and operational data contracts
-- ADR-0002 accepting ADUC as an AI semantic mapping and conformance profile over established standards
-- v0.1 boundary limited to semantic mappings for JSON and CSV datasets
-- Falsifiable initial interoperability promise and explicit stop/pivot conditions
-- Minimal semantic mapping assertion model
-- Reduced status model: `inferred`, `reviewed`, `canonical`, `contested`
-- Immutable assertion lifecycle and deterministic consumer invariants
-- Candidate Draft 2020-12 semantic mapping profile schema
-- Four valid and ten invalid official schema fixtures
-- User-facing text and JSON validator
-- Stable validation error catalogue
-- Semantic checks for duplicate IDs, self-replacement, replacement cycles and canonical conflicts
-- Local trusted-authority warnings for canonical mappings
-- Eight validator unit tests including CLI exit codes
-- Manual authoring and review workflow
-- Two end-to-end authoring examples covering reviewed and canonical publication
-- Deterministic semantic comparison protocol
-- Reference profile comparator with text and JSON reports
-- Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
-- French and US source examples with differently named fields mapped to one semantic target
-- Explicit `notEvaluated` reporting for missing unit, time and entity information
-- ADR-0003 experimental JSON-LD namespace and offline context strategy
-- Protected local context `urn:aduc:context:0.1`
-- ADUC experimental term namespace `urn:aduc:term:`
-- RDF representation reusing Dublin Core Terms, PROV-O, SKOS IRIs and XSD datatypes
-- JSON-LD expansion, compaction and URDNA2015 N-Quads normalization tool
-- Migration of all official profiles and fixtures from the placeholder context URI
-- Six JSON-LD/RDF tests covering ten official profiles, graph evidence, ordering independence and offline context rejection
-- GitHub Actions execution of 14 fixtures, 6 published profiles, 8 validator tests, 9 comparator tests and 6 JSON-LD/RDF tests
+ADUC is an open, model-independent contract intended to let data describe:
+
+```text
+structure
+semantics
+identity
+context
+provenance
+uncertainty
+relations
+policy
+```
+
+to AI systems, agents, and applications.
+
+The complete candidate contract is organized into ten blocks:
+
+```text
+aduc
+resource
+structure
+semantics
+identity
+context
+provenance
+uncertainty
+relations
+policy
+```
+
+`spec/ADUC_CORE_SPEC_0_1.md` is the authoritative full-Core working draft.
+
+ADR-0004 preserves the current semantic-mapping work as the first implemented experimental subset of the `semantics` block. It is not the complete Core.
+
+## Completed project foundation
+
+- repository governance and contribution structure;
+- project charter and non-goals;
+- execution method and decision records;
+- prior-art matrix covering thirteen standards and approaches;
+- official project structure;
+- official master plan;
+- complete full-Core working draft;
+- ADR-0004 positioning the existing semantic profile inside the full Core;
+- first informative ten-block full-Core example;
+- English static public website source;
+- GitHub Pages deployment workflow;
+- website and example validation script.
+
+## Completed experimental semantic-mapping implementation
+
+- minimal semantic-mapping assertion model;
+- immutable assertion lifecycle;
+- implemented statuses: `inferred`, `reviewed`, `canonical`, and `contested`;
+- Draft 2020-12 semantic-mapping profile schema;
+- four valid and ten invalid official mapping fixtures;
+- text and JSON CLI validator;
+- stable validation error catalogue;
+- duplicate-ID, lifecycle-cycle, canonical-conflict, and authority-warning checks;
+- manual authoring and review workflow;
+- river and machine authoring examples;
+- deterministic semantic comparison protocol and CLI;
+- French and US comparison sources with differently named fields;
+- explicit `notEvaluated` behavior for absent unit, time, and identity dimensions;
+- ADR-0003 JSON-LD namespace and offline context strategy;
+- protected local context `urn:aduc:context:0.1`;
+- JSON-LD expansion, compaction, and URDNA2015 RDF normalization;
+- provider-neutral multi-model conformance protocol, frozen package, result schema, and deterministic evaluator.
 
 ## Evidence-based findings
 
-- Existing standards collectively cover almost all categories proposed for the original ADUC Core.
-- Croissant is the closest existing foundation for datasets and must not be duplicated.
-- ADUC focuses on mapping status, authority, confidence/evidence, explicit relation, deterministic AI-consumer behavior and cross-model conformance.
-- `unknown`, `verified` and `deprecated` are not required as mapping authority states in v0.1.
-- JSON Schema can enforce conditional field rules but cannot prove publisher authority, target equivalence or cross-document trust.
-- A local trust option can suppress an authority warning but does not constitute cryptographic or global proof.
-- Unmapped fields belong in a coverage report rather than targetless portable assertions.
-- Comparable semantics do not by themselves establish unit conversion, temporal alignment or entity identity.
-- Same-looking field names are insufficient when their published semantic targets differ.
-- Deterministic semantic comparison is possible using only shared targets, relations and authority states.
-- Official profiles can be expanded and round-tripped as RDF without network access or graph loss.
-- URN-based experimental identifiers avoid false ownership claims but are not yet dereferenceable public Web identifiers.
+- Existing standards collectively cover most individual capabilities in the original vision and must be reused rather than duplicated.
+- Croissant is a strong foundation for dataset description but does not alone provide the complete ADUC consumer contract.
+- Semantic mapping status, authority, evidence, uncertainty, and deterministic consumer behavior remain useful integration concerns.
+- Comparable semantic targets alone do not establish compatible units, time alignment, or entity identity.
+- Same-looking local field names are insufficient when semantic targets differ.
+- Unknown or contested interpretations must not be silently upgraded.
+- JSON Schema cannot prove publisher authority, factual truth, global identity, or legal permission.
+- A frozen provider-neutral harness can test agreement, but illustrative results are not external interoperability proof.
+- The public website must distinguish the full-Core vision from the currently implemented subset.
+
+## Full-Core version 0.1 scoreboard
+
+| Deliverable | Status |
+|---|---|
+| Core specification | Working draft created |
+| Official full-Core JSON Schema | Not implemented |
+| Ten valid full-Core examples | 1 informative example created |
+| Ten invalid full-Core examples | Not implemented |
+| CLI validator | Partial: semantic-mapping profile only |
+| JSON/CSV compiler | Not implemented |
+| Minimal review interface | Not implemented |
+| Core vocabulary | Partial: semantic-mapping JSON-LD context only |
+| Two-source comparison | Partial: semantic targets; units/time/identity absent |
+| Two-model demonstration | Harness exists; external proof absent |
+| Conformance suite | Partial implementation |
+| Try in 5 minutes | English website guide created for current tools |
 
 ## Not yet validated
 
-- Provider-neutral multi-model conformance package and result schema
-- Actual runs against two independent AI consumers
-- Public HTTPS namespace
-- Public name and acronym
-- Commercial model
+- normative cardinalities and rules for all ten Core blocks;
+- complete seven-state epistemic lifecycle;
+- unit identifier and conversion strategy;
+- temporal semantics and alignment;
+- entity identity and equivalence;
+- complete policy profile;
+- migration from the mapping-profile document to the full Core envelope;
+- full-Core JSON Schema;
+- JSON and CSV compiler;
+- review interface;
+- qualifying external runs from two independent AI consumers;
+- public HTTPS namespace and final project name;
+- commercial adoption model.
 
 ## Active blockers
 
-- Multi-model evaluation protocol and normalized result schema are not frozen
-- No qualifying external model runs have been committed
-- Authority verification mechanism is not defined
-- Public namespace migration is deferred
+- full-Core normative ADRs have not been accepted;
+- full-Core schema family does not exist;
+- the first complete example is informative rather than schema-validatable;
+- unit, time, and identity comparison cannot be demonstrated from the current semantic-only profile;
+- no qualifying external model runs have been committed;
+- the public name remains provisional.
+
+## Next gate
+
+Accept the complete epistemic-lifecycle decision and define how `unknown`, `inferred`, `reviewed`, `verified`, `canonical`, `contested`, and `deprecated` interact with immutable assertions, authority, confidence, evidence, and replacements.
 
 ## Rule
 

@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schema/aduc-core.schema.json",
+  "aduc": {
+    "version": "0.1.0-draft",
+    "contractId": "urn:aduc:contract:river-r42:2026-07-13",
+    "status": "reviewed",
+    "createdAt": "2026-07-13T12:15:00Z",
+    "conformsTo": [
+      "urn:aduc:core:0.1-draft"
+    ],
+    "publisher": "https://data.example.org/agency/river-monitoring"
+  },
+  "resource": {
+    "type": "dataset",
+    "format": "application/json",
+    "location": "./river-r42.data.json",
+    "version": "2026-07-13T12:00:00Z",
+    "hash": "sha256:REPLACE_WITH_ACTUAL_RESOURCE_DIGEST"
+  },
+  "structure": {
+    "representation": "record",
+    "recordType": "observation",
+    "primaryKey": [
+      "station",
+      "timestamp"
+    ],
+    "fields": {
+      "station": {
+        "type": "string",
+        "required": true
+      },
+      "flow": {
+        "type": "number",
+        "required": true
+      },
+      "quality": {
+        "type": "integer",
+        "required": true
+      },
+      "timestamp": {
+        "type": "datetime",
+        "required": true
+      }
+    }
+  },
+  "semantics": {
+    "fields": {
+      "station": {
+        "concept": "https://example.org/vocab/env/HydrometricStationIdentifier",
+        "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "mappingStatus": "canonical",
+        "assertedBy": "https://data.example.org/agency/river-monitoring",
+        "assertedAt": "2026-07-13T12:10:00Z",
+        "evidence": [
+          "https://data.example.org/dictionary/river-observations-v4#station"
+        ]
+      },
+      "flow": {
+        "concept": "https://example.org/vocab/env/WaterDischarge",
+        "unit": "https://qudt.org/vocab/unit/M3-PER-SEC",
+        "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "mappingStatus": "reviewed",
+        "confidence": 0.96,
+        "confidenceMethod": "urn:aduc:method:human-review-v1",
+        "assertedBy": "urn:person:hydrologist-reviewer-7",
+        "assertedAt": "2026-07-13T12:10:00Z",
+        "evidence": [
+          "https://data.example.org/dictionary/river-observations-v4#flow"
+        ]
+      },
+      "quality": {
+        "concept": "https://example.org/vocab/quality/ObservationQualityCode",
+        "valueMap": {
+          "0": "https://example.org/vocab/quality/Unknown",
+          "1": "https://example.org/vocab/quality/Validated",
+          "2": "https://example.org/vocab/quality/Provisional",
+          "3": "https://example.org/vocab/quality/Rejected"
+        },
+        "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "mappingStatus": "canonical",
+        "assertedBy": "https://data.example.org/agency/river-monitoring",
+        "assertedAt": "2026-07-13T12:10:00Z",
+        "evidence": [
+          "https://data.example.org/dictionary/river-observations-v4#quality"
+        ]
+      },
+      "timestamp": {
+        "concept": "http://www.w3.org/ns/sosa/resultTime",
+        "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "mappingStatus": "reviewed",
+        "assertedBy": "urn:person:hydrologist-reviewer-7",
+        "assertedAt": "2026-07-13T12:10:00Z",
+        "evidence": [
+          "https://data.example.org/dictionary/river-observations-v4#timestamp"
+        ]
+      }
+    }
+  },
+  "identity": {
+    "subjectField": "station",
+    "subjectType": "https://example.org/vocab/env/HydrometricStation",
+    "identifierScheme": "urn:example:river-monitoring:station-id",
+    "identityStatus": "canonical"
+  },
+  "context": {
+    "timeField": "timestamp",
+    "timeMeaning": "observationTime",
+    "timezone": "UTC",
+    "spatialCoverage": "France",
+    "timeResolution": "PT15M"
+  },
+  "provenance": {
+    "producer": "https://data.example.org/agency/river-monitoring",
+    "sourceType": "officialSensorNetwork",
+    "method": "ultrasonicMeasurement",
+    "generatedAt": "2026-07-13T12:00:00Z",
+    "instrument": "urn:example:sensor:R42-flow-01"
+  },
+  "uncertainty": {
+    "measurements": [
+      {
+        "appliesTo": "flow",
+        "relativeError": 0.04,
+        "confidenceLevel": 0.95,
+        "method": "urn:example:method:sensor-calibration-2026"
+      }
+    ]
+  },
+  "relations": [
+    {
+      "type": "http://www.w3.org/ns/prov#wasDerivedFrom",
+      "target": "urn:example:dataset:river-r42-raw-sensor-feed",
+      "status": "canonical"
+    }
+  ],
+  "policy": {
+    "classification": "public",
+    "permittedPurposes": [
+      "research",
+      "floodRiskAnalysis"
+    ],
+    "prohibitedPurposes": [
+      "individualCreditScoring"
+    ],
+    "notice": "This example is informative and does not replace legal or contractual usage terms."
+  }
+}
