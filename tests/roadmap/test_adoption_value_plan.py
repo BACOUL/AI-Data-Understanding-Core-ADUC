@@ -30,11 +30,11 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_uncertainty_is_the_single_active_task(self) -> None:
+    def test_relations_are_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("uncertainty and data-quality strategy", text)
-        self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
-        self.assertIn("ADR-0010", text)
+        self.assertIn("general-relation semantics", text)
+        self.assertIn("ADR-0011", text)
+        self.assertIn("RELATION_PROFILE_0_1.md", text)
         self.assertNotIn("implement the JSON/CSV compiler now", text.lower())
 
     def test_readme_exposes_cross_cutting_and_completed_profiles(self) -> None:
@@ -45,8 +45,10 @@ class AdoptionValuePlanTests(unittest.TestCase):
         self.assertIn("TEMPORAL_PROFILE_0_1.md", text)
         self.assertIn("IDENTITY_PROFILE_0_1.md", text)
         self.assertIn("PROVENANCE_PROFILE_0_1.md", text)
+        self.assertIn("UNCERTAINTY_PROFILE_0_1.md", text)
         self.assertIn("candidateOnly", text)
         self.assertIn("replayable", text)
+        self.assertIn("0.9 °F", text)
 
 
 if __name__ == "__main__":
