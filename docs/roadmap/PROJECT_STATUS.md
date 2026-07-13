@@ -1,10 +1,10 @@
 # Project Status
 
-- Project: AI Data Understanding Core (working name)
+- Project: AI Data Understanding Core — working name
 - Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: mission, architecture, epistemic lifecycle, adoption gates, source binding, units, temporal semantics, entity identity, provenance, uncertainty, and data quality are defined and reference-tested; general relations are the next Core decision, and the official full-Core schema is not yet implemented
+- Overall status: eight foundational Core decisions are specified and reference-tested; policy and permitted-use conditions are the final domain profile required before the normative Core object model and schema family can be frozen
 
 ## Official direction
 
@@ -23,7 +23,7 @@ policy
 
 to AI systems, agents, and applications.
 
-The complete candidate contract contains ten blocks:
+The candidate envelope contains:
 
 ```text
 aduc
@@ -38,159 +38,105 @@ relations
 policy
 ```
 
-`spec/ADUC_CORE_SPEC_0_1.md` is the authoritative full-Core working draft.
+`spec/ADUC_CORE_SPEC_0_1.md` remains the full-Core working draft.
 
 ## Completed foundation
 
-- repository governance, contribution rules, ADR method, roadmap, execution ledger, and CI;
+- governance, contribution rules, ADR method, roadmap, execution ledger, and CI;
 - prior-art matrix and official full-Core program;
 - first informative ten-block example;
-- English public website with GitHub Pages and Vercel deployment;
-- ADR-0005 epistemic lifecycle and evaluator;
-- ADR-0006 immutable source-binding profile and evaluator;
-- ADR-0007 unit and conversion profile and evaluator;
-- ADR-0008 temporal profile and evaluator;
-- ADR-0009 identity and safe-equivalence profile and evaluator;
-- ADR-0010 provenance and transformation-lineage profile and evaluator;
-- ADR-0011 uncertainty and data-quality profile and evaluator;
-- official adoption and value-validation gates;
-- semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling, and multi-model harness.
+- English website with GitHub Pages and Vercel deployment;
+- semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling, and provider-neutral multi-model harness;
+- adoption and value-validation gates;
+- ADR-0005 epistemic lifecycle;
+- ADR-0006 source description and immutable binding;
+- ADR-0007 units and deterministic conversion;
+- ADR-0008 temporal semantics and timezone alignment;
+- ADR-0009 entity identity and safe equivalence;
+- ADR-0010 provenance and transformation lineage;
+- ADR-0011 uncertainty and DQV-compatible data quality;
+- ADR-0012 general relation semantics.
 
-## Accepted Core decisions
+## Accepted Core profile evidence
 
-### Epistemic lifecycle
+| Profile | Evidence |
+|---|---|
+| Epistemic lifecycle | 9 valid, 8 invalid, deterministic evaluator |
+| Source binding | 3 valid, 10 invalid, 7 tests |
+| Units | 5 valid, 15 invalid, 9 tests |
+| Time | 9 valid, 15 invalid, 7 tests |
+| Identity | 9 valid, 17 invalid, 9 tests |
+| Provenance | 7 valid, 20 invalid, 8 tests |
+| Uncertainty and quality | 14 valid, 24 invalid, 10 tests |
+| General relations | 13 valid, 20 invalid, 10 tests |
 
-Authority, confidence, conflict, and lifecycle are separate claims. Unresolved fields remain explicitly unknown; inferred, reviewed, verified, canonical, contested, and deprecated states are represented without silent promotion.
+## General relation decision
 
-### Source binding
+ADR-0012 and `spec/RELATION_PROFILE_0_1.md` establish that:
 
-ADUC separates resource content, structural description, and local field reference. SHA-256 binds immutable content; mutable URLs and version labels are insufficient. Croissant, JSON Schema, OpenAPI, and DCAT retain authority for their structural models.
+- vocabulary definitions, relation assertions, and consumer inferences are separate;
+- predicates use absolute IRIs from authoritative vocabularies;
+- endpoints are bound and typed;
+- direction, inverse, symmetry, and transitivity are never guessed;
+- `skos:closeMatch` is not equality;
+- `owl:sameAs` requires a qualifying identity-profile decision;
+- `skos:broader` closure yields `skos:broaderTransitive`;
+- absence means unknown rather than false;
+- negative claims require explicit assertions;
+- correlation, dependency, or temporal order do not prove causation;
+- contested, deprecated, out-of-scope, contradictory, or cyclic relations block automatic use;
+- qualifying assertions export deterministically to JSON-LD/RDF.
 
-### Units and conversions
+## Adoption and value constraints
 
-ADUC separates quantity kind, dimension, role, global unit identifier, local code, authority, and conversion evidence. Reference evidence includes five valid conversions, fifteen invalid cases, nine tests, and `89 °C = 192.2 °F`.
+Before compiler or interoperability success claims, the project must demonstrate:
 
-### Temporal semantics
-
-Fixed instants, named-zone civil times, roles, precision, uncertainty, interval boundaries, exact durations, and calendar periods remain distinct. Ambiguous and nonexistent civil times block automatic use. The reference profile resolves `13/07/2026 14:00` in `Europe/Paris` to `2026-07-13T12:00:00Z`.
-
-### Entity identity
-
-Entity, identifier, label, relation assertion, and merge decision are separate. Inferred similarity remains `candidateOnly`; qualifying verified or canonical exact identity may produce `mergeAllowed`; `owl:sameAs` is never emitted for a candidate relation.
-
-### Provenance and transformation lineage
-
-ADUC reuses W3C PROV-O and separates artifacts, activities, agents, execution evidence, derivations, invalidations, disclosure, and reproducibility. Material inputs and outputs are hash-bound. Observed, attested, inferred, partial, and redacted lineage remain distinct. Manual intervention cannot be hidden.
-
-Reference evidence:
-
-- seven valid provenance cases;
-- twenty invalid mutation fixtures;
-- eight tests;
-- one chain from source bytes through parsing, conversion, temporal resolution, identity linking, and comparison.
-
-### Uncertainty and data quality
-
-ADR-0011 separates:
-
-```text
-measurement or value uncertainty
-semantic confidence
-model confidence or calibrated probability
-data-quality measurement
-epistemic authority
-```
-
-The profile supports standard, expanded, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty; missingness and censoring; DQV-compatible quality measurements; explicit dependence; and a small deterministic propagation subset.
-
-Key rules:
-
-- canonical authority never implies zero uncertainty;
-- decimal formatting never establishes precision;
-- model scores require calibration evidence before being treated as probability;
-- unknown dependence blocks generic propagation;
-- affine offsets apply to measured values, not uncertainty magnitudes;
-- missing and censored values remain explicit;
-- quality metrics remain tied to their metric, target, method, provenance, and disclosure state;
-- unsupported propagation fails safely.
-
-Reference evidence:
-
-- fourteen valid uncertainty and quality cases;
-- twenty-four invalid counterexamples;
-- ten evaluator and CLI tests;
-- `0.5 °C` standard uncertainty converts to `0.9 °F`;
-- independent uncertainties `3` and `4` propagate to `5`;
-- independent relative uncertainties `0.03` and `0.04` propagate to `0.05`;
-- rectangular resolution `0.1` contributes `0.028867513459481`.
-
-## Adoption and value-validation constraints
-
-Before compiler or interoperability success claims, the project must provide:
-
-- declared inference modes and exact evidence;
-- method/version-bound confidence;
-- manual mapping versus `infer + review` benchmark;
-- review-tax report;
-- controlled with-ADUC versus without-ADUC evaluation;
-- at least 30% lower median assisted human time in the initial alpha target without lower final correctness;
-- no silently accepted critical false mapping;
+- declared inference modes and evidence;
+- method-bound calibrated confidence;
+- manual mapping versus `infer + review` timing;
+- review-tax measurement;
+- controlled evaluation with and without ADUC;
+- at least 30% lower median assisted human time in the provisional alpha target;
+- no lower final correctness and no silently accepted critical false mapping;
 - MCP only as an optional future adapter.
 
-## Full-Core version 0.1 scoreboard
+## Full-Core v0.1 scoreboard
 
 | Deliverable | Status |
 |---|---|
-| Core specification | Working draft created |
-| Epistemic lifecycle | Defined and reference-tested |
-| Adoption/value plan | Defined; benchmarks not yet run |
-| Source binding | Defined and reference-tested |
-| Units and conversions | Defined and reference-tested |
-| Temporal semantics | Defined and reference-tested |
-| Entity identity | Defined and reference-tested |
-| Provenance and transformation lineage | Defined and reference-tested |
-| Uncertainty and data quality | Defined and reference-tested |
-| General relations | Next action |
-| Policy and permitted use | Not implemented |
+| Core working draft | Created |
+| Epistemic lifecycle | Complete |
+| Source binding | Complete |
+| Units and conversions | Complete |
+| Temporal semantics | Complete |
+| Entity identity | Complete |
+| Provenance and lineage | Complete |
+| Uncertainty and quality | Complete |
+| General relations | Complete |
+| Policy and permitted use | Next action |
+| Normative Core object model | Not implemented |
 | Official full-Core JSON Schema | Not implemented |
-| Ten valid full-Core examples | One informative complete example; profile-specific fixtures exist |
-| Ten invalid full-Core examples | Not implemented |
-| CLI validator | Partial reference tools exist |
+| Ten valid complete examples | Not implemented |
+| Ten invalid complete examples | Not implemented |
+| Unified Core validator/comparator | Not implemented |
 | JSON/CSV compiler | Not implemented |
 | Review interface | Not implemented |
-| Core vocabulary | Partial |
-| Unified two-source comparison | Separate profile behavior exists; unified comparison absent |
-| Two-model demonstration | Harness exists; external proof and baseline comparison absent |
-| MCP adapter | Deferred until Core stability |
-| Try in 5 minutes | English guide exists for current tools |
-
-## Not yet validated
-
-- general relation semantics;
-- policy and permitted-use rules;
-- normative full-Core object model and JSON Schema family;
-- migration tooling into the complete Core envelope;
-- JSON/CSV compiler and review interface;
-- inference calibration and manual-versus-assisted performance;
-- with/without-ADUC external model performance;
-- two qualifying independent AI runs;
-- final HTTPS namespace and project name;
-- optional MCP adapter and commercial adoption model.
+| Value benchmark | Not run |
+| External multi-model proof | Not established |
 
 ## Active blockers
 
-- ADR-0012 general relation semantics does not exist;
-- policy boundaries remain undefined;
-- full-Core schema boundaries do not exist;
-- the complete example is not yet schema-validatable;
-- end-to-end comparison has not unified all profile dimensions;
-- no qualifying external model runs or value benchmarks exist;
+- ADR-0013 policy and permitted-use conditions does not exist;
+- normative Core envelope and modular boundaries are not frozen;
+- the complete example is not schema-validatable;
+- current reference tools are separate rather than unified;
+- no qualifying value benchmark or external multi-model runs exist;
 - the public name remains provisional.
 
 ## Next gate
 
-Define general relation semantics, including predicate identity, direction, inverse, temporal and contextual qualification, authority, evidence, provenance, uncertainty, symmetry, transitivity, conflict, deprecation, and deterministic consumer behavior.
+Define the policy and permitted-use profile, including permissions, prohibitions, duties, parties, purposes, temporal and territorial scope, evidence, provenance, disclosure, conflicts, lifecycle, deterministic consumer outcomes, and the boundary between machine evaluation and human legal interpretation.
 
 ## Rule
 
-This file reports evidence, not optimism. Do not mark an item complete without a linked artifact or passing check.
+This file reports evidence, not optimism. Do not mark an item complete without a linked artifact and passing checks.

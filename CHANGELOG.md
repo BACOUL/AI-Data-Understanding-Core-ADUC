@@ -21,63 +21,36 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Protected local JSON-LD context, RDF representation, URDNA2015 normalization, and offline round-trip tests.
 - Provider-neutral multi-model conformance harness with frozen package and explicitly non-qualifying illustrative runs.
 
-### ADR-0005 — Epistemic lifecycle
+### Accepted Core profiles
 
-- Separate representations for unknown coverage, assertion authority, conflict, and deprecation.
-- Effective states: `unknown`, `inferred`, `reviewed`, `verified`, `canonical`, `contested`, and `deprecated`.
-- Nine valid lifecycle cases, eight invalid counterexamples, deterministic evaluator, and tests.
+- ADR-0005 — epistemic lifecycle: nine valid cases, eight invalid cases, deterministic evaluator.
+- ADR-0006 — immutable source binding: three valid cases, ten invalid cases, seven tests.
+- ADR-0007 — units and conversions: five valid cases, fifteen invalid cases, nine tests.
+- ADR-0008 — temporal semantics: nine valid cases, fifteen invalid cases, seven tests.
+- ADR-0009 — identity and safe equivalence: nine valid cases, seventeen invalid cases, nine tests.
+- ADR-0010 — provenance and transformation lineage: seven valid cases, twenty invalid cases, eight tests.
+- ADR-0011 — uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
+- ADR-0012 — general relation semantics: thirteen valid cases, twenty invalid cases, ten tests.
 
-### ADR-0006 — Source description and immutable binding
+### ADR-0012 — General relation semantics
 
-- Exact resource, descriptor, version, SHA-256, and local-field binding.
-- Croissant, JSON Schema, OpenAPI, and DCAT remain authoritative for their structures.
-- JSON, CSV, and embedded OpenAPI examples; three valid and ten invalid cases; deterministic evaluator and seven tests.
-
-### ADR-0007 — Units and conversions
-
-- Quantity kind, dimension, quantity role, global unit identity, local aliases, conversion, rounding, uncertainty, and provenance.
-- Pinned QUDT/UCUM-derived reference subset and exact decimal/rational conversion.
-- Five valid and fifteen invalid cases, nine tests, including `89 °C = 192.2 °F`.
-
-### ADR-0008 — Temporal semantics
-
-- Fixed instants, local civil time, timezone evidence, roles, intervals, precision, uncertainty, exact durations, and calendar periods.
-- Pinned IANA TZDB reference evidence.
-- Nine valid and fifteen invalid cases, seven tests, including Paris local-time alignment and DST ambiguity detection.
-
-### ADR-0009 — Entity identity and safe equivalence
-
-- Separate entity, identifier, label, relation assertion, and merge decision.
-- Namespace-qualified local identity, protected identifiers, temporal validity, conflict, privacy, and strict `owl:sameAs` gates.
-- Nine valid and seventeen invalid cases, nine tests.
-
-### ADR-0010 — Provenance and transformation lineage
-
-- PROV-O-based entities, activities, agents, derivations, invalidations, disclosure, and reproducibility.
-- Bound inputs and outputs, software/model versions, environments, parameters, prompts, tools, seeds, and manual interventions.
-- Seven valid provenance cases, twenty invalid mutations, eight tests, and one end-to-end source-to-comparison chain.
-
-### ADR-0011 — Uncertainty and data quality
-
-- Separate measurement uncertainty, semantic confidence, model probability, DQV-compatible data quality, and epistemic authority.
-- Standard, expanded, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty.
-- Missingness, censoring, exactness, calibration, dependence, affine conversion, deterministic propagation, and quality disclosure.
-- Fourteen valid reference cases, twenty-four invalid mutations, deterministic evaluator, and ten tests.
-- Reference results:
-
-```text
-0.5 °C standard uncertainty -> 0.9 °F
-3 and 4 independent standard uncertainties -> 5
-0.03 and 0.04 independent relative uncertainties -> 0.05
-resolution 0.1 rectangular contribution -> 0.028867513459481
-```
+- Pinned predicate profile reusing RDF, OWL, SKOS, PROV-O, Dublin Core Terms, and explicit ADUC experimental predicates.
+- Separate vocabulary definitions, relation assertions, and consumer inferences.
+- Bound resource and literal endpoints with authority, evidence, provenance, temporal/contextual scope, uncertainty, conflict, and lifecycle.
+- Authorized inverse, symmetry, and transitive-closure behavior only.
+- `skos:closeMatch` kept distinct from exact equality.
+- `skos:broader` closure emits `skos:broaderTransitive`, not a fabricated direct broader assertion.
+- Strict `owl:sameAs` identity-profile gate.
+- Open-world unknown behavior and explicit negative assertions.
+- Causal inference blocked for correlation, dependency, and temporal order.
+- Functional, inverse-functional, disjoint-predicate, and acyclic-graph conflict checks.
+- Deterministic qualified JSON-LD/RDF export.
 
 ### Changed
 
-- Narrowed the implemented differentiator to portable semantic mappings and deterministic consumer behavior while preserving the maintainer-approved full-Core program.
+- Reused established standards rather than creating competing structure, unit, time, identity, provenance, uncertainty, quality, or relation vocabularies.
 - Required measurable user value, review cost, confidence calibration, and controlled baselines before compiler or interoperability success claims.
-- Reused established standards rather than creating competing structure, unit, time, identity, provenance, uncertainty, or quality vocabularies.
-- Required exact source and execution evidence instead of mutable locations, labels, or model names.
-- Blocked silent assumptions about uncertainty, independence, exactness, identity, time, provenance, or authority.
-- Expanded CI through uncertainty and quality checks.
-- Advanced the single active task from uncertainty and data quality to general relation semantics.
+- Required exact source, execution, predicate, and evidence binding instead of mutable locations, local labels, or model names.
+- Blocked silent assumptions about uncertainty, independence, exactness, identity, time, provenance, relation inverse, transitivity, causality, or authority.
+- Expanded CI through general-relation checks.
+- Advanced the single active task from general relations to policy and permitted-use conditions.
