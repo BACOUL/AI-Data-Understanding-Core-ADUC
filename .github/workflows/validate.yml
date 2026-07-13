@@ -30,6 +30,11 @@ jobs:
           cat conformance-test.log
           printf '%s\n' "$status" > conformance-test.status
           exit "$status"
+      - name: Generate current conformance manifest
+        if: always()
+        run: |
+          python tools/aduc_conformance.py freeze examples/conformance/package > frozen-manifest-output.json
+          cp examples/conformance/package/manifest.json current-manifest.json
       - name: Upload conformance diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -38,6 +43,8 @@ jobs:
           path: |
             conformance-test.log
             conformance-test.status
+            frozen-manifest-output.json
+            current-manifest.json
       - name: Validate website
         if: always()
         run: python tools/validate_website.py
