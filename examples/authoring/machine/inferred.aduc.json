@@ -1,0 +1,29 @@
+{
+  "@context": "https://example.org/aduc/context/0.1",
+  "id": "urn:aduc:profile:motor-reading-12-inferred",
+  "conformsTo": "urn:aduc:profile:0.1",
+  "describes": "https://factory.example/schema/motor-reading/12",
+  "validFor": {
+    "source": "https://factory.example/schema/motor-reading",
+    "version": "12"
+  },
+  "referenceScheme": "json-pointer",
+  "issuedAt": "2026-07-13T14:00:00Z",
+  "assertions": [
+    {
+      "id": "urn:aduc:assertion:motor-heat-inferred-1",
+      "localReference": "/properties/motor_heat",
+      "semanticTarget": "https://example.org/quantity/Temperature",
+      "mappingRelation": "http://www.w3.org/2004/02/skos/core#closeMatch",
+      "status": "inferred",
+      "confidence": 0.72,
+      "confidenceMethod": "urn:method:manual-evidence-score:1",
+      "assertedBy": "urn:tool:authoring-example",
+      "assertedAt": "2026-07-13T13:50:00Z",
+      "evidence": [
+        "urn:evidence:field-name-motor-heat",
+        "urn:evidence:unit-fahrenheit"
+      ]
+    }
+  ]
+}
