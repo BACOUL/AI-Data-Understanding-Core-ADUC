@@ -1,0 +1,283 @@
+{
+  "protocol": "urn:aduc:epistemic-invalid-cases:0.1",
+  "cases": [
+    {
+      "caseId": "unknown-with-fabricated-target",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [
+          {
+            "id": "urn:coverage:x",
+            "resolutionStatus": "unknown",
+            "reason": "noCandidate",
+            "recordedBy": "urn:agent:test",
+            "recordedAt": "2026-07-13T15:00:00Z",
+            "semanticTarget": "urn:concept:Fabricated"
+          }
+        ],
+        "assertions": [],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "inferred-without-confidence",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:inferred:no-confidence",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "inferred",
+            "assertedBy": "urn:model:test",
+            "assertedAt": "2026-07-13T15:01:00Z",
+            "confidenceMethod": "urn:method:test",
+            "evidence": ["urn:evidence:test"]
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "automatic-inference-marked-verified",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:verified:no-record",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "verified",
+            "assertedBy": "urn:model:test",
+            "assertedAt": "2026-07-13T15:02:00Z"
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "reviewed-claiming-source-authority",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:reviewed:authority",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:reviewer",
+            "assertedAt": "2026-07-13T15:03:00Z",
+            "review": {
+              "reviewedBy": "urn:person:reviewer",
+              "reviewedAt": "2026-07-13T15:03:00Z",
+              "reviewScope": "plausibility",
+              "evidence": ["urn:evidence:review"]
+            },
+            "authority": {
+              "sourceAuthority": "urn:org:publisher",
+              "evidence": ["urn:evidence:authority"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "canonical-with-probability",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:canonical:confidence",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "canonical",
+            "assertedBy": "urn:org:publisher",
+            "assertedAt": "2026-07-13T15:04:00Z",
+            "confidence": 0.99,
+            "confidenceMethod": "urn:method:test",
+            "authority": {
+              "sourceAuthority": "urn:org:publisher",
+              "evidence": ["urn:evidence:authority"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "challenge-without-evidence",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:reviewed:challenged",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:reviewer",
+            "assertedAt": "2026-07-13T15:05:00Z",
+            "review": {
+              "reviewedBy": "urn:person:reviewer",
+              "reviewedAt": "2026-07-13T15:05:00Z",
+              "reviewScope": "plausibility",
+              "evidence": ["urn:evidence:review"]
+            }
+          }
+        ],
+        "challenges": [
+          {
+            "id": "urn:challenge:no-evidence",
+            "targetsAssertion": "urn:assertion:reviewed:challenged",
+            "challengeStatus": "open",
+            "reason": "unsupported interpretation",
+            "challengedBy": "urn:person:expert",
+            "challengedAt": "2026-07-13T15:06:00Z",
+            "evidence": []
+          }
+        ],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "deprecation-without-reason",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:reviewed:retired",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "reviewed",
+            "assertedBy": "urn:person:reviewer",
+            "assertedAt": "2026-07-13T15:07:00Z",
+            "review": {
+              "reviewedBy": "urn:person:reviewer",
+              "reviewedAt": "2026-07-13T15:07:00Z",
+              "reviewScope": "plausibility",
+              "evidence": ["urn:evidence:review"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": [
+          {
+            "id": "urn:deprecation:no-reason",
+            "targetsAssertion": "urn:assertion:reviewed:retired",
+            "deprecatedBy": "urn:org:publisher",
+            "effectiveAt": "2026-07-13T15:08:00Z"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    },
+    {
+      "caseId": "published-assertion-mutated-in-place",
+      "recordSet": {
+        "source": "urn:source:test",
+        "validFor": "urn:schema:test:1",
+        "localReference": "/properties/x",
+        "coverage": [],
+        "assertions": [
+          {
+            "id": "urn:assertion:reused-id",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "inferred",
+            "assertedBy": "urn:model:test",
+            "assertedAt": "2026-07-13T15:09:00Z",
+            "confidence": 0.8,
+            "confidenceMethod": "urn:method:test",
+            "evidence": ["urn:evidence:test"]
+          },
+          {
+            "id": "urn:assertion:reused-id",
+            "semanticTarget": "urn:concept:X",
+            "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+            "authorityStatus": "canonical",
+            "assertedBy": "urn:org:publisher",
+            "assertedAt": "2026-07-13T15:10:00Z",
+            "authority": {
+              "sourceAuthority": "urn:org:publisher",
+              "evidence": ["urn:evidence:authority"]
+            }
+          }
+        ],
+        "challenges": [],
+        "deprecations": []
+      },
+      "expected": {
+        "valid": false,
+        "effectiveState": "invalid",
+        "action": "rejected",
+        "selectedAssertionId": null
+      }
+    }
+  ]
+}
