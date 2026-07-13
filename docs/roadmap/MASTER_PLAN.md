@@ -1,7 +1,7 @@
 # ADUC Master Plan
 
 - Status: Official execution plan
-- Working name: AI Data Understanding Core (ADUC)
+- Working name: AI Data Understanding Core — ADUC
 - Date: 2026-07-13
 - Rule: complete phases in order unless an accepted ADR changes the order
 
@@ -15,8 +15,8 @@ A source publisher can attach one portable ADUC contract to JSON or CSV data. In
 2. Document every normative decision.
 3. Reuse established standards whenever possible.
 4. Never promote automatic inference silently.
-5. Preserve unknown, unsupported, conflicting, and redacted information.
-6. Use frozen inputs and reproducible evidence for demonstrations.
+5. Preserve unknown, unsupported, conflicting, redacted, and prohibited information.
+6. Use frozen inputs and reproducible evidence.
 7. Do not claim interoperability before two independent consumers pass.
 8. Keep TimeProofs and the anticipation engine separate.
 9. Keep the public website English-first.
@@ -37,17 +37,18 @@ Implemented reference foundations:
 - entity identity and safe equivalence;
 - provenance and transformation lineage;
 - uncertainty, missingness, censoring, propagation, and DQV-compatible quality;
+- general relation semantics and deterministic graph safeguards;
 - governance, CI, execution ledger, English website, GitHub Pages, and Vercel deployment.
 
-These components are reference implementations of selected Core behavior. They are not yet the complete ADUC Core envelope.
+These are reference implementations of selected Core behavior, not yet the complete ADUC Core envelope.
 
-## Phase 0 — Full-Core definition
+# Phase 0 — Full-Core definition
 
-### Objective
+## Objective
 
 Freeze the mission, boundaries, fundamental profiles, official roadmap, and one complete example before implementing the full-Core JSON Schema.
 
-### Completed
+## Completed
 
 - [x] mission and non-goals;
 - [x] prior-art matrix;
@@ -61,28 +62,28 @@ Freeze the mission, boundaries, fundamental profiles, official roadmap, and one 
 - [x] identity profile;
 - [x] provenance profile;
 - [x] uncertainty and data-quality profile;
+- [x] general relation profile;
 - [x] adoption and value-validation plan;
 - [x] English public website.
 
-### Remaining
+## Remaining
 
-- [ ] general relation semantics;
-- [ ] policy and permitted-use boundaries;
+- [ ] policy and permitted-use profile;
 - [ ] normative Core object model and modular schema boundaries;
 - [ ] one complete example validated against the candidate Core schema;
 - [ ] name and trademark research before public name freeze.
 
-### Exit gate
+## Exit gate
 
-An independent developer can explain every Core block, its relationship to existing standards, and the deterministic behavior for unknown or unsafe information.
+An independent developer can explain every Core block, its relationship to existing standards, and the deterministic behavior for unknown, unsafe, prohibited, or incomplete information.
 
-## Phase 1 — Standard v0.1
+# Phase 1 — Standard v0.1
 
-### Objective
+## Objective
 
 Convert the full-Core working draft into a coherent, reviewable specification and schema family.
 
-### Deliverables
+## Deliverables
 
 - [ ] normative Core object model;
 - [ ] `schema/aduc-core.schema.json`;
@@ -94,20 +95,20 @@ Convert the full-Core working draft into a coherent, reviewable specification an
 - [ ] ten intentionally invalid examples;
 - [ ] migration design from the current mapping-profile format.
 
-### Exit gate
+## Exit gate
 
 Every official valid example passes and every official invalid example fails for the documented reason.
 
-## Phase 2 — Reference implementation
+# Phase 2 — Reference implementation
 
-### Objective
+## Objective
 
 Provide deterministic local tooling for the complete Core.
 
-### Deliverables
+## Deliverables
 
 - [ ] full-Core CLI validator;
-- [ ] stable error catalogue;
+- [ ] stable unified error catalogue;
 - [ ] contract formatter;
 - [ ] unified comparator across concepts, units, time, identity, provenance, uncertainty, relations, and policy;
 - [ ] TypeScript SDK;
@@ -116,13 +117,13 @@ Provide deterministic local tooling for the complete Core.
 - [ ] package publication plan;
 - [ ] updated “Try in 5 minutes” guide.
 
-### Exit gate
+## Exit gate
 
 A developer can install the tools, validate a complete contract, and compare two example sources without maintainer assistance.
 
-## Phase 3 — JSON/CSV compiler
+# Phase 3 — JSON/CSV compiler
 
-### Objective
+## Objective
 
 Create provisional ADUC contracts from existing JSON and CSV sources.
 
@@ -133,16 +134,16 @@ Structural inspection
     ↓
 Field profiling
     ↓
-Concept, unit, time, identity, and provenance proposals
+Concept, unit, time, identity, provenance, uncertainty and relation proposals
     ↓
-Uncertainty and quality evidence capture
+Policy evidence capture without invented permission
     ↓
 Ambiguity and contradiction report
     ↓
 Provisional inferred contract
 ```
 
-### Deliverables
+## Deliverables
 
 - [ ] JSON importer;
 - [ ] CSV importer;
@@ -151,21 +152,22 @@ Provisional inferred contract
 - [ ] identifier candidate detection;
 - [ ] semantic concept proposal interface;
 - [ ] provenance and uncertainty evidence capture;
+- [ ] relation candidates without unsafe closure;
 - [ ] method-bound confidence;
 - [ ] deterministic export;
 - [ ] no silent promotion beyond `inferred`.
 
-### Exit gate
+## Exit gate
 
-The compiler generates valid provisional contracts for the reference JSON and CSV examples and reports every unresolved field.
+The compiler generates valid provisional contracts for the reference JSON and CSV examples and reports every unresolved field and policy gap.
 
-## Phase 4 — Review interface
+# Phase 4 — Review interface
 
-### Objective
+## Objective
 
-Let a reviewer inspect only uncertain, unsupported, or conflicting parts.
+Let a reviewer inspect only uncertain, unsupported, conflicting, or prohibited parts.
 
-### Deliverables
+## Deliverables
 
 - [ ] unknown-field queue;
 - [ ] low-confidence mapping queue;
@@ -179,13 +181,13 @@ Let a reviewer inspect only uncertain, unsupported, or conflicting parts.
 - [ ] source-authority publication flow;
 - [ ] portable final export.
 
-### Exit gate
+## Exit gate
 
-A reviewer can turn a provisional contract into reviewed or canonical assertions without rewriting history.
+A reviewer can turn a provisional contract into reviewed or canonical assertions without rewriting history or inventing permissions.
 
-## Phase 5 — Value and interoperability proof
+# Phase 5 — Value and interoperability proof
 
-### Reference scenario
+## Reference scenario
 
 - French machine source with Celsius and local date format;
 - US machine source with Fahrenheit and UTC timestamp;
@@ -194,7 +196,7 @@ A reviewer can turn a provisional contract into reviewed or canonical assertions
 - explicit provenance and uncertainty;
 - policies permitting the tested use.
 
-### Required conclusions
+## Required conclusions
 
 - equivalent temperature concept;
 - explicit Celsius/Fahrenheit conversion;
@@ -203,7 +205,7 @@ A reviewer can turn a provisional contract into reviewed or canonical assertions
 - provenance and uncertainty remain visible;
 - prohibited or unsupported use remains blocked.
 
-### Deliverables
+## Deliverables
 
 - [x] provider-neutral harness foundation;
 - [x] frozen input-package foundation;
@@ -214,24 +216,21 @@ A reviewer can turn a provisional contract into reviewed or canonical assertions
 - [ ] external run A;
 - [ ] external run B from a distinct provider or implementation;
 - [ ] raw-output hashes;
-- [ ] normalized result files;
+- [ ] normalized results;
 - [ ] deterministic comparison report;
 - [ ] public reproduction instructions.
 
-### Exit gate
+## Exit gate
 
 - at least 30% lower median assisted human time without lower final correctness;
 - no critical false mapping silently accepted;
 - two independent consumers qualify and agree without hidden mappings.
 
+# Later phases
+
 ## Phase 6 — First extension
 
-Build only after the Core passes the value and interoperability gate.
-
-Candidate first extension:
-
-- Dataset Extension; or
-- Live Data Extension.
+Build Dataset or Live Data only after the Core passes the value and interoperability gate.
 
 ## Phase 7 — Situation & Action extension
 
@@ -256,7 +255,7 @@ ADUC Core
 - professional support;
 - independent governance transition.
 
-## Public website rules
+# Public website rules
 
 - no claim that ADUC is recognized or adopted;
 - no claim that multi-model interoperability is already proven;
@@ -265,18 +264,17 @@ ADUC Core
 - mobile-first and accessible;
 - no dependency on a proprietary SaaS.
 
-## Immediate execution sequence
+# Immediate execution sequence
 
-1. Accept general relation semantics.
-2. Accept policy and permitted-use boundaries.
-3. Freeze the normative Core object model.
-4. Implement the schema family.
-5. Create ten complete valid and ten invalid examples.
-6. Build the unified validator and comparator.
-7. Build compiler and review tooling.
-8. Run value and multi-model proofs.
+1. Accept policy and permitted-use conditions.
+2. Freeze the normative Core object model.
+3. Implement the schema family.
+4. Create ten complete valid and ten invalid examples.
+5. Build the unified validator and comparator.
+6. Build compiler and review tooling.
+7. Run value and multi-model proofs.
 
-## Stop and pivot rules
+# Stop and pivot rules
 
 Narrow, revise, or stop a feature when:
 
@@ -284,10 +282,11 @@ Narrow, revise, or stop a feature when:
 - independent implementers cannot use it from the specification;
 - independent consumers interpret conforming contracts incompatibly;
 - uncertainty is lost or silently upgraded;
+- relation semantics or permissions are invented;
 - domain logic is forced into the Core instead of an extension;
 - adoption requires a proprietary hosted service;
 - assisted mapping is not measurably better than the manual baseline.
 
-## Definition of progress
+# Definition of progress
 
 Progress means passing reproducible gates, not adding pages, fields, or claims.
