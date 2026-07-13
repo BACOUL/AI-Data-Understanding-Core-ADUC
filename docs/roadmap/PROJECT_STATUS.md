@@ -1,10 +1,10 @@
 # Project Status
 
 - Project: AI Data Understanding Core (working title)
-- Current phase: Gate 5 — Semantic comparison
+- Current phase: Gate 6 preparation — JSON-LD and RDF interoperability
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 4 passed; semantic-comparison work authorized
+- Overall status: Gate 5 implemented; independent CI evidence pending merge
 
 ## Completed
 
@@ -27,12 +27,13 @@
 - Semantic checks for duplicate IDs, self-replacement, replacement cycles and canonical conflicts
 - Local trusted-authority warnings for canonical mappings
 - Eight validator unit tests including CLI exit codes
-- GitHub Actions execution of schema fixtures and all eight validator tests
 - Manual authoring and review workflow
-- Separation of portable profiles from authoring-state and coverage records
-- Role definitions for curator, inference producer, reviewer, source authority and consumer
 - Two end-to-end authoring examples covering reviewed and canonical publication
-- Four published authoring profiles validated in GitHub Actions
+- Deterministic semantic comparison protocol
+- Reference profile comparator with text and JSON reports
+- Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
+- French and US source examples with differently named fields mapped to one semantic target
+- Explicit `notEvaluated` reporting for missing unit, time and entity information
 
 ## Evidence-based findings
 
@@ -43,21 +44,25 @@
 - JSON Schema can enforce conditional field rules but cannot prove publisher authority, target equivalence or cross-document trust.
 - A local trust option can suppress an authority warning but does not constitute cryptographic or global proof.
 - Unmapped fields belong in a coverage report rather than targetless portable assertions.
-- Authoring history is useful operational evidence but must remain separate from the minimal portable profile.
+- Comparable semantics do not by themselves establish unit conversion, temporal alignment or entity identity.
+- Same-looking field names are insufficient when their published semantic targets differ.
 
 ## Not yet validated
 
-- Deterministic comparison of two semantic mapping profiles
+- GitHub Actions result for comparator tests and comparison examples
 - JSON-LD context and RDF round-trip
+- Stable experimental namespace
 - Falsifiable multi-model demonstration protocol details
 - Public name and acronym
 - Commercial model
 
 ## Active blockers
 
-- Comparison protocol and reference comparator not implemented
-- Authority verification mechanism not defined
-- Demonstration fixtures and evaluation protocol not frozen
+- Gate 5 PR and combined CI not yet merged
+- JSON-LD context is still a placeholder URI
+- RDF representation and round-trip tests are not defined
+- Authority verification mechanism is not defined
+- Multi-model evaluation protocol is not frozen
 
 ## Rule
 
