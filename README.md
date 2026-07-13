@@ -12,7 +12,7 @@ Two otherwise incompatible JSON or CSV datasets, accompanied by the same source 
 
 ## Project status
 
-- Stage: Gate 3 — reference validator
+- Stage: Gate 5 — semantic comparison
 - Release line: `0.1.0-alpha.x`
 - Current task: see [`docs/roadmap/NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
 - Status: see [`docs/roadmap/PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md)
@@ -24,16 +24,18 @@ Two otherwise incompatible JSON or CSV datasets, accompanied by the same source 
 3. [`METHOD.md`](docs/method/METHOD.md)
 4. [`ADR-0002`](docs/decisions/ADR-0002-aduc-as-an-ai-semantic-mapping-profile.md)
 5. [`Semantic Mapping Assertion Model`](spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md)
-6. [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
-7. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
+6. [`Authoring Workflow`](spec/AUTHORING_WORKFLOW_0_1.md)
+7. [`Comparison Protocol`](spec/COMPARISON_PROTOCOL_0_1.md)
+8. [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
+9. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
 
 ## Repository areas
 
 - `spec/`: information model and conformance drafts
 - `schema/`: machine-validatable JSON Schemas
 - `examples/`: source and profile examples
-- `tools/`: reference validation tools
-- `tests/`: schema and semantic-validator tests
+- `tools/`: reference validation and comparison tools
+- `tests/`: schema, validator and comparator tests
 - `docs/decisions/`: architecture decision records
 - `docs/roadmap/`: status, next action, and execution ledger
 
@@ -43,11 +45,12 @@ Two otherwise incompatible JSON or CSV datasets, accompanied by the same source 
 python -m pip install -r requirements-dev.txt
 ```
 
-## Validate the official fixtures
+## Run the complete local checks
 
 ```bash
 python tools/validate_contracts.py
 python -m unittest discover -s tests/validator -p "test_*.py"
+python -m unittest discover -s tests/comparator -p "test_*.py"
 ```
 
 ## Validate one profile
@@ -72,6 +75,27 @@ python tools/aduc_validate.py path/to/profile.json \
 ```
 
 A locally trusted authority option does not provide cryptographic or global proof. Unverified canonical authority is reported as a warning.
+
+## Compare two profiles
+
+```bash
+python tools/aduc_compare.py \
+  examples/comparison/fr/profile.aduc.json \
+  examples/comparison/us/profile.aduc.json \
+  --trusted-authority-b https://example.org/id/us-data-authority
+```
+
+Machine-readable report:
+
+```bash
+python tools/aduc_compare.py \
+  examples/comparison/fr/profile.aduc.json \
+  examples/comparison/us/profile.aduc.json \
+  --trusted-authority-b https://example.org/id/us-data-authority \
+  --format json
+```
+
+The comparator uses only published semantic targets and relations. Unit conversion, time alignment and entity resolution are reported as `notEvaluated` until compatible source-description profiles provide them.
 
 ## Licensing
 
