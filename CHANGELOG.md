@@ -1,143 +1,83 @@
 # Changelog
 
-All notable changes will be documented here.
-
-The project follows Semantic Versioning after a public interface is defined. During `0.y.z`, breaking changes remain possible and must still be documented.
+All notable changes are documented here. The project follows Semantic Versioning after a public interface is defined. During `0.y.z`, breaking changes remain possible and must still be documented.
 
 ## Unreleased
 
-### Added
+### Project foundation
 
-- Initial repository operating structure
-- Bootstrap specification skeleton
-- Bootstrap JSON Schema
-- Example fixtures and validation workflow
-- Gate 0 prior-art matrix covering thirteen relevant standards and approaches
-- ADR-0002 defining ADUC as an AI semantic mapping and conformance profile
-- Explicit v0.1 resource boundary, falsifiable promise and stop/pivot conditions
-- Gate 1 semantic mapping assertion model with necessity analysis, examples and unsafe counterexamples
-- Immutable assertion lifecycle and deterministic consumer invariants
-- Candidate semantic mapping profile JSON Schema based on Draft 2020-12
-- Four valid and ten invalid official mapping-profile fixtures
-- Active fixture validator and documented schema limitations
-- Reproducible development dependency file including JSON Schema format validation support
-- User-facing semantic validator with text and JSON conformance reports
-- Stable Gate 3 validation error catalogue and exit-code contract
-- Semantic checks for duplicate assertion identifiers, self-superseding assertions, supersedes cycles and canonical conflicts
-- Local trusted-authority option with explicit unverified-authority warnings
-- Eight semantic-validator unit tests including CLI behavior
-- Manual authoring and review workflow with role separation and immutable publication steps
-- Separate authoring-state coverage and event ledgers
-- River example progressing from inferred to reviewed mapping
-- Machine example progressing from inferred to publisher-canonical mapping
-- CI discovery of published authoring profile examples
-- Gate 5 deterministic semantic comparison protocol
-- Reference text/JSON profile comparator
-- Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
-- French and US comparison examples with differently named fields sharing a semantic target
-- Explicit `notEvaluated` output for unit, time and entity dimensions
-- ADR-0003 defining the experimental JSON-LD namespace and offline context strategy
-- Protected local JSON-LD context identified by `urn:aduc:context:0.1`
-- Experimental ADUC RDF term namespace `urn:aduc:term:`
-- RDF representation specification reusing Dublin Core Terms, PROV-O, SKOS IRIs and XSD datatypes
-- JSON-LD expansion, compaction and URDNA2015 normalization CLI
-- Six JSON-LD/RDF tests covering ten official profiles and deterministic round-trip behavior
-- Stable JSON-LD processing error codes
-- Provider-neutral multi-model conformance protocol and frozen package
-- Normalized model-result schema and deterministic conformance evaluator
-- Official full-Core working draft `spec/ADUC_CORE_SPEC_0_1.md`
-- Official project structure and master roadmap
-- ADR-0004 positioning the existing semantic-mapping implementation inside the broader ADUC Core
-- First informative ten-block full-Core JSON example
-- English static public website with Home, Specification, Architecture, Roadmap, Example and Try in 5 Minutes pages
-- GitHub Pages and Vercel static-site deployment configuration
-- Website metadata, robots policy and XML sitemap
-- Deterministic website and full-Core example validation script
-- ADR-0005 defining the complete seven-state effective epistemic lifecycle
-- `spec/EPISTEMIC_STATUS_MODEL_0_1.md` with authority, conflict, lifecycle, confidence, evidence, and migration rules
-- Separate coverage, semantic assertion, challenge, resolution, and deprecation record families
-- Reference epistemic evaluator `tools/aduc_epistemic.py`
-- Nine valid lifecycle cases covering all seven effective states
-- Eight rejected lifecycle counterexamples
-- Epistemic lifecycle unit and CLI tests
-- Official `docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md` cross-cutting plan
-- Four inference evidence modes: structure-only, sample-assisted, documentation-assisted, and publisher-assisted
-- Review-tax measurement model and provisional alpha targets
-- Manual mapping versus `infer + review` benchmark requirements
-- Controlled with-ADUC versus without-ADUC multi-model protocol requirements
-- Confidence-calibration rules prohibiting uncalibrated model self-confidence from being presented as probability
-- MCP integration boundary defining it as an optional future adapter
-- Roadmap tests enforcing adoption-plan discoverability
-- ADR-0006 defining source description and immutable source binding
-- `spec/SOURCE_DESCRIPTION_PROFILE_0_1.md` covering content, description, and combined bindings
-- SHA-256 raw-byte binding and RFC 8785 embedded-JSON canonicalization scope
-- Explicit Croissant, JSON Schema, OpenAPI, DCAT, custom-profile, JSON Pointer, CSV-header, and operation-reference behavior
-- JSON, CSV, and embedded OpenAPI source-binding examples
-- Three valid and ten invalid source-binding cases
-- Reference source-binding evaluator `tools/aduc_source_binding.py`
-- Seven source-binding unit and CLI tests
-- Stable source-binding error families for digest, identity, availability, reference, dialect, and structural-conflict failures
-- ADR-0007 defining unit identifiers, dimensional compatibility, quantity roles, conversion, uncertainty, and provenance
-- `spec/UNIT_PROFILE_0_1.md` profiling QUDT IRIs and UCUM codes without creating a competing unit catalog
-- Pinned unit-registry subset with identifier, version, SHA-256, dimension vectors, quantity kinds, and exact rational/decimal conversion data
-- Five valid reference conversions including Celsius/Fahrenheit, temperature difference, flow rate, percent, and unitless ratio
-- Fifteen invalid unit and conversion counterexamples
-- Deterministic exact conversion evaluator `tools/aduc_units.py`
-- Nine unit compatibility, conversion, uncertainty, registry-integrity, rounding, and CLI tests
-- Stable unit, compatibility, conversion, registry, rounding, and uncertainty error families
-- ADR-0008 defining temporal kinds, roles, lexical evidence, timezone resolution, intervals, duration classes, uncertainty, and deterministic alignment
-- `spec/TEMPORAL_PROFILE_0_1.md` reusing RFC 3339, RFC 9557, IANA TZDB, ISO 8601, and OWL-Time
-- Pinned IANA TZDB `2026c` reference subset for `Europe/Paris` and `UTC`
-- Nine valid temporal reference cases and fifteen invalid counterexamples
-- Deterministic temporal resolver and alignment evaluator `tools/aduc_time.py`
-- Seven temporal unit and CLI tests
-- Stable temporal, timezone, duration, interval, role, and alignment error families
-- ADR-0009 defining entity records, identifier authority, namespace-qualified identity, safe equivalence, privacy, and merge gates
-- `spec/IDENTITY_PROFILE_0_1.md` preserving external DID, GS1, LEI, and domain identifier authority
-- Nine valid identity reference cases and seventeen invalid counterexamples
-- Deterministic identity and safe-merge evaluator `tools/aduc_identity.py`
-- Nine identity evaluator and CLI tests
-- Stable identifier, relation, privacy, lifecycle, and merge error families
-- Purpose-limited pseudonymous and linkage-token identity examples
-- ADR-0010 defining PROV-O-based provenance, transformation lineage, disclosure, invalidation, and reproducibility gates
-- `spec/PROVENANCE_PROFILE_0_1.md` for bound entities, activities, agents, derivations, AI execution, and lineage disclosure
-- Seven valid provenance reference cases including an end-to-end source-to-comparison chain
-- Twenty invalid provenance mutation fixtures
-- Deterministic provenance and lineage evaluator `tools/aduc_provenance.py`
-- Eight provenance evaluator and CLI tests
-- Stable provenance, reproduction, AI-evidence, manual-intervention, and disclosure error families
+- Repository governance, contribution rules, ADR method, execution ledger, roadmap, CI, licenses, security policy, and agent instructions.
+- Prior-art matrix covering thirteen relevant standards and approaches.
+- Official full-Core program, ten-block working draft, first informative complete example, and strict construction order.
+- English public website with GitHub Pages and Vercel static deployment.
+- Adoption and value-validation plan requiring manual-versus-assisted and with-versus-without-ADUC evidence.
+
+### Semantic mapping foundation
+
+- Semantic-mapping assertion model and experimental Draft 2020-12 schema.
+- Valid and invalid fixtures, semantic validator, stable error catalogue, trusted-authority handling, and CLI reports.
+- Authoring and review workflow with immutable publication history.
+- Deterministic semantic comparator and two-source comparison examples.
+- Protected local JSON-LD context, RDF representation, URDNA2015 normalization, and offline round-trip tests.
+- Provider-neutral multi-model conformance harness with frozen package and explicitly non-qualifying illustrative runs.
+
+### ADR-0005 — Epistemic lifecycle
+
+- Separate representations for unknown coverage, assertion authority, conflict, and deprecation.
+- Effective states: `unknown`, `inferred`, `reviewed`, `verified`, `canonical`, `contested`, and `deprecated`.
+- Nine valid lifecycle cases, eight invalid counterexamples, deterministic evaluator, and tests.
+
+### ADR-0006 — Source description and immutable binding
+
+- Exact resource, descriptor, version, SHA-256, and local-field binding.
+- Croissant, JSON Schema, OpenAPI, and DCAT remain authoritative for their structures.
+- JSON, CSV, and embedded OpenAPI examples; three valid and ten invalid cases; deterministic evaluator and seven tests.
+
+### ADR-0007 — Units and conversions
+
+- Quantity kind, dimension, quantity role, global unit identity, local aliases, conversion, rounding, uncertainty, and provenance.
+- Pinned QUDT/UCUM-derived reference subset and exact decimal/rational conversion.
+- Five valid and fifteen invalid cases, nine tests, including `89 °C = 192.2 °F`.
+
+### ADR-0008 — Temporal semantics
+
+- Fixed instants, local civil time, timezone evidence, roles, intervals, precision, uncertainty, exact durations, and calendar periods.
+- Pinned IANA TZDB reference evidence.
+- Nine valid and fifteen invalid cases, seven tests, including Paris local-time alignment and DST ambiguity detection.
+
+### ADR-0009 — Entity identity and safe equivalence
+
+- Separate entity, identifier, label, relation assertion, and merge decision.
+- Namespace-qualified local identity, protected identifiers, temporal validity, conflict, privacy, and strict `owl:sameAs` gates.
+- Nine valid and seventeen invalid cases, nine tests.
+
+### ADR-0010 — Provenance and transformation lineage
+
+- PROV-O-based entities, activities, agents, derivations, invalidations, disclosure, and reproducibility.
+- Bound inputs and outputs, software/model versions, environments, parameters, prompts, tools, seeds, and manual interventions.
+- Seven valid provenance cases, twenty invalid mutations, eight tests, and one end-to-end source-to-comparison chain.
+
+### ADR-0011 — Uncertainty and data quality
+
+- Separate measurement uncertainty, semantic confidence, model probability, DQV-compatible data quality, and epistemic authority.
+- Standard, expanded, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty.
+- Missingness, censoring, exactness, calibration, dependence, affine conversion, deterministic propagation, and quality disclosure.
+- Fourteen valid reference cases, twenty-four invalid mutations, deterministic evaluator, and ten tests.
+- Reference results:
+
+```text
+0.5 °C standard uncertainty -> 0.9 °F
+3 and 4 independent standard uncertainties -> 5
+0.03 and 0.04 independent relative uncertainties -> 0.05
+resolution 0.1 rectangular contribution -> 0.028867513459481
+```
 
 ### Changed
 
-- Narrowed the initial implementation direction from a standalone universal data model to a semantic mapping profile that reuses established standards
-- Subsequently clarified through ADR-0004 that the semantic mapping profile is the first implemented subset of the maintainer-approved full ADUC Core program
-- Made mapping authority, confidence/evidence, deterministic consumer behavior and multi-model conformance implemented differentiators requiring validation
-- Marked the broad bootstrap schema as historical and removed it from active fixture validation
-- Reduced the implemented mapping-profile authority states to `inferred`, `reviewed`, `canonical` and `contested`
-- Required explicit mapping relation and method-bound confidence for inferred mappings
-- Bound active profiles to an identified source plus a version or SHA-256 digest
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, temporal, identity, provenance, roadmap, website, and deployment checks
-- Updated the README to distinguish the full-Core mission from the implemented reference components
-- Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
-- Extended published-example validation to comparison profiles
-- Migrated official mapping profiles and fixtures from the placeholder `example.org` context to the pinned experimental context
-- Replaced the proposed one-property seven-state model with separate authority, conflict, deprecation, and unknown-coverage representations
-- Defined `reviewed`, `verified`, and `canonical` as distinct claims with different evidence and consumer rules
-- Required legacy `status=contested` migration to recover its underlying authority level instead of guessing it
-- Made measurable user value, review cost, confidence calibration, and controlled baseline comparison mandatory before compiler or interoperability success claims
-- Required exact resource and description integrity rather than relying on mutable locations or version labels
-- Kept Croissant, JSON Schema, OpenAPI, and DCAT authoritative for their structural models instead of copying them into ADUC
-- Required global unit identifiers, quantity kinds, dimension vectors, and quantity roles instead of relying on source symbols
-- Required pinned conversion evidence and exact decimal/rational arithmetic instead of mutable remote data or normative binary floating point
-- Distinguished absolute temperature, temperature difference, unitless ratio, percentage, unknown, arbitrary, and contextual units
-- Required explicit temporal roles, formats, precision, uncertainty, interval boundaries, and pinned timezone evidence
-- Blocked ambiguous and nonexistent civil times instead of selecting a UTC instant silently
-- Distinguished exact elapsed durations from calendar-relative periods
-- Separated entity, identifier, label, relation assertion, and merge decision
-- Required namespace, issuer, scheme, canonical value, and temporal validity for local identity
-- Reserved `owl:sameAs` for qualifying verified or canonical exact identity
-- Blocked automatic merge for candidate, conflicting, expired, reassigned, type-incompatible, or privacy-incompatible identity
-- Reused W3C PROV-O rather than defining a competing provenance ontology
-- Required bound inputs/outputs, responsible agents, immutable execution evidence, and explicit disclosure for transformation lineage
-- Distinguished deterministic reproduction from nondeterministic replay, manual intervention, attestation, reconstruction, missing lineage, and redaction
-- Advanced the single active task from provenance and transformation lineage to uncertainty and data quality
+- Narrowed the implemented differentiator to portable semantic mappings and deterministic consumer behavior while preserving the maintainer-approved full-Core program.
+- Required measurable user value, review cost, confidence calibration, and controlled baselines before compiler or interoperability success claims.
+- Reused established standards rather than creating competing structure, unit, time, identity, provenance, uncertainty, or quality vocabularies.
+- Required exact source and execution evidence instead of mutable locations, labels, or model names.
+- Blocked silent assumptions about uncertainty, independence, exactness, identity, time, provenance, or authority.
+- Expanded CI through uncertainty and quality checks.
+- Advanced the single active task from uncertainty and data quality to general relation semantics.
