@@ -1,10 +1,10 @@
 # Project Status
 
 - Project: AI Data Understanding Core (working title)
-- Current phase: Gate 4 — Source authoring workflow
+- Current phase: Gate 5 — Semantic comparison
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 3 passed; authoring-workflow work authorized
+- Overall status: Gate 4 implemented; independent CI evidence pending merge
 
 ## Completed
 
@@ -28,6 +28,11 @@
 - Local trusted-authority warnings for canonical mappings
 - Eight validator unit tests including CLI exit codes
 - GitHub Actions execution of schema fixtures and all eight validator tests
+- Manual authoring and review workflow
+- Separation of portable profiles from authoring-state and coverage records
+- Role definitions for curator, inference producer, reviewer, source authority and consumer
+- Two end-to-end authoring examples covering reviewed and canonical publication
+- Four published authoring profiles added to fixture validation
 
 ## Evidence-based findings
 
@@ -37,10 +42,13 @@
 - `unknown`, `verified` and `deprecated` are not required as mapping authority states in v0.1.
 - JSON Schema can enforce conditional field rules but cannot prove publisher authority, target equivalence or cross-document trust.
 - A local trust option can suppress an authority warning but does not constitute cryptographic or global proof.
+- Unmapped fields belong in a coverage report rather than targetless portable assertions.
+- Authoring history is useful operational evidence but must remain separate from the minimal portable profile.
 
 ## Not yet validated
 
-- Manual authoring and review workflow
+- GitHub Actions result for the four authoring example profiles
+- Deterministic comparison of two semantic mapping profiles
 - JSON-LD context and RDF round-trip
 - Falsifiable multi-model demonstration protocol details
 - Public name and acronym
@@ -48,7 +56,8 @@
 
 ## Active blockers
 
-- Authoring and review lifecycle not specified end to end
+- Gate 4 PR and combined CI not yet merged
+- Comparison protocol and reference comparator not implemented
 - Authority verification mechanism not defined
 - Demonstration fixtures and evaluation protocol not frozen
 
