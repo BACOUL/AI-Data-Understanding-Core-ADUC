@@ -1,0 +1,181 @@
+{
+  "profileVersion": "0.1",
+  "cases": [
+    {
+      "id": "label-used-as-identifier",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [{"identifierId": "urn:id:a", "identifierKind": "label", "lexicalValue": "Main machine", "namespace": "urn:labels", "scheme": "urn:scheme:label", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"}],
+      "relations": [],
+      "expectedError": "ADUC-ID-004"
+    },
+    {
+      "id": "local-identifier-missing-namespace",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [{"identifierId": "urn:id:a", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "scheme": "urn:scheme:local", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"}],
+      "relations": [],
+      "expectedError": "ADUC-ID-002"
+    },
+    {
+      "id": "global-identifier-not-absolute",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [{"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "machine/42", "namespace": "urn:global", "scheme": "urn:scheme:global", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"}],
+      "relations": [],
+      "expectedError": "ADUC-ID-003"
+    },
+    {
+      "id": "pseudonym-exposes-raw-value",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:person", "entityType": "urn:type:Person", "labels": []}],
+      "identifiers": [{"identifierId": "urn:id:pseudo", "identifierKind": "pseudonymous", "lexicalValue": "SECRET-123", "protectedValue": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "protectionMethod": "urn:method:hmac-sha256", "methodVersion": "1", "linkageDomain": "urn:domain:study", "permittedPurposes": ["research"], "namespace": "urn:hospital:pseudo", "scheme": "urn:scheme:pseudo", "issuer": "urn:org:hospital", "subjectEntity": "urn:entity:person", "entityType": "urn:type:Person", "sourceBinding": "urn:binding:pseudo", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:hospital", "evidence": ["urn:evidence:pseudo"], "conflictState": "clear", "lifecycleState": "active"}],
+      "relations": [],
+      "expectedError": "ADUC-ID-005"
+    },
+    {
+      "id": "invalid-validity-interval",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [{"identifierId": "urn:id:a", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:ns", "scheme": "urn:scheme:local", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2026-01-01T00:00:00Z", "end": "2025-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"}],
+      "relations": [],
+      "expectedError": "ADUC-ID-006"
+    },
+    {
+      "id": "overlapping-recycled-identifier",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:factory:machine", "scheme": "urn:scheme:local", "issuer": "urn:org:factory", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z", "end": "2027-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:factory:machine", "scheme": "urn:scheme:local", "issuer": "urn:org:factory", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [],
+      "expectedError": "ADUC-ID-007"
+    },
+    {
+      "id": "relation-endpoint-missing",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [{"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"}],
+      "relations": [{"assertionId": "urn:rel:missing", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:missing", "relation": "possibleMatch", "authorityLevel": "inferred", "confidence": 0.8, "assertedBy": "urn:model:a", "method": "urn:method:link", "evidence": ["urn:evidence:link"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "expectedError": "ADUC-REL-001"
+    },
+    {
+      "id": "possible-match-canonical-authority",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:candidate", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "possibleMatch", "authorityLevel": "canonical", "assertedBy": "urn:org:a", "method": "urn:method:link", "evidence": ["urn:evidence:link"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "expectedError": "ADUC-REL-002"
+    },
+    {
+      "id": "same-entity-inferred-authority",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:unsafe", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "inferred", "confidence": 0.99, "assertedBy": "urn:model:a", "method": "urn:method:similarity", "evidence": ["urn:evidence:similar-readings"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "expectedError": "ADUC-REL-002"
+    },
+    {
+      "id": "same-entity-missing-evidence",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:no-evidence", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "verified", "assertedBy": "urn:org:a", "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "expectedError": "ADUC-REL-003"
+    },
+    {
+      "id": "contradictory-active-relations",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:rel:same", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:a", "method": "urn:method:register", "evidence": ["urn:evidence:same"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"},
+        {"assertionId": "urn:rel:different", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "differentEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:a", "method": "urn:method:register", "evidence": ["urn:evidence:different"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "expectedError": "ADUC-REL-004"
+    },
+    {
+      "id": "incompatible-entity-types",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:machine", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:person", "entityType": "urn:type:Person", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:machine", "identifierKind": "global", "globalIdentifier": "urn:asset:machine", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:machine", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:machine", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:machine"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:person", "identifierKind": "global", "globalIdentifier": "urn:person:1", "namespace": "urn:person", "scheme": "urn:scheme:person", "issuer": "urn:org:b", "subjectEntity": "urn:entity:person", "entityType": "urn:type:Person", "sourceBinding": "urn:binding:person", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:b", "evidence": ["urn:evidence:person"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:wrong-type", "subjectIdentifier": "urn:id:machine", "objectIdentifier": "urn:id:person", "relation": "sameEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:a", "method": "urn:method:register", "evidence": ["urn:evidence:wrong"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "expectedError": "ADUC-REL-005"
+    },
+    {
+      "id": "owl-same-as-requested-for-candidate",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:b", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:b", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:candidate", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "possibleMatch", "authorityLevel": "inferred", "confidence": 0.9, "assertedBy": "urn:model:a", "method": "urn:method:link", "evidence": ["urn:evidence:similarity"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "exportOwlSameAs": true,
+      "expectedError": "ADUC-REL-006"
+    },
+    {
+      "id": "privacy-purpose-mismatch",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "advertising",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Person", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Person", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "pseudonymous", "protectedValue": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "protectionMethod": "urn:method:hmac-sha256", "methodVersion": "1", "linkageDomain": "urn:domain:study", "permittedPurposes": ["research"], "namespace": "urn:ns:a", "scheme": "urn:scheme:pseudo", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Person", "sourceBinding": "urn:binding:a", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "linkageToken", "protectedValue": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "protectionMethod": "urn:method:linkage", "methodVersion": "1", "linkageDomain": "urn:domain:study", "permittedPurposes": ["research"], "namespace": "urn:ns:b", "scheme": "urn:scheme:token", "issuer": "urn:org:b", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Person", "sourceBinding": "urn:binding:b", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:b", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:private", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "verified", "assertedBy": "urn:org:linker", "method": "urn:method:linkage", "evidence": ["urn:evidence:proof"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active", "privacy": {"permittedPurposes": ["research"]}}],
+      "expectedError": "ADUC-PRIV-001"
+    },
+    {
+      "id": "canonical-relation-has-confidence",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:confidence", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "canonical", "confidence": 1.0, "assertedBy": "urn:org:a", "method": "urn:method:register", "evidence": ["urn:evidence:same"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}],
+      "expectedError": "ADUC-REL-002"
+    },
+    {
+      "id": "expired-identifier-used-for-merge",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "maintenance",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z", "end": "2025-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "deprecated"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:expired", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:a", "method": "urn:method:register", "evidence": ["urn:evidence:same"], "validity": {"start": "2020-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active", "privacy": {"permittedPurposes": ["maintenance"]}}],
+      "expectedError": "ADUC-ID-007"
+    },
+    {
+      "id": "contested-exact-relation",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "maintenance",
+      "entities": [{"entityId": "urn:entity:a", "entityType": "urn:type:Machine", "labels": []}, {"entityId": "urn:entity:b", "entityType": "urn:type:Machine", "labels": []}],
+      "identifiers": [
+        {"identifierId": "urn:id:a", "identifierKind": "global", "globalIdentifier": "urn:asset:a", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:a", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:id:b", "identifierKind": "global", "globalIdentifier": "urn:asset:b", "namespace": "urn:asset", "scheme": "urn:scheme:asset", "issuer": "urn:org:a", "subjectEntity": "urn:entity:b", "entityType": "urn:type:Machine", "sourceBinding": "urn:binding:b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [{"assertionId": "urn:rel:contested", "subjectIdentifier": "urn:id:a", "objectIdentifier": "urn:id:b", "relation": "sameEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:a", "method": "urn:method:register", "evidence": ["urn:evidence:same"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "contested", "lifecycleState": "active", "privacy": {"permittedPurposes": ["maintenance"]}}],
+      "expectedError": "ADUC-MERGE-002"
+    }
+  ]
+}

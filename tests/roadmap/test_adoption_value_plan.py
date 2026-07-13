@@ -30,20 +30,21 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_identity_strategy_is_the_single_active_task(self) -> None:
+    def test_provenance_is_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("entity identity and equivalence", text)
+        self.assertIn("provenance and transformation-lineage", text)
         self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
-        self.assertIn("temporal profile", text)
+        self.assertIn("ADR-0009", text)
         self.assertNotIn("implement the JSON/CSV compiler now", text.lower())
 
-    def test_readme_exposes_cross_cutting_and_temporal_gates(self) -> None:
+    def test_readme_exposes_cross_cutting_temporal_and_identity_gates(self) -> None:
         text = README.read_text(encoding="utf-8")
         self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
         self.assertIn("manual mapping", text)
         self.assertIn("with and without ADUC", text)
         self.assertIn("TEMPORAL_PROFILE_0_1.md", text)
-        self.assertIn("2026-07-13T12:00:00Z", text)
+        self.assertIn("IDENTITY_PROFILE_0_1.md", text)
+        self.assertIn("candidateOnly", text)
 
 
 if __name__ == "__main__":

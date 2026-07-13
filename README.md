@@ -12,7 +12,7 @@ AI Data Understanding Core (ADUC) is a model-independent contract intended to le
 
 > Two incompatible sources described with ADUC can be understood and compared consistently by multiple AI systems without rebuilding a different semantic integration for every model.
 
-ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, QUDT, UCUM, RFC 3339, RFC 9557, IANA TZDB, OWL-Time, or MCP.
+ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, QUDT, UCUM, RFC 3339, RFC 9557, IANA TZDB, OWL-Time, OWL identity, DID, GS1, LEI, or MCP.
 
 ## Public website
 
@@ -80,17 +80,17 @@ python tools/aduc_source_binding.py \
 
 ### Units and deterministic conversions
 
-ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, unit identity, dimensional compatibility, quantity roles, exact conversion, uncertainty propagation, rounding, and provenance.
+ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, unit identity, dimensional compatibility, exact conversion, uncertainty propagation, rounding, and provenance.
 
 Reference rules:
 
 - QUDT IRIs identify quantity kinds, units, and dimension vectors;
-- case-sensitive UCUM codes are compact aliases where available;
+- case-sensitive UCUM codes remain compact aliases where available;
 - local codes such as `C`, `F`, or `%` never replace global identifiers;
-- `known`, `unitless`, `unknown`, `arbitrary`, and `contextual` are distinct states;
 - absolute temperature and temperature difference are distinct roles;
-- v0.1 supports exact identity, multiplicative, and affine conversions;
-- currency, calendar, nonlinear, and procedure-defined conversions remain blocked without dedicated context.
+- v0.1 supports exact identity, multiplicative, and affine conversion;
+- the conversion registry is pinned by identifier, version, and SHA-256;
+- contextual conversions remain blocked without their required context.
 
 Reference evaluation:
 
@@ -111,18 +111,16 @@ Validated examples include:
 
 ### Temporal semantics and timezone alignment
 
-ADR-0008 and [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md) define temporal kinds, roles, lexical evidence, timezone resolution, DST ambiguity, intervals, durations, precision, uncertainty, and deterministic alignment.
+ADR-0008 and [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md) distinguish fixed instants, local civil time, intervals, exact durations, calendar periods, temporal roles, precision, uncertainty, and timezone provenance.
 
 Reference rules:
 
 - RFC 3339 represents fixed instants with explicit offsets;
-- RFC 9557 may attach a named timezone to a fixed timestamp;
-- IANA TZDB identifiers and pinned releases resolve local civil times;
-- a numeric offset is not a named timezone;
-- observation, publication, processing, validity, sampling, and aggregation are distinct roles;
+- RFC 9557 may carry named-zone annotations;
+- IANA TZDB releases are pinned for local-time resolution;
 - ambiguous and nonexistent civil times block automatic use;
-- exact durations and calendar-relative periods remain distinct;
-- interval boundaries and uncertainty are explicit.
+- observation, event, publication, processing, validity, sampling, and aggregation are different roles;
+- exact durations and calendar periods are not interchangeable.
 
 Reference evaluation:
 
@@ -132,17 +130,41 @@ python tools/aduc_time.py \
   examples/time/invalid-cases.json
 ```
 
+The reference case proves that `13/07/2026 14:00` in `Europe/Paris` resolves to `2026-07-13T12:00:00Z` under the pinned timezone evidence.
+
+### Entity identity and safe equivalence
+
+ADR-0009 and [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md) distinguish entities, identifiers, labels, relation assertions, and consumer merge decisions.
+
+Reference rules:
+
+- local identifiers require scheme, namespace, issuer, canonical value, and applicable time;
+- global, local, pseudonymous, and linkage-token identifiers remain distinct;
+- matching labels or measurements do not establish identity;
+- `possibleMatch` produces `candidateOnly` and never merges automatically;
+- `sameEntity` requires verified or canonical authority;
+- confidence remains separate from authority;
+- recycled identifiers use non-overlapping validity intervals;
+- conflict, expiry, reassignment, incompatible type, or privacy restrictions block merge;
+- `owl:sameAs` is exported only after a qualifying `mergeAllowed` decision.
+
+Reference evaluation:
+
+```bash
+python tools/aduc_identity.py \
+  examples/identity/reference-cases.json \
+  examples/identity/invalid-cases.json
+```
+
 Validated conclusions include:
 
 ```text
-13/07/2026 14:00 Europe/Paris = 2026-07-13T12:00:00Z
-2026-10-25T02:30:00 Europe/Paris is ambiguous without an occurrence
-2026-03-29T02:30:00 Europe/Paris does not exist
-PT15M = 900 exact seconds
-P1M remains a calendar period requiring context
+canonical M42 / MAIN-B crosswalk -> mergeAllowed
+inferred similarity -> candidateOnly
+same lexical value in different namespaces -> unresolved
+reviewed negative relation -> differentEntity
+broader/narrower relation -> relationOnly
 ```
-
-The reference timezone subset is pinned to IANA TZDB `2026c` evidence and a repository SHA-256 digest.
 
 ## Adoption and value validation
 
@@ -151,7 +173,7 @@ The official cross-cutting plan is [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roa
 ADUC tooling is not successful merely because it produces valid files. Before the compiler and review interface can be called successful, the project must prove that:
 
 - `infer + review` is materially faster than equivalent manual mapping;
-- final semantic correctness is not lower than the manual baseline;
+- final correctness is not lower than the manual baseline;
 - unknown, low-support, and conflicting mappings remain visible;
 - numeric confidence is calibrated before being described as probability;
 - multi-model evaluation compares the same tasks with and without ADUC;
@@ -180,8 +202,9 @@ TimeProofs and the anticipation engine remain separate projects.
 - Source binding: specified and reference-tested
 - Units and conversions: specified and reference-tested
 - Temporal semantics: specified and reference-tested
+- Entity identity: specified and reference-tested
 - Adoption/value validation: defined; benchmarks not yet run
-- Next Core decision: entity identity and equivalence
+- Next Core decision: provenance and transformation lineage
 - Full-Core JSON Schema: not yet implemented
 - External multi-model proof: absent
 
@@ -199,19 +222,21 @@ See:
 3. [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md)
 4. [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md)
 5. [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md)
-6. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-7. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-8. [`METHOD.md`](docs/method/METHOD.md)
-9. [`AGENTS.md`](AGENTS.md) for AI coding agents
+6. [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md)
+7. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+8. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+9. [`METHOD.md`](docs/method/METHOD.md)
+10. [`AGENTS.md`](AGENTS.md) for AI coding agents
 
 ## Implemented today
 
 - project governance, roadmap, ADR method, and CI;
 - full-Core working draft and first ten-block example;
-- complete epistemic reference model and evaluator;
+- epistemic lifecycle profile and evaluator;
 - source-binding profile and evaluator;
-- unit profile, pinned registry subset, exact converter, and evaluator;
-- temporal profile, pinned timezone subset, resolver, and alignment evaluator;
+- unit profile, pinned registry subset, converter, and evaluator;
+- temporal profile, pinned timezone evidence, and evaluator;
+- identity profile and safe merge evaluator;
 - semantic-mapping profile, validator, and comparator;
 - JSON-LD context and offline RDF round-trip;
 - provider-neutral multi-model conformance harness;
@@ -219,9 +244,9 @@ See:
 
 ## Not yet implemented
 
-- entity identity and equivalence;
-- remaining provenance, uncertainty, relation, and policy decisions;
-- official full-Core JSON Schema family;
+- provenance and transformation-lineage profile;
+- complete uncertainty, relation, and policy profiles;
+- normative full-Core object model and JSON Schema family;
 - ten valid and ten invalid complete Core examples;
 - complete Core validator and SDKs;
 - JSON/CSV compiler and review UI;
@@ -242,31 +267,9 @@ python -m unittest discover -s tests/epistemic -p "test_*.py"
 python -m unittest discover -s tests/source_binding -p "test_*.py"
 python -m unittest discover -s tests/units -p "test_*.py"
 python -m unittest discover -s tests/time -p "test_*.py"
+python -m unittest discover -s tests/identity -p "test_*.py"
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python tools/validate_website.py
-```
-
-## Existing reference commands
-
-```bash
-python tools/aduc_epistemic.py \
-  examples/epistemic-status/reference-cases.json \
-  examples/epistemic-status/invalid-cases.json
-```
-
-```bash
-python tools/aduc_validate.py examples/authoring/river/reviewed.aduc.json
-```
-
-```bash
-python tools/aduc_compare.py \
-  examples/comparison/fr/profile.aduc.json \
-  examples/comparison/us/profile.aduc.json \
-  --trusted-authority-b https://example.org/id/us-data-authority
-```
-
-```bash
-python tools/aduc_rdf.py examples/authoring/river/reviewed.aduc.json
 ```
 
 ## Website preview

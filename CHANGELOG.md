@@ -92,6 +92,13 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Deterministic temporal resolver and alignment evaluator `tools/aduc_time.py`
 - Seven temporal unit and CLI tests
 - Stable temporal, timezone, duration, interval, role, and alignment error families
+- ADR-0009 defining entity records, identifier authority, namespace-qualified identity, safe equivalence, privacy, and merge gates
+- `spec/IDENTITY_PROFILE_0_1.md` preserving external DID, GS1, LEI, and domain identifier authority
+- Nine valid identity reference cases and seventeen invalid counterexamples
+- Deterministic identity and safe-merge evaluator `tools/aduc_identity.py`
+- Nine identity evaluator and CLI tests
+- Stable identifier, relation, privacy, lifecycle, and merge error families
+- Purpose-limited pseudonymous and linkage-token identity examples
 
 ### Changed
 
@@ -103,7 +110,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, temporal, roadmap, and website checks
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, temporal, identity, roadmap, and website checks
 - Updated the README to distinguish the full-Core mission from the implemented reference components
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
@@ -120,4 +127,8 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit temporal roles, formats, precision, uncertainty, interval boundaries, and pinned timezone evidence
 - Blocked ambiguous and nonexistent civil times instead of selecting a UTC instant silently
 - Distinguished exact elapsed durations from calendar-relative periods
-- Advanced the single active task from temporal semantics to entity identity and equivalence
+- Separated entity, identifier, label, relation assertion, and merge decision
+- Required namespace, issuer, scheme, canonical value, and temporal validity for local identity
+- Reserved `owl:sameAs` for qualifying verified or canonical exact identity
+- Blocked automatic merge for candidate, conflicting, expired, reassigned, type-incompatible, or privacy-incompatible identity
+- Advanced the single active task from entity identity to provenance and transformation lineage
