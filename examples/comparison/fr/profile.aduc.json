@@ -1,0 +1,26 @@
+{
+  "@context": "https://example.org/aduc/context/0.1",
+  "id": "urn:aduc:profile:comparison-fr-1",
+  "conformsTo": "urn:aduc:profile:0.1",
+  "describes": "https://example.org/schema/fr-motor-reading/1",
+  "validFor": {
+    "source": "https://example.org/schema/fr-motor-reading",
+    "version": "1"
+  },
+  "referenceScheme": "json-pointer",
+  "issuedAt": "2026-07-13T14:05:00Z",
+  "assertions": [
+    {
+      "id": "urn:aduc:assertion:fr-motor-temperature-reviewed-1",
+      "localReference": "/properties/temp_moteur",
+      "semanticTarget": "https://example.org/quantity/MotorTemperature",
+      "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+      "status": "reviewed",
+      "assertedBy": "urn:person:fr-industrial-reviewer",
+      "assertedAt": "2026-07-13T14:00:00Z",
+      "evidence": [
+        "urn:evidence:fr-machine-data-dictionary"
+      ]
+    }
+  ]
+}
