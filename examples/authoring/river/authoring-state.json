@@ -1,0 +1,48 @@
+{
+  "source": "https://data.example.org/schema/river-record/1",
+  "sourceVersion": "1",
+  "coverage": [
+    {
+      "localReference": "/properties/station",
+      "state": "unmapped",
+      "assertionIds": []
+    },
+    {
+      "localReference": "/properties/flow",
+      "state": "reviewed",
+      "assertionIds": [
+        "urn:aduc:assertion:river-flow-reviewed-1"
+      ]
+    },
+    {
+      "localReference": "/properties/quality",
+      "state": "unmapped",
+      "assertionIds": []
+    }
+  ],
+  "ledger": [
+    {
+      "event": "source-inspected",
+      "actor": "urn:person:data-engineer-2",
+      "at": "2026-07-13T13:40:00Z"
+    },
+    {
+      "event": "proposal-published",
+      "assertion": "urn:aduc:assertion:river-flow-inferred-1",
+      "actor": "urn:tool:authoring-example",
+      "at": "2026-07-13T13:55:00Z"
+    },
+    {
+      "event": "review-completed",
+      "assertion": "urn:aduc:assertion:river-flow-reviewed-1",
+      "actor": "urn:person:hydrology-reviewer-7",
+      "at": "2026-07-13T14:55:00Z"
+    },
+    {
+      "event": "profile-validated",
+      "profile": "urn:aduc:profile:river-record-1-reviewed",
+      "tool": "tools/aduc_validate.py",
+      "at": "2026-07-13T15:00:00Z"
+    }
+  ]
+}
