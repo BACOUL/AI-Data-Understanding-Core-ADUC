@@ -1,0 +1,37 @@
+name: Specification change
+about: Propose a normative change to the Core
+labels: [specification, proposal]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What concrete interoperability problem is not solved?
+    validations:
+      required: true
+  - type: textarea
+    id: existing
+    attributes:
+      label: Existing standards considered
+      description: Explain why existing standards or extensions are insufficient.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Minimal proposal
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and migration impact
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Testable evidence
+      description: What fixture or interoperability test would prove the change is useful?
+    validations:
+      required: true
