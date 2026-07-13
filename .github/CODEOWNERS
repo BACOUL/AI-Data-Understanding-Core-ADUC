@@ -1,0 +1,5 @@
+# Replace BACOUL with the final GitHub owner if needed.
+* @BACOUL
+/spec/ @BACOUL
+/schema/ @BACOUL
+/docs/decisions/ @BACOUL
