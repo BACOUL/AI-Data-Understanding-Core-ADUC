@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "path": "cases.json",
+      "sha256": "sha256:2662830158316c849a3eae9a85190836f1cb86cd3f51fd7174c885b044c9ba4f",
+      "size": 9476
+    },
+    {
+      "path": "instructions.md",
+      "sha256": "sha256:4652e37c2485be98d93304ab0a00fafb61e5a0f914b6864761b35ec54b0b3b6a",
+      "size": 1342
+    },
+    {
+      "path": "result-template.json",
+      "sha256": "sha256:1e9248ee6a3044ffbf601442f83f9769ce690a69a49e6d385e33809f08e478ee",
+      "size": 967
+    }
+  ],
+  "packageDigest": "sha256:de17a4ab6b6f26d961de1e791e256f8e33b51fa2ffc4518d230add6b46a3892f",
+  "packageId": "urn:aduc:conformance-package:0.1",
+  "protocol": "urn:aduc:conformance-package-manifest:0.1"
+}

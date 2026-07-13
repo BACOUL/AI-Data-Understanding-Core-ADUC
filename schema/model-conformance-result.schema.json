@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aduc:schema:model-conformance-result:0.1",
+  "title": "ADUC Model Conformance Result 0.1",
+  "type": "object",
+  "required": ["protocol", "run", "rawOutput", "results"],
+  "properties": {
+    "protocol": {"const": "urn:aduc:model-conformance-result:0.1"},
+    "run": {"$ref": "#/$defs/run"},
+    "rawOutput": {"$ref": "#/$defs/rawOutput"},
+    "results": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/scenarioResult"}
+    },
+    "normalizationNotes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "runId",
+        "kind",
+        "provider",
+        "model",
+        "executedAt",
+        "packageDigest",
+        "externalContextUsed",
+        "parameters",
+        "repeat"
+      ],
+      "properties": {
+        "runId": {"type": "string", "format": "uri"},
+        "kind": {"type": "string", "enum": ["illustrative", "external"]},
+        "provider": {"type": "string", "minLength": 1},
+        "implementation": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "modelVersion": {"type": "string", "minLength": 1},
+        "executedAt": {"type": "string", "format": "date-time"},
+        "packageDigest": {"$ref": "#/$defs/sha256"},
+        "externalContextUsed": {"const": false},
+        "parameters": {"type": "object"},
+        "repeat": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "rawOutput": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "mediaType": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "assertionView": {
+      "type": "object",
+      "required": [
+        "assertionId",
+        "localReference",
+        "semanticTarget",
+        "status",
+        "mappingRelation"
+      ],
+      "properties": {
+        "assertionId": {"type": "string", "format": "uri"},
+        "localReference": {"type": "string", "minLength": 1},
+        "semanticTarget": {"type": "string", "format": "uri"},
+        "status": {
+          "type": "string",
+          "enum": ["inferred", "reviewed", "canonical", "contested"]
+        },
+        "mappingRelation": {"type": "string", "format": "uri"}
+      },
+      "additionalProperties": false
+    },
+    "dimensions": {
+      "type": "object",
+      "required": ["unit", "time", "entity"],
+      "properties": {
+        "unit": {"const": "notEvaluated"},
+        "time": {"const": "notEvaluated"},
+        "entity": {"const": "notEvaluated"}
+      },
+      "additionalProperties": false
+    },
+    "scenarioResult": {
+      "type": "object",
+      "required": [
+        "scenarioId",
+        "classification",
+        "profileA",
+        "profileB",
+        "reasons",
+        "dimensions",
+        "evidence"
+      ],
+      "properties": {
+        "scenarioId": {
+          "type": "string",
+          "enum": [
+            "exact-different-names",
+            "inferred-candidate",
+            "close-match-candidate",
+            "contested-blocked",
+            "same-name-different-targets",
+            "missing-dimensions"
+          ]
+        },
+        "classification": {
+          "type": "string",
+          "enum": ["comparable", "candidate", "blocked", "unmapped"]
+        },
+        "profileA": {"$ref": "#/$defs/assertionView"},
+        "profileB": {"$ref": "#/$defs/assertionView"},
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "dimensions": {"$ref": "#/$defs/dimensions"},
+        "evidence": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "format": "uri"},
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
