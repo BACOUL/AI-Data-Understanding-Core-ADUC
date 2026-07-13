@@ -1,6 +1,6 @@
 # ADR-0009 — Entity Identity, Identifier Authority, and Equivalence
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-07-13
 - Issue: #33
 - Decision owners: ADUC maintainers
@@ -160,7 +160,7 @@ They must not contain the original secret identifier. A linkage decision is bloc
 
 ### 13. Source binding and provenance
 
-Every identifier and relation assertion uses ADR-0006 source binding. Time-scoped records use ADR-0008 temporal semantics. Authority, evidence, challenges, resolutions, and deprecations follow ADR-0005.
+Every identifier assertion uses ADR-0006 source binding. Identity relations bind their endpoint identifier records and add explicit relation evidence, method, asserting authority, and temporal validity. Time-scoped records use ADR-0008 temporal semantics. Authority, evidence, challenges, resolutions, and deprecations follow ADR-0005.
 
 ### 14. Deterministic conflict rules
 
@@ -255,11 +255,17 @@ Rejected because linkage must preserve privacy and declared purpose.
 - GLEIF Legal Entity Identifier overview: https://www.gleif.org/en/organizational-identity/lei-vlei/the-legal-entity-identifier-lei
 - RFC 3987 — Internationalized Resource Identifiers: https://www.rfc-editor.org/rfc/rfc3987
 
+## Acceptance evidence
+
+- nine valid identity reference cases;
+- seventeen required invalid counterexamples;
+- nine deterministic evaluator and CLI tests;
+- GitHub Actions passed the identity suite and every pre-existing validation suite.
+
 ## Follow-up
 
-After acceptance:
-
-1. define the remaining Core boundaries for provenance, uncertainty, relations, and policy;
-2. freeze the normative full-Core object model;
-3. implement the full-Core JSON Schema family;
-4. migrate the reference comparison example to source, unit, time, and identity-aware comparison.
+1. define provenance and transformation lineage;
+2. define remaining uncertainty, relation, and policy boundaries;
+3. freeze the normative full-Core object model;
+4. implement the full-Core JSON Schema family;
+5. migrate the reference comparison example to unified source, unit, time, identity, and provenance-aware comparison.
