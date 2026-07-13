@@ -1,6 +1,6 @@
 # ADR-0007 — Unit Identifiers, Dimensional Compatibility, and Conversions
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-07-13
 - Issue: #29
 - Decision owners: ADUC maintainers
