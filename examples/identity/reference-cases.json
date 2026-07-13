@@ -1,0 +1,151 @@
+{
+  "profileVersion": "0.1",
+  "cases": [
+    {
+      "id": "canonical-crosswalk-allows-merge",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "maintenance-analysis",
+      "entities": [
+        {"entityId": "urn:aduc:entity:motor-42", "entityType": "urn:aduc:type:ElectricMotor", "labels": [{"value": "Main production motor", "language": "en", "labelType": "preferred"}]}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:fr-m42", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:factory-fr:asset-id", "scheme": "urn:aduc:scheme:local-asset-id", "issuer": "urn:org:factory-fr", "subjectEntity": "urn:aduc:entity:motor-42", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:fr-machine", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory-fr", "evidence": ["urn:evidence:fr-asset-register"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:us-main-b", "identifierKind": "local", "lexicalValue": "MAIN-B", "canonicalValue": "MAIN-B", "namespace": "urn:factory-us:equipment-id", "scheme": "urn:aduc:scheme:local-asset-id", "issuer": "urn:org:factory-us", "subjectEntity": "urn:aduc:entity:motor-42", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:us-machine", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory-us", "evidence": ["urn:evidence:us-asset-register"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:aduc:identity-assertion:m42-main-b", "subjectIdentifier": "urn:aduc:idrecord:fr-m42", "objectIdentifier": "urn:aduc:idrecord:us-main-b", "relation": "sameEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:global-asset-registry", "method": "urn:method:authoritative-crosswalk", "evidence": ["urn:evidence:asset-crosswalk-2026"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active", "privacy": {"permittedPurposes": ["maintenance-analysis"]}}
+      ],
+      "exportOwlSameAs": true,
+      "expected": {"valid": true, "decision": "mergeAllowed", "owlSameAsAllowed": true}
+    },
+    {
+      "id": "inferred-candidate-never-merges",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "maintenance-analysis",
+      "entities": [
+        {"entityId": "urn:aduc:entity:candidate-fr", "entityType": "urn:aduc:type:ElectricMotor", "labels": []},
+        {"entityId": "urn:aduc:entity:candidate-us", "entityType": "urn:aduc:type:ElectricMotor", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:candidate-m42", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:factory-fr:asset-id", "scheme": "urn:aduc:scheme:local-asset-id", "issuer": "urn:org:factory-fr", "subjectEntity": "urn:aduc:entity:candidate-fr", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:candidate-fr", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory-fr", "evidence": ["urn:evidence:fr-asset-register"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:candidate-main-b", "identifierKind": "local", "lexicalValue": "MAIN-B", "canonicalValue": "MAIN-B", "namespace": "urn:factory-us:equipment-id", "scheme": "urn:aduc:scheme:local-asset-id", "issuer": "urn:org:factory-us", "subjectEntity": "urn:aduc:entity:candidate-us", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:candidate-us", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory-us", "evidence": ["urn:evidence:us-asset-register"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:aduc:identity-assertion:candidate", "subjectIdentifier": "urn:aduc:idrecord:candidate-m42", "objectIdentifier": "urn:aduc:idrecord:candidate-main-b", "relation": "possibleMatch", "authorityLevel": "inferred", "confidence": 0.78, "assertedBy": "urn:model:identity-mapper", "method": "urn:method:record-linkage-v1", "evidence": ["urn:evidence:compatible-maintenance-history", "urn:evidence:same-location"], "validity": {"start": "2026-07-13T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active", "privacy": {"permittedPurposes": ["maintenance-analysis"]}}
+      ],
+      "expected": {"valid": true, "decision": "candidateOnly", "owlSameAsAllowed": false}
+    },
+    {
+      "id": "same-lexical-different-namespaces-unresolved",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "inventory",
+      "entities": [
+        {"entityId": "urn:aduc:entity:org-a-m42", "entityType": "urn:aduc:type:Machine", "labels": []},
+        {"entityId": "urn:aduc:entity:org-b-m42", "entityType": "urn:aduc:type:Machine", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:org-a-m42", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:org-a:machine-id", "scheme": "urn:aduc:scheme:local-machine-id", "issuer": "urn:org:a", "subjectEntity": "urn:aduc:entity:org-a-m42", "entityType": "urn:aduc:type:Machine", "sourceBinding": "urn:binding:org-a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:a", "evidence": ["urn:evidence:org-a-register"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:org-b-m42", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:org-b:machine-id", "scheme": "urn:aduc:scheme:local-machine-id", "issuer": "urn:org:b", "subjectEntity": "urn:aduc:entity:org-b-m42", "entityType": "urn:aduc:type:Machine", "sourceBinding": "urn:binding:org-b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:b", "evidence": ["urn:evidence:org-b-register"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [],
+      "expected": {"valid": true, "decision": "unresolved", "owlSameAsAllowed": false}
+    },
+    {
+      "id": "reviewed-negative-relation-blocks-merge",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "maintenance-analysis",
+      "entities": [
+        {"entityId": "urn:aduc:entity:motor-a", "entityType": "urn:aduc:type:ElectricMotor", "labels": []},
+        {"entityId": "urn:aduc:entity:motor-b", "entityType": "urn:aduc:type:ElectricMotor", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:motor-a", "identifierKind": "global", "globalIdentifier": "urn:asset:motor-a", "namespace": "urn:asset", "scheme": "urn:aduc:scheme:asset-iri", "issuer": "urn:org:asset-owner", "subjectEntity": "urn:aduc:entity:motor-a", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:motor-a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:asset-owner", "evidence": ["urn:evidence:asset-a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:motor-b", "identifierKind": "global", "globalIdentifier": "urn:asset:motor-b", "namespace": "urn:asset", "scheme": "urn:aduc:scheme:asset-iri", "issuer": "urn:org:asset-owner", "subjectEntity": "urn:aduc:entity:motor-b", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:motor-b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:asset-owner", "evidence": ["urn:evidence:asset-b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:aduc:identity-assertion:different-motors", "subjectIdentifier": "urn:aduc:idrecord:motor-a", "objectIdentifier": "urn:aduc:idrecord:motor-b", "relation": "differentEntity", "authorityLevel": "reviewed", "assertedBy": "urn:person:asset-manager", "method": "urn:method:serial-number-inspection", "evidence": ["urn:evidence:distinct-serial-numbers"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "expected": {"valid": true, "decision": "differentEntity", "owlSameAsAllowed": false}
+    },
+    {
+      "id": "broader-entity-is-not-equality",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "asset-topology",
+      "entities": [
+        {"entityId": "urn:aduc:entity:production-line", "entityType": "urn:aduc:type:ProductionLine", "labels": []},
+        {"entityId": "urn:aduc:entity:line-motor", "entityType": "urn:aduc:type:ElectricMotor", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:line", "identifierKind": "global", "globalIdentifier": "urn:asset:line-1", "namespace": "urn:asset", "scheme": "urn:aduc:scheme:asset-iri", "issuer": "urn:org:factory", "subjectEntity": "urn:aduc:entity:production-line", "entityType": "urn:aduc:type:ProductionLine", "sourceBinding": "urn:binding:line", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:line-register"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:line-motor", "identifierKind": "global", "globalIdentifier": "urn:asset:line-1-motor", "namespace": "urn:asset", "scheme": "urn:aduc:scheme:asset-iri", "issuer": "urn:org:factory", "subjectEntity": "urn:aduc:entity:line-motor", "entityType": "urn:aduc:type:ElectricMotor", "sourceBinding": "urn:binding:line-motor", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:motor-register"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:aduc:identity-assertion:line-broader", "subjectIdentifier": "urn:aduc:idrecord:line", "objectIdentifier": "urn:aduc:idrecord:line-motor", "relation": "broaderEntity", "authorityLevel": "verified", "assertedBy": "urn:org:factory", "method": "urn:method:asset-topology-verification", "evidence": ["urn:evidence:asset-topology"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "expected": {"valid": true, "decision": "relationOnly", "owlSameAsAllowed": false}
+    },
+    {
+      "id": "recycled-identifier-resolves-by-time",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "historical-analysis",
+      "entities": [
+        {"entityId": "urn:aduc:entity:old-machine", "entityType": "urn:aduc:type:Machine", "labels": []},
+        {"entityId": "urn:aduc:entity:new-machine", "entityType": "urn:aduc:type:Machine", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:m42-old", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:factory:machine-id", "scheme": "urn:aduc:scheme:local-machine-id", "issuer": "urn:org:factory", "subjectEntity": "urn:aduc:entity:old-machine", "entityType": "urn:aduc:type:Machine", "sourceBinding": "urn:binding:m42-old", "validity": {"start": "2020-01-01T00:00:00Z", "end": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:historical-register"], "conflictState": "clear", "lifecycleState": "deprecated"},
+        {"identifierId": "urn:aduc:idrecord:m42-new", "identifierKind": "local", "lexicalValue": "M42", "canonicalValue": "M42", "namespace": "urn:factory:machine-id", "scheme": "urn:aduc:scheme:local-machine-id", "issuer": "urn:org:factory", "subjectEntity": "urn:aduc:entity:new-machine", "entityType": "urn:aduc:type:Machine", "sourceBinding": "urn:binding:m42-new", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:current-register"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [],
+      "expected": {"valid": true, "decision": "unresolved", "owlSameAsAllowed": false, "activeSubjects": ["urn:aduc:entity:new-machine"]}
+    },
+    {
+      "id": "pseudonymous-linkage-with-purpose",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "approved-outcome-study",
+      "entities": [
+        {"entityId": "urn:aduc:entity:patient-a-local", "entityType": "urn:aduc:type:Person", "labels": []},
+        {"entityId": "urn:aduc:entity:patient-a-study", "entityType": "urn:aduc:type:Person", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:pseudo-a", "identifierKind": "pseudonymous", "protectedValue": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "protectionMethod": "urn:method:hmac-sha256", "methodVersion": "1", "linkageDomain": "urn:linkage-domain:study-42", "permittedPurposes": ["approved-outcome-study"], "namespace": "urn:hospital:pseudonym", "scheme": "urn:aduc:scheme:pseudonymous-id", "issuer": "urn:org:hospital", "subjectEntity": "urn:aduc:entity:patient-a-local", "entityType": "urn:aduc:type:Person", "sourceBinding": "urn:binding:hospital-pseudo", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:hospital", "evidence": ["urn:evidence:pseudonym-service"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:token-a", "identifierKind": "linkageToken", "protectedValue": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "protectionMethod": "urn:method:trusted-linkage-token", "methodVersion": "1", "linkageDomain": "urn:linkage-domain:study-42", "permittedPurposes": ["approved-outcome-study"], "namespace": "urn:study:linkage-token", "scheme": "urn:aduc:scheme:linkage-token", "issuer": "urn:org:trusted-linkage-service", "subjectEntity": "urn:aduc:entity:patient-a-study", "entityType": "urn:aduc:type:Person", "sourceBinding": "urn:binding:study-token", "validity": {"start": "2026-01-01T00:00:00Z", "end": "2027-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:trusted-linkage-service", "evidence": ["urn:evidence:token-issuance"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:aduc:identity-assertion:private-link", "subjectIdentifier": "urn:aduc:idrecord:pseudo-a", "objectIdentifier": "urn:aduc:idrecord:token-a", "relation": "sameEntity", "authorityLevel": "verified", "assertedBy": "urn:org:trusted-linkage-service", "method": "urn:method:privacy-preserving-linkage-v1", "evidence": ["urn:evidence:linkage-proof"], "validity": {"start": "2026-01-01T00:00:00Z", "end": "2027-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active", "privacy": {"permittedPurposes": ["approved-outcome-study"]}}
+      ],
+      "expected": {"valid": true, "decision": "mergeAllowed", "owlSameAsAllowed": true}
+    },
+    {
+      "id": "label-remains-non-identifying",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "catalogue",
+      "entities": [
+        {"entityId": "urn:aduc:entity:pump-a", "entityType": "urn:aduc:type:Pump", "labels": [{"value": "Main pump", "language": "en", "labelType": "preferred"}]},
+        {"entityId": "urn:aduc:entity:pump-b", "entityType": "urn:aduc:type:Pump", "labels": [{"value": "Main pump", "language": "en", "labelType": "preferred"}]}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:pump-a", "identifierKind": "global", "globalIdentifier": "urn:asset:pump-a", "namespace": "urn:asset", "scheme": "urn:aduc:scheme:asset-iri", "issuer": "urn:org:factory", "subjectEntity": "urn:aduc:entity:pump-a", "entityType": "urn:aduc:type:Pump", "sourceBinding": "urn:binding:pump-a", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:pump-a"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:pump-b", "identifierKind": "global", "globalIdentifier": "urn:asset:pump-b", "namespace": "urn:asset", "scheme": "urn:aduc:scheme:asset-iri", "issuer": "urn:org:factory", "subjectEntity": "urn:aduc:entity:pump-b", "entityType": "urn:aduc:type:Pump", "sourceBinding": "urn:binding:pump-b", "validity": {"start": "2020-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:factory", "evidence": ["urn:evidence:pump-b"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [],
+      "expected": {"valid": true, "decision": "unresolved", "owlSameAsAllowed": false}
+    },
+    {
+      "id": "global-identifiers-with-authoritative-crosswalk",
+      "evaluationAt": "2026-07-13T12:00:00Z",
+      "purpose": "supply-chain-traceability",
+      "entities": [
+        {"entityId": "urn:aduc:entity:trade-item-1", "entityType": "urn:aduc:type:TradeItem", "labels": []}
+      ],
+      "identifiers": [
+        {"identifierId": "urn:aduc:idrecord:gs1-item", "identifierKind": "global", "globalIdentifier": "https://id.gs1.org/01/09506000134352/21/ABC123", "namespace": "https://id.gs1.org/", "scheme": "https://ref.gs1.org/standards/digital-link/", "issuer": "urn:org:gs1-company-prefix-licensee", "subjectEntity": "urn:aduc:entity:trade-item-1", "entityType": "urn:aduc:type:TradeItem", "sourceBinding": "urn:binding:gs1-record", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:gs1-company-prefix-licensee", "evidence": ["urn:evidence:gs1-master-data"], "conflictState": "clear", "lifecycleState": "active"},
+        {"identifierId": "urn:aduc:idrecord:internal-item", "identifierKind": "local", "lexicalValue": "ITEM-ABC123", "canonicalValue": "ITEM-ABC123", "namespace": "urn:enterprise:trade-item-id", "scheme": "urn:aduc:scheme:local-trade-item-id", "issuer": "urn:org:enterprise", "subjectEntity": "urn:aduc:entity:trade-item-1", "entityType": "urn:aduc:type:TradeItem", "sourceBinding": "urn:binding:enterprise-item", "validity": {"start": "2026-01-01T00:00:00Z"}, "authorityLevel": "canonical", "assertedBy": "urn:org:enterprise", "evidence": ["urn:evidence:enterprise-master-data"], "conflictState": "clear", "lifecycleState": "active"}
+      ],
+      "relations": [
+        {"assertionId": "urn:aduc:identity-assertion:gs1-internal", "subjectIdentifier": "urn:aduc:idrecord:gs1-item", "objectIdentifier": "urn:aduc:idrecord:internal-item", "relation": "sameEntity", "authorityLevel": "canonical", "assertedBy": "urn:org:enterprise", "method": "urn:method:master-data-crosswalk", "evidence": ["urn:evidence:approved-item-crosswalk"], "validity": {"start": "2026-01-01T00:00:00Z"}, "conflictState": "clear", "lifecycleState": "active", "privacy": {"permittedPurposes": ["supply-chain-traceability"]}}
+      ],
+      "expected": {"valid": true, "decision": "mergeAllowed", "owlSameAsAllowed": true}
+    }
+  ]
+}
