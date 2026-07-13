@@ -14,33 +14,34 @@ A source publisher can attach one portable ADUC contract to JSON or CSV data. In
 1. Define the Core before broad implementation.
 2. Document every normative decision.
 3. Reuse established standards whenever possible.
-4. Never promote automatic inference to authority silently.
-5. Keep unsupported dimensions explicit and unresolved.
+4. Never promote automatic inference silently.
+5. Preserve unknown, unsupported, conflicting, and redacted information.
 6. Use frozen inputs and reproducible evidence for demonstrations.
-7. Do not claim success before two independent consumers pass.
+7. Do not claim interoperability before two independent consumers pass.
 8. Keep TimeProofs and the anticipation engine separate.
 9. Keep the public website English-first.
-10. Keep the working name provisional until naming checks are complete.
-11. Require measurable user value before calling `infer` or `review` successful.
+10. Keep the working name provisional.
+11. Require measurable user value before compiler success claims.
 
-## Current reference-tested foundations
+## Current baseline
 
-- semantic-mapping assertion model and validator;
-- complete epistemic lifecycle;
+Implemented reference foundations:
+
+- semantic-mapping assertion model, schema, validator, and comparator;
+- JSON-LD context and deterministic RDF round-trip;
+- provider-neutral multi-model harness;
+- epistemic lifecycle;
 - immutable source binding;
-- unit identity and deterministic conversion;
+- units and deterministic conversion;
 - temporal semantics and timezone alignment;
 - entity identity and safe equivalence;
 - provenance and transformation lineage;
-- JSON-LD/RDF round-trip;
-- provider-neutral multi-model conformance harness;
-- English static website deployed through GitHub Pages and Vercel.
+- uncertainty, missingness, censoring, propagation, and DQV-compatible quality;
+- governance, CI, execution ledger, English website, GitHub Pages, and Vercel deployment.
 
-Interpretation:
+These components are reference implementations of selected Core behavior. They are not yet the complete ADUC Core envelope.
 
-> The repository contains real, tested Core components, but it does not yet contain the normative full-Core object model or schema family.
-
-## Phase 0 — Core definition
+## Phase 0 — Full-Core definition
 
 ### Objective
 
@@ -59,21 +60,21 @@ Freeze the mission, boundaries, fundamental profiles, official roadmap, and one 
 - [x] temporal profile;
 - [x] identity profile;
 - [x] provenance profile;
+- [x] uncertainty and data-quality profile;
 - [x] adoption and value-validation plan;
 - [x] English public website.
 
 ### Remaining
 
-- [ ] uncertainty and data-quality profile;
-- [ ] general relation profile boundary;
-- [ ] policy and permitted-use profile boundary;
+- [ ] general relation semantics;
+- [ ] policy and permitted-use boundaries;
 - [ ] normative Core object model and modular schema boundaries;
 - [ ] one complete example validated against the candidate Core schema;
 - [ ] name and trademark research before public name freeze.
 
 ### Exit gate
 
-Phase 0 passes only when an independent developer can explain every Core block, its relationship to existing standards, and the deterministic consumer behavior for unknown or unsafe information.
+An independent developer can explain every Core block, its relationship to existing standards, and the deterministic behavior for unknown or unsafe information.
 
 ## Phase 1 — Standard v0.1
 
@@ -107,23 +108,23 @@ Provide deterministic local tooling for the complete Core.
 
 - [ ] full-Core CLI validator;
 - [ ] stable error catalogue;
-- [ ] Core formatter;
+- [ ] contract formatter;
 - [ ] unified comparator across concepts, units, time, identity, provenance, uncertainty, relations, and policy;
 - [ ] TypeScript SDK;
 - [ ] Python SDK;
-- [ ] complete conformance runner;
+- [ ] conformance runner;
 - [ ] package publication plan;
-- [ ] updated “Try in 5 minutes” documentation.
+- [ ] updated “Try in 5 minutes” guide.
 
 ### Exit gate
 
-A developer can install the tools, validate a complete contract, and compare the reference sources without maintainer assistance.
+A developer can install the tools, validate a complete contract, and compare two example sources without maintainer assistance.
 
 ## Phase 3 — JSON/CSV compiler
 
 ### Objective
 
-Generate provisional ADUC contracts from existing JSON and CSV sources.
+Create provisional ADUC contracts from existing JSON and CSV sources.
 
 ```text
 Source import
@@ -132,11 +133,9 @@ Structural inspection
     ↓
 Field profiling
     ↓
-Concept and unit proposals
+Concept, unit, time, identity, and provenance proposals
     ↓
-Time and identity proposals
-    ↓
-Available provenance and uncertainty extraction
+Uncertainty and quality evidence capture
     ↓
 Ambiguity and contradiction report
     ↓
@@ -145,104 +144,102 @@ Provisional inferred contract
 
 ### Deliverables
 
-- JSON and CSV importers;
-- primitive type and date/time detection;
-- unit and identifier candidates;
-- semantic proposals;
-- declared inference evidence modes;
-- method-bound, calibrated confidence;
-- provenance references;
-- deterministic export;
-- no silent promotion beyond `inferred`.
+- [ ] JSON importer;
+- [ ] CSV importer;
+- [ ] primitive type inference;
+- [ ] date/time and unit detection;
+- [ ] identifier candidate detection;
+- [ ] semantic concept proposal interface;
+- [ ] provenance and uncertainty evidence capture;
+- [ ] method-bound confidence;
+- [ ] deterministic export;
+- [ ] no silent promotion beyond `inferred`.
 
 ### Exit gate
 
-The compiler creates a structurally valid provisional contract for reference JSON and CSV sources and reports every unresolved field or unsupported assumption.
+The compiler generates valid provisional contracts for the reference JSON and CSV examples and reports every unresolved field.
 
 ## Phase 4 — Review interface
 
 ### Objective
 
-Show only the uncertain, unknown, conflicting, or unsafe parts of a contract.
+Let a reviewer inspect only uncertain, unsupported, or conflicting parts.
 
 ### Deliverables
 
-- unknown-field queue;
-- low-confidence mapping queue;
-- ambiguous-unit queue;
-- temporal interpretation review;
-- identity-match review;
-- provenance-gap review;
-- uncertainty and quality review;
-- contradiction review;
-- immutable review decisions;
-- publisher-authority flow;
-- portable final export.
+- [ ] unknown-field queue;
+- [ ] low-confidence mapping queue;
+- [ ] ambiguous-unit queue;
+- [ ] time interpretation review;
+- [ ] identity match review;
+- [ ] provenance-gap review;
+- [ ] uncertainty and quality review;
+- [ ] relation and policy conflict review;
+- [ ] immutable review decisions;
+- [ ] source-authority publication flow;
+- [ ] portable final export.
 
 ### Exit gate
 
-A reviewer can turn a provisional contract into reviewed or canonical assertions without rewriting published history.
+A reviewer can turn a provisional contract into reviewed or canonical assertions without rewriting history.
 
 ## Phase 5 — Value and interoperability proof
 
-### Controlled comparisons
-
-1. manual mapping versus `infer + review`;
-2. sources without ADUC versus the same sources with ADUC;
-3. at least two independent AI consumers using one frozen full-Core package.
-
-### Initial value gate
-
-- median assisted human time at least 30% lower than manual mapping;
-- final correctness not lower than the manual baseline;
-- no critical false mapping silently accepted;
-- uncertainty and unsupported conclusions remain visible.
-
 ### Reference scenario
 
-- French source with Celsius and local date format;
-- US source with Fahrenheit and UTC timestamp;
+- French machine source with Celsius and local date format;
+- US machine source with Fahrenheit and UTC timestamp;
 - different field names;
 - possible but unproven equipment identity;
-- complete transformation provenance;
-- explicit uncertainty and permitted-use behavior.
+- explicit provenance and uncertainty;
+- policies permitting the tested use.
+
+### Required conclusions
+
+- equivalent temperature concept;
+- explicit Celsius/Fahrenheit conversion;
+- same instant after timezone interpretation;
+- identity remains uncertain without evidence;
+- provenance and uncertainty remain visible;
+- prohibited or unsupported use remains blocked.
 
 ### Deliverables
 
 - [x] provider-neutral harness foundation;
-- [x] frozen package foundation;
-- [ ] upgraded full-Core package;
-- [ ] manual and assisted benchmark evidence;
-- [ ] with-ADUC and without-ADUC evidence;
+- [x] frozen input-package foundation;
+- [ ] manual mapping versus `infer + review` benchmark;
+- [ ] review-tax report;
+- [ ] with-ADUC versus without-ADUC comparison;
+- [ ] full-Core frozen package;
 - [ ] external run A;
-- [ ] external run B from an independent provider or implementation;
+- [ ] external run B from a distinct provider or implementation;
 - [ ] raw-output hashes;
-- [ ] normalized results;
+- [ ] normalized result files;
 - [ ] deterministic comparison report;
 - [ ] public reproduction instructions.
 
 ### Exit gate
 
-The evaluator reports two qualifying independent runs with semantic agreement and the value benchmark passes without hidden mappings.
+- at least 30% lower median assisted human time without lower final correctness;
+- no critical false mapping silently accepted;
+- two independent consumers qualify and agree without hidden mappings.
 
 ## Phase 6 — First extension
 
-Build only after the Core passes the interoperability gate.
+Build only after the Core passes the value and interoperability gate.
 
-Candidate:
+Candidate first extension:
 
 - Dataset Extension; or
 - Live Data Extension.
 
-Choose using validated user need, minimal Core impact, domain reuse, and demonstrability.
-
 ## Phase 7 — Situation & Action extension
 
-Represent situations, possible developments, actions, constraints, and evidence without embedding a complete decision engine into the Core.
+Represent situations, possible developments, actions, constraints, and evidence without turning the Core into a decision engine.
 
 ## Phase 8 — Anticipation engine
 
-The separately versioned application demonstrates:
+A separately governed application using:
 
 ```text
 ADUC Core
@@ -257,65 +254,27 @@ ADUC Core
 - connectors and optional MCP adapter;
 - certification;
 - professional support;
-- independent-governance transition.
+- independent governance transition.
 
-## Version 0.1 scoreboard
+## Public website rules
 
-| Deliverable | Status |
-|---|---|
-| Core specification | Working draft |
-| Fundamental profiles through provenance | Reference-tested |
-| Uncertainty profile | Next action |
-| General relations and policy | Not implemented |
-| Full-Core JSON Schema | Not implemented |
-| Ten valid full-Core examples | Not implemented |
-| Ten invalid full-Core examples | Not implemented |
-| Full-Core validator | Partial profile tools only |
-| JSON/CSV compiler | Not implemented |
-| Review UI | Not implemented |
-| Unified comparator | Not implemented |
-| Two-model proof | Harness exists; external proof absent |
-| Value benchmark | Defined; not run |
-| Try in 5 minutes | Available for current tools |
+- no claim that ADUC is recognized or adopted;
+- no claim that multi-model interoperability is already proven;
+- working-name disclaimer remains visible;
+- implementation status remains accurate;
+- mobile-first and accessible;
+- no dependency on a proprietary SaaS.
 
 ## Immediate execution sequence
 
-### Milestone B — Complete Core decisions
-
-1. [x] accept lifecycle ADR;
-2. [x] accept source-binding ADR;
-3. [x] accept unit ADR;
-4. [x] accept temporal ADR;
-5. [x] accept identity ADR;
-6. [x] accept provenance ADR;
-7. [ ] accept uncertainty and data-quality ADR;
-8. [ ] define general relations and policy boundaries;
-9. [ ] freeze modular schema boundaries;
-10. [ ] implement the first full-Core schema.
-
-### Milestone C — Examples and validator migration
-
-1. create ten valid examples;
-2. create ten invalid examples;
-3. extend the validator;
-4. publish compatibility or migration tooling.
-
-### Milestone D — Compiler and review
-
-1. JSON importer;
-2. CSV importer;
-3. inference proposal model;
-4. minimal review interface;
-5. benchmark review tax and value;
-6. final export.
-
-### Milestone E — Full proof
-
-1. upgrade the frozen package;
-2. compare without ADUC and with ADUC;
-3. run two independent consumers;
-4. publish raw and normalized evidence;
-5. accept, revise, narrow, or stop based on results.
+1. Accept general relation semantics.
+2. Accept policy and permitted-use boundaries.
+3. Freeze the normative Core object model.
+4. Implement the schema family.
+5. Create ten complete valid and ten invalid examples.
+6. Build the unified validator and comparator.
+7. Build compiler and review tooling.
+8. Run value and multi-model proofs.
 
 ## Stop and pivot rules
 
@@ -323,11 +282,11 @@ Narrow, revise, or stop a feature when:
 
 - it duplicates an established standard without measurable integration value;
 - independent implementers cannot use it from the specification;
-- AI consumers interpret the same conforming contract incompatibly;
+- independent consumers interpret conforming contracts incompatibly;
 - uncertainty is lost or silently upgraded;
-- the Core absorbs domain logic better suited to extensions;
+- domain logic is forced into the Core instead of an extension;
 - adoption requires a proprietary hosted service;
-- assisted mapping does not beat the manual baseline.
+- assisted mapping is not measurably better than the manual baseline.
 
 ## Definition of progress
 

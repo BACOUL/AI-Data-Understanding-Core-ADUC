@@ -4,7 +4,7 @@
 - Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: mission, architecture, epistemic lifecycle, adoption gates, source binding, units, temporal semantics, entity identity, and provenance are defined and reference-tested; uncertainty and data quality are the next Core decision, and the official full-Core schema is not yet implemented
+- Overall status: mission, architecture, epistemic lifecycle, adoption gates, source binding, units, temporal semantics, entity identity, provenance, uncertainty, and data quality are defined and reference-tested; general relations are the next Core decision, and the official full-Core schema is not yet implemented
 
 ## Official direction
 
@@ -52,6 +52,7 @@ policy
 - ADR-0008 temporal profile and evaluator;
 - ADR-0009 identity and safe-equivalence profile and evaluator;
 - ADR-0010 provenance and transformation-lineage profile and evaluator;
+- ADR-0011 uncertainty and data-quality profile and evaluator;
 - official adoption and value-validation gates;
 - semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling, and multi-model harness.
 
@@ -59,104 +60,69 @@ policy
 
 ### Epistemic lifecycle
 
-| Concern | Representation |
-|---|---|
-| unresolved field | coverage record with `resolutionStatus: unknown` |
-| assertion authority | `inferred`, `reviewed`, `verified`, or `canonical` |
-| unresolved dispute | immutable challenge producing `contested` |
-| retired assertion | immutable deprecation producing `deprecated` |
-
-Authority, confidence, conflict, and lifecycle remain separate claims.
+Authority, confidence, conflict, and lifecycle are separate claims. Unresolved fields remain explicitly unknown; inferred, reviewed, verified, canonical, contested, and deprecated states are represented without silent promotion.
 
 ### Source binding
 
-ADUC separates resource content, structural description, and local field reference.
-
-Key rules:
-
-- v0.1 uses SHA-256 for reference bindings;
-- mutable URLs and version labels are insufficient integrity evidence;
-- Croissant, JSON Schema, OpenAPI, and DCAT remain authoritative for their structural models;
-- stale, unavailable, ambiguous, or conflicting descriptions block automatic use.
+ADUC separates resource content, structural description, and local field reference. SHA-256 binds immutable content; mutable URLs and version labels are insufficient. Croissant, JSON Schema, OpenAPI, and DCAT retain authority for their structural models.
 
 ### Units and conversions
 
-ADUC separates quantity kind, dimension, quantity role, global unit identifier, local code, authority, and conversion evidence.
-
-Reference evidence:
-
-- five valid conversion cases;
-- fifteen invalid counterexamples;
-- nine unit tests;
-- deterministic results including `89 °C = 192.2 °F`.
+ADUC separates quantity kind, dimension, role, global unit identifier, local code, authority, and conversion evidence. Reference evidence includes five valid conversions, fifteen invalid cases, nine tests, and `89 °C = 192.2 °F`.
 
 ### Temporal semantics
 
-Key rules:
-
-- fixed instants use explicit offsets;
-- named zones use pinned IANA timezone evidence;
-- ambiguous and nonexistent civil times block automatic use;
-- temporal roles, precision, uncertainty, interval boundaries, exact durations, and calendar periods remain distinct.
-
-Reference evidence:
-
-- nine valid temporal cases;
-- fifteen invalid counterexamples;
-- seven temporal tests;
-- `13/07/2026 14:00` in `Europe/Paris` resolves to `2026-07-13T12:00:00Z`.
+Fixed instants, named-zone civil times, roles, precision, uncertainty, interval boundaries, exact durations, and calendar periods remain distinct. Ambiguous and nonexistent civil times block automatic use. The reference profile resolves `13/07/2026 14:00` in `Europe/Paris` to `2026-07-13T12:00:00Z`.
 
 ### Entity identity
 
-ADR-0009 separates:
-
-```text
-entity
-identifier
-human label
-identity relation assertion
-consumer merge decision
-```
-
-Reference evidence:
-
-- nine valid identity cases;
-- seventeen invalid counterexamples;
-- nine identity tests;
-- canonical `M42` / `MAIN-B` crosswalk produces `mergeAllowed`;
-- inferred similarity remains `candidateOnly`.
+Entity, identifier, label, relation assertion, and merge decision are separate. Inferred similarity remains `candidateOnly`; qualifying verified or canonical exact identity may produce `mergeAllowed`; `owl:sameAs` is never emitted for a candidate relation.
 
 ### Provenance and transformation lineage
 
-ADR-0010 reuses W3C PROV-O and separates:
-
-```text
-entity or artifact
-activity or transformation
-responsible agent
-software/model execution evidence
-derivation
-invalidation
-disclosure state
-reproducibility claim
-```
-
-Key rules:
-
-- material inputs and outputs require exact source bindings and SHA-256 hashes;
-- observed, attested, inferred, partial, and redacted lineage remain distinct;
-- deterministic, nondeterministic, manual, external-attestation, and reconstructed execution remain distinct;
-- deterministic claims require pinned software, build, environment, parameters, inputs, outputs, and complete disclosure;
-- replayable AI execution requires pinned model, prompt, parameters, environment, tools, and seed where applicable;
-- manual intervention cannot be hidden;
-- cycles, impossible ordering, duplicate generation, broken derivations, invalidation errors, and unsupported reproduction claims block conformance.
+ADUC reuses W3C PROV-O and separates artifacts, activities, agents, execution evidence, derivations, invalidations, disclosure, and reproducibility. Material inputs and outputs are hash-bound. Observed, attested, inferred, partial, and redacted lineage remain distinct. Manual intervention cannot be hidden.
 
 Reference evidence:
 
 - seven valid provenance cases;
 - twenty invalid mutation fixtures;
-- eight provenance evaluator and CLI tests;
-- one end-to-end chain from raw source bytes through parsing, conversion, temporal resolution, identity linking, and comparison.
+- eight tests;
+- one chain from source bytes through parsing, conversion, temporal resolution, identity linking, and comparison.
+
+### Uncertainty and data quality
+
+ADR-0011 separates:
+
+```text
+measurement or value uncertainty
+semantic confidence
+model confidence or calibrated probability
+data-quality measurement
+epistemic authority
+```
+
+The profile supports standard, expanded, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty; missingness and censoring; DQV-compatible quality measurements; explicit dependence; and a small deterministic propagation subset.
+
+Key rules:
+
+- canonical authority never implies zero uncertainty;
+- decimal formatting never establishes precision;
+- model scores require calibration evidence before being treated as probability;
+- unknown dependence blocks generic propagation;
+- affine offsets apply to measured values, not uncertainty magnitudes;
+- missing and censored values remain explicit;
+- quality metrics remain tied to their metric, target, method, provenance, and disclosure state;
+- unsupported propagation fails safely.
+
+Reference evidence:
+
+- fourteen valid uncertainty and quality cases;
+- twenty-four invalid counterexamples;
+- ten evaluator and CLI tests;
+- `0.5 °C` standard uncertainty converts to `0.9 °F`;
+- independent uncertainties `3` and `4` propagate to `5`;
+- independent relative uncertainties `0.03` and `0.04` propagate to `0.05`;
+- rectangular resolution `0.1` contributes `0.028867513459481`.
 
 ## Adoption and value-validation constraints
 
@@ -183,8 +149,9 @@ Before compiler or interoperability success claims, the project must provide:
 | Temporal semantics | Defined and reference-tested |
 | Entity identity | Defined and reference-tested |
 | Provenance and transformation lineage | Defined and reference-tested |
-| Uncertainty and data quality | Next action |
-| General relations and policy | Not implemented |
+| Uncertainty and data quality | Defined and reference-tested |
+| General relations | Next action |
+| Policy and permitted use | Not implemented |
 | Official full-Core JSON Schema | Not implemented |
 | Ten valid full-Core examples | One informative complete example; profile-specific fixtures exist |
 | Ten invalid full-Core examples | Not implemented |
@@ -199,8 +166,8 @@ Before compiler or interoperability success claims, the project must provide:
 
 ## Not yet validated
 
-- complete uncertainty and quality rules;
-- general relation and policy rules;
+- general relation semantics;
+- policy and permitted-use rules;
 - normative full-Core object model and JSON Schema family;
 - migration tooling into the complete Core envelope;
 - JSON/CSV compiler and review interface;
@@ -212,8 +179,8 @@ Before compiler or interoperability success claims, the project must provide:
 
 ## Active blockers
 
-- ADR-0011 uncertainty and data quality does not exist;
-- general relation and policy boundaries remain undefined;
+- ADR-0012 general relation semantics does not exist;
+- policy boundaries remain undefined;
 - full-Core schema boundaries do not exist;
 - the complete example is not yet schema-validatable;
 - end-to-end comparison has not unified all profile dimensions;
@@ -222,9 +189,7 @@ Before compiler or interoperability success claims, the project must provide:
 
 ## Next gate
 
-Define uncertainty and data quality, including measurement error, statistical intervals, distributions, propagation, correlation assumptions, resolution, censoring, missingness, qualitative quality, and separation from epistemic authority.
-
-Every uncertainty record must reuse the accepted source, unit, temporal, epistemic, and provenance profiles rather than duplicating them.
+Define general relation semantics, including predicate identity, direction, inverse, temporal and contextual qualification, authority, evidence, provenance, uncertainty, symmetry, transitivity, conflict, deprecation, and deterministic consumer behavior.
 
 ## Rule
 
