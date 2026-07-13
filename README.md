@@ -20,9 +20,7 @@ ADUC composes established standards rather than replacing JSON-LD/RDF, Croissant
 - static source: [`website/`](website/)
 - Vercel deployment root: [`vercel.json`](vercel.json)
 
-## Core direction
-
-The candidate Core contains ten blocks:
+## Candidate Core
 
 ```text
 aduc
@@ -39,36 +37,29 @@ policy
 
 The existing tools are reference implementations of selected Core behavior. They are not yet the complete ADUC Core.
 
-## Accepted foundations
+# Accepted foundations
 
-### Epistemic lifecycle
+## Epistemic lifecycle
 
-ADR-0005 and [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md) separate:
-
-```text
-unknown      unresolved coverage without a fabricated target
-inferred     automated or non-authoritative assertion
-reviewed     accountable examination
-verified     evidence-based verification procedure
-canonical    source-authority publication
-contested    unresolved immutable challenge
-deprecated   immutable retirement record
-```
-
-Authority, confidence, conflict, and lifecycle remain separate claims.
-
-### Source description and immutable binding
-
-ADR-0006 and [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md) bind assertions to exact resource bytes, structural descriptions, and local fields.
+ADR-0005 and [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md) keep authority, confidence, conflict, and lifecycle separate.
 
 ```text
-resource content
-+ structural description
-+ explicit local-reference scheme
-+ version and SHA-256 evidence
+unknown
+inferred
+reviewed
+verified
+canonical
+contested
+deprecated
 ```
 
-Croissant, JSON Schema, OpenAPI, and DCAT retain ownership of their structural models. Mutable URLs, stale descriptions, ambiguous CSV headers, unresolved pointers, and conflicting copied structure block automatic use.
+An inferred claim never becomes canonical merely because a model reports high confidence.
+
+## Source description and immutable binding
+
+ADR-0006 and [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md) bind assertions to exact resource bytes, structural descriptions, versions, SHA-256 evidence, and local field references.
+
+Croissant, JSON Schema, OpenAPI, and DCAT retain authority for their structural models. Mutable URLs, stale descriptions, ambiguous CSV headers, and unresolved pointers block automatic use.
 
 ```bash
 python tools/aduc_source_binding.py \
@@ -76,9 +67,9 @@ python tools/aduc_source_binding.py \
   examples/source-description/invalid-cases.json
 ```
 
-### Units and deterministic conversions
+## Units and deterministic conversions
 
-ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, unit identity, dimensional compatibility, exact conversion, uncertainty propagation, rounding, and provenance.
+ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, dimensions, quantity roles, global unit identity, exact conversions, rounding, uncertainty propagation, and provenance.
 
 Validated examples include:
 
@@ -95,11 +86,11 @@ python tools/aduc_units.py \
   examples/units/invalid-cases.json
 ```
 
-### Temporal semantics and timezone alignment
+## Temporal semantics and timezone alignment
 
-ADR-0008 and [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md) distinguish fixed instants, local civil time, intervals, exact durations, calendar periods, temporal roles, precision, uncertainty, and timezone provenance.
+ADR-0008 and [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md) distinguish fixed instants, local civil time, intervals, exact durations, calendar periods, temporal roles, precision, uncertainty, and timezone evidence.
 
-The reference case proves that `13/07/2026 14:00` in `Europe/Paris` resolves to `2026-07-13T12:00:00Z` under pinned timezone evidence. Ambiguous and nonexistent civil times block automatic use.
+The reference profile resolves `13/07/2026 14:00` in `Europe/Paris` to `2026-07-13T12:00:00Z`. Ambiguous or nonexistent civil times block automatic use.
 
 ```bash
 python tools/aduc_time.py \
@@ -107,19 +98,18 @@ python tools/aduc_time.py \
   examples/time/invalid-cases.json
 ```
 
-### Entity identity and safe equivalence
+## Entity identity and safe equivalence
 
-ADR-0009 and [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md) distinguish entities, identifiers, labels, relation assertions, and consumer merge decisions.
+ADR-0009 and [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md) separate entities, identifiers, labels, relation assertions, and merge decisions.
 
 ```text
 canonical M42 / MAIN-B crosswalk -> mergeAllowed
 inferred similarity -> candidateOnly
-same lexical value in different namespaces -> unresolved
-reviewed negative relation -> differentEntity
-broader/narrower relation -> relationOnly
+same text in different namespaces -> unresolved
+reviewed negative identity -> differentEntity
 ```
 
-`owl:sameAs` is exported only after a qualifying verified or canonical `mergeAllowed` decision.
+`owl:sameAs` is emitted only after a qualifying verified or canonical identity decision.
 
 ```bash
 python tools/aduc_identity.py \
@@ -127,24 +117,11 @@ python tools/aduc_identity.py \
   examples/identity/invalid-cases.json
 ```
 
-### Provenance and transformation lineage
+## Provenance and transformation lineage
 
-ADR-0010 and [`PROVENANCE_PROFILE_0_1.md`](spec/PROVENANCE_PROFILE_0_1.md) reuse W3C PROV-O and add deterministic ADUC rules for exact artifact binding, execution evidence, disclosure, and reproducibility.
+ADR-0010 and [`PROVENANCE_PROFILE_0_1.md`](spec/PROVENANCE_PROFILE_0_1.md) reuse PROV-O and define deterministic rules for exact artifact binding, transformations, agents, software or model execution, disclosure, invalidation, and reproducibility.
 
-The profile separates:
-
-```text
-entity or artifact
-activity or transformation
-responsible agent
-software/model execution evidence
-derivation
-invalidation
-disclosure state
-reproducibility claim
-```
-
-Material inputs and outputs are bound by SHA-256. Observed, attested, inferred, partial, and redacted lineage remain distinct. `replayable` is not presented as deterministic reproduction, and material human intervention cannot be hidden.
+Observed, attested, inferred, partial, and redacted lineage remain distinct. A process described as `replayable` is not presented as deterministic reproduction, and material human intervention cannot be hidden.
 
 ```bash
 python tools/aduc_provenance.py \
@@ -152,21 +129,11 @@ python tools/aduc_provenance.py \
   examples/provenance/invalid-cases.json
 ```
 
-### Uncertainty and data quality
+## Uncertainty and data quality
 
-ADR-0011 and [`UNCERTAINTY_PROFILE_0_1.md`](spec/UNCERTAINTY_PROFILE_0_1.md) separate:
+ADR-0011 and [`UNCERTAINTY_PROFILE_0_1.md`](spec/UNCERTAINTY_PROFILE_0_1.md) separate measurement uncertainty, semantic confidence, calibrated model probability, DQV-compatible quality, and epistemic authority.
 
-```text
-measurement uncertainty
-semantic-mapping confidence
-model confidence or calibrated probability
-data-quality measurement
-epistemic authority
-```
-
-The profile supports standard, expanded, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty; missingness and censoring; DQV-compatible quality measurements; and a deliberately small deterministic propagation subset.
-
-Validated reference results include:
+The profile covers standard, expanded, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty; missingness and censoring; dependence; deterministic propagation; and quality disclosure.
 
 ```text
 0.5 °C standard uncertainty -> 0.9 °F
@@ -175,30 +142,55 @@ Validated reference results include:
 resolution 0.1 rectangular contribution -> 0.028867513459481
 ```
 
-Uncalibrated model scores are not probabilities. Canonical authority does not imply zero uncertainty. Unknown dependence blocks propagation, and unknown uncertainty is never replaced by zero.
-
 ```bash
 python tools/aduc_uncertainty.py \
   examples/uncertainty/reference-cases.json \
   examples/uncertainty/invalid-cases.json
 ```
 
-## Adoption and value validation
+## General relation semantics
 
-The official cross-cutting plan is [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md).
+ADR-0012 and [`RELATION_PROFILE_0_1.md`](spec/RELATION_PROFILE_0_1.md) separate vocabulary definitions, relation assertions, and consumer inferences.
 
-ADUC tooling is not successful merely because it produces valid files. Before the compiler and review interface can be called successful, the project must prove that:
+The profile reuses RDF, OWL, SKOS, PROV-O, Dublin Core Terms, and explicit domain predicates. It preserves endpoint bindings, direction, authority, evidence, provenance, temporal and contextual scope, uncertainty, conflict, and lifecycle.
+
+Core safeguards include:
+
+```text
+skos:closeMatch is not equality
+owl:sameAs requires a qualifying identity decision
+inverse relations require an authoritative inverse
+transitivity is never assumed
+skos:broader closure produces skos:broaderTransitive
+correlation and temporal order do not establish causation
+absence means unknown, not false
+contested or deprecated relations block automatic use
+```
+
+The reference suite includes 13 valid cases, 20 invalid counterexamples, 10 tests, graph-conflict checks, and deterministic qualified JSON-LD/RDF export.
+
+```bash
+python tools/aduc_relations.py \
+  examples/relations/reference-cases.json \
+  examples/relations/invalid-cases.json
+```
+
+# Adoption and value validation
+
+The mandatory cross-cutting plan is [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md).
+
+ADUC tooling is not successful merely because it produces valid files. Before compiler and review tooling can be called successful, the project must prove:
 
 - `infer + review` is materially faster than equivalent manual mapping;
 - final correctness is not lower than the manual mapping baseline;
 - unknown, low-support, and conflicting mappings remain visible;
-- numeric confidence is calibrated before being described as probability;
+- confidence is calibrated before being described as probability;
 - multi-model evaluation compares the same tasks with and without ADUC;
-- MCP remains an optional adoption adapter rather than a Core dependency.
+- MCP remains an optional adapter rather than a Core dependency.
 
-The provisional alpha target is at least 30% lower median assisted human time with no lower final correctness and no silently accepted critical false mapping.
+The provisional alpha target is at least 30% lower median assisted human time, without lower final correctness or silently accepted critical false mappings.
 
-## Mandatory construction order
+# Mandatory construction order
 
 ```text
 1. Core
@@ -213,7 +205,7 @@ The provisional alpha target is at least 30% lower median assisted human time wi
 
 TimeProofs and the anticipation engine remain separate projects.
 
-## Current status
+# Current status
 
 - Phase: Phase 0 — complete Core definition and public foundation
 - Target release: `0.1.0-alpha.0`
@@ -224,8 +216,9 @@ TimeProofs and the anticipation engine remain separate projects.
 - Entity identity: specified and reference-tested
 - Provenance and lineage: specified and reference-tested
 - Uncertainty and data quality: specified and reference-tested
+- General relations: specified and reference-tested
 - Adoption/value validation: defined; benchmarks not yet run
-- Next Core decision: general relation semantics
+- Next Core decision: policy and permitted-use conditions
 - Full-Core JSON Schema: not yet implemented
 - External multi-model proof: absent
 
@@ -233,10 +226,9 @@ See:
 
 - [`PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md)
 - [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-- [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
 - [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
 
-## Read first
+# Read first
 
 1. [`ADUC_CORE_SPEC_0_1.md`](spec/ADUC_CORE_SPEC_0_1.md)
 2. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
@@ -246,32 +238,23 @@ See:
 6. [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md)
 7. [`PROVENANCE_PROFILE_0_1.md`](spec/PROVENANCE_PROFILE_0_1.md)
 8. [`UNCERTAINTY_PROFILE_0_1.md`](spec/UNCERTAINTY_PROFILE_0_1.md)
-9. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-10. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-11. [`METHOD.md`](docs/method/METHOD.md)
-12. [`AGENTS.md`](AGENTS.md) for AI coding agents
+9. [`RELATION_PROFILE_0_1.md`](spec/RELATION_PROFILE_0_1.md)
+10. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+11. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+12. [`AGENTS.md`](AGENTS.md)
 
-## Implemented today
+# Not yet implemented
 
-- governance, roadmap, ADR method, CI, and public website;
-- full-Core working draft and first ten-block example;
-- epistemic, source-binding, unit, temporal, identity, provenance, and uncertainty profiles with deterministic evaluators;
-- semantic-mapping profile, validator, and comparator;
-- JSON-LD context and offline RDF round-trip;
-- provider-neutral multi-model conformance harness.
-
-## Not yet implemented
-
-- general-relation and policy profiles;
+- policy and permitted-use profile;
 - normative full-Core object model and JSON Schema family;
 - ten valid and ten invalid complete Core examples;
-- complete Core validator and SDKs;
+- unified full-Core validator and comparator;
 - JSON/CSV compiler and review UI;
-- inference calibration and manual-versus-assisted benchmark;
-- controlled with/without-ADUC external model proof;
+- manual mapping versus assisted benchmark;
+- controlled with and without ADUC external-model proof;
 - optional MCP adapter, extensions, and anticipation engine.
 
-## Run all checks
+# Run all checks
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -287,18 +270,13 @@ python -m unittest discover -s tests/time -p "test_*.py"
 python -m unittest discover -s tests/identity -p "test_*.py"
 python -m unittest discover -s tests/provenance -p "test_*.py"
 python -m unittest discover -s tests/uncertainty -p "test_*.py"
+python -m unittest discover -s tests/relations -p "test_*.py"
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python -m unittest discover -s tests/website -p "test_*.py"
 python tools/validate_website.py
 ```
 
-## Website preview
-
-```bash
-python -m http.server 8000 --directory website
-```
-
-## Licensing
+# Licensing
 
 - Reference code: Apache License 2.0
 - Specification and documentation: CC BY 4.0 target before public release
