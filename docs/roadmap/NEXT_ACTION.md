@@ -2,19 +2,21 @@
 
 ## Single active task
 
-Define and accept the ADUC provenance and transformation-lineage strategy before implementing the full-Core JSON Schema.
+Define and accept the ADUC uncertainty and data-quality strategy before implementing the full-Core JSON Schema.
 
 Create:
 
 ```text
-docs/decisions/ADR-0010-provenance-and-transformation-lineage.md
-spec/PROVENANCE_PROFILE_0_1.md
-examples/provenance/
+docs/decisions/ADR-0011-uncertainty-and-data-quality.md
+spec/UNCERTAINTY_PROFILE_0_1.md
+examples/uncertainty/
+tools/aduc_uncertainty.py
+tests/uncertainty/
 ```
 
 ## Objective
 
-Define how ADUC records where data and assertions came from, which agents and activities produced them, which transformations were applied, which software and parameters were used, and whether a result can be reproduced or trusted without inventing missing lineage.
+Define how ADUC represents uncertainty about measured, declared, estimated, inferred, converted, aggregated, and model-produced values without confusing uncertainty with epistemic authority, source quality, or confidence in a semantic mapping.
 
 ## Completed dependencies
 
@@ -26,57 +28,63 @@ ADR-0006  source description and immutable binding
 ADR-0007  units and deterministic conversion
 ADR-0008  temporal semantics and timezone alignment
 ADR-0009  entity identity and safe equivalence
+ADR-0010  provenance and transformation lineage
 ```
 
-Every provenance record must bind exact inputs and outputs through ADR-0006, use ADR-0008 for activity time, and preserve ADR-0005 authority, evidence, conflict, and lifecycle.
+Every uncertainty assertion must bind its target through ADR-0006, use compatible units through ADR-0007, identify its production method through ADR-0010, and preserve ADR-0005 authority, evidence, conflict, and lifecycle.
 
 ## Cross-cutting adoption constraint
 
 The official [`ADOPTION_AND_VALUE_VALIDATION.md`](ADOPTION_AND_VALUE_VALIDATION.md) plan remains mandatory for later compiler, review, and interoperability work.
 
-Do not implement the JSON/CSV compiler now. A future compiler may infer missing lineage only as `inferred`, must distinguish observed provenance from reconstructed provenance, and must expose gaps for review.
+Do not implement the JSON/CSV compiler now. A future compiler may propose uncertainty models only as `inferred`, must expose unsupported assumptions, and must never fabricate measurement precision from display formatting or sample size alone.
 
 ## Required decisions
 
-1. how ADUC reuses PROV-O rather than creating a competing provenance ontology;
-2. how entities, activities, agents, generation, use, derivation, attribution, association, invalidation, and delegation are represented;
-3. how source bytes, schema versions, contracts, transformations, and outputs are linked by immutable identifiers and hashes;
-4. how software name, version, build, environment, parameters, prompts, models, and configuration are recorded;
-5. how deterministic, nondeterministic, manual, inferred, and externally attested transformations differ;
-6. how partial, missing, reconstructed, contested, and deprecated lineage is represented;
-7. how activity start/end, ordering, retries, branching, aggregation, and batch processing are represented;
-8. how a consumer detects cycles, impossible ordering, missing inputs, conflicting outputs, or broken hash chains;
-9. how privacy and policy restrict disclosure of provenance without falsely claiming complete lineage;
-10. how current source-binding, unit-conversion, temporal-resolution, and identity-crosswalk examples migrate into one provenance model.
+1. separate measurement uncertainty, semantic confidence, data quality, model confidence, and epistemic authority;
+2. represent absolute, relative, asymmetric, interval, distributional, categorical, and unknown uncertainty;
+3. declare coverage probability, confidence level, method, assumptions, sample size, and calibration evidence when applicable;
+4. reuse established vocabularies such as DQV and appropriate metrology/statistical standards instead of creating a universal statistical ontology;
+5. define how units attach to uncertainty values and how affine conversions affect absolute and relative uncertainty;
+6. define deterministic propagation for supported arithmetic and conversion operations;
+7. distinguish independent, correlated, and unknown dependence between inputs;
+8. define aggregation, missingness, censoring, detection limits, rounding, and resolution effects;
+9. represent qualitative quality dimensions separately from numeric uncertainty;
+10. define consumer behavior when uncertainty is missing, incompatible, contested, deprecated, or impossible to propagate;
+11. preserve provenance for every derived uncertainty result;
+12. define the boundary between Core uncertainty and domain-specific extensions.
 
 ## Required counterexamples
 
 The specification must reject or explicitly block:
 
-- claiming a result was derived from an input without binding the input;
-- recording a transformation without the responsible agent or method;
-- omitting software/model version while claiming reproducibility;
-- treating inferred lineage as observed or canonical lineage;
-- accepting a provenance cycle;
-- accepting activity end before activity start;
-- silently replacing one output hash with another;
-- claiming deterministic reproduction for a nondeterministic process without seeds and environment evidence;
-- hiding a material manual intervention;
-- treating a prompt or model name alone as sufficient AI provenance;
-- declaring complete lineage when required segments are redacted or missing;
-- ignoring invalidation, retraction, conflict, or deprecation events.
+- treating semantic mapping confidence as measurement uncertainty;
+- treating a canonical assertion as statistically certain;
+- expressing an uncertainty value without a compatible unit or quantity role;
+- claiming a 95% interval without a method or interpretation;
+- propagating independent-error formulas when inputs are correlated or dependence is unknown;
+- converting absolute temperature uncertainty with an affine offset;
+- deriving false precision from decimal places;
+- silently dropping uncertainty during conversion or aggregation;
+- using negative standard uncertainty;
+- accepting reversed or impossible bounds;
+- presenting an uncalibrated model score as probability;
+- claiming complete quality when material metrics are missing or redacted;
+- hiding censoring, detection limits, or missing-data assumptions;
+- using a domain-specific uncertainty model as a universal Core rule.
 
 ## Scope boundary
 
-Do not implement the full-Core schema, complete uncertainty or policy profiles, compiler, review UI, registry service, MCP adapter, extensions, or anticipation engine in this task.
+Do not implement the full-Core schema, complete general-relation or policy profiles, compiler, review UI, registry service, MCP adapter, extensions, or anticipation engine in this task.
 
 ## Completion test
 
 An independent implementer must be able to:
 
-1. trace one value from original source bytes through parsing, unit conversion, temporal resolution, identity linking, and final comparison;
-2. identify every responsible agent, activity, method, version, input, and output;
-3. distinguish observed, inferred, attested, and incomplete provenance;
-4. reproduce one deterministic transformation from pinned evidence;
-5. reject one cyclic or broken lineage;
-6. preserve redaction status, authority, evidence, time, hashes, and lifecycle without private guidance.
+1. represent a measured value with absolute and relative uncertainty;
+2. convert and propagate uncertainty through at least one unit conversion;
+3. distinguish a statistical interval from a semantic confidence score;
+4. preserve uncertainty through one deterministic transformation lineage;
+5. block one unsupported correlated propagation;
+6. represent missing, qualitative, and contested quality information without inventing precision;
+7. reproduce reference calculations from pinned methods and evidence.
