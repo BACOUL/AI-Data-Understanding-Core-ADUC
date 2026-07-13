@@ -1,0 +1,29 @@
+{
+  "@context": "https://example.org/aduc/context/0.1",
+  "id": "urn:aduc:profile:river-record-1-inferred",
+  "conformsTo": "urn:aduc:profile:0.1",
+  "describes": "https://data.example.org/schema/river-record/1",
+  "validFor": {
+    "source": "https://data.example.org/schema/river-record",
+    "version": "1"
+  },
+  "referenceScheme": "json-pointer",
+  "issuedAt": "2026-07-13T14:00:00Z",
+  "assertions": [
+    {
+      "id": "urn:aduc:assertion:river-flow-inferred-1",
+      "localReference": "/properties/flow",
+      "semanticTarget": "https://example.org/environment/WaterDischarge",
+      "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
+      "status": "inferred",
+      "confidence": 0.91,
+      "confidenceMethod": "urn:method:manual-evidence-score:1",
+      "assertedBy": "urn:tool:authoring-example",
+      "assertedAt": "2026-07-13T13:55:00Z",
+      "evidence": [
+        "urn:evidence:river-doc-flow",
+        "urn:evidence:unit-m3-per-second"
+      ]
+    }
+  ]
+}

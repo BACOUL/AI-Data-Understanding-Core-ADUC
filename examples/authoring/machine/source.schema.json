@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://factory.example/schema/motor-reading/12",
+  "title": "Motor reading",
+  "type": "object",
+  "required": ["equipment_id", "motor_heat", "unit"],
+  "properties": {
+    "equipment_id": {"type": "string"},
+    "motor_heat": {"type": "number"},
+    "unit": {"type": "string"}
+  },
+  "additionalProperties": false
+}

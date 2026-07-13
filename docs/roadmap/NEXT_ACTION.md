@@ -2,46 +2,47 @@
 
 ## Single active task
 
-Begin Gate 4 by defining the source-authoring and review workflow without implementing automatic AI inference yet.
+Begin Gate 5 by specifying and implementing deterministic comparison of two validated ADUC mapping profiles.
 
 Create:
 
 ```text
-spec/AUTHORING_WORKFLOW_0_1.md
-examples/authoring/
+spec/COMPARISON_PROTOCOL_0_1.md
+tools/aduc_compare.py
+tests/comparator/
+examples/comparison/
 ```
 
 ## Objective
 
-Specify how a user or future compiler creates, reviews, promotes, contests and publishes immutable semantic mapping assertions while preserving their provenance and prior versions.
+Given two schema-valid and semantically valid profiles, identify which local fields are semantically comparable using only the published assertions and without hidden provider-specific mappings.
 
-## Required workflow
+## Required behavior
 
-1. identify the described source and immutable source version;
-2. enumerate local fields from Croissant or JSON Schema;
-3. create inferred mapping proposals with method-bound confidence and evidence;
-4. expose unmapped fields explicitly through coverage reporting rather than targetless assertions;
-5. review proposals without editing published assertions in place;
-6. create a new reviewed or canonical assertion that supersedes its predecessor;
-7. contest a mapping without silently selecting an alternative;
-8. export a schema-valid profile;
-9. run the Gate 3 validator;
-10. preserve a machine-readable authoring ledger.
+1. validate both input profiles before comparison;
+2. preserve each local reference, source binding, assertion status and mapping relation;
+3. report an exact semantic match only when the declared targets and relation rules justify it;
+4. report `closeMatch`, `broadMatch`, `narrowMatch` and `relatedMatch` as non-exact candidates;
+5. block automatic comparison when an applicable mapping is `contested`;
+6. expose incompatible canonical mappings instead of choosing one;
+7. distinguish `comparable`, `candidate`, `blocked`, `unmapped` and `notEvaluated` results;
+8. emit deterministic text and JSON reports;
+9. avoid network ontology resolution and hidden aliases in conformance mode;
+10. state explicitly when unit conversion, temporal alignment or entity resolution cannot be evaluated from the supplied artifacts.
 
-## Required artifacts
+## Required demonstration
 
-- role definitions: inference producer, reviewer, source authority and consumer;
-- immutable lifecycle diagrams;
-- proposal and review record shapes;
-- minimum human-review questions;
-- two end-to-end examples from source field to published profile;
-- failure cases preventing silent authority promotion;
-- clear separation between authoring metadata and the portable profile.
+Provide two differently named source fields that map to the same semantic target, plus negative cases showing:
+
+- same-looking names without a shared target are not matched;
+- a `closeMatch` is not upgraded to exact equivalence;
+- a contested mapping blocks automatic use;
+- missing unit, time or entity metadata is returned as `notEvaluated`, not guessed.
 
 ## Scope boundary
 
-Do not call external models, build a web UI, create a registry, resolve ontology terms over the network or implement the anticipation engine. This task defines the workflow and evidence required before authoring automation is built.
+Do not build automatic ontology search, unit conversion, entity resolution, temporal reasoning, model calls, a registry or the anticipation engine. Gate 5 proves portable semantic comparison only and identifies which additional source-description standards are required for later dimensions.
 
 ## Completion test
 
-An independent developer must be able to follow the document manually and produce a valid profile whose lifecycle can be audited from inference through review or canonical publication.
+Two independent executions over the same profile pair must produce byte-for-byte equivalent JSON comparison output, and CI must verify all positive and negative cases.
