@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://data.example.org/schema/river-record/1",
+  "title": "River observation record",
+  "type": "object",
+  "required": ["station", "flow", "quality"],
+  "properties": {
+    "station": {"type": "string"},
+    "flow": {"type": "number"},
+    "quality": {"type": "integer"}
+  },
+  "additionalProperties": false
+}
