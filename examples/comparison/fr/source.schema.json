@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schema/fr-motor-reading/1",
+  "title": "French motor reading",
+  "type": "object",
+  "required": ["machine", "temp_moteur", "unite", "date"],
+  "properties": {
+    "machine": {"type": "string"},
+    "temp_moteur": {"type": "number"},
+    "unite": {"type": "string"},
+    "date": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
