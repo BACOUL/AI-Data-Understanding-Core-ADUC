@@ -1,18 +1,19 @@
 # ADR-0011 — Uncertainty, Confidence, Missingness, and Data Quality
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-07-13
 - Issue: #39
+- Pull request: #40
 - Decision owners: ADUC maintainers
 
 ## Context
 
-A value can be correctly identified, bound to its source, expressed in a compatible unit, aligned in time, linked to the correct entity, and fully traceable while still being uncertain or unsuitable for a particular use.
+A data value can be correctly identified, bound to its source, expressed in a compatible unit, aligned in time, linked to the correct entity, and fully traceable while still being uncertain or unsuitable for a particular use.
 
-Several concepts are routinely conflated:
+ADUC must not collapse these distinct concerns into one generic `confidence` field:
 
 ```text
-measurement uncertainty
+measurement or value uncertainty
 statistical interval
 model probability or score
 semantic-mapping confidence
@@ -20,46 +21,31 @@ data-quality measurement
 epistemic authority
 ```
 
-Treating these as one generic `confidence` field would cause unsafe comparisons and false claims. A canonical assertion is authoritative about what a publisher declared; it is not statistically certain. A high model score is not a calibrated probability. A dataset may have high completeness while an individual measurement remains uncertain.
-
-ADUC needs a constrained profile that preserves these distinctions, reuses established metrology and data-quality work, and defines deterministic behavior for a small v0.1 propagation subset.
+A canonical assertion records source authority; it does not imply statistical certainty. A model score is not a probability without calibration. A dataset-quality score does not replace uncertainty attached to an individual value.
 
 ## Decision
 
 ### 1. Keep five concerns separate
 
-ADUC separates:
+| Concern | Representation |
+|---|---|
+| measurement/value uncertainty | uncertainty assertion |
+| semantic confidence | ADR-0005 epistemic confidence |
+| model confidence | calibrated model-output evidence or categorical distribution |
+| data quality | DQV-compatible quality measurement |
+| epistemic authority | ADR-0005 authority level |
 
-| Concern | Meaning | Core representation |
-|---|---|---|
-| measurement/value uncertainty | dispersion or range reasonably attributable to a value | uncertainty assertion |
-| semantic confidence | support for an inferred mapping | ADR-0005 epistemic confidence |
-| model confidence | model-produced score or calibrated probability | model-output evidence or categorical distribution |
-| data quality | fitness-related measurement against a declared metric | DQV-compatible quality measurement |
-| epistemic authority | who may assert, verify, or canonically publish a claim | ADR-0005 authority level |
+No property may silently substitute for another.
 
-No field may silently substitute for another.
+### 2. Reuse established standards
 
-### 2. Reuse GUM/VIM and DQV
+ADUC profiles concepts from JCGM GUM/VIM for quantitative measurement uncertainty and W3C DQV for data-quality metadata. It reuses ADR-0006 for target binding, ADR-0007 for units and quantity roles, ADR-0010 for production and propagation provenance, and ADR-0005 for authority, conflict, and lifecycle.
 
-For quantitative measurement uncertainty, ADUC profiles concepts from the JCGM Guide to the Expression of Uncertainty in Measurement (GUM) and related metrology guidance instead of defining a new theory of measurement.
+ADUC does not create a universal statistical theory or a universal quality score.
 
-For dataset and resource quality, ADUC maps to the W3C Data Quality Vocabulary (DQV):
+### 3. Common uncertainty record
 
-```text
-dqv:QualityMeasurement
-dqv:Metric
-dqv:Dimension
-dqv:computedOn
-dqv:value
-dqv:QualityMetadata
-```
-
-DQV describes quality information and lets consumers judge fitness for purpose. ADUC adds source binding, authority, provenance, disclosure, lifecycle, and deterministic AI-consumer rules.
-
-### 3. Uncertainty assertion identity and binding
-
-Every uncertainty assertion contains:
+Every uncertainty assertion identifies:
 
 ```text
 uncertaintyId
@@ -77,48 +63,64 @@ conflictState
 lifecycleState
 ```
 
-The target uses ADR-0006. Units and quantity roles use ADR-0007. Production method and derivation use ADR-0010. Authority, conflict, and lifecycle use ADR-0005.
+Numeric values are decimal strings. Material identifiers and evidence are absolute IRIs.
 
-### 4. Supported v0.1 uncertainty forms
+### 4. Supported v0.1 forms
 
-The Core profile supports:
+```text
+standard
+expanded
+relativeStandard
+asymmetric
+interval
+distribution
+categorical
+unknown
+```
 
-| Type | Required information |
-|---|---|
-| `standard` | non-negative standard uncertainty in a compatible unit |
-| `expanded` | expanded uncertainty, coverage factor, coverage probability, interpretation, and method |
-| `relativeStandard` | non-negative unitless relative standard uncertainty |
-| `asymmetric` | non-negative lower and upper deviations |
-| `interval` | ordered bounds, coverage probability, interpretation, and method |
-| `distribution` | distribution IRI and explicit parameters |
-| `categorical` | categories, probabilities summing to one, and calibration evidence |
-| `unknown` | explicit reason and no fabricated numeric parameter |
+Requirements include:
 
-The profile does not assert that every domain can be represented adequately by these forms. Domain-specific distributions, spatial uncertainty, ensembles, fuzzy membership, and advanced Bayesian models remain extension territory.
+- non-negative uncertainty magnitudes;
+- explicit unit and compatible quantity role for numeric forms;
+- coverage probability, interpretation, and method for intervals;
+- explicit family and parameters for distributions;
+- calibrated probabilities summing to one for categorical distributions;
+- a reason and no fabricated numeric parameters for `unknown`.
 
-### 5. Absolute, relative, and affine-unit behavior
+### 5. Statistical uncertainty is not authority
 
-Numeric uncertainty must use a globally identified compatible unit.
+A canonical assertion may remain highly uncertain. Zero uncertainty is accepted only when a value is exact by definition and that exactness has a declared method and evidence. Decimal formatting, repeated values, or source authority do not establish exactness.
 
-- absolute uncertainty carries the corresponding difference/ordinary quantity role;
-- relative uncertainty uses the explicit unitless identifier;
-- an affine conversion transforms an absolute uncertainty magnitude using only the absolute scale multiplier;
-- the affine offset is applied to the measured value, never to the uncertainty magnitude;
-- relative uncertainty is preserved only for purely multiplicative conversion in v0.1;
-- conversion output must retain a provenance activity.
+For inferred assertions, `epistemicConfidence` and `confidenceMethod` describe support for the assertion itself, not measurement uncertainty.
 
-For example:
+### 6. Affine and multiplicative conversion
+
+For a unit conversion:
+
+```text
+y = (x + offset) × multiplier
+```
+
+an absolute uncertainty magnitude is converted as:
+
+```text
+u(y) = |multiplier| × u(x)
+```
+
+The affine offset is never applied to the uncertainty magnitude.
+
+Reference result:
 
 ```text
 89 °C ± 0.5 °C
 → 192.2 °F ± 0.9 °F
 ```
 
-The `32` degree offset affects the value, not the `0.5` uncertainty.
+Relative uncertainty is preserved generically only for purely multiplicative conversion in v0.1. Every converted uncertainty retains a provenance activity.
 
-### 6. Interval semantics are mandatory
+### 7. Interval interpretation
 
-A numeric interval does not explain itself. A coverage interval must declare:
+A statement such as “95% interval” is invalid without:
 
 ```text
 coverageProbability
@@ -126,7 +128,7 @@ intervalInterpretation
 coverageMethod
 ```
 
-Supported interpretations are:
+Supported reference interpretations are:
 
 ```text
 coverage
@@ -135,27 +137,19 @@ bayesianCredible
 prediction
 ```
 
-A claim such as “95% interval” without a method and interpretation is invalid.
+### 8. Model probabilities require calibration
 
-### 7. Model scores and categorical probability
-
-A model score becomes a probability distribution only when the record includes:
+A model score is represented as probability only when the record includes:
 
 ```text
 calibration method
 evaluation dataset binding
 calibration evidence
-category probabilities summing exactly to one
 model-execution provenance
+category probabilities summing exactly to one
 ```
 
-Uncalibrated logits, similarity values, confidence labels, or self-reported LLM confidence must not be serialized as probability.
-
-### 8. Exact and zero uncertainty
-
-Zero uncertainty is not inferred from authority, formatting, or repeated identical values.
-
-A zero numeric uncertainty is allowed only when the value is exact by definition and the exactness is backed by a declared method and evidence. Canonical publication alone never establishes exactness.
+Similarity values, logits, confidence labels, and self-reported LLM confidence are not probabilities by default.
 
 ### 9. Missingness and censoring
 
@@ -169,26 +163,25 @@ censoredAbove
 intervalCensored
 ```
 
-- missing observations provide a reason and no value;
-- censored observations provide a detection or interval limit, compatible unit, and method;
-- consumers must not replace censored or missing values with invented exact values;
-- imputation is a separate provenance activity and must retain the original observation state.
+Missing and censored values must not be replaced silently by exact values. Censoring records detection or interval limits, compatible units, and method. Imputation is a separate provenance activity that retains the original observation state.
 
-### 10. Resolution and rounding
+### 10. Resolution and false precision
 
-Displayed decimal places do not establish uncertainty.
-
-An instrument or encoding resolution may contribute to uncertainty only when resolution is explicitly documented. The v0.1 reference evaluator supports a rectangular resolution contribution:
+Displayed decimal places do not establish uncertainty. A documented rectangular instrument-resolution contribution may use:
 
 ```text
 u = resolution / sqrt(12)
 ```
 
-Rounding and quantization remain explicit transformation activities.
+Reference result:
 
-### 11. Dependence and correlation
+```text
+resolution 0.1 → standard uncertainty 0.028867513459481
+```
 
-Propagation requires a dependence declaration:
+### 11. Dependence and propagation
+
+A propagation request declares one of:
 
 ```text
 independent
@@ -196,44 +189,37 @@ correlated
 unknown
 ```
 
-Independent propagation requires evidence. Correlated propagation requires a coefficient in `[-1, 1]` and evidence. Unknown dependence blocks generic propagation.
+Independence requires evidence. Correlated propagation requires a coefficient in `[-1, 1]` and evidence. Unknown dependence blocks generic propagation.
 
-For the v0.1 reference subset:
+The v0.1 evaluator supports a limited deterministic subset:
 
-```text
-u(x + y)^2 = u(x)^2 + u(y)^2 + 2ρu(x)u(y)
-```
-
-For multiplication/division, the same expression is applied to relative standard uncertainties in the limited two-input reference case.
-
-The Core does not assume independence merely because no covariance was supplied.
-
-### 12. Deterministic propagation subset
-
-The reference evaluator supports:
-
-1. scale-only uncertainty conversion for exact multiplicative and affine unit conversions;
+1. scale-only conversion of standard uncertainty;
 2. two-input additive propagation of standard uncertainty;
 3. two-input multiplicative propagation of relative standard uncertainty;
-4. documented rectangular resolution contribution.
+4. rectangular resolution contribution.
 
-Every derived result records its provenance activity and method. Unsupported nonlinear, discontinuous, multivariate, simulation-based, or domain-specific propagation is blocked or delegated to an extension.
+For addition:
 
-### 13. Distribution records
+```text
+u² = u₁² + u₂² + 2ρu₁u₂
+```
 
-A distribution record identifies its family with an IRI and provides explicit parameters.
+Reference results:
 
-The reference subset validates:
+```text
+3 and 4 independent → 5
+0.03 and 0.04 independent relative uncertainties → 0.05
+```
 
-- normal distribution with finite mean and non-negative standard deviation;
-- rectangular distribution with ordered lower and upper bounds;
-- categorical probability distribution with calibration evidence.
+Unsupported nonlinear, multivariate, simulation-based, or domain-specific propagation is blocked or delegated to an extension.
 
-The profile does not claim that the named family is correct; authority and evidence remain separate.
+### 12. Distribution records
 
-### 14. DQV-compatible quality records
+Distribution families are identified by IRIs and carry explicit parameters. The reference subset validates normal and rectangular distributions plus calibrated categorical distributions. Declaring a family does not prove it is appropriate; authority and evidence remain separate.
 
-Quality is represented through a bundle containing:
+### 13. DQV-compatible quality records
+
+A quality bundle identifies:
 
 ```text
 bundleId
@@ -248,23 +234,7 @@ provenanceActivity
 authority and evidence
 ```
 
-Each quality measurement identifies:
-
-```text
-measurementId
-metric
-dimension
-computedOn
-value
-unit when applicable
-method
-provenanceActivity
-authority and evidence
-```
-
-A quality metric is meaningful only under its declared procedure and target. A score from one metric must not be compared with another metric merely because both are numeric.
-
-### 15. Quality disclosure
+Each measurement identifies its metric, dimension, target, value, unit where relevant, method, provenance, and authority. Numeric quality values are not comparable merely because they share a numeric range.
 
 Supported disclosure states are:
 
@@ -275,115 +245,77 @@ redacted
 unknown
 ```
 
-`complete` is invalid if a required metric is absent or redacted. `redacted` requires a policy reference. Redaction does not mean the metric was not evaluated.
+A complete claim is invalid when required metrics are missing or redacted. Redaction requires a policy reference.
 
-### 16. Consumer behavior
+### 14. Consumer blocking rules
 
-Automatic use is blocked when:
+Automatic reliance or propagation is blocked when:
 
-- uncertainty is contested or deprecated and the result depends on it;
-- numeric units are absent or incompatible;
-- bounds are reversed or invalid;
-- interval interpretation is absent;
+- uncertainty is contested or deprecated;
+- units or quantity roles are absent or incompatible;
+- bounds or coverage claims are invalid;
 - categorical probabilities are uncalibrated;
-- dependence is unknown for a requested propagation;
-- provenance is missing;
-- a quality completeness claim conflicts with missing/redacted metrics;
-- an unsupported propagation model would be required.
+- dependence is unknown;
+- provenance is absent;
+- quality disclosure is inconsistent;
+- an unsupported propagation model is required.
 
-Unknown uncertainty remains valid information. Consumers must preserve `unknown` rather than replacing it with zero.
+`unknown` is valid information and must never be converted to zero.
 
-### 17. Error families
+### 15. Error families
 
 ```text
-ADUC-UNC-001   malformed, unbound, or unprovenanced uncertainty assertion
-ADUC-UNC-002   authority or exactness is confused with statistical certainty
-ADUC-UNC-003   unsupported or conflated uncertainty type
-ADUC-UNC-004   uncertainty unit or quantity role is missing/incompatible
-ADUC-UNC-005   invalid numeric uncertainty magnitude
-ADUC-UNC-006   invalid or uninterpreted interval/coverage claim
-ADUC-UNC-007   invalid distribution family or parameters
-ADUC-UNC-008   invalid categorical distribution
-ADUC-UNC-009   false precision inferred from formatting
-ADUC-UNC-010   uncalibrated model score presented as probability
-ADUC-UNC-011   unknown uncertainty contains fabricated precision
-ADUC-PROP-001  invalid dependence or propagation declaration
-ADUC-PROP-002  unknown dependence blocks propagation
-ADUC-PROP-003  unsupported or incomplete propagation
-ADUC-PROP-004  invalid affine/relative uncertainty transformation
-ADUC-DATA-001  invalid observation state
-ADUC-DATA-002  missingness is hidden or contradicted
-ADUC-DATA-003  censoring or detection-limit evidence is invalid
-ADUC-DQV-001   malformed DQV-compatible quality bundle or measurement
-ADUC-DQV-002   inconsistent quality disclosure
-ADUC-DQV-003   false completeness claim
-ADUC-DQV-004   redaction lacks policy or target
+ADUC-UNC-001..011  uncertainty structure, meaning, interval, distribution, calibration, and exactness
+ADUC-PROP-001..004 dependence and propagation
+ADUC-DATA-001..003 observation state, missingness, and censoring
+ADUC-DQV-001..004 quality measurement and disclosure
 ```
 
-### 18. Core boundary
+The detailed error contract is implemented by `tools/aduc_uncertainty.py` and tested through the official fixtures.
 
-The Core standardizes representation, provenance, disclosure, and a small deterministic propagation subset.
+### 16. Core boundary
 
-The following remain outside generic v0.1 unless expressed by an extension or an external method profile:
+The following remain outside generic v0.1 unless supplied by external method profiles or extensions:
 
 - complex covariance matrices;
 - Monte Carlo propagation;
-- stochastic processes and time-series uncertainty;
-- spatial error surfaces;
-- ensembles;
-- fuzzy sets;
-- domain-specific clinical or safety risk scores;
-- legal standards of proof;
-- universal model calibration procedures.
+- spatial uncertainty;
+- stochastic processes and time-series models;
+- ensembles and fuzzy membership;
+- domain-specific clinical, safety, or legal risk models;
+- universal model-calibration procedures.
 
 ## Consequences
 
 ### Positive
 
-- measurement uncertainty is not confused with mapping confidence;
+- measurement uncertainty cannot be confused with mapping confidence;
 - canonical data can remain statistically uncertain;
-- uncalibrated model scores cannot masquerade as probability;
-- unknown, missing, and censored information remains explicit;
-- deterministic conversions preserve uncertainty;
-- DQV quality metadata can be reused without making quality universal or context-free;
-- downstream systems can block unsupported propagation rather than inventing precision.
+- uncalibrated scores cannot masquerade as probability;
+- missing, censored, and unknown information remains explicit;
+- conversions preserve uncertainty correctly;
+- DQV quality metadata is reusable without creating one universal score;
+- unsupported propagation fails safely.
 
 ### Costs
 
-- producers must document methods, units, coverage interpretation, dependence, and provenance;
-- some useful calculations remain blocked until domain-specific evidence is supplied;
-- quality metrics require explicit definitions and cannot be reduced to one universal score;
-- calibrated model probabilities require evaluation evidence.
+- producers must document units, methods, coverage, dependence, and provenance;
+- some calculations remain blocked until evidence exists;
+- quality metrics must remain tied to their method and purpose;
+- probability claims require calibration evidence.
 
 ## Rejected alternatives
 
-### One generic `confidence` property
-
-Rejected because it collapses incompatible semantic, statistical, model, quality, and authority concepts.
-
-### Assume independence when covariance is missing
-
-Rejected because it can systematically understate or overstate propagated uncertainty.
-
-### Infer uncertainty from decimal places
-
-Rejected because display formatting is not metrological evidence.
-
-### Treat every model score as probability
-
-Rejected because probability requires interpretation and calibration evidence.
-
-### Set uncertainty to zero for canonical data
-
-Rejected because authority does not imply exactness.
-
-### Create an ADUC-specific universal quality ontology
-
-Rejected because DQV already provides a framework and quality remains fitness-for-purpose dependent.
+- one generic `confidence` field;
+- assuming independence when covariance is absent;
+- deriving uncertainty from decimal places;
+- treating every model score as probability;
+- setting uncertainty to zero for canonical data;
+- inventing an ADUC-specific universal quality ontology.
 
 ## References
 
-- JCGM 100:2008, Evaluation of measurement data — Guide to the expression of uncertainty in measurement: https://www.bipm.org/documents/20126/2071204/JCGM_100_2008_E.pdf
+- JCGM 100:2008 — Guide to the expression of uncertainty in measurement: https://www.bipm.org/documents/20126/2071204/JCGM_100_2008_E.pdf
 - JCGM publications: https://www.bipm.org/en/committees/jc/jcgm/publications
 - NIST Technical Note 1297: https://www.nist.gov/pml/nist-technical-note-1297
 - W3C Data Quality Vocabulary: https://www.w3.org/TR/vocab-dqv/
@@ -391,12 +323,11 @@ Rejected because DQV already provides a framework and quality remains fitness-fo
 
 ## Acceptance evidence
 
-To be completed after CI:
-
-- valid uncertainty and quality reference cases;
-- required invalid counterexamples;
-- deterministic evaluator and CLI tests;
-- GitHub Actions results.
+- fourteen valid uncertainty, propagation, missingness, censoring, and quality cases;
+- twenty-four required invalid counterexamples;
+- ten deterministic evaluator and CLI tests;
+- reference calculations for affine conversion, additive and multiplicative propagation, and rectangular resolution;
+- GitHub Actions passed the uncertainty suite and every pre-existing validation suite in PR #40.
 
 ## Follow-up
 
@@ -404,4 +335,4 @@ To be completed after CI:
 2. define policy and permitted-use boundaries;
 3. freeze the normative full-Core object model;
 4. implement the full-Core JSON Schema family;
-5. unify comparison across semantics, units, time, identity, provenance, uncertainty, relations, and policy.
+5. unify comparison across all accepted profiles.
