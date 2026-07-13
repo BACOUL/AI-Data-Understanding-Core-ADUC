@@ -1,0 +1,48 @@
+{
+  "source": "https://factory.example/schema/motor-reading/12",
+  "sourceVersion": "12",
+  "coverage": [
+    {
+      "localReference": "/properties/equipment_id",
+      "state": "unmapped",
+      "assertionIds": []
+    },
+    {
+      "localReference": "/properties/motor_heat",
+      "state": "canonical",
+      "assertionIds": [
+        "urn:aduc:assertion:motor-winding-temperature-canonical-1"
+      ]
+    },
+    {
+      "localReference": "/properties/unit",
+      "state": "unmapped",
+      "assertionIds": []
+    }
+  ],
+  "ledger": [
+    {
+      "event": "source-inspected",
+      "actor": "urn:person:factory-data-engineer",
+      "at": "2026-07-13T13:30:00Z"
+    },
+    {
+      "event": "proposal-published",
+      "assertion": "urn:aduc:assertion:motor-heat-inferred-1",
+      "actor": "urn:tool:authoring-example",
+      "at": "2026-07-13T13:50:00Z"
+    },
+    {
+      "event": "canonical-publication",
+      "assertion": "urn:aduc:assertion:motor-winding-temperature-canonical-1",
+      "actor": "https://factory.example/id/data-authority",
+      "at": "2026-07-13T15:55:00Z"
+    },
+    {
+      "event": "profile-validated",
+      "profile": "urn:aduc:profile:motor-reading-12-canonical",
+      "tool": "tools/aduc_validate.py",
+      "at": "2026-07-13T16:00:00Z"
+    }
+  ]
+}
