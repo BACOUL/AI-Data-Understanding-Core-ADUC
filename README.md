@@ -12,7 +12,7 @@ Two otherwise incompatible JSON or CSV datasets, accompanied by the same source 
 
 ## Project status
 
-- Stage: Gate 5 — semantic comparison
+- Stage: Gate 6 preparation — JSON-LD and RDF interoperability
 - Release line: `0.1.0-alpha.x`
 - Current task: see [`docs/roadmap/NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
 - Status: see [`docs/roadmap/PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md)
@@ -23,19 +23,22 @@ Two otherwise incompatible JSON or CSV datasets, accompanied by the same source 
 2. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
 3. [`METHOD.md`](docs/method/METHOD.md)
 4. [`ADR-0002`](docs/decisions/ADR-0002-aduc-as-an-ai-semantic-mapping-profile.md)
-5. [`Semantic Mapping Assertion Model`](spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md)
-6. [`Authoring Workflow`](spec/AUTHORING_WORKFLOW_0_1.md)
-7. [`Comparison Protocol`](spec/COMPARISON_PROTOCOL_0_1.md)
-8. [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
-9. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
+5. [`ADR-0003`](docs/decisions/ADR-0003-json-ld-context-and-rdf-representation.md)
+6. [`Semantic Mapping Assertion Model`](spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md)
+7. [`Authoring Workflow`](spec/AUTHORING_WORKFLOW_0_1.md)
+8. [`Comparison Protocol`](spec/COMPARISON_PROTOCOL_0_1.md)
+9. [`RDF Representation`](spec/RDF_REPRESENTATION_0_1.md)
+10. [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
+11. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
 
 ## Repository areas
 
 - `spec/`: information model and conformance drafts
 - `schema/`: machine-validatable JSON Schemas
+- `context/`: pinned JSON-LD contexts
 - `examples/`: source and profile examples
-- `tools/`: reference validation and comparison tools
-- `tests/`: schema, validator and comparator tests
+- `tools/`: validation, comparison and RDF tools
+- `tests/`: schema, validator, comparator and JSON-LD tests
 - `docs/decisions/`: architecture decision records
 - `docs/roadmap/`: status, next action, and execution ledger
 
@@ -51,6 +54,7 @@ python -m pip install -r requirements-dev.txt
 python tools/validate_contracts.py
 python -m unittest discover -s tests/validator -p "test_*.py"
 python -m unittest discover -s tests/comparator -p "test_*.py"
+python -m unittest discover -s tests/jsonld -p "test_*.py"
 ```
 
 ## Validate one profile
@@ -96,6 +100,30 @@ python tools/aduc_compare.py \
 ```
 
 The comparator uses only published semantic targets and relations. Unit conversion, time alignment and entity resolution are reported as `notEvaluated` until compatible source-description profiles provide them.
+
+## Expand and normalize a profile as RDF
+
+Normalized URDNA2015 N-Quads:
+
+```bash
+python tools/aduc_rdf.py examples/authoring/river/reviewed.aduc.json
+```
+
+Expanded JSON-LD:
+
+```bash
+python tools/aduc_rdf.py examples/authoring/river/reviewed.aduc.json \
+  --format expanded
+```
+
+Compacted JSON-LD:
+
+```bash
+python tools/aduc_rdf.py examples/authoring/river/reviewed.aduc.json \
+  --format compacted
+```
+
+Official v0.1 profiles use `urn:aduc:context:0.1`, resolved locally from `context/aduc-context-0.1.jsonld`. Conformance processing performs no remote context fetch.
 
 ## Licensing
 
