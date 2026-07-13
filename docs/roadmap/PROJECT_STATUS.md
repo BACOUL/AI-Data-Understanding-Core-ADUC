@@ -4,7 +4,7 @@
 - Current phase: Gate 0 — Prior-art and problem definition
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: not started
+- Overall status: Gate 0 active
 
 ## Completed
 
@@ -13,6 +13,7 @@
 - Initial non-goals
 - Initial execution method
 - Starter JSON Schema and example for repository validation only
+- Local and GitHub Actions validation of 2 valid and 1 invalid fixtures
 
 ## Not yet validated
 
