@@ -1,0 +1,279 @@
+{
+  "protocol": "urn:aduc:source-binding-cases:0.1",
+  "cases": [
+    {
+      "caseId": "mutable-url-without-digest",
+      "expectedValid": false,
+      "expectedError": "ADUC-BIND-003",
+      "baseDirectory": ".",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/current",
+          "location": "https://example.org/schemas/current",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema"
+        },
+        "localReferences": []
+      }
+    },
+    {
+      "caseId": "resource-digest-mismatch",
+      "expectedValid": false,
+      "expectedError": "ADUC-BIND-001",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "content",
+        "resource": {
+          "identifier": "urn:example:river:wrong-digest",
+          "location": "river-data.json",
+          "mediaType": "application/json",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "0000000000000000000000000000000000000000000000000000000000000000",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": []
+      }
+    },
+    {
+      "caseId": "description-digest-mismatch",
+      "expectedValid": false,
+      "expectedError": "ADUC-BIND-002",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/river-observation/1.0.0",
+          "location": "river.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": []
+      }
+    },
+    {
+      "caseId": "description-identity-mismatch",
+      "expectedValid": false,
+      "expectedError": "ADUC-BIND-004",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/river-observation/2.0.0",
+          "location": "river.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "2.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "501e7c9a5b0f1b4cfd27c734e14ed81f5038a98b7a029a25bc0d269fd1528aff",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": []
+      }
+    },
+    {
+      "caseId": "unresolved-json-pointer",
+      "expectedValid": false,
+      "expectedError": "ADUC-REF-001",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/river-observation/1.0.0",
+          "location": "river.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "501e7c9a5b0f1b4cfd27c734e14ed81f5038a98b7a029a25bc0d269fd1528aff",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": [
+          {
+            "scheme": "json-pointer",
+            "base": "description",
+            "value": "/properties/missing"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "csv-dialect-missing",
+      "expectedValid": false,
+      "expectedError": "ADUC-REF-004",
+      "baseDirectory": ".",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "custom",
+          "identifier": "urn:aduc:csv-description:missing-dialect:1.0.0",
+          "embedded": {
+            "$id": "urn:aduc:csv-description:missing-dialect:1.0.0",
+            "conformsTo": "urn:aduc:source-description:csv-table:0.1",
+            "version": "1.0.0",
+            "mediaType": "text/csv",
+            "headers": [
+              "machine",
+              "temp"
+            ]
+          },
+          "mediaType": "application/json",
+          "conformsTo": "urn:aduc:source-description:csv-table:0.1",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "6ab60e4bb488dfcf156e0331334d9bc76d5b98b117a9156b017152201103ba8d",
+            "scope": "jcs"
+          }
+        },
+        "localReferences": [
+          {
+            "scheme": "csv-header",
+            "base": "description",
+            "value": "temp"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "csv-duplicate-header",
+      "expectedValid": false,
+      "expectedError": "ADUC-REF-003",
+      "baseDirectory": ".",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "custom",
+          "identifier": "urn:aduc:csv-description:duplicate:1.0.0",
+          "embedded": {
+            "$id": "urn:aduc:csv-description:duplicate:1.0.0",
+            "conformsTo": "urn:aduc:source-description:csv-table:0.1",
+            "version": "1.0.0",
+            "mediaType": "text/csv",
+            "dialect": {
+              "encoding": "utf-8",
+              "delimiter": ",",
+              "quoteChar": "\"",
+              "headerRow": 1,
+              "headerPolicy": "exact-codepoints",
+              "uniqueHeaders": true
+            },
+            "headers": [
+              "temp",
+              "temp"
+            ]
+          },
+          "mediaType": "application/json",
+          "conformsTo": "urn:aduc:source-description:csv-table:0.1",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "5fa2f8c96b9b9b65d72768844cf2bd43c11a7e7887cf66a6f3db5432141308d7",
+            "scope": "jcs"
+          }
+        },
+        "localReferences": [
+          {
+            "scheme": "csv-header",
+            "base": "description",
+            "value": "temp"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "reference-scheme-missing",
+      "expectedValid": false,
+      "expectedError": "ADUC-REF-002",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/river-observation/1.0.0",
+          "location": "river.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "501e7c9a5b0f1b4cfd27c734e14ed81f5038a98b7a029a25bc0d269fd1528aff",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": [
+          {
+            "base": "description",
+            "value": "/properties/flow"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "copied-structure-conflict",
+      "expectedValid": false,
+      "expectedError": "ADUC-DESC-001",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/river-observation/1.0.0",
+          "location": "river.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "501e7c9a5b0f1b4cfd27c734e14ed81f5038a98b7a029a25bc0d269fd1528aff",
+            "scope": "raw-bytes"
+          }
+        },
+        "copiedStructure": {
+          "conflictsWithDescription": true,
+          "claim": "flow is a string"
+        },
+        "localReferences": []
+      }
+    },
+    {
+      "caseId": "description-unavailable",
+      "expectedValid": false,
+      "expectedError": "ADUC-BIND-005",
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/unavailable/1.0.0",
+          "location": "missing.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "1111111111111111111111111111111111111111111111111111111111111111",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": []
+      }
+    }
+  ]
+}

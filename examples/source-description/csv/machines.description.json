@@ -1,0 +1,20 @@
+{
+  "$id": "urn:aduc:csv-description:machines:1.0.0",
+  "conformsTo": "urn:aduc:source-description:csv-table:0.1",
+  "version": "1.0.0",
+  "mediaType": "text/csv",
+  "dialect": {
+    "encoding": "utf-8",
+    "delimiter": ",",
+    "quoteChar": "\"",
+    "headerRow": 1,
+    "headerPolicy": "exact-codepoints",
+    "uniqueHeaders": true
+  },
+  "headers": [
+    "machine",
+    "temp",
+    "unit",
+    "date"
+  ]
+}

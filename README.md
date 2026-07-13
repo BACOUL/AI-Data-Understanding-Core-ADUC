@@ -12,19 +12,17 @@ AI Data Understanding Core (ADUC) is a model-independent contract intended to le
 
 > Two incompatible sources described with ADUC can be understood and compared consistently by multiple AI systems without rebuilding a different semantic integration for every model.
 
-ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, or MCP.
+ADUC reuses established standards instead of replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, or MCP.
 
 ## Public website
 
-The first English-only public website is maintained under `website/` and is designed for GitHub Pages:
+The English-only public website source is maintained under `website/` for GitHub Pages:
 
 - provisional URL: <https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/>
-- website source: [`website/`](website/)
+- source: [`website/`](website/)
 - deployment: [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
 
-The Pages source may need to be set to **GitHub Actions** once in repository settings after the deployment workflow is merged.
-
-## Official project direction
+## Official Core direction
 
 The complete candidate Core contains ten blocks:
 
@@ -41,13 +39,11 @@ relations
 policy
 ```
 
-The existing semantic-mapping schema, validator, comparator, JSON-LD/RDF tooling, and conformance harness are preserved as the first implemented experimental subset of the `semantics` block and its consumer behavior.
-
-They are not the complete ADUC Core.
+The existing semantic-mapping tools are the first implemented experimental subset of the `semantics` block. They are not the complete ADUC Core.
 
 ## Complete epistemic lifecycle
 
-ADR-0005 and `spec/EPISTEMIC_STATUS_MODEL_0_1.md` define seven effective states without placing all of them in one ambiguous property:
+ADR-0005 and [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md) define seven effective states without placing all of them in one ambiguous property:
 
 ```text
 unknown      coverage record without a semantic target
@@ -60,6 +56,46 @@ deprecated   effective state from an immutable deprecation record
 ```
 
 Assertions, challenges, resolutions, and deprecations are immutable records. Confidence is required for inferred assertions, conditional for reviewed or verified assertions, and forbidden for canonical assertions.
+
+## Source description and immutable binding
+
+ADR-0006 and [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md) define how an ADUC contract addresses the exact resource, structural description, and local field to which an assertion applies.
+
+The model separates:
+
+```text
+resource content
+structural description
+local field reference
+```
+
+Supported binding modes are:
+
+```text
+content
+description
+content-and-description
+```
+
+Core rules:
+
+- v0.1 reference bindings use SHA-256;
+- a mutable URL or version label is not sufficient integrity evidence;
+- linked descriptions bind exact raw bytes;
+- embedded JSON descriptions use an RFC 8785 canonicalization scope;
+- Croissant, JSON Schema, OpenAPI, and DCAT retain ownership of their structural models;
+- JSON Pointer, Croissant field IDs, CSV headers, OpenAPI references, DCAT IRIs, and custom references use explicit schemes and bases;
+- CSV header references require a fixed dialect and unique exact headers;
+- stale, unavailable, ambiguous, or conflicting descriptions block automatic semantic use;
+- legacy mappings are never migrated by guessing missing source evidence.
+
+Reference verification:
+
+```bash
+python tools/aduc_source_binding.py \
+  examples/source-description/reference-cases.json \
+  examples/source-description/invalid-cases.json
+```
 
 ## Adoption and value validation
 
@@ -89,15 +125,17 @@ The future compiler must declare whether it used structure-only, sample-assisted
 8. Anticipation engine
 ```
 
-TimeProofs and the anticipation engine remain separate projects. TimeProofs may later prove release dates, but it is not required to create, understand, or validate an ADUC contract.
+TimeProofs and the anticipation engine remain separate projects.
 
-## Current project status
+## Current status
 
 - Phase: Phase 0 — complete Core definition and public foundation
 - Release: unreleased
 - Target release: `0.1.0-alpha.0`
 - Epistemic lifecycle: specified and reference-tested
+- Source binding: specified and reference-tested
 - Adoption/value validation: officially defined; benchmarks not yet run
+- Next Core decision: units and conversions
 - Full-Core conformance: not yet implemented
 - Multi-model interoperability: harness available; qualifying external proof absent
 
@@ -113,31 +151,33 @@ See:
 1. [`ADUC_CORE_SPEC_0_1.md`](spec/ADUC_CORE_SPEC_0_1.md)
 2. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
 3. [`ADR-0005`](docs/decisions/ADR-0005-complete-epistemic-lifecycle.md)
-4. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-5. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
-6. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-7. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
-8. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
-9. [`ADR-0004`](docs/decisions/ADR-0004-full-core-program-and-semantic-profile-position.md)
-10. [`METHOD.md`](docs/method/METHOD.md)
-11. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
+4. [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md)
+5. [`ADR-0006`](docs/decisions/ADR-0006-source-description-and-binding.md)
+6. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+7. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
+8. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+9. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
+10. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
+11. [`METHOD.md`](docs/method/METHOD.md)
+12. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
 
-## First complete full-Core example
+## First full-Core example
 
 ```text
 examples/basic-json/river-r42.data.json
 examples/basic-json/river-r42.aduc.json
 ```
 
-The example shows how a raw river observation gains field meaning, units, code-list interpretation, identity, time context, provenance, uncertainty, relations, and usage conditions.
+The example is informative until the official full-Core JSON Schema exists.
 
-It is an informative draft example until the final full-Core JSON Schema exists.
-
-## What is implemented today
+## Implemented today
 
 - full-Core mission, structure, working draft, and master plan;
 - complete seven-state effective epistemic model;
-- deterministic epistemic reference evaluator and counterexample suite;
+- deterministic epistemic evaluator and counterexample suite;
+- source-description and immutable source-binding profile;
+- JSON, CSV, and embedded OpenAPI binding examples;
+- deterministic source-binding evaluator and counterexamples;
 - official adoption and value-validation plan;
 - semantic-mapping assertion model;
 - Draft 2020-12 mapping-profile schema;
@@ -149,11 +189,12 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 - provider-neutral multi-model conformance harness;
 - English public website.
 
-## What is not yet implemented
+## Not yet implemented
 
-- source-description and immutable source-binding model;
+- unit identifier and conversion strategy;
 - final full-Core object model and schema family;
-- full-Core schema serialization of coverage, challenge, resolution, and deprecation records;
+- temporal and entity-identity strategies;
+- full-Core serialization of coverage, challenge, resolution, and deprecation records;
 - JSON and CSV compiler;
 - inference calibration report and labeled benchmark set;
 - manual mapping versus `infer + review` benchmark;
@@ -167,12 +208,12 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 
 ## Repository areas
 
-- `spec/`: Core, epistemic, and profile specification drafts
+- `spec/`: Core, epistemic, source-binding, and profile specifications
 - `schema/`: machine-validatable JSON Schemas
 - `context/`: pinned JSON-LD contexts
-- `examples/`: raw sources, Core drafts, profiles, epistemic cases, and conformance fixtures
-- `tools/`: validation, lifecycle evaluation, comparison, RDF, conformance, and website checks
-- `tests/`: validator, comparator, JSON-LD, conformance, epistemic, and roadmap tests
+- `examples/`: raw sources, Core drafts, profiles, source bindings, epistemic cases, and conformance fixtures
+- `tools/`: validation, source binding, lifecycle evaluation, comparison, RDF, conformance, and website checks
+- `tests/`: validator, comparator, source binding, JSON-LD, conformance, epistemic, and roadmap tests
 - `website/`: static English public website
 - `docs/decisions/`: architecture decision records
 - `docs/roadmap/`: master plan, adoption/value validation, project status, next action, and execution ledger
@@ -183,7 +224,7 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 python -m pip install -r requirements-dev.txt
 ```
 
-## Run the complete local checks
+## Run all local checks
 
 ```bash
 python tools/validate_contracts.py
@@ -192,40 +233,25 @@ python -m unittest discover -s tests/comparator -p "test_*.py"
 python -m unittest discover -s tests/jsonld -p "test_*.py"
 python -m unittest discover -s tests/conformance -p "test_*.py"
 python -m unittest discover -s tests/epistemic -p "test_*.py"
+python -m unittest discover -s tests/source_binding -p "test_*.py"
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python tools/validate_website.py
 ```
 
-## Evaluate the epistemic reference cases
-
-Valid lifecycle cases:
+## Evaluate epistemic cases
 
 ```bash
 python tools/aduc_epistemic.py \
   examples/epistemic-status/reference-cases.json
-```
 
-Required counterexamples:
-
-```bash
 python tools/aduc_epistemic.py \
   examples/epistemic-status/invalid-cases.json
 ```
-
-Both commands return success only when every case produces its declared expected result. The invalid-case file succeeds as a test artifact because each unsafe record set is correctly rejected.
 
 ## Validate one semantic-mapping profile
 
 ```bash
 python tools/aduc_validate.py examples/authoring/river/reviewed.aduc.json
-```
-
-JSON report:
-
-```bash
-python tools/aduc_validate.py \
-  examples/authoring/river/reviewed.aduc.json \
-  --format json
 ```
 
 ## Compare two semantic-mapping profiles
@@ -245,7 +271,7 @@ The current comparator uses published semantic targets and mapping relations onl
 python tools/aduc_rdf.py examples/authoring/river/reviewed.aduc.json
 ```
 
-Official implemented mapping profiles use `urn:aduc:context:0.1`, resolved locally from `context/aduc-context-0.1.jsonld`. Conformance processing performs no remote context fetch.
+Official implemented mapping profiles use `urn:aduc:context:0.1`, resolved locally from `context/aduc-context-0.1.jsonld`.
 
 ## Preview the website locally
 

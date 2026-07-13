@@ -4,7 +4,7 @@
 - Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: full-Core mission, architecture, epistemic lifecycle, and adoption-value gates are defined; the official full-Core schema is not yet implemented
+- Overall status: mission, architecture, epistemic lifecycle, adoption gates, and source binding are defined; units are the next Core decision and the official full-Core schema is not yet implemented
 
 ## Official direction
 
@@ -56,11 +56,15 @@ ADR-0004 preserves the existing semantic-mapping implementation as the first exp
 - deterministic website and example validation;
 - ADR-0005 complete epistemic lifecycle decision;
 - `spec/EPISTEMIC_STATUS_MODEL_0_1.md`;
-- nine reference lifecycle cases covering all seven effective states;
-- eight rejected counterexamples;
+- nine reference lifecycle cases and eight rejected counterexamples;
 - deterministic lifecycle evaluator and unit tests;
 - official `docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md` plan;
-- roadmap tests requiring the adoption plan to remain visible while source binding remains the next technical task.
+- roadmap tests preserving measurable adoption gates;
+- accepted ADR-0006 source-description and immutable source-binding decision;
+- `spec/SOURCE_DESCRIPTION_PROFILE_0_1.md`;
+- JSON, CSV, and embedded OpenAPI binding examples;
+- three valid and ten invalid source-binding cases;
+- deterministic source-binding evaluator and seven tests.
 
 ## Accepted epistemic model
 
@@ -82,6 +86,36 @@ Key consequences:
 - deprecated assertions remain historical and immutable;
 - old `contested` mapping-profile assertions require explicit migration because their underlying authority state was not preserved.
 
+## Accepted source-binding model
+
+ADUC now distinguishes:
+
+```text
+resource content
+structural description
+local field reference
+```
+
+The accepted binding modes are:
+
+```text
+content
+description
+content-and-description
+```
+
+Key consequences:
+
+- mutable URLs and version labels are not sufficient integrity evidence;
+- v0.1 reference bindings use SHA-256;
+- linked descriptions bind raw bytes;
+- embedded JSON descriptions use an RFC 8785 canonicalization scope;
+- Croissant, JSON Schema, OpenAPI, and DCAT remain authoritative for the structures they define;
+- JSON Pointer, Croissant field ID, CSV header, OpenAPI, DCAT, and custom references require explicit schemes and bases;
+- CSV headers require a fixed dialect and uniqueness;
+- stale, unavailable, ambiguous, or conflicting descriptions block automatic semantic use;
+- legacy source fields receive a migration path and become `legacy-unverified` when evidence is insufficient.
+
 ## Accepted adoption and value-validation constraints
 
 ADUC tools must be evaluated as tools, not assumed valuable because the specification is coherent.
@@ -92,13 +126,11 @@ Required future evidence includes:
 - method identifiers, versions, evidence references, and exact source bindings for every inferred proposal;
 - no presentation of uncalibrated model self-confidence as probability;
 - a manual mapping versus `infer + review` benchmark;
-- a review-tax report measuring accepted, edited, rejected, unresolved, and false proposals;
+- a review-tax report;
 - a controlled with-ADUC versus without-ADUC multi-model comparison;
 - an initial alpha target of at least 30% lower median assisted human time without lower final correctness;
 - no silently accepted critical false mapping in the reference benchmark;
 - MCP treated as a future optional adapter, not a Core dependency.
-
-These are cross-cutting gates. They do not replace source binding, Core conformance, or external interoperability proof.
 
 ## Completed experimental semantic-mapping implementation
 
@@ -119,14 +151,13 @@ These are cross-cutting gates. They do not replace source binding, Core conforma
 ## Evidence-based findings
 
 - Existing standards cover most individual capabilities and must be reused rather than duplicated.
-- Croissant is a strong dataset-description foundation but does not alone provide the complete ADUC consumer contract.
+- Croissant, JSON Schema, OpenAPI, and DCAT provide reusable source-description anchors, but identity and version labels alone do not prove exact bytes.
 - Comparable semantic targets alone do not establish units, time alignment, or entity identity.
 - Unknown, inferred, contested, and deprecated information must not be silently upgraded or hidden.
 - Authority, verification, probability, conflict, and lifecycle are separate claims.
 - JSON Schema cannot prove publisher authority, factual truth, global identity, or legal permission.
 - A frozen multi-model harness can test agreement, but illustrative results are not external interoperability proof.
 - Compiler usefulness must be measured against equivalent manual work rather than assumed.
-- Agreement between models must be compared with and without ADUC to support a causal value claim.
 
 ## Full-Core version 0.1 scoreboard
 
@@ -135,11 +166,12 @@ These are cross-cutting gates. They do not replace source binding, Core conforma
 | Core specification | Working draft created |
 | Complete epistemic lifecycle | Defined and reference-tested |
 | Adoption and value-validation plan | Defined; benchmarks not yet run |
-| Source-description binding model | Next action |
+| Source-description binding model | Defined and reference-tested |
+| Unit and conversion strategy | Next action |
 | Official full-Core JSON Schema | Not implemented |
 | Ten valid full-Core examples | 1 informative example created |
 | Ten invalid full-Core examples | Not implemented |
-| CLI validator | Partial: semantic-mapping profile and lifecycle reference evaluator |
+| CLI validator | Partial: mapping, lifecycle, and source-binding tools |
 | JSON/CSV compiler | Not implemented |
 | Inference calibration | Protocol and report not implemented |
 | Manual vs assisted benchmark | Not implemented |
@@ -154,9 +186,8 @@ These are cross-cutting gates. They do not replace source binding, Core conforma
 
 ## Not yet validated
 
-- source-description and immutable source-binding profile;
+- unit identifier, dimensional compatibility, and conversion strategy;
 - normative cardinalities and rules for all ten Core blocks;
-- unit identifier and conversion strategy;
 - temporal semantics and alignment;
 - entity identity and equivalence;
 - complete policy profile;
@@ -174,19 +205,19 @@ These are cross-cutting gates. They do not replace source binding, Core conforma
 
 ## Active blockers
 
-- the source-description and source-binding ADR is not accepted;
+- the unit and conversion ADR is not accepted;
 - full-Core schema boundaries and schema family do not exist;
 - the first complete example is informative rather than schema-validatable;
-- unit, time, and identity comparison cannot be demonstrated from the current semantic-only profile;
+- unit, time, and identity comparison cannot yet be demonstrated end to end;
 - no qualifying external model runs have been committed;
 - no manual-versus-assisted or with-versus-without-ADUC benchmark has been run;
 - the public name remains provisional.
 
 ## Next gate
 
-Define how ADUC references or embeds Croissant, JSON Schema, OpenAPI, DCAT, and versioned custom source descriptions; bind contracts to exact source versions; and resolve local JSON and CSV references deterministically without duplicating established structural standards.
+Define globally portable unit identifiers, quantity kinds, dimensional compatibility, affine and multiplicative conversions, unknown and unitless values, precision, uncertainty, and conversion provenance.
 
-The adoption and value-validation plan applies later, but reliable benchmarking is impossible until source and evidence binding are deterministic.
+Every unit assertion must remain bound to the exact source and local field through ADR-0006.
 
 ## Rule
 
