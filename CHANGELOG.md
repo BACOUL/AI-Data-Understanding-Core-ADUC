@@ -60,6 +60,14 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Nine valid lifecycle cases covering all seven effective states
 - Eight rejected lifecycle counterexamples
 - Epistemic lifecycle unit and CLI tests
+- Official `docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md` cross-cutting plan
+- Four inference evidence modes: structure-only, sample-assisted, documentation-assisted, and publisher-assisted
+- Review-tax measurement model and provisional alpha targets
+- Manual mapping versus `infer + review` benchmark requirements
+- Controlled with-ADUC versus without-ADUC multi-model protocol requirements
+- Confidence-calibration rules prohibiting uncalibrated model self-confidence from being presented as probability
+- MCP integration boundary defining it as an optional future adapter
+- Roadmap tests enforcing adoption-plan discoverability and preserving source binding as the next technical task
 
 ### Changed
 
@@ -71,7 +79,7 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, and website checks
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, roadmap, and website checks
 - Updated the README to distinguish the full-Core mission from the implemented semantic-mapping subset
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
@@ -80,3 +88,5 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Replaced the proposed one-property seven-state model with separate authority, conflict, deprecation, and unknown-coverage representations
 - Defined `reviewed`, `verified`, and `canonical` as distinct claims with different evidence and consumer rules
 - Required legacy `status=contested` migration to recover its underlying authority level instead of guessing it
+- Made measurable user value, review cost, confidence calibration, and controlled baseline comparison mandatory before compiler or interoperability success claims
+- Kept the source-description and source-binding model as the next technical task because reliable benchmarks require exact source and evidence binding
