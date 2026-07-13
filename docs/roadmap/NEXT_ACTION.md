@@ -16,6 +16,14 @@ examples/source-description/
 
 Define exactly how a full-Core ADUC contract identifies the resource it describes, binds itself to an immutable source or schema version, and references local fields without duplicating established dataset, API, and schema standards.
 
+## Cross-cutting adoption constraint
+
+The official [`ADOPTION_AND_VALUE_VALIDATION.md`](ADOPTION_AND_VALUE_VALIDATION.md) plan applies to later compiler, review, and interoperability work.
+
+This source-binding task remains first because no reliable inference benchmark or with/without ADUC test is valid unless every contract and evidence item is bound to the exact source, schema version, field, and documentation used.
+
+Do not implement the JSON/CSV compiler now. The future compiler must eventually declare its inference evidence mode, method version, evidence references, and source binding.
+
 ## Required decisions
 
 1. which existing descriptions ADUC may reference, including Croissant, JSON Schema, OpenAPI, DCAT, and versioned custom descriptions;
@@ -56,7 +64,7 @@ must remain interpretable through a versioned migration path. The new model must
 
 ## Scope boundary
 
-Do not implement the full-Core schema, units strategy, temporal strategy, identity strategy, compiler, registry, review UI, extensions, or anticipation engine in this task.
+Do not implement the full-Core schema, units strategy, temporal strategy, identity strategy, compiler, registry, review UI, extensions, MCP adapter, or anticipation engine in this task.
 
 ## Completion test
 

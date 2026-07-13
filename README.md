@@ -61,6 +61,21 @@ deprecated   effective state from an immutable deprecation record
 
 Assertions, challenges, resolutions, and deprecations are immutable records. Confidence is required for inferred assertions, conditional for reviewed or verified assertions, and forbidden for canonical assertions.
 
+## Adoption and value validation
+
+The official cross-cutting plan is [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md).
+
+ADUC tooling is not successful merely because it generates a valid contract. Before the compiler and review interface can be called successful, the project must prove that:
+
+- `infer + review` is materially faster than equivalent manual mapping;
+- final semantic correctness is not lower than the manual baseline;
+- low-support, unknown, and conflicting mappings remain visible;
+- numeric confidence is method-bound and empirically calibrated before being described as probability;
+- multi-model evaluation compares the same tasks with and without ADUC;
+- MCP remains an optional adoption adapter rather than a Core dependency.
+
+The future compiler must declare whether it used structure-only, sample-assisted, documentation-assisted, or publisher-assisted evidence. A high model score never creates review, verification, or canonical authority.
+
 ## Mandatory construction order
 
 ```text
@@ -82,6 +97,7 @@ TimeProofs and the anticipation engine remain separate projects. TimeProofs may 
 - Release: unreleased
 - Target release: `0.1.0-alpha.0`
 - Epistemic lifecycle: specified and reference-tested
+- Adoption/value validation: officially defined; benchmarks not yet run
 - Full-Core conformance: not yet implemented
 - Multi-model interoperability: harness available; qualifying external proof absent
 
@@ -89,6 +105,7 @@ See:
 
 - [`PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md)
 - [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+- [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
 - [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
 
 ## Read first
@@ -96,13 +113,14 @@ See:
 1. [`ADUC_CORE_SPEC_0_1.md`](spec/ADUC_CORE_SPEC_0_1.md)
 2. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
 3. [`ADR-0005`](docs/decisions/ADR-0005-complete-epistemic-lifecycle.md)
-4. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
-5. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-6. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
-7. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
-8. [`ADR-0004`](docs/decisions/ADR-0004-full-core-program-and-semantic-profile-position.md)
-9. [`METHOD.md`](docs/method/METHOD.md)
-10. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
+4. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+5. [`OFFICIAL_PROJECT_STRUCTURE.md`](docs/project/OFFICIAL_PROJECT_STRUCTURE.md)
+6. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+7. [`PROJECT_CHARTER.md`](docs/project/PROJECT_CHARTER.md)
+8. [`NON_GOALS.md`](docs/project/NON_GOALS.md)
+9. [`ADR-0004`](docs/decisions/ADR-0004-full-core-program-and-semantic-profile-position.md)
+10. [`METHOD.md`](docs/method/METHOD.md)
+11. [`AGENTS.md`](AGENTS.md) when using an AI coding agent
 
 ## First complete full-Core example
 
@@ -120,6 +138,7 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 - full-Core mission, structure, working draft, and master plan;
 - complete seven-state effective epistemic model;
 - deterministic epistemic reference evaluator and counterexample suite;
+- official adoption and value-validation plan;
 - semantic-mapping assertion model;
 - Draft 2020-12 mapping-profile schema;
 - valid and invalid mapping fixtures;
@@ -136,10 +155,14 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 - final full-Core object model and schema family;
 - full-Core schema serialization of coverage, challenge, resolution, and deprecation records;
 - JSON and CSV compiler;
+- inference calibration report and labeled benchmark set;
+- manual mapping versus `infer + review` benchmark;
+- with and without ADUC multi-model comparison;
 - minimal review web interface;
 - complete unit conversion, temporal alignment, and entity-resolution comparison;
 - public semantic registry;
 - two qualifying external AI runs;
+- optional MCP adapter;
 - extensions and anticipation engine.
 
 ## Repository areas
@@ -149,10 +172,10 @@ It is an informative draft example until the final full-Core JSON Schema exists.
 - `context/`: pinned JSON-LD contexts
 - `examples/`: raw sources, Core drafts, profiles, epistemic cases, and conformance fixtures
 - `tools/`: validation, lifecycle evaluation, comparison, RDF, conformance, and website checks
-- `tests/`: validator, comparator, JSON-LD, conformance, and epistemic lifecycle tests
+- `tests/`: validator, comparator, JSON-LD, conformance, epistemic, and roadmap tests
 - `website/`: static English public website
 - `docs/decisions/`: architecture decision records
-- `docs/roadmap/`: master plan, project status, next action, and execution ledger
+- `docs/roadmap/`: master plan, adoption/value validation, project status, next action, and execution ledger
 
 ## Install development dependencies
 
@@ -169,6 +192,7 @@ python -m unittest discover -s tests/comparator -p "test_*.py"
 python -m unittest discover -s tests/jsonld -p "test_*.py"
 python -m unittest discover -s tests/conformance -p "test_*.py"
 python -m unittest discover -s tests/epistemic -p "test_*.py"
+python -m unittest discover -s tests/roadmap -p "test_*.py"
 python tools/validate_website.py
 ```
 
