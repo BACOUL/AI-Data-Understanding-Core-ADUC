@@ -1,0 +1,158 @@
+{
+  "protocol": "urn:aduc:source-binding-cases:0.1",
+  "cases": [
+    {
+      "caseId": "json-content-and-schema",
+      "expectedValid": true,
+      "baseDirectory": "json",
+      "binding": {
+        "bindingMode": "content-and-description",
+        "resource": {
+          "identifier": "urn:example:river-observation:R42:2026-07-13T12:00:00Z",
+          "location": "river-data.json",
+          "mediaType": "application/json",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "521c901337e1fc50e31a00e09919a1932e5ce770de0fd93c554ac0223024f7a6",
+            "scope": "raw-bytes"
+          }
+        },
+        "description": {
+          "kind": "json-schema",
+          "identifier": "https://example.org/schemas/river-observation/1.0.0",
+          "location": "river.schema.json",
+          "mediaType": "application/schema+json",
+          "conformsTo": "https://json-schema.org/draft/2020-12/schema",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "501e7c9a5b0f1b4cfd27c734e14ed81f5038a98b7a029a25bc0d269fd1528aff",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": [
+          {
+            "scheme": "json-pointer",
+            "base": "description",
+            "value": "/properties/flow",
+            "expectedKind": "field"
+          },
+          {
+            "scheme": "json-pointer",
+            "base": "description",
+            "value": "/properties/quality",
+            "expectedKind": "field"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "csv-content-and-description",
+      "expectedValid": true,
+      "baseDirectory": "csv",
+      "binding": {
+        "bindingMode": "content-and-description",
+        "resource": {
+          "identifier": "urn:example:machine-observations:2026-07-13",
+          "location": "machines.csv",
+          "mediaType": "text/csv",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "1b12d2ef5d595bec917b7a5d6ae7cc1e0f25733a3341c420579e2d7f994b81af",
+            "scope": "raw-bytes"
+          }
+        },
+        "description": {
+          "kind": "custom",
+          "identifier": "urn:aduc:csv-description:machines:1.0.0",
+          "location": "machines.description.json",
+          "mediaType": "application/json",
+          "conformsTo": "urn:aduc:source-description:csv-table:0.1",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "03d35af5972f335ba2108a6997386b2bee5310729a69b36424aece34490d622b",
+            "scope": "raw-bytes"
+          }
+        },
+        "localReferences": [
+          {
+            "scheme": "csv-header",
+            "base": "description",
+            "value": "machine",
+            "expectedKind": "field"
+          },
+          {
+            "scheme": "csv-header",
+            "base": "description",
+            "value": "temp",
+            "expectedKind": "field"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "embedded-openapi-operation",
+      "expectedValid": true,
+      "baseDirectory": ".",
+      "binding": {
+        "bindingMode": "description",
+        "description": {
+          "kind": "openapi",
+          "identifier": "urn:example:openapi:measurements:1.0.0",
+          "embedded": {
+            "openapi": "3.2.0",
+            "$self": "urn:example:openapi:measurements:1.0.0",
+            "info": {
+              "title": "Measurements API",
+              "version": "1.0.0"
+            },
+            "paths": {
+              "/measurements": {
+                "get": {
+                  "operationId": "listMeasurements",
+                  "responses": {
+                    "200": {
+                      "description": "Measurements",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "mediaType": "application/vnd.oai.openapi+json;version=3.2",
+          "conformsTo": "https://spec.openapis.org/oas/v3.2.0",
+          "version": "1.0.0",
+          "digest": {
+            "algorithm": "sha-256",
+            "value": "6f1eff80295d7bd66a83dcfe221045c39b0283b792f627e71fab108315730956",
+            "scope": "jcs"
+          }
+        },
+        "localReferences": [
+          {
+            "scheme": "openapi-operation-ref",
+            "base": "description",
+            "value": "#/paths/~1measurements/get",
+            "expectedKind": "operation"
+          }
+        ]
+      }
+    }
+  ]
+}
