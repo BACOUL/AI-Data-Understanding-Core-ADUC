@@ -4,7 +4,7 @@
 - Current phase: Gate 6 preparation — JSON-LD and RDF interoperability
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: Gate 5 implemented; independent CI evidence pending merge
+- Overall status: Gate 5 passed; JSON-LD/RDF work authorized
 
 ## Completed
 
@@ -34,6 +34,7 @@
 - Nine comparator tests covering exact, inferred, non-exact, contested, unmatched and deterministic-output behavior
 - French and US source examples with differently named fields mapped to one semantic target
 - Explicit `notEvaluated` reporting for missing unit, time and entity information
+- GitHub Actions execution of 14 fixtures, 6 published profiles, 8 validator tests and 9 comparator tests
 
 ## Evidence-based findings
 
@@ -46,10 +47,10 @@
 - Unmapped fields belong in a coverage report rather than targetless portable assertions.
 - Comparable semantics do not by themselves establish unit conversion, temporal alignment or entity identity.
 - Same-looking field names are insufficient when their published semantic targets differ.
+- Deterministic semantic comparison is possible using only shared targets, relations and authority states.
 
 ## Not yet validated
 
-- GitHub Actions result for comparator tests and comparison examples
 - JSON-LD context and RDF round-trip
 - Stable experimental namespace
 - Falsifiable multi-model demonstration protocol details
@@ -58,7 +59,6 @@
 
 ## Active blockers
 
-- Gate 5 PR and combined CI not yet merged
 - JSON-LD context is still a placeholder URI
 - RDF representation and round-trip tests are not defined
 - Authority verification mechanism is not defined
