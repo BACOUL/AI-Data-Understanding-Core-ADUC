@@ -77,6 +77,14 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Reference source-binding evaluator `tools/aduc_source_binding.py`
 - Seven source-binding unit and CLI tests
 - Stable source-binding error families for digest, identity, availability, reference, dialect, and structural-conflict failures
+- ADR-0007 defining unit identifiers, dimensional compatibility, quantity roles, conversion, uncertainty, and provenance
+- `spec/UNIT_PROFILE_0_1.md` profiling QUDT IRIs and UCUM codes without creating a competing unit catalog
+- Pinned unit-registry subset with identifier, version, SHA-256, dimension vectors, quantity kinds, and exact rational/decimal conversion data
+- Five valid reference conversions including Celsius/Fahrenheit, temperature difference, flow rate, percent, and unitless ratio
+- Fifteen invalid unit and conversion counterexamples
+- Deterministic exact conversion evaluator `tools/aduc_units.py`
+- Nine unit compatibility, conversion, uncertainty, registry-integrity, rounding, and CLI tests
+- Stable unit, compatibility, conversion, registry, rounding, and uncertainty error families
 
 ### Changed
 
@@ -88,16 +96,18 @@ The project follows Semantic Versioning after a public interface is defined. Dur
 - Required explicit mapping relation and method-bound confidence for inferred mappings
 - Bound active profiles to an identified source plus a version or SHA-256 digest
 - Updated CI to install explicit format-checking and JSON-LD dependencies
-- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, roadmap, and website checks
-- Updated the README to distinguish the full-Core mission from the implemented semantic-mapping subset
+- Expanded CI to execute semantic-validator, comparator, JSON-LD/RDF, conformance, epistemic-lifecycle, source-binding, units, roadmap, and website checks
+- Updated the README to distinguish the full-Core mission from the implemented reference components
 - Required unmapped fields to be represented through separate coverage reporting rather than targetless assertions
 - Extended published-example validation to comparison profiles
 - Migrated official mapping profiles and fixtures from the placeholder `example.org` context to the pinned experimental context
-- Replaced the obsolete Gate 6 next action with the full epistemic-lifecycle decision required before the full-Core schema
 - Replaced the proposed one-property seven-state model with separate authority, conflict, deprecation, and unknown-coverage representations
 - Defined `reviewed`, `verified`, and `canonical` as distinct claims with different evidence and consumer rules
 - Required legacy `status=contested` migration to recover its underlying authority level instead of guessing it
 - Made measurable user value, review cost, confidence calibration, and controlled baseline comparison mandatory before compiler or interoperability success claims
 - Required exact resource and description integrity rather than relying on mutable locations or version labels
 - Kept Croissant, JSON Schema, OpenAPI, and DCAT authoritative for their structural models instead of copying them into ADUC
-- Advanced the single active task from source binding to unit identifiers, dimensional compatibility, and conversions
+- Required global unit identifiers, quantity kinds, dimension vectors, and quantity roles instead of relying on source symbols
+- Required pinned conversion evidence and exact decimal/rational arithmetic instead of mutable remote data or normative binary floating point
+- Distinguished absolute temperature, temperature difference, unitless ratio, percentage, unknown, arbitrary, and contextual units
+- Advanced the single active task from units and conversions to temporal semantics and timezone alignment
