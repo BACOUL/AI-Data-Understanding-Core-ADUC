@@ -1,9 +1,9 @@
 # ADR-0012 — General Relation Semantics
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-07-13
 - Issue: #42
-- Pull request: pending
+- Pull request: #43
 - Decision owners: ADUC maintainers
 
 ## Context
@@ -204,14 +204,13 @@ The export uses absolute IRIs and deterministic ordering. It does not require pr
 
 ## Acceptance evidence
 
-Pending PR validation:
-
-- eighteen valid relation and inference cases;
-- thirty invalid counterexamples;
-- deterministic registry-integrity checks;
-- inverse, symmetry, transitivity, scope, conflict, cycle and open-world tests;
+- thirteen valid relation and inference cases;
+- twenty invalid counterexamples;
+- ten deterministic evaluator and CLI tests;
+- pinned predicate-registry identity and SHA-256 validation;
+- inverse, transitivity, exactness, scope, conflict, cycle, open-world and causal-blocking checks;
 - deterministic JSON-LD/RDF export;
-- all pre-existing GitHub Actions suites.
+- GitHub Actions passed the relation suite and every pre-existing validation suite in PR #43.
 
 ## Follow-up
 
