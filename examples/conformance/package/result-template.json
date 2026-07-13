@@ -1,0 +1,30 @@
+{
+  "protocol": "urn:aduc:model-conformance-result:0.1",
+  "run": {
+    "runId": "urn:replace-with-run-id",
+    "kind": "external",
+    "provider": "REPLACE",
+    "implementation": "REPLACE_IF_KNOWN",
+    "model": "REPLACE",
+    "modelVersion": "REPLACE_IF_KNOWN",
+    "executedAt": "REPLACE_WITH_RFC3339_TIME",
+    "packageDigest": "REPLACE_WITH_VERIFIED_PACKAGE_DIGEST",
+    "externalContextUsed": false,
+    "parameters": {},
+    "repeat": 1
+  },
+  "rawOutput": {
+    "path": "REPLACE_WITH_RAW_OUTPUT_PATH",
+    "sha256": "REPLACE_WITH_RAW_OUTPUT_SHA256",
+    "mediaType": "application/json"
+  },
+  "results": [
+    {"scenarioId": "exact-different-names"},
+    {"scenarioId": "inferred-candidate"},
+    {"scenarioId": "close-match-candidate"},
+    {"scenarioId": "contested-blocked"},
+    {"scenarioId": "same-name-different-targets"},
+    {"scenarioId": "missing-dimensions"}
+  ],
+  "normalizationNotes": []
+}
