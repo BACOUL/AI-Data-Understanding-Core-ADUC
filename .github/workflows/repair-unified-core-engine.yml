@@ -1,0 +1,67 @@
+name: repair-unified-core-engine
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/repair-unified-core-engine.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: repair/restore-unified-core-engine
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Reconstruct and verify exact v2 engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tools
+          cat \
+            .codex-transfer/aduc_core.part01.b64 \
+            .codex-transfer/aduc_core.part02.b64 \
+            .codex-transfer/aduc_core.part03a.b64 \
+            .codex-transfer/aduc_core.part03b.b64 \
+            .codex-transfer/aduc_core.part04.b64 \
+            .codex-transfer/aduc_core.part05.b64 \
+            .codex-transfer/aduc_core.part06.b64 \
+            .codex-transfer/aduc_core.part07.b64 \
+            .codex-transfer/aduc_core.part08.b64 \
+            .codex-transfer/aduc_core.part09.b64 \
+            .codex-transfer/aduc_core.part10.b64 \
+            .codex-transfer/aduc_core.part11.b64 \
+            .codex-transfer/aduc_core.part12.b64 \
+            | base64 --decode > tools/aduc_core.py
+          test "$(wc -c < tools/aduc_core.py | tr -d ' ')" = "104839"
+          test "$(sha256sum tools/aduc_core.py | awk '{print $1}')" = "6c837ce7b7fb6d7cbc0bea3af7553b03a307e385dc7dba4b4645047338a269b2"
+          python -m py_compile tools/aduc_core.py
+      - name: Validate restored engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -r requirements-dev.txt
+          python -m unittest discover -s tests/core_validator -p "test_*.py"
+          python -m unittest discover -s tests/core_comparator -p "test_*.py"
+          python tools/aduc_core.py validate examples/core/complete-model.example.json
+          python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json --format json
+      - name: Commit exact engine and cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/aduc_core.py
+          git rm -r .codex-transfer
+          git rm .github/workflows/materialize-aduc-core.yml
+          git rm .github/workflows/materialize-aduc-core-final.yml
+          git rm .github/workflows/repair-unified-core-engine.yml
+          git commit -m "Repair: restore exact unified Core engine"
+          git push origin HEAD:repair/restore-unified-core-engine
