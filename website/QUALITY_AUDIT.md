@@ -5,6 +5,8 @@
 - Base checked: remote `main` at `3131ab30987f1f67579cc6db0d6d0f92c49b826f`
 - Canonical URL used: `https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/`
 - Status: Working Draft, not a recognized standard
+- Verified materialization: GitHub Actions run 9 passed bundle integrity, internal file hashes, generator reproducibility, every official repository test suite, Core validation, deterministic self-comparison and website validation.
+- Deployment review: final GitHub Actions and Vercel Preview checks remain required on the review commit before this draft PR can advance.
 
 ## Visual Review
 
