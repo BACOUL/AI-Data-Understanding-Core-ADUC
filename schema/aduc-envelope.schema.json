@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/aduc-envelope.schema.json",
+  "title": "ADUC Core envelope",
+  "type": "object",
+  "properties": {
+    "aduc": {"$ref": "aduc-core.schema.json#/$defs/aduc"},
+    "resource": {"$ref": "resource.schema.json"},
+    "structure": {"$ref": "structure.schema.json"},
+    "semantics": {"$ref": "semantics.schema.json"},
+    "identity": {"$ref": "identity.schema.json"},
+    "context": {"$ref": "context.schema.json"},
+    "provenance": {"$ref": "provenance.schema.json"},
+    "uncertainty": {"$ref": "uncertainty.schema.json"},
+    "relations": {"$ref": "relations.schema.json"},
+    "policy": {"$ref": "policy.schema.json"}
+  },
+  "required": ["aduc", "resource", "structure"],
+  "dependentRequired": {"policy": ["provenance"]},
+  "additionalProperties": false
+}
