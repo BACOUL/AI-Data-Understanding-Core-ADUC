@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/uncertainty.schema.json",
+  "title": "ADUC uncertainty and quality module",
+  "$defs": {
+    "statement": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "subjectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "kind": {"enum": ["standardUncertainty", "relativeStandardUncertainty", "expandedUncertainty", "interval", "distribution", "asymmetricUncertainty", "categoricalDistribution", "unknown", "missingness", "censoring", "detectionLimit"]},
+        "value": {"type": "number", "minimum": 0},
+        "lower": {"type": "number"},
+        "upper": {"type": "number"},
+        "coverageFactor": {"type": "number", "exclusiveMinimum": 0},
+        "confidenceLevel": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "methodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "distributionIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "reasonIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "authority": {"$ref": "aduc-metadata.schema.json#/$defs/authority"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "confidenceMethodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "conflict": {"$ref": "aduc-metadata.schema.json#/$defs/conflict"},
+        "lifecycle": {"$ref": "aduc-metadata.schema.json#/$defs/lifecycle"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "subjectRef", "kind", "status", "conflict", "lifecycle"],
+      "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]},
+      "allOf": [
+        {"if": {"properties": {"kind": {"enum": ["standardUncertainty", "relativeStandardUncertainty", "expandedUncertainty"]}}}, "then": {"required": ["value"]}},
+        {"if": {"properties": {"kind": {"const": "interval"}}}, "then": {"required": ["lower", "upper"]}}
+      ],
+      "additionalProperties": false
+    },
+    "qualityMeasurement": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "subjectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "qualityMetricIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "value": {"type": ["number", "string", "boolean"]},
+        "unitIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "subjectRef", "qualityMetricIri", "value", "status"],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "statements": {"type": "array", "items": {"$ref": "#/$defs/statement"}, "minItems": 1},
+    "qualityMeasurements": {"type": "array", "items": {"$ref": "#/$defs/qualityMeasurement"}, "minItems": 1},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}
