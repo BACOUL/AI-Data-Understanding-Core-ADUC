@@ -2,36 +2,34 @@
 
 ## Single active task
 
-Freeze the normative ADUC Core object model and modular boundaries before implementing the official JSON Schema family.
+Implement the official modular ADUC Core JSON Schema family from the frozen object model and module manifest.
 
-Create or update:
+Create:
 
 ```text
-docs/decisions/ADR-0014-normative-core-object-model.md
-spec/ADUC_CORE_MODEL_0_1.md
-spec/ADUC_CORE_SPEC_0_1.md
-docs/architecture/CORE_MODULE_BOUNDARIES_0_1.md
-examples/core/complete-model.example.json
+schema/aduc-core.schema.json
+schema/aduc-envelope.schema.json
+schema/aduc-metadata.schema.json
+schema/resource.schema.json
+schema/structure.schema.json
+schema/semantics.schema.json
+schema/identity.schema.json
+schema/context.schema.json
+schema/provenance.schema.json
+schema/uncertainty.schema.json
+schema/relations.schema.json
+schema/policy.schema.json
+schema/qualification.schema.json
+schema/extension.schema.json
+examples/core/valid/
+examples/core/invalid/
+tests/core_schema/
+tools/aduc_core_validate.py
 ```
 
 ## Objective
 
-Turn the accepted domain profiles into one coherent Core model whose objects, ownership boundaries, references, cardinalities, extension points, lifecycle behavior, and compatibility rules are precise enough for an independent implementer to build the schema family without inventing architecture.
-
-The model must define the normative relationship between:
-
-```text
-aduc
-resource
-structure
-semantics
-identity
-context
-provenance
-uncertainty
-relations
-policy
-```
+Translate ADR-0014, `spec/ADUC_CORE_MODEL_0_1.md`, `spec/core-module-manifest.json`, the accepted domain profiles and the complete model example into a Draft 2020-12 schema family that enforces every structural rule possible in JSON Schema without revisiting architecture.
 
 ## Completed dependencies
 
@@ -45,67 +43,78 @@ ADR-0010  provenance and transformation lineage
 ADR-0011  uncertainty and data quality
 ADR-0012  general relation semantics
 ADR-0013  policy and permitted-use conditions
+ADR-0014  normative Core object model and module boundaries
 ```
 
-The object model must compose these accepted decisions rather than restating or weakening them.
+The schema family must implement these decisions rather than renaming, weakening or duplicating them.
 
-## Required decisions
+## Required decisions already frozen
 
-1. confirm the ten top-level Core blocks and whether each is required, optional, singular, or repeated;
-2. define the contract identity, version, conformance, publication, replacement, and extension mechanism;
-3. define which module owns every normative property and forbid duplicate competing representations;
-4. define stable object identifiers and deterministic cross-module references;
-5. define the minimum resource and structural binding needed before semantic assertions can be consumed;
-6. define how status, authority, evidence, provenance, uncertainty, conflict, and lifecycle qualify assertions across modules;
-7. define how external standards are referenced without embedding complete copies of JSON Schema, Croissant, PROV-O, DQV, ODRL, QUDT, UCUM, SKOS, or OWL;
-8. define JSON and JSON-LD representation boundaries;
-9. define extension namespaces, discovery, collision prevention, and unsupported-extension behavior;
-10. define module versioning, replacement, migration, and backward-compatibility rules;
-11. define the migration boundary from the existing semantic-mapping profile;
-12. define the modular schema family and dependency graph without implementing the schemas yet;
-13. update the complete example so every accepted Core profile has a coherent place;
-14. define deterministic behavior for absent, unknown, incomplete, contested, deprecated, prohibited, or unsupported information.
+The schema task must preserve:
 
-## Required counterexamples
+1. exactly ten reserved top-level Core blocks;
+2. required minimum `aduc + resource + structure`;
+3. singular objects for every module except the `relations` array;
+4. stable absolute-IRI identifiers;
+5. deterministic `Ref` / `Refs` reference convention;
+6. one owner for each normative fact;
+7. shared qualification fields without competing copies;
+8. external standards referenced rather than embedded as ADUC replacements;
+9. declared extension namespaces and collision prevention;
+10. immutable publication and explicit replacement;
+11. the module dependency graph in `core-module-manifest.json`;
+12. migration compatibility with the existing semantic-mapping profile.
 
-The decision must reject or block:
+## Required implementation work
 
-- the same fact represented differently in multiple Core blocks;
-- local identifiers whose namespace or issuer is unknown;
-- cross-module references that cannot be resolved deterministically;
-- circular mandatory dependencies between modules;
-- an envelope in which every block is optional and no minimum interoperable contract exists;
-- hidden mappings or consumer-specific fields in the Core;
-- embedding complete external standards as duplicated ADUC properties;
-- inferred assertions promoted silently to reviewed, verified, or canonical status;
-- measurement uncertainty reused as semantic confidence;
-- probable identity represented as exact identity;
-- relation semantics inferred from labels;
-- descriptive policy classification represented as executable permission;
-- extensions that overwrite Core terms;
-- unknown extensions treated as understood;
-- version replacement that rewrites published history.
+1. build the root schema and modular `$ref` graph;
+2. define reusable identifier, digest, timestamp, qualification and extension definitions;
+3. enforce module types, required fields, cardinalities and closed Core objects;
+4. enforce profile-controlled enums where already accepted;
+5. create at least ten complete valid Core examples;
+6. create at least ten intentionally invalid complete Core examples;
+7. implement a local validator with stable user-facing error paths;
+8. document constraints that JSON Schema cannot enforce alone, especially cross-object uniqueness and reference resolution;
+9. keep the architectural checker as a complementary invariant test;
+10. integrate every schema and fixture into CI.
+
+## Required invalid coverage
+
+The schema fixtures must reject at least:
+
+- missing `aduc`, `resource` or `structure`;
+- unknown top-level Core blocks;
+- a repeated singular module;
+- malformed absolute identifiers;
+- malformed SHA-256 digests;
+- invalid module cardinality;
+- missing required assertion qualification;
+- undeclared or Core-colliding extension namespaces where structurally detectable;
+- policy classification made executable;
+- incompatible relation endpoint forms;
+- embedded external schema copies where the Core requires a reference;
+- unsafe migration fields that bypass the frozen modules.
+
+Cross-reference resolution, duplicate identifiers and graph-level conflicts may require the reference validator in addition to JSON Schema and must be documented explicitly.
 
 ## Scope boundary
 
-Do not implement the official JSON Schema family, unified validator, comparator, compiler, review UI, registry service, MCP adapter, extensions, anticipation engine, or production access-control system in this task.
+Do not build the JSON/CSV compiler, review UI, registry service, MCP adapter, extensions, anticipation engine, production access control, value benchmark or external multi-model proof in this task.
 
 ## Completion test
 
 An independent implementer must be able to:
 
-1. identify every normative Core object and its owning module;
-2. determine required versus optional content and cardinality;
-3. resolve every Core reference without private conventions;
-4. map all nine accepted domain profiles into the complete envelope;
-5. understand how JSON-LD, external vocabularies, versions, and extensions are represented;
-6. implement modular JSON Schemas without making a new architectural decision;
-7. migrate the current semantic-mapping profile without losing authority, evidence, confidence, or lifecycle information;
-8. explain deterministic consumer behavior for missing, unsafe, prohibited, contested, deprecated, or unsupported information.
+1. validate the complete example locally;
+2. validate every official valid fixture;
+3. reject every official invalid fixture for the documented reason;
+4. trace each schema module to its owning Core module;
+5. identify every rule that requires the complementary reference validator;
+6. use the schema family without remote context retrieval or provider-specific behavior.
 
 ## Next action after acceptance
 
-Implement the official modular full-Core JSON Schema family, followed by complete valid and invalid Core examples.
+Build the unified full-Core validator and comparator on top of the accepted schema family and complete fixtures.
 
 ## Cross-cutting adoption constraint
 
