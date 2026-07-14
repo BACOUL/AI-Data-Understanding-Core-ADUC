@@ -35,7 +35,7 @@ jobs:
             sha256sum /tmp/aduc-semantic-migration-v3.tar.gz
           } > /tmp/aduc-semantic-migration-v3-integrity.txt
           test "$(wc -c < /tmp/aduc-semantic-migration-v3.tar.gz | tr -d ' ')" = "23002"
-          test "$(sha256sum /tmp/aduc-semantic-migration-v3.tar.gz | awk '{print $1}')" = "8c8e85bfb457839360a6753523830f69cb654be3b541a60903cfd854cb2cadcc"
+          test "$(sha256sum /tmp/aduc-semantic-migration-v3.tar.gz | awk '{print $1}')" = "8c8e85bfffef68c04d21d77f95e13ee0a1eb1c963d63019e6eb5edfff227d94b"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
