@@ -19,9 +19,8 @@ jobs:
         with:
           ref: core/unified-validator-comparator
           show-progress: false
-      - name: Reconstruct engine
+      - name: Reconstruct and verify engine
         id: reconstruct
-        continue-on-error: true
         shell: bash
         run: |
           set -u
@@ -29,23 +28,20 @@ jobs:
           cat .codex-transfer/aduc_core.part*.b64 | base64 --decode > tools/aduc_core.py
           actual_size="$(wc -c < tools/aduc_core.py | tr -d ' ')"
           actual_sha="$(sha256sum tools/aduc_core.py | awk '{print $1}')"
-          printf 'size=%s\nsha256=%s\n' "${actual_size}" "${actual_sha}" > /tmp/aduc-core-integrity.txt
-          echo "materialized-size=${actual_size}"
-          echo "materialized-sha256=${actual_sha}"
+          {
+            printf 'size=%s\nsha256=%s\n' "${actual_size}" "${actual_sha}"
+            sha256sum .codex-transfer/aduc_core.part*.b64
+          } > ENGINE_INTEGRITY_DIAGNOSTIC.txt
           if [ "${actual_size}" != "104839" ] || [ "${actual_sha}" != "6c837c9cf883cab1fecafadf236e1abfe711f6dd4de27c6c10503b33ec41aa59" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add ENGINE_INTEGRITY_DIAGNOSTIC.txt
+            git commit -m "Diagnostics: record engine transfer integrity"
+            git push origin HEAD:core/unified-validator-comparator
             exit 1
           fi
           python -m py_compile tools/aduc_core.py
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: aduc-core-integrity
-          path: /tmp/aduc-core-integrity.txt
-      - name: Reject integrity mismatch
-        if: steps.reconstruct.outcome != 'success'
-        run: exit 1
       - name: Commit verified engine
-        if: steps.reconstruct.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -54,5 +50,6 @@ jobs:
           git add tools/aduc_core.py
           git rm -r .codex-transfer
           git rm .github/workflows/materialize-aduc-core.yml
+          git rm -f ENGINE_INTEGRITY_DIAGNOSTIC.txt || true
           git commit -m "Core: materialize unified validator and comparator"
           git push origin HEAD:core/unified-validator-comparator
