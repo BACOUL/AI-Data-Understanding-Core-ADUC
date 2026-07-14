@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC specification - Working Draft technical reference</title>
-  <meta name="description" content="Technical reference links for the ADUC Working Draft Core model, schema family, validation report and comparison report.">
+  <title>ADUC evidence - schemas, fixtures, tests and limits</title>
+  <meta name="description" content="Current ADUC evidence includes schemas, fixtures, profile evaluators, deterministic reports and comparison scenarios, with explicit limits.">
   <meta name="theme-color" content="#0b0e12">
-  <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/specification.html">
+  <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ADUC specification - Working Draft technical reference">
-  <meta property="og:description" content="Technical reference links for the ADUC Working Draft Core model, schema family, validation report and comparison report.">
-  <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/specification.html">
+  <meta property="og:title" content="ADUC evidence - schemas, fixtures, tests and limits">
+  <meta property="og:description" content="Current ADUC evidence includes schemas, fixtures, profile evaluators, deterministic reports and comparison scenarios, with explicit limits.">
+  <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html">
   <meta property="og:site_name" content="ADUC">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ADUC specification - Working Draft technical reference">
-  <meta name="twitter:description" content="Technical reference links for the ADUC Working Draft Core model, schema family, validation report and comparison report.">
+  <meta name="twitter:title" content="ADUC evidence - schemas, fixtures, tests and limits">
+  <meta name="twitter:description" content="Current ADUC evidence includes schemas, fixtures, profile evaluators, deterministic reports and comparison scenarios, with explicit limits.">
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
   <script type="application/ld+json">[
@@ -48,16 +48,16 @@
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "ADUC specification - Working Draft technical reference",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/specification.html"
+        "name": "ADUC evidence - schemas, fixtures, tests and limits",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html"
       }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "ADUC specification - Working Draft technical reference",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/specification.html",
+    "headline": "ADUC evidence - schemas, fixtures, tests and limits",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html",
     "dateModified": "2026-07-14",
     "isAccessibleForFree": true,
     "about": [
@@ -72,7 +72,7 @@
   }
 ]</script>
 </head>
-<body data-page="specification.html">
+<body data-page="evidence.html">
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell nav-shell">
@@ -87,7 +87,7 @@
         <a href="validate.html">Validate</a>
         <a href="compare.html">Compare</a>
         <a href="trust.html">Trust</a>
-        <a href="evidence.html">Evidence</a>
+        <a href="evidence.html" aria-current="page">Evidence</a>
         <a href="roadmap.html">Roadmap</a>
         <a href="docs.html">Docs</a>
         <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
@@ -95,9 +95,11 @@
   </div>
 </header>
 <main id="main">
-<section class="page-hero"><div class="shell"><p class="kicker">Specification</p><h1>Technical reference for the current Working Draft.</h1><p class="lead">This page points to the normative model, schemas, validation report, comparison report and accepted ADRs without replacing the repository specifications.</p></div></section>
-<section><div class="shell spec-index"><a href="core.html"><strong>Core model</strong><span>Ten blocks and module ownership</span></a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/schema/aduc-core.schema.json"><strong>Schema entry point</strong><span>Draft 2020-12 local validation</span></a><a href="validate.html"><strong>Validation report</strong><span>Schema, architecture and profile diagnostics</span></a><a href="compare.html"><strong>Comparison report</strong><span>changeType and assessment</span></a><a href="architecture.html"><strong>Architecture</strong><span>Layer boundaries and future tools</span></a><a href="evidence.html"><strong>Evidence</strong><span>Fixtures, scenarios, tests and limits</span></a></div></section>
-<section class="section-band"><div class="shell"><h2>Standards composed, not replaced</h2><p>ADUC references established standards and vocabularies such as JSON Schema, JSON-LD/RDF, PROV-O, DQV, ODRL, QUDT, UCUM, RFC 3339, IANA TZDB, OWL-Time and identity vocabularies where appropriate. External schemas and vocabularies are referenced; they are not copied as ADUC replacements.</p></div></section>
+<section class="page-hero"><div class="shell"><p class="kicker">Conformance and evidence</p><h1>Evidence is tied to artifacts, not marketing claims.</h1><p class="lead">ADUC is a Working Draft with implemented Core foundations, deterministic fixtures and tests. It is not yet a recognized standard or a proven first-world claim.</p></div></section>
+<section><div class="shell evidence-ledger"><div><strong>10</strong><span>normative Core blocks</span></div><div><strong>14</strong><span>Draft 2020-12 schema files</span></div><div><strong>11</strong><span>valid complete Core contracts</span></div><div><strong>15</strong><span>invalid complete Core contracts</span></div><div><strong>24</strong><span>comparison scenarios</span></div><div><strong>9</strong><span>domain profile evaluators</span></div></div></section>
+<section class="section-band"><div class="shell"><h2>What is evidenced now</h2><div class="principle-grid"><article><h3>Schemas</h3><p>The Core schema family validates structure locally using the Draft 2020-12 entry point <code>schema/aduc-core.schema.json</code>.</p></article><article><h3>Fixtures</h3><p>Official valid and invalid Core fixtures exercise the envelope, modules, references, extensions and architecture checker.</p></article><article><h3>Reports</h3><p>Validator and comparator reports are stable JSON/text outputs with deterministic diagnostic ordering.</p></article><article><h3>CI path</h3><p>The validation workflow runs profile suites, Core model checks, schema checks, website checks and full-Core commands.</p></article></div></div></section>
+<section><div class="shell two-column"><div><h2>What is not yet proven</h2></div><div class="answer-block"><ul class="plain-list"><li>No independent full conformance implementation has been published.</li><li>No external two-consumer AI proof has completed.</li><li>No absolute first-world claim is made.</li><li>Conformance classes for producers, validators, comparators, compilers, consumers and extensions remain future work.</li></ul></div></div></section>
+<section class="section-band"><div class="shell"><h2>Before stronger public claims</h2><ol class="trace-steps compact"><li><strong>Freeze a reproducible package</strong><span>Inputs, contracts, reports and hashes.</span></li><li><strong>Run independent consumers</strong><span>At least two consumers or implementations must preserve meaning without hidden mappings.</span></li><li><strong>Publish failures too</strong><span>Unknowns, disagreements and limitations remain part of the evidence.</span></li><li><strong>Review prior art</strong><span>Novelty boundaries require dated prior-art and independent review.</span></li></ol></div></section>
 </main>
 <footer class="site-footer">
   <div class="shell footer-grid">

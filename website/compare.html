@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare ADUC Core contracts deterministically</title>
+  <meta name="description" content="Use the ADUC full-Core comparator to separate changeType from normative assessment across structure, semantics, policy and evidence.">
+  <meta name="theme-color" content="#0b0e12">
+  <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/compare.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Compare ADUC Core contracts deterministically">
+  <meta property="og:description" content="Use the ADUC full-Core comparator to separate changeType from normative assessment across structure, semantics, policy and evidence.">
+  <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/compare.html">
+  <meta property="og:site_name" content="ADUC">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Compare ADUC Core contracts deterministically">
+  <meta name="twitter:description" content="Use the ADUC full-Core comparator to separate changeType from normative assessment across structure, semantics, policy and evidence.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="assets/app.js"></script>
+  <script type="application/ld+json">[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AI Data Understanding Core",
+    "alternateName": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "sameAs": [
+      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "description": "Working Draft documentation for AI-readable data understanding contracts."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Compare ADUC Core contracts deterministically",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/compare.html"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "headline": "Compare ADUC Core contracts deterministically",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/compare.html",
+    "dateModified": "2026-07-14",
+    "isAccessibleForFree": true,
+    "about": [
+      "AI data interoperability",
+      "AI-readable data contract",
+      "portable data understanding",
+      "semantic interoperability for AI",
+      "deterministic AI data validation",
+      "AI data provenance",
+      "multi-model data consistency"
+    ]
+  }
+]</script>
+</head>
+<body data-page="compare.html">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="index.html" aria-label="ADUC home">
+      <span class="brand-mark" aria-hidden="true">AD</span>
+      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="why-aduc.html">Why ADUC</a>
+        <a href="core.html">Core</a>
+        <a href="validate.html">Validate</a>
+        <a href="compare.html" aria-current="page">Compare</a>
+        <a href="trust.html">Trust</a>
+        <a href="evidence.html">Evidence</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="docs.html">Docs</a>
+        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="shell"><p class="kicker">Compare</p><h1>Deterministic comparison separates mechanical change from semantic assessment.</h1><p class="lead">The comparator validates both contracts, indexes addressable objects by identifier, and reports what changed without trusting unsafe inputs.</p></div></section>
+<section><div class="shell command-layout"><div><h2>Command</h2><pre class="code-block"><code>python tools/aduc_core.py compare contract-a.json contract-b.json
+python tools/aduc_core.py compare contract-a.json contract-b.json --format json</code></pre><p>Addressable arrays are compared by stable Core identifiers, not by accidental JSON array order.</p></div><div class="state-panel planned"><h2>Unsafe inputs</h2><p>Contracts with duplicate identifiers, unresolved references, ownership violations, broken resource binding, namespace conflicts or unsupported required extensions are <code>notComparable</code>.</p></div></div></section>
+<section class="section-band"><div class="shell"><h2>Two dimensions in every meaningful change</h2><div class="boundary-grid"><div><h3><code>changeType</code></h3><p>The mechanical diff shape: <code>unchanged</code>, <code>added</code>, <code>removed</code> or <code>modified</code>.</p></div><div><h3><code>assessment</code></h3><p>The normative semantic result: <code>equivalent</code>, <code>convertible</code>, <code>compatible</code>, <code>incompatible</code>, <code>unknown</code>, <code>contested</code>, <code>deprecated</code>, <code>prohibited</code> or <code>requiresHumanReview</code>.</p></div></div></div></section>
+<section><div class="shell"><div class="section-head"><p class="kicker">Normative assessment states</p><h2>The comparator avoids false certainty.</h2></div><div class="assessment-grid"><div class="ok"><strong>equivalent</strong><span>No material semantic difference under the checked dimension.</span></div><div class="convert"><strong>convertible</strong><span>Conversion is proven by the accepted evaluator and required registry evidence.</span></div><div class="ok"><strong>compatible</strong><span>The change can be consumed without known breakage under documented assumptions.</span></div><div class="stop"><strong>incompatible</strong><span>The change breaks or contradicts the compared dimension.</span></div><div class="unknown"><strong>unknown</strong><span>Information is insufficient; ADUC does not guess.</span></div><div class="contest"><strong>contested</strong><span>Evidence or assertions conflict and must remain visible.</span></div><div class="muted"><strong>deprecated</strong><span>The object or assertion remains present but is no longer current.</span></div><div class="stop"><strong>prohibited</strong><span>A policy or rule blocks the compared use.</span></div><div class="review"><strong>requiresHumanReview</strong><span>Automatic use is not safe without human decision.</span></div></div></div></section>
+<section class="section-band"><div class="shell example-layout"><div><h2>Report excerpt</h2><p>A unit change is <code>convertible</code> only when ADR-0007 confirms matching dimension, quantity kind, role compatibility, supported conversion, verified registry, rounding policy and preserved uncertainty.</p></div><pre class="code-block"><code>{
+  "reportVersion": "0.1.0",
+  "comparable": true,
+  "overall": "potentiallyIncompatible",
+  "overallAssessment": "unknown",
+  "changes": [{"changeType": "modified", "assessment": "unknown", "module": "semantics", "dimension": "unit"}]
+}</code></pre></div></section>
+</main>
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <section>
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">AD</span>
+        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
+      </a>
+      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
+    </section>
+    <section>
+      <h2>Reference</h2>
+      <a href="core.html">Core model</a>
+      <a href="validate.html">Validation</a>
+      <a href="compare.html">Comparison</a>
+      <a href="architecture.html">Architecture</a>
+    </section>
+    <section>
+      <h2>Evidence</h2>
+      <a href="evidence.html">Conformance evidence</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="example.html">Core example</a>
+      <a href="docs.html">Try in 5 minutes</a>
+    </section>
+    <section>
+      <h2>Governance</h2>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
+    </section>
+  </div>
+  <div class="shell footer-bottom">
+    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
+    <span>Provider-neutral, local-first, unknown-safe.</span>
+  </div>
+</footer>
+</body>
+</html>

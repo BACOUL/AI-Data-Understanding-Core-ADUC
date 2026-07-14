@@ -8,6 +8,10 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 
 ### Added
 
+- Public website redesign aligned with the completed Core model, schema family, unified validator, deterministic comparator and cross-cutting Master Plan.
+- Dedicated public pages for Why ADUC, Core, Validate, Compare, Trust and Conformance evidence.
+- Website source-of-truth data file for repeated public metrics, canonical URL, active task and implementation status.
+- Website tests for canonical definition, real commands, ten Core blocks, obsolete-claim prevention, sitemap/canonical coherence, broken internal links and old invalid JSON syntax.
 - Prior-art matrix covering thirteen relevant standards and approaches.
 - Official full-Core program, ten-block object model, complete example and strict construction order.
 - English public website with GitHub Pages and Vercel static deployment.
@@ -38,19 +42,20 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 - Uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
 - General relations: thirteen valid cases, twenty invalid cases, ten tests.
 - Policy: twenty valid cases, thirty-two invalid cases, thirteen tests.
+- ADR-0017 - deterministic semantic-profile migration: explicit manifest, conservative mappings, stable reports, complete Core revalidation and 19 focused tests.
 - ADR-0016 - unified Core validation and comparison: 24 official comparison scenarios, evaluator-adapter orchestration, separated change type and semantic assessments, dangerous-index blocking, iterative JSON-depth protection, 15 validator tests and 13 comparator tests.
 - ADR-0014 — normative Core object model: complete ten-block example, twenty-five invalid architecture mutations, module manifest and eleven tests.
 - ADR-0015 — modular Core JSON Schema family: fourteen schemas, eleven valid contracts, fifteen invalid contracts, local validator and thirteen tests.
 
 ### Changed
 
-- README, roadmap and public website now reflect the full-Core program rather than a narrow mapping-only package.
+- README, roadmap and public website now reflect the full-Core program, the implemented unified validator/comparator and semantic-profile migration, plus the active deterministic formatter task rather than a narrow mapping-only package or outdated validator/comparator roadmap.
+- Public website navigation, visual hierarchy, code examples, SEO metadata, sitemap, robots file and structured data now use the GitHub Pages canonical base already declared by the repository.
 - Root Vercel configuration now publishes the static website from `website/`.
-- Repository repair #57/#58 restored the exact audited ADR-0016 engine, its roadmap test, and the six README/schema/specification/site files omitted by the temporary PR #52 materialization path; all transfer fragments and stale materialization workflows were removed.
 
 ### Not yet done
 
-- Migration tooling from the standalone semantic-mapping profile into complete Core contracts.
+- Deterministic complete-contract formatter.
 - JSON/CSV compiler and review UI.
 - MCP adapter, registry service, extensions and anticipation engine.
 - Qualifying external multi-model interoperability proof.

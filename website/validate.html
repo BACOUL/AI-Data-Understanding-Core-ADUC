@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Validate ADUC Core contracts deterministically</title>
+  <meta name="description" content="Run the unified ADUC full-Core validator and understand schema, architecture and profile diagnostics.">
+  <meta name="theme-color" content="#0b0e12">
+  <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/validate.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Validate ADUC Core contracts deterministically">
+  <meta property="og:description" content="Run the unified ADUC full-Core validator and understand schema, architecture and profile diagnostics.">
+  <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/validate.html">
+  <meta property="og:site_name" content="ADUC">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Validate ADUC Core contracts deterministically">
+  <meta name="twitter:description" content="Run the unified ADUC full-Core validator and understand schema, architecture and profile diagnostics.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="assets/app.js"></script>
+  <script type="application/ld+json">[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AI Data Understanding Core",
+    "alternateName": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "sameAs": [
+      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "description": "Working Draft documentation for AI-readable data understanding contracts."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Validate ADUC Core contracts deterministically",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/validate.html"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "headline": "Validate ADUC Core contracts deterministically",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/validate.html",
+    "dateModified": "2026-07-14",
+    "isAccessibleForFree": true,
+    "about": [
+      "AI data interoperability",
+      "AI-readable data contract",
+      "portable data understanding",
+      "semantic interoperability for AI",
+      "deterministic AI data validation",
+      "AI data provenance",
+      "multi-model data consistency"
+    ]
+  }
+]</script>
+</head>
+<body data-page="validate.html">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="index.html" aria-label="ADUC home">
+      <span class="brand-mark" aria-hidden="true">AD</span>
+      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="why-aduc.html">Why ADUC</a>
+        <a href="core.html">Core</a>
+        <a href="validate.html" aria-current="page">Validate</a>
+        <a href="compare.html">Compare</a>
+        <a href="trust.html">Trust</a>
+        <a href="evidence.html">Evidence</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="docs.html">Docs</a>
+        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="shell"><p class="kicker">Validate</p><h1>One command validates a complete ADUC Core contract.</h1><p class="lead">The unified validator separates schema errors, architectural errors and profile-level diagnostics while producing stable JSON and text reports.</p></div></section>
+<section><div class="shell command-layout"><div><h2>Command</h2><pre class="code-block"><code>python tools/aduc_core.py validate examples/core/complete-model.example.json
+python tools/aduc_core.py validate examples/core/complete-model.example.json --format json
+python tools/aduc_core.py validate contract.json --schema-only
+python tools/aduc_core.py validate contract.json --no-profile-evaluation</code></pre><p><code>--schema-only</code> runs only the Draft 2020-12 schema family. <code>--no-profile-evaluation</code> keeps schema and architecture checks but skips profile adapter evaluation.</p></div><div class="state-panel available"><h2>Exit outcomes</h2><ul><li><code>valid</code></li><li><code>validWithWarnings</code></li><li><code>requiresHumanReview</code></li><li><code>blocked</code></li></ul><p>These are full-Core validation outcomes, not policy decisions.</p></div></div></section>
+<section class="section-band"><div class="shell"><div class="section-head"><p class="kicker">Pipeline</p><h2>Validation order is explicit.</h2></div><ol class="trace-steps compact"><li><strong>Load JSON</strong><span>Reject unreadable, invalid or excessive input with stable input diagnostics.</span></li><li><strong>Validate schema</strong><span>Use the 14 local Draft 2020-12 schemas without remote retrieval.</span></li><li><strong>Check architecture</strong><span>Resolve identifiers, references, bindings, ownership and extension boundaries.</span></li><li><strong>Evaluate profiles</strong><span>Call applicable ADR-0005 through ADR-0013 evaluators and report non-applicable rules explicitly.</span></li></ol></div></section>
+<section><div class="shell example-layout"><div><h2>Report excerpt</h2><p>This structure is taken from the implemented validation report specification. It keeps profile adapter evidence separate from ordinary diagnostics.</p></div><pre class="code-block"><code>{
+  "reportVersion": "0.1.0",
+  "valid": false,
+  "outcome": "blocked",
+  "contractId": "urn:example:contract:1",
+  "coreVersion": "0.1.0-alpha.0",
+  "summary": {"errors": 1, "warnings": 0, "humanReview": 0},
+  "pipeline": {"jsonLoaded": true, "schemaValid": true, "architectureValid": false, "profileEvaluation": true},
+  "modules": {"aduc": {"status": "valid"}, "resource": {"status": "valid"}, "structure": {"status": "valid"}},
+  "profileEvaluations": [],
+  "diagnostics": []
+}</code></pre></div></section>
+<section class="section-band"><div class="shell"><h2>What validation does not prove</h2><div class="principle-grid"><article><h3>No factual truth proof</h3><p>A schema-valid assertion may still be wrong in the world.</p></article><article><h3>No automatic authority</h3><p>Authority must be asserted and evidenced; it is not inferred from format correctness.</p></article><article><h3>No universal permission</h3><p>Policy evaluation is bounded by the request, evidence and applicable rules.</p></article><article><h3>No silent remote trust</h3><p>Core operation remains local unless a future integration explicitly approves remote resolution.</p></article></div></div></section>
+</main>
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <section>
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">AD</span>
+        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
+      </a>
+      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
+    </section>
+    <section>
+      <h2>Reference</h2>
+      <a href="core.html">Core model</a>
+      <a href="validate.html">Validation</a>
+      <a href="compare.html">Comparison</a>
+      <a href="architecture.html">Architecture</a>
+    </section>
+    <section>
+      <h2>Evidence</h2>
+      <a href="evidence.html">Conformance evidence</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="example.html">Core example</a>
+      <a href="docs.html">Try in 5 minutes</a>
+    </section>
+    <section>
+      <h2>Governance</h2>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
+    </section>
+  </div>
+  <div class="shell footer-bottom">
+    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
+    <span>Provider-neutral, local-first, unknown-safe.</span>
+  </div>
+</footer>
+</body>
+</html>

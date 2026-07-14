@@ -2,63 +2,38 @@
 
 ## Single active task
 
-Define and implement the migration path from the standalone semantic-mapping profile into complete ADUC Core contracts.
+Define and implement the deterministic complete-contract formatter for complete ADUC Core contracts.
 
 ## Objective
 
-Provide a deterministic local migration workflow that maps the already implemented semantic-mapping profile artifacts into the accepted ten-block Core envelope without weakening ADR-0014, ADR-0015 or ADR-0016.
+Produce stable UTF-8 JSON for a complete ADUC Core contract without changing meaning, inventing facts, repairing invalid input or becoming a source-data compiler.
 
-The result must help existing semantic-profile users move toward complete Core contracts while preserving authority, confidence, evidence, source binding, unknowns, conflicts and policy boundaries.
+The formatter must validate the input and output through the accepted Core pipeline, preserve all identifiers, references, values, qualifications, conflicts, uncertainty, provenance and policy content, and emit a stable machine-readable report.
 
 ## Completed dependencies
 
-```text
-ADR-0005  epistemic lifecycle
-ADR-0006  source description and immutable binding
-ADR-0007  units and deterministic conversion
-ADR-0008  temporal semantics and timezone alignment
-ADR-0009  entity identity and safe equivalence
-ADR-0010  provenance and transformation lineage
-ADR-0011  uncertainty and data quality
-ADR-0012  general relation semantics
-ADR-0013  policy and permitted-use conditions
-ADR-0014  normative Core object model and module boundaries
-ADR-0015  official modular Core JSON Schema family
-ADR-0016  unified Core validation and comparison
-```
-
-ADR-0016 includes the independent-audit corrections for real ADR-0005 through ADR-0013 evaluator orchestration, explicit non-evaluable profile states, separated comparator `changeType` and normative `assessment`, dangerous-index blocking and iterative JSON-depth limits.
+- ADR-0014 normative Core object model and module boundaries;
+- ADR-0015 official modular Core JSON Schema family;
+- ADR-0016 unified Core validation and comparison;
+- ADR-0017 deterministic semantic-profile migration;
+- `tools/aduc_core.py validate` and `tools/aduc_core.py compare`.
 
 ## Required work
 
-1. inventory the standalone semantic-mapping profile fields and their Core destinations;
-2. define deterministic mappings into `aduc`, `resource`, `structure`, `semantics`, `provenance` and other modules only when evidence exists;
-3. preserve missing information as `unknown`, `notDescribed`, `indeterminate` or `requiresHumanReview` instead of inventing facts;
-4. provide migration fixtures from existing semantic-profile examples to complete Core contracts;
-5. validate migrated outputs with `tools/aduc_core.py validate`;
-6. compare migrated outputs with accepted Core examples where useful;
-7. document unsupported fields, required review and non-goals.
+1. define deterministic object-member ordering while preserving every array order;
+2. reject invalid or duplicate-key JSON instead of repairing it silently;
+3. preserve Unicode, numbers, identifiers, references and all semantic content;
+4. prove byte stability and idempotence;
+5. revalidate formatted output with `tools/aduc_core.py validate`;
+6. emit stable JSON and text reports with explicit exit codes;
+7. provide valid, review-required and rejected fixtures plus focused tests.
 
 ## Scope boundary
 
-Do not implement the JSON/CSV compiler, review UI, registry service, MCP adapter, extensions, anticipation engine, production access control, value benchmark or external multi-model proof in this task.
+Do not implement the JSON/CSV compiler, semantic inference, repair UI, registry service, MCP adapter, extensions, anticipation engine, production access control, value benchmark or external multi-model proof in this task.
 
-Do not treat a migrated semantic-profile contract as publisher authority unless the source artifact already carries the required evidence and authority state.
+The JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.
 
 ## Completion test
 
-An independent implementer must be able to:
-
-1. run the migration workflow locally;
-2. inspect which source fields mapped into which Core modules;
-3. validate every migrated complete Core contract with `tools/aduc_core.py validate`;
-4. see every unsupported or review-required fact in a stable report;
-5. confirm that no compiler inference, legal permission or identity merge was silently introduced.
-
-## Next action after acceptance
-
-Choose the next task from `MASTER_PLAN.md` and the adoption gates. The JSON/CSV compiler remains blocked until the migration path is accepted and the review-tax/value measurement setup is ready to run.
-
-## Cross-cutting adoption constraint
-
-[`ADOPTION_AND_VALUE_VALIDATION.md`](ADOPTION_AND_VALUE_VALIDATION.md) remains mandatory. Do not implement the JSON/CSV compiler now.
+An independent implementer must be able to format a complete validated ADUC Core contract twice and obtain identical bytes, confirm semantic preservation, validate the result through `tools/aduc_core.py validate`, compare it through `tools/aduc_core.py compare`, and inspect any failure in a stable report.

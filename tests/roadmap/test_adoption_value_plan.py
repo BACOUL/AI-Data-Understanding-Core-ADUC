@@ -30,37 +30,28 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_semantic_profile_migration_is_the_single_active_task(self) -> None:
+    def test_complete_contract_formatter_is_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("migration path from the standalone semantic-mapping profile", text)
+        self.assertIn("deterministic complete-contract formatter", text)
         self.assertIn("complete ADUC Core contracts", text)
-        self.assertIn("ADR-0015", text)
-        self.assertIn("ADR-0016", text)
         self.assertIn("tools/aduc_core.py validate", text)
-        self.assertNotIn("implement the JSON/CSV compiler now", text.lower())
+        self.assertIn("tools/aduc_core.py compare", text)
+        self.assertIn("JSON/CSV compiler remains blocked", text)
+        self.assertNotIn("migration path from the standalone semantic-mapping profile", text)
 
-    def test_readme_exposes_cross_cutting_completed_profiles_core_model_and_schema(self) -> None:
+    def test_readme_exposes_cross_cutting_core_schema_validator_and_comparator_status(self) -> None:
         text = README.read_text(encoding="utf-8")
         self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
         self.assertIn("manual mapping", text)
         self.assertIn("with and without ADUC", text)
-        self.assertIn("TEMPORAL_PROFILE_0_1.md", text)
-        self.assertIn("IDENTITY_PROFILE_0_1.md", text)
-        self.assertIn("PROVENANCE_PROFILE_0_1.md", text)
-        self.assertIn("UNCERTAINTY_PROFILE_0_1.md", text)
-        self.assertIn("RELATION_PROFILE_0_1.md", text)
-        self.assertIn("POLICY_PROFILE_0_1.md", text)
         self.assertIn("ADUC_CORE_MODEL_0_1.md", text)
-        self.assertIn("core-module-manifest.json", text)
         self.assertIn("aduc-core.schema.json", text)
-        self.assertIn("aduc_core_validate.py", text)
         self.assertIn("tools/aduc_core.py validate", text)
         self.assertIn("tools/aduc_core.py compare", text)
-        self.assertIn("candidateOnly", text)
-        self.assertIn("replayable", text)
-        self.assertIn("0.9 °F", text)
-        self.assertIn("skos:closeMatch", text)
+        self.assertIn("changeType", text)
+        self.assertIn("assessment", text)
         self.assertIn("requiresHumanReview", text)
+        self.assertIn("semantic-mapping profile", text)
 
 
 if __name__ == "__main__":

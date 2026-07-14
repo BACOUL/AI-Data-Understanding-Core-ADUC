@@ -1,0 +1,32 @@
+{
+  "project": "AI Data Understanding Core",
+  "shortName": "ADUC",
+  "status": "Working Draft",
+  "coreVersion": "0.1.0-alpha.0",
+  "lastUpdated": "2026-07-14",
+  "canonicalBase": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+  "activeTask": "deterministic complete-Core contract formatter",
+  "availableNow": {
+    "coreBlocks": 10,
+    "schemaFiles": 14,
+    "validCoreFixtures": 11,
+    "invalidCoreFixtures": 15,
+    "comparisonScenarios": 24,
+    "validator": true,
+    "comparator": true,
+    "profileEvaluators": 9,
+    "semanticProfileMigration": true
+  },
+  "inProgress": [
+    "deterministic complete-Core contract formatter"
+  ],
+  "planned": [
+    "JSON/CSV compiler",
+    "review interface",
+    "public packages",
+    "production registry",
+    "MCP adapter",
+    "official extensions",
+    "external two-consumer proof"
+  ]
+}

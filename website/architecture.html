@@ -1,67 +1,138 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC Architecture</title>
-  <meta name="description" content="Explore the ADUC architecture: Core Specification, Contract Format, Compiler, Validator, Semantic Registry and Extensions.">
-  <meta name="theme-color" content="#07111f">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ADUC architecture - Core, schemas, validator and comparator</title>
+  <meta name="description" content="The ADUC architecture separates the normative Core, local schemas, full-Core validator, deterministic comparator and future product layers.">
+  <meta name="theme-color" content="#0b0e12">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/architecture.html">
-  <link rel="stylesheet" href="assets/styles.css"><script defer src="assets/app.js"></script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ADUC architecture - Core, schemas, validator and comparator">
+  <meta property="og:description" content="The ADUC architecture separates the normative Core, local schemas, full-Core validator, deterministic comparator and future product layers.">
+  <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/architecture.html">
+  <meta property="og:site_name" content="ADUC">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ADUC architecture - Core, schemas, validator and comparator">
+  <meta name="twitter:description" content="The ADUC architecture separates the normative Core, local schemas, full-Core validator, deterministic comparator and future product layers.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="assets/app.js"></script>
+  <script type="application/ld+json">[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AI Data Understanding Core",
+    "alternateName": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "sameAs": [
+      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "description": "Working Draft documentation for AI-readable data understanding contracts."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "ADUC architecture - Core, schemas, validator and comparator",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/architecture.html"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "ADUC architecture - Core, schemas, validator and comparator",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/architecture.html",
+    "dateModified": "2026-07-14",
+    "isAccessibleForFree": true,
+    "about": [
+      "AI data interoperability",
+      "AI-readable data contract",
+      "portable data understanding",
+      "semantic interoperability for AI",
+      "deterministic AI data validation",
+      "AI data provenance",
+      "multi-model data consistency"
+    ]
+  }
+]</script>
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><span class="brand-mark">A</span><span class="brand-text">ADUC<small>Working draft</small></span></a><button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">☰</button><nav class="site-nav" id="site-nav" data-site-nav data-open="false"><a href="index.html">Home</a><a href="specification.html">Specification</a><a href="architecture.html" aria-current="page">Architecture</a><a href="roadmap.html">Roadmap</a><a href="example.html">Example</a><a class="nav-cta" href="docs.html">Try in 5 minutes</a></nav></div></header>
-  <main id="main">
-    <header class="page-hero"><div class="container"><div class="breadcrumbs"><a href="index.html">Home</a> / Architecture</div><div class="eyebrow">Composable by design</div><h1>Architecture</h1><p class="lead">ADUC is a small Core surrounded by reference tools, reusable vocabularies and extensions. It is designed to complement existing standards rather than replace them.</p></div></header>
-
-    <section><div class="container">
-      <div class="section-heading"><div><div class="eyebrow">System view</div><h2>Six principal components.</h2></div><p>The specification defines the portable contract. The tools help produce, review and validate it. The registry and extensions add reusable knowledge without expanding the Core indefinitely.</p></div>
-      <div class="grid-3">
-        <article class="card"><div class="card-number">1</div><h3>Core Specification</h3><p>Common blocks, identifiers, status rules, uncertainty, compatibility and consumer obligations.</p></article>
-        <article class="card"><div class="card-number">2</div><h3>Contract Format</h3><p>A JSON or JSON-LD companion file that leaves the original source unchanged.</p></article>
-        <article class="card"><div class="card-number">3</div><h3>Compiler</h3><p>Analyses JSON and CSV and proposes an inferred contract with evidence and confidence.</p></article>
-        <article class="card"><div class="card-number">4</div><h3>Validator</h3><p>Checks schema, lifecycle, references, units, versions and local semantic conflicts.</p></article>
-        <article class="card"><div class="card-number">5</div><h3>Semantic Registry</h3><p>References concepts, definitions, versions, owners, relations and compatible units.</p></article>
-        <article class="card"><div class="card-number">6</div><h3>Extensions</h3><p>Add dataset, live-data, document, memory, scientific, situation and domain capabilities.</p></article>
-      </div>
-    </div></section>
-
-    <section class="section-soft"><div class="container">
-      <div class="section-heading"><div><div class="eyebrow">Layering</div><h2>The original data remains the source of record.</h2></div><p>ADUC does not force a migration to a new database or format. A contract accompanies the original resource and can be versioned independently.</p></div>
-      <div class="flow"><div class="flow-step"><strong>Source</strong><span>JSON or CSV in the strict MVP.</span></div><div class="flow-step"><strong>Structure</strong><span>JSON Schema, Croissant or another declared profile.</span></div><div class="flow-step"><strong>ADUC meaning</strong><span>Semantics, identity, context, provenance and uncertainty.</span></div><div class="flow-step"><strong>Consumers</strong><span>Models, agents, analytics and applications.</span></div></div>
-    </div></section>
-
-    <section><div class="container content-layout">
-      <article class="prose">
-        <h2 id="core">Small Core</h2>
-        <p>The Core defines only concepts that must remain portable across domains. It does not contain every medical, industrial, financial or scientific concept. Domain meaning belongs in external vocabularies and extensions.</p>
-        <div class="block-list"><div class="block-pill">aduc</div><div class="block-pill">resource</div><div class="block-pill">structure</div><div class="block-pill">semantics</div><div class="block-pill">identity</div><div class="block-pill">context</div><div class="block-pill">provenance</div><div class="block-pill">uncertainty</div><div class="block-pill">relations</div><div class="block-pill">policy</div></div>
-
-        <h2 id="standards">Standards composition</h2>
-        <table><thead><tr><th>Need</th><th>Likely foundation</th><th>ADUC role</th></tr></thead><tbody>
-          <tr><td>Structure</td><td>JSON Schema, Croissant, CSVW, OpenAPI</td><td>Declare and connect the structural profile.</td></tr>
-          <tr><td>Semantic identifiers</td><td>JSON-LD and RDF</td><td>Preserve portable mappings and consumer behavior.</td></tr>
-          <tr><td>Mappings</td><td>SKOS relations</td><td>Add authority, status, evidence and deterministic handling.</td></tr>
-          <tr><td>Provenance</td><td>PROV-O</td><td>Expose source and assertion lineage.</td></tr>
-          <tr><td>Quality</td><td>DQV and domain methods</td><td>Separate data quality from mapping confidence.</td></tr>
-          <tr><td>Policy</td><td>ODRL</td><td>Declare usage conditions without pretending to enforce law.</td></tr>
-        </tbody></table>
-
-        <h2 id="current">Current repository architecture</h2>
-        <p>The existing implementation mainly covers the semantics layer: mapping assertions, status, confidence, validation, comparison and RDF round-trip. ADR-0004 formally positions this work inside the full Core rather than deleting it or presenting it as complete.</p>
-        <div class="notice success"><strong>Implemented foundation:</strong> semantic mapping schema, CLI validator, comparator, JSON-LD/RDF processing and conformance harness.</div>
-        <div class="notice" style="margin-top:1rem"><strong>Next architecture work:</strong> full-Core schema modules for resource, structure, identity, context, provenance, uncertainty, relations and policy.</div>
-
-        <h2 id="extensions">Extensions</h2>
-        <p>Extensions must declare their own version and conformance identifier. A compatible extension may add properties or constraints, but it may not silently change the meaning of Core properties.</p>
-        <div class="grid-2"><div class="card"><h3>Near-term</h3><ul><li>Dataset Extension</li><li>Live Data Extension</li><li>Scientific Data Extension</li></ul></div><div class="card"><h3>Later</h3><ul><li>Document Extension</li><li>Agent Memory Extension</li><li>Situation &amp; Action Extension</li></ul></div></div>
-
-        <h2 id="separation">Project separation</h2>
-        <p>TimeProofs may later timestamp releases, but it is not required to create or validate a contract. The anticipation engine may later consume ADUC, but it remains a separately governed application. This separation protects the credibility and portability of the Core.</p>
-      </article>
-      <aside class="toc"><strong>On this page</strong><a href="#core">Small Core</a><a href="#standards">Standards composition</a><a href="#current">Current architecture</a><a href="#extensions">Extensions</a><a href="#separation">Project separation</a></aside>
-    </div></section>
-  </main>
-  <footer class="site-footer"><div class="container"><div class="footer-grid"><div><a class="brand" href="index.html"><span class="brand-mark">A</span><span class="brand-text">ADUC<small>AI Data Understanding Core</small></span></a><p>Experimental open specification for portable data understanding.</p></div><div><h3>Project</h3><a href="specification.html">Specification</a><a href="architecture.html">Architecture</a><a href="roadmap.html">Roadmap</a></div><div><h3>Build</h3><a href="example.html">Example</a><a href="docs.html">Try in 5 minutes</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a></div><div><h3>Source</h3><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/docs/decisions/ADR-0004-full-core-program-and-semantic-profile-position.md">ADR-0004</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/docs/project/OFFICIAL_PROJECT_STRUCTURE.md">Official structure</a></div></div><div class="footer-bottom"><span>© <span data-year>2026</span> ADUC contributors.</span><span>Working draft · Not yet a recognized standard</span></div></div></footer>
+<body data-page="architecture.html">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="index.html" aria-label="ADUC home">
+      <span class="brand-mark" aria-hidden="true">AD</span>
+      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="why-aduc.html">Why ADUC</a>
+        <a href="core.html">Core</a>
+        <a href="validate.html">Validate</a>
+        <a href="compare.html">Compare</a>
+        <a href="trust.html">Trust</a>
+        <a href="evidence.html">Evidence</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="docs.html">Docs</a>
+        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="shell"><p class="kicker">Architecture</p><h1>Core, schemas, validator and comparator are separate layers.</h1><p class="lead">ADUC keeps normative model decisions, structural schemas, architecture checks, profile evaluators and future product tooling in distinct responsibility zones.</p></div></section>
+<section><div class="shell layer-stack"><article><h2>1. Normative Core</h2><p>ADR-0014 defines the ten-block object model, module ownership, extension boundaries and minimum envelope.</p></article><article><h2>2. Modular schemas</h2><p>ADR-0015 implements 14 local Draft 2020-12 schemas. They validate structure without replacing external vocabularies or proving truth.</p></article><article><h2>3. Full-Core validator</h2><p>ADR-0016 orchestrates schema validation, architecture checks and applicable profile evaluators into one deterministic report.</p></article><article><h2>4. Deterministic comparator</h2><p>The comparator validates both inputs, blocks dangerous indexes and reports mechanical changes plus normative assessments.</p></article><article><h2>5. Legacy semantic profile migration</h2><p>The old standalone semantic-mapping profile remains supported as a migration source. It is not the current Core architecture.</p></article><article><h2>6. Future product layers</h2><p>Compiler, review UI, SDKs, registry, MCP adapter and extensions remain future gates, not current site claims.</p></article></div></section>
+<section class="section-band"><div class="shell"><h2>Offline and provider-neutral by design</h2><div class="principle-grid"><article><h3>Local schemas</h3><p>Operational references resolve locally; no remote schema retrieval is required for Core validation.</p></article><article><h3>Stable reports</h3><p>JSON and text outputs use stable codes, paths and deterministic ordering.</p></article><article><h3>Profile adapters</h3><p>Accepted evaluators are called where the contract contains the required shape and evidence.</p></article><article><h3>Future adapters stay optional</h3><p>MCP, registries and hosted services may carry ADUC later but do not define the Core.</p></article></div></div></section>
+</main>
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <section>
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">AD</span>
+        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
+      </a>
+      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
+    </section>
+    <section>
+      <h2>Reference</h2>
+      <a href="core.html">Core model</a>
+      <a href="validate.html">Validation</a>
+      <a href="compare.html">Comparison</a>
+      <a href="architecture.html">Architecture</a>
+    </section>
+    <section>
+      <h2>Evidence</h2>
+      <a href="evidence.html">Conformance evidence</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="example.html">Core example</a>
+      <a href="docs.html">Try in 5 minutes</a>
+    </section>
+    <section>
+      <h2>Governance</h2>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
+    </section>
+  </div>
+  <div class="shell footer-bottom">
+    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
+    <span>Provider-neutral, local-first, unknown-safe.</span>
+  </div>
+</footer>
 </body>
 </html>
