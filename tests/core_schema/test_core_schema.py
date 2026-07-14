@@ -76,6 +76,30 @@ class CoreSchemaTests(unittest.TestCase):
         result = module.validate_document(document, architecture=False)
         self.assertIn("ADUC-SCHEMA-UNKNOWN", {item["code"] for item in result["schemaErrors"]})
 
+    def test_resource_version_is_optional(self) -> None:
+        document = copy.deepcopy(self.valid_cases[0]["document"])
+        document["resource"].pop("version")
+        result = module.validate_document(document)
+        self.assertTrue(result["valid"], result)
+
+    def test_inferred_semantic_assertions_require_evidence_and_confidence_metadata(self) -> None:
+        document = copy.deepcopy(self.valid_cases[2]["document"])
+        assertion = document["semantics"]["assertions"][0]
+        assertion["status"] = "inferred"
+        result = module.validate_document(document, architecture=False)
+        self.assertFalse(result["schemaValid"])
+        self.assertIn("ADUC-SCHEMA-REQUIRED", {item["code"] for item in result["schemaErrors"]})
+        self.assertIn("$.semantics.assertions[0]", {item["path"] for item in result["schemaErrors"]})
+
+    def test_unresolved_external_schema_ref_remains_architecture_validation(self) -> None:
+        document = copy.deepcopy(self.valid_cases[1]["document"])
+        document["structure"]["externalSchemaRef"] = "https://example.org/schema/record-v1.json"
+        schema_only = module.validate_document(document, architecture=False)
+        combined = module.validate_document(document, architecture=True)
+        self.assertTrue(schema_only["schemaValid"], schema_only["schemaErrors"])
+        self.assertFalse(combined["architectureValid"])
+        self.assertIn("ADUC-CORE-REF-001", {item["code"] for item in combined["architectureErrors"]})
+
     def test_architecture_checker_remains_complementary(self) -> None:
         document = copy.deepcopy(self.valid_cases[0]["document"])
         fields = document["structure"]["records"][0]["fields"]
