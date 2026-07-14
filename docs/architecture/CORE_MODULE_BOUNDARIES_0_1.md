@@ -6,7 +6,7 @@
 
 ## Purpose
 
-This document assigns every Core responsibility to one module and fixes the dependency graph for the future JSON Schema family. It prevents duplicate representations, circular mandatory dependencies and architecture decisions hidden inside schema implementation.
+This document assigns every Core responsibility to one module and fixes the dependency graph used by the JSON Schema family. It prevents duplicate representations, circular mandatory dependencies and architecture decisions hidden inside schema implementation.
 
 ## Boundary rules
 
@@ -127,9 +127,9 @@ These values must not be substituted for one another.
 
 ADUC must not rename and re-embed a complete external model.
 
-## Planned schema-family boundaries
+## Schema-family boundaries
 
-The future schema family will have one root schema and modular schemas:
+The implemented schema family has one root schema and modular schemas:
 
 ```text
 schema/aduc-core.schema.json
