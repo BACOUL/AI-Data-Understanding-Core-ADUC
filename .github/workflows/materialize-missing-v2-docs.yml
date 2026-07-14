@@ -25,7 +25,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat .docs-repair/part*.b64 | base64 --decode > /tmp/aduc-v2-missing-docs.tar.gz
+          cat \
+            .docs-repair/part00.b64 \
+            .docs-repair/part01.b64 \
+            .docs-repair/part02.b64 \
+            .docs-repair/part03a.b64 \
+            .docs-repair/part03b.b64 \
+            | base64 --decode > /tmp/aduc-v2-missing-docs.tar.gz
           test "$(wc -c < /tmp/aduc-v2-missing-docs.tar.gz | tr -d ' ')" = "17113"
           test "$(sha256sum /tmp/aduc-v2-missing-docs.tar.gz | awk '{print $1}')" = "d1a1d3b45bd7703923e053711bb1563ecc9d0d8109f41af23807a9802531eb2c"
           tar -xzf /tmp/aduc-v2-missing-docs.tar.gz
