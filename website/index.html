@@ -3,207 +3,257 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC — A portable understanding layer for data and AI</title>
-  <meta name="description" content="AI Data Understanding Core is an experimental open standard for portable data structure, meaning, context, provenance, uncertainty, relations and usage conditions.">
-  <meta name="theme-color" content="#07111f">
+  <title>ADUC - Portable data understanding for AI systems</title>
+  <meta name="description" content="ADUC is a Working Draft machine-readable contract for portable data understanding, deterministic validation and deterministic comparison across AI systems.">
+  <meta name="theme-color" content="#0b0e12">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ADUC - Portable data understanding for AI systems">
+  <meta property="og:description" content="ADUC is a Working Draft machine-readable contract for portable data understanding, deterministic validation and deterministic comparison across AI systems.">
+  <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/">
+  <meta property="og:site_name" content="ADUC">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ADUC - Portable data understanding for AI systems">
+  <meta name="twitter:description" content="ADUC is a Working Draft machine-readable contract for portable data understanding, deterministic validation and deterministic comparison across AI systems.">
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html" aria-label="ADUC home">
-        <span class="brand-mark" aria-hidden="true">A</span>
-        <span class="brand-text">ADUC<small>Working draft</small></span>
-      </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">☰</button>
-      <nav class="site-nav" id="site-nav" data-site-nav data-open="false" aria-label="Primary navigation">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="specification.html">Specification</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="example.html">Example</a>
-        <a class="nav-cta" href="docs.html">Try in 5 minutes</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Experimental open standard</div>
-          <h1>A portable understanding layer for data and AI.</h1>
-          <p class="lead">ADUC is a model-independent contract that lets data describe its structure, meaning, context, provenance, uncertainty, relations and conditions of use to AI systems.</p>
-          <div class="hero-actions">
-            <a class="button" href="specification.html">Read the Core draft</a>
-            <a class="button secondary" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">View on GitHub</a>
-          </div>
-          <p class="hero-note">AI Data Understanding Core is a provisional working name. ADUC is not yet a recognized standard, and full multi-model interoperability is not yet proven.</p>
-        </div>
-
-        <div class="hero-visual" aria-label="Example ADUC contract">
-          <div class="contract-card">
-            <div class="window-bar">
-              <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-              <span>measurements.aduc.json</span>
-            </div>
-            <pre><code>{
-  <span class="token-key">"semantics"</span>: {
-    <span class="token-key">"flow"</span>: {
-      <span class="token-key">"concept"</span>: <span class="token-string">"env:WaterDischarge"</span>,
-      <span class="token-key">"unit"</span>: <span class="token-string">"unit:M3-PER-SEC"</span>,
-      <span class="token-key">"mappingStatus"</span>: <span class="token-string">"reviewed"</span>,
-      <span class="token-key">"confidence"</span>: <span class="token-number">0.96</span>
-    }
+  <script type="application/ld+json">[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AI Data Understanding Core",
+    "alternateName": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "sameAs": [
+      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
+    ]
   },
-  <span class="token-key">"context"</span>: {
-    <span class="token-key">"timeField"</span>: <span class="token-string">"timestamp"</span>,
-    <span class="token-key">"timezone"</span>: <span class="token-string">"UTC"</span>
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ADUC",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "description": "Working Draft documentation for AI-readable data understanding contracts."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "ADUC - Portable data understanding for AI systems",
+        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "headline": "ADUC - Portable data understanding for AI systems",
+    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
+    "dateModified": "2026-07-14",
+    "isAccessibleForFree": true,
+    "about": [
+      "AI data interoperability",
+      "AI-readable data contract",
+      "portable data understanding",
+      "semantic interoperability for AI",
+      "deterministic AI data validation",
+      "AI data provenance",
+      "multi-model data consistency"
+    ]
   }
-}</code></pre>
-          </div>
-        </div>
+]</script>
+</head>
+<body data-page="index.html">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="index.html" aria-label="ADUC home">
+      <span class="brand-mark" aria-hidden="true">AD</span>
+      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="why-aduc.html">Why ADUC</a>
+        <a href="core.html">Core</a>
+        <a href="validate.html">Validate</a>
+        <a href="compare.html">Compare</a>
+        <a href="trust.html">Trust</a>
+        <a href="evidence.html">Evidence</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="docs.html">Docs</a>
+        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero split-hero">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <p class="kicker">Working Draft 0.1 - AI-readable data contract</p>
+      <h1>Data that carries its understanding with it.</h1>
+      <p class="lead definition">ADUC is a machine-readable contract that makes a data resource's structure, meaning, context, identity, provenance, uncertainty, relations and use conditions explicit, validatable and portable across AI systems.</p>
+      <div class="hero-actions" aria-label="Primary actions">
+        <a class="button primary" href="docs.html">Try in 5 minutes</a>
+        <a class="button secondary" href="validate.html">See validation</a>
+        <a class="button ghost" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
       </div>
-    </section>
-
-    <section class="section-soft" aria-labelledby="problem-title">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">The problem</div>
-            <h2 id="problem-title">Readable syntax is not shared understanding.</h2>
-          </div>
-          <p>A model can parse <code>{"flow": 118}</code>, but it cannot know with certainty what the field means, which unit applies, when the observation occurred, who produced it, how reliable it is, or whether it may be compared with another source.</p>
-        </div>
-        <div class="grid-3">
-          <article class="card">
-            <div class="card-number">01</div>
-            <h3>Meaning is rebuilt repeatedly</h3>
-            <p>Organizations encode the same data meaning again in prompts, ETL jobs, connectors, dictionaries and application code.</p>
-          </article>
-          <article class="card">
-            <div class="card-number">02</div>
-            <h3>Models receive different explanations</h3>
-            <p>Each provider or application can end up with its own semantic mapping, producing inconsistent interpretation and hidden coupling.</p>
-          </article>
-          <article class="card">
-            <div class="card-number">03</div>
-            <h3>Uncertainty disappears</h3>
-            <p>Inferred, reviewed, canonical and contested interpretations are often flattened into one undocumented answer.</p>
-          </article>
-        </div>
+      <div class="status-ledger" aria-label="Current implementation status">
+        <span><strong>Available:</strong> 10 Core blocks, 14 schemas, full-Core validator, deterministic comparator, semantic-profile migration</span>
+        <span><strong>Active task:</strong> deterministic Core contract formatter</span>
+        <span><strong>Not proven:</strong> external two-consumer interoperability claim</span>
       </div>
-    </section>
-
-    <section aria-labelledby="flow-title">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">How it works</div>
-            <h2 id="flow-title">Describe once. Validate. Reuse.</h2>
-          </div>
-          <p>The original data remains unchanged. A portable ADUC contract accompanies it and exposes the meaning that compatible AI systems and applications need.</p>
-        </div>
-        <div class="flow" aria-label="ADUC processing flow">
-          <div class="flow-step"><strong>Original data</strong><span>JSON, CSV and later additional resource types.</span></div>
-          <div class="flow-step"><strong>ADUC contract</strong><span>Structure, semantics, identity, context and evidence.</span></div>
-          <div class="flow-step"><strong>Validation</strong><span>Schema, lifecycle, uncertainty and conflict checks.</span></div>
-          <div class="flow-step"><strong>Shared use</strong><span>AI systems, agents, analytics and applications.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-soft" aria-labelledby="core-title">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">The Core</div>
-            <h2 id="core-title">Ten blocks for portable understanding.</h2>
-          </div>
-          <p>The complete Core is designed to compose existing standards rather than replace them. The current implementation focuses primarily on semantic mappings and consumer conformance.</p>
-        </div>
-        <div class="block-list" aria-label="ADUC Core blocks">
-          <div class="block-pill">aduc</div>
-          <div class="block-pill">resource</div>
-          <div class="block-pill">structure</div>
-          <div class="block-pill">semantics</div>
-          <div class="block-pill">identity</div>
-          <div class="block-pill">context</div>
-          <div class="block-pill">provenance</div>
-          <div class="block-pill">uncertainty</div>
-          <div class="block-pill">relations</div>
-          <div class="block-pill">policy</div>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="status-title">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Current status</div>
-            <h2 id="status-title">A real technical foundation, not a finished standard.</h2>
-          </div>
-          <p>The repository already contains tested components, but the complete Core schema, compiler and full interoperability proof remain future gates.</p>
-        </div>
-        <div class="metrics">
-          <div class="metric"><strong>Core draft</strong><span>Full mission and ten-block model documented</span></div>
-          <div class="metric"><strong>Validator</strong><span>Experimental semantic-mapping profile supported</span></div>
-          <div class="metric"><strong>Comparator</strong><span>Published semantic targets compared deterministically</span></div>
-          <div class="metric"><strong>RDF</strong><span>Offline JSON-LD expansion and round-trip tested</span></div>
-        </div>
-        <div class="notice" style="margin-top: 1rem;"><strong>Not yet complete:</strong> full-Core JSON Schema, JSON/CSV compiler, review interface, complete unit/time/identity comparison, and two qualifying external AI runs.</div>
-      </div>
-    </section>
-
-    <section class="section-soft" aria-labelledby="principles-title">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Design principles</div>
-            <h2 id="principles-title">Open, explicit and provider-independent.</h2>
-          </div>
-          <p>ADUC is useful only if it remains understandable without a proprietary service and preserves uncertainty instead of hiding it.</p>
-        </div>
-        <div class="grid-3">
-          <article class="card"><div class="icon-box">↗</div><h3>Reuse standards</h3><p>JSON-LD, RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema and established vocabularies remain foundations.</p></article>
-          <article class="card"><div class="icon-box">?</div><h3>Preserve uncertainty</h3><p>Unknown, inferred, reviewed, canonical and contested information cannot be silently treated as equivalent.</p></article>
-          <article class="card"><div class="icon-box">∞</div><h3>Avoid vendor lock-in</h3><p>The contract and conformance rules must remain usable by independent models, tools and organizations.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="vision-title">
-      <div class="container cta-panel">
-        <div>
-          <div class="eyebrow">The target</div>
-          <h2 id="vision-title">Make existing data portable between an organization’s AI systems.</h2>
-          <p class="lead">The open standard remains free. Commercial adoption tools may later provide hosted compilation, collaborative review, private registries, enterprise connectors, audits and support.</p>
-        </div>
-        <div class="action-row">
-          <a class="button" href="roadmap.html">See the master roadmap</a>
-          <a class="button secondary" href="example.html">Explore the full example</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">A</span><span class="brand-text">ADUC<small>AI Data Understanding Core</small></span></a>
-          <p>Experimental open specification for portable data understanding across AI systems.</p>
-        </div>
-        <div><h3>Project</h3><a href="specification.html">Specification</a><a href="architecture.html">Architecture</a><a href="roadmap.html">Roadmap</a></div>
-        <div><h3>Build</h3><a href="example.html">Complete example</a><a href="docs.html">Try in 5 minutes</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a></div>
-        <div><h3>Governance</h3><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a></div>
-      </div>
-      <div class="footer-bottom"><span>© <span data-year>2026</span> ADUC contributors. Working name.</span><span>Specification draft · Not yet a recognized standard</span></div>
+      <pre class="home-command"><code>python tools/aduc_core.py validate examples/core/complete-model.example.json</code></pre>
     </div>
-  </footer>
+    <div class="hero-instrument" aria-label="ADUC portable understanding flow">
+      <div class="contract-flow">
+        <div><span>Original data</span><code>{"flow": 1.5}</code></div>
+        <div><span>ADUC understanding contract</span><code>conceptIri + unitIri + provenance + policy</code></div>
+        <div><span>Deterministic validation and comparison</span><code>valid / unknown / prohibited / review</code></div>
+        <div><span>Portable understanding across AI systems</span><code>same explicit contract, same rules</code></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section-band" aria-labelledby="problem">
+  <div class="shell two-column">
+    <div><p class="kicker">The problem</p><h2 id="problem">AI can read bytes without sharing meaning.</h2></div>
+    <div class="answer-block">
+      <p>JSON and CSV expose syntax. Prompts, ETL jobs, connectors, spreadsheets and private mappings often carry the real interpretation: which field is a flow rate, what unit it uses, which timestamp role applies, who asserted it, whether identity is exact, and whether the data may be used for the requested purpose.</p>
+      <p>ADUC moves that understanding out of hidden glue and into a versioned contract that can be validated, compared and reviewed.</p>
+    </div>
+  </div>
+</section>
+<section aria-labelledby="four-steps">
+  <div class="shell">
+    <div class="section-head">
+      <p class="kicker">The promise</p>
+      <h2 id="four-steps">Original data -> ADUC contract -> deterministic checks -> portable understanding.</h2>
+      <p>ADUC accompanies the original resource. It does not replace the source data, become an AI model, or grant legal permission.</p>
+    </div>
+    <ol class="trace-steps">
+      <li><strong>Original data</strong><span>The source stays authoritative and unchanged.</span></li>
+      <li><strong>ADUC understanding contract</strong><span>Structure, semantics, identity, context, provenance, uncertainty, relations and policy travel together.</span></li>
+      <li><strong>Deterministic validation and comparison</strong><span>Local schemas, architecture checks, profile evaluators and stable reports expose what is valid, unknown or unsafe.</span></li>
+      <li><strong>Portable understanding across AI systems</strong><span>Multiple consumers can receive the same description and be evaluated by the same rules.</span></li>
+    </ol>
+  </div>
+</section>
+<section class="section-band" aria-labelledby="core-dimensions">
+  <div class="shell">
+    <div class="section-head compact"><p class="kicker">Core model</p><h2 id="core-dimensions">Ten dimensions, one explicit contract.</h2></div>
+    <div class="core-map" role="list" aria-label="ADUC Core blocks">
+      <a href="core.html#aduc" role="listitem">aduc<span>contract metadata</span></a>
+      <a href="core.html#resource" role="listitem">resource<span>the described data</span></a>
+      <a href="core.html#structure" role="listitem">structure<span>records and fields</span></a>
+      <a href="core.html#semantics" role="listitem">semantics<span>meaning and mappings</span></a>
+      <a href="core.html#identity" role="listitem">identity<span>entities and identifiers</span></a>
+      <a href="core.html#context" role="listitem">context<span>time, space, operation</span></a>
+      <a href="core.html#provenance" role="listitem">provenance<span>agents and evidence</span></a>
+      <a href="core.html#uncertainty" role="listitem">uncertainty<span>quality and unknowns</span></a>
+      <a href="core.html#relations" role="listitem">relations<span>graph assertions</span></a>
+      <a href="core.html#policy" role="listitem">policy<span>use conditions</span></a>
+    </div>
+  </div>
+</section>
+<section aria-labelledby="today">
+  <div class="shell two-column">
+    <div><p class="kicker">What exists today</p><h2 id="today">The repository now contains complete Core foundations.</h2></div>
+    <div class="status-columns">
+      <div class="state-panel available"><h3>Available now</h3><ul><li>Normative ten-block Core model</li><li>Minimum envelope: <code>aduc + resource + structure</code></li><li>14 local Draft 2020-12 schemas</li><li>11 valid and 15 invalid Core fixtures</li><li>Unified full-Core validator</li><li>Deterministic full-Core comparator</li><li>Deterministic semantic-profile migration</li><li>24 comparison scenarios</li><li>Local processing without unapproved remote resolution</li></ul></div>
+      <div class="state-panel progress"><h3>In progress</h3><ul><li>Deterministic formatting for complete Core contracts, with byte stability and no semantic repair.</li></ul></div>
+      <div class="state-panel planned"><h3>Planned, not available</h3><ul><li>JSON/CSV compiler</li><li>Review interface</li><li>Stabilized public PyPI/npm packages</li><li>Production registry and MCP adapter</li><li>Official extensions</li><li>External two-consumer proof</li></ul></div>
+    </div>
+  </div>
+</section>
+<section class="section-band" aria-labelledby="core-example">
+  <div class="shell example-layout">
+    <div>
+      <p class="kicker">Conformant Core excerpt</p>
+      <h2 id="core-example">A real contract names the field, the concept, the unit and the evidence boundary.</h2>
+      <p>This excerpt is adapted from <code>examples/core/complete-model.example.json</code>. It uses the official Core shape, including <code>conceptIri</code> and <code>unitIri</code>.</p>
+      <a class="button secondary" href="example.html">Open the annotated example</a>
+    </div>
+    <pre class="code-block"><code>{
+  "aduc": {"contractId": "urn:aduc:contract:river-r42:2026-07-14", "coreVersion": "0.1.0-alpha.0"},
+  "resource": {"id": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z", "mediaType": "application/json"},
+  "structure": {"records": [{"fields": [{"id": "urn:example:field:flow", "sourcePath": "$.flow", "primitiveType": "number"}]}]},
+  "semantics": {"assertions": [{"subjectRef": "urn:example:field:flow", "conceptIri": "https://example.org/vocab/env/WaterDischarge", "unitIri": "https://qudt.org/vocab/unit/M3-PER-SEC"}]}
+}</code></pre>
+  </div>
+</section>
+<section aria-labelledby="demo">
+  <div class="shell">
+    <div class="section-head"><p class="kicker">Concrete demonstration</p><h2 id="demo">ADUC makes comparison results explicit instead of implied.</h2></div>
+    <div class="comparison-demo" aria-label="Validation and comparison demonstration">
+      <div class="source-box"><strong>Source A + Contract A</strong><span>Flow in cubic meters per second, reviewed authority, local provenance.</span></div>
+      <div class="source-box"><strong>Source B + Contract B</strong><span>Flow may use another unit, different evidence, policy or identity state.</span></div>
+      <div class="pipeline-box">Validation -> Comparison</div>
+      <div class="assessment-strip" aria-label="Possible comparison assessments"><span class="ok">equivalent</span><span class="convert">convertible</span><span class="unknown">unknown</span><span class="contest">contested</span><span class="stop">prohibited</span><span class="review">requiresHumanReview</span></div>
+    </div>
+    <p class="note">These states are not decorative labels. A unit is marked convertible only when the accepted evaluator has the required registry, quantity-kind, dimension, rounding and uncertainty evidence.</p>
+  </div>
+</section>
+<section class="section-band" aria-labelledby="principles">
+  <div class="shell">
+    <div class="section-head compact"><p class="kicker">Operating principles</p><h2 id="principles">AI-first, human-review-first, privacy/security by design, unknown-safe.</h2></div>
+    <div class="principle-grid">
+      <article><h3>AI-first, not AI-only</h3><p>Reports are deterministic JSON and text so machines and humans can inspect the same outcome.</p></article>
+      <article><h3>Human review stays visible</h3><p>Unknown, contested, prohibited and review-required facts are not flattened into false certainty.</p></article>
+      <article><h3>Privacy and security by default</h3><p>Core validation is local-first and does not require silent upload or unapproved remote schema loading.</p></article>
+      <article><h3>Authority is not invented</h3><p>ADUC records who asserted a fact and with what status; it does not manufacture truth or legal permission.</p></article>
+    </div>
+  </div>
+</section>
+<section aria-labelledby="limits">
+  <div class="shell two-column">
+    <div><p class="kicker">Limits</p><h2 id="limits">Working Draft means honest boundaries.</h2></div>
+    <div class="answer-block"><ul class="plain-list"><li>The JSON/CSV compiler is not implemented.</li><li>The review UI is not implemented.</li><li>Public packages, registry, MCP adapter and official extensions are not stabilized.</li><li>The external two-consumer proof has not been completed.</li><li>ADUC is not a legal permission system, access-control layer, database, AI model or universal ontology.</li></ul></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <section>
+      <a class="brand footer-brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">AD</span>
+        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
+      </a>
+      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
+    </section>
+    <section>
+      <h2>Reference</h2>
+      <a href="core.html">Core model</a>
+      <a href="validate.html">Validation</a>
+      <a href="compare.html">Comparison</a>
+      <a href="architecture.html">Architecture</a>
+    </section>
+    <section>
+      <h2>Evidence</h2>
+      <a href="evidence.html">Conformance evidence</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="example.html">Core example</a>
+      <a href="docs.html">Try in 5 minutes</a>
+    </section>
+    <section>
+      <h2>Governance</h2>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
+      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
+    </section>
+  </div>
+  <div class="shell footer-bottom">
+    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
+    <span>Provider-neutral, local-first, unknown-safe.</span>
+  </div>
+</footer>
 </body>
 </html>

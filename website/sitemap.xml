@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/</loc></url>
-  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/specification.html</loc></url>
-  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/architecture.html</loc></url>
-  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html</loc></url>
-  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html</loc></url>
-  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/docs.html</loc></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/validate.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/compare.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/trust.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/docs.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/architecture.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/specification.html</loc><lastmod>2026-07-14</lastmod></url>
 </urlset>
