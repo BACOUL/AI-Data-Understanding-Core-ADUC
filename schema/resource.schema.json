@@ -13,6 +13,6 @@
     "descriptorRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
     "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
   },
-  "required": ["id", "kind", "mediaType", "digest", "version"],
+  "required": ["id", "kind", "mediaType", "digest"],
   "additionalProperties": false
 }
