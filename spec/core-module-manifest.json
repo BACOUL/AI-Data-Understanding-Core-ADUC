@@ -1,0 +1,132 @@
+{
+  "modelId": "urn:aduc:core-model:0.1",
+  "modelVersion": "0.1.0",
+  "topLevelOrder": [
+    "aduc",
+    "resource",
+    "structure",
+    "semantics",
+    "identity",
+    "context",
+    "provenance",
+    "uncertainty",
+    "relations",
+    "policy"
+  ],
+  "minimumEnvelope": ["aduc", "resource", "structure"],
+  "modules": {
+    "aduc": {
+      "required": true,
+      "cardinality": "1",
+      "representation": "object",
+      "hardDependencies": [],
+      "owns": ["contractId", "coreVersion", "modelVersion", "status", "createdAt", "publisher", "conformsTo", "supersedes", "extensionDeclarations"]
+    },
+    "resource": {
+      "required": true,
+      "cardinality": "1",
+      "representation": "object",
+      "hardDependencies": ["aduc"],
+      "owns": ["id", "kind", "mediaType", "digest", "version", "locator", "descriptorRefs"]
+    },
+    "structure": {
+      "required": true,
+      "cardinality": "1",
+      "representation": "object",
+      "hardDependencies": ["resource"],
+      "owns": ["id", "resourceRef", "representation", "externalSchemaRef", "records", "fields", "sourcePath", "primitiveType", "required"]
+    },
+    "semantics": {
+      "required": false,
+      "cardinality": "0..1",
+      "representation": "object",
+      "hardDependencies": ["structure"],
+      "owns": ["assertions", "subjectRef", "conceptIri", "mappingRelationIri", "unitIri", "valueMap"]
+    },
+    "identity": {
+      "required": false,
+      "cardinality": "0..1",
+      "representation": "object",
+      "hardDependencies": ["structure"],
+      "owns": ["entities", "identifiers", "identityAssertions", "schemeIri", "issuerIri", "identityRelationIri", "decision"]
+    },
+    "context": {
+      "required": false,
+      "cardinality": "0..1",
+      "representation": "object",
+      "hardDependencies": ["structure"],
+      "owns": ["temporal", "spatial", "operational", "timezoneIri", "temporalRoleIri", "spatialCoverageIri", "environmentIri"]
+    },
+    "provenance": {
+      "required": false,
+      "cardinality": "0..1",
+      "representation": "object",
+      "hardDependencies": ["resource"],
+      "owns": ["entities", "activities", "agents", "evidence", "generatedByRef", "usedRefs", "wasAssociatedWithRefs", "derivationAssertions"]
+    },
+    "uncertainty": {
+      "required": false,
+      "cardinality": "0..1",
+      "representation": "object",
+      "hardDependencies": ["structure"],
+      "owns": ["statements", "qualityMeasurements", "measurementUncertainty", "missingness", "censoring", "distribution", "qualityMetricIri"]
+    },
+    "relations": {
+      "required": false,
+      "cardinality": "0..n",
+      "representation": "array",
+      "hardDependencies": ["aduc"],
+      "owns": ["subjectRef", "predicateIri", "objectRef", "literalObject", "polarity", "methodIri"]
+    },
+    "policy": {
+      "required": false,
+      "cardinality": "0..1",
+      "representation": "object",
+      "hardDependencies": ["resource", "provenance"],
+      "owns": ["policies", "targetRef", "targetDigest", "mode", "disclosure", "rules", "effect", "actionIri", "purposeIris", "duties"]
+    }
+  },
+  "sharedQualificationFields": [
+    "status",
+    "authority",
+    "assertedByRef",
+    "assertedAt",
+    "evidenceRefs",
+    "provenanceRef",
+    "confidence",
+    "confidenceMethodIri",
+    "uncertaintyRef",
+    "conflict",
+    "lifecycle",
+    "validDuringRef"
+  ],
+  "referenceConvention": {
+    "internalSingleSuffix": "Ref",
+    "internalMultipleSuffix": "Refs",
+    "externalTermSuffix": "Iri",
+    "identifierRequirement": "absolute-iri"
+  },
+  "extensions": {
+    "declarationPath": "aduc.extensionDeclarations",
+    "payloadProperty": "extensions",
+    "unknownOptional": "preserve-and-report",
+    "unknownRequired": "block",
+    "coreNamespace": "urn:aduc:core:"
+  },
+  "schemaFamily": [
+    "aduc-core.schema.json",
+    "aduc-envelope.schema.json",
+    "aduc-metadata.schema.json",
+    "resource.schema.json",
+    "structure.schema.json",
+    "semantics.schema.json",
+    "identity.schema.json",
+    "context.schema.json",
+    "provenance.schema.json",
+    "uncertainty.schema.json",
+    "relations.schema.json",
+    "policy.schema.json",
+    "qualification.schema.json",
+    "extension.schema.json"
+  ]
+}
