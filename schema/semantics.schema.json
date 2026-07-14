@@ -32,6 +32,12 @@
           "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
         },
         "required": ["id", "subjectRef", "conceptIri", "mappingRelationIri", "status", "conflict", "lifecycle"],
+        "allOf": [
+          {
+            "if": {"properties": {"status": {"const": "inferred"}}, "required": ["status"]},
+            "then": {"required": ["confidence", "confidenceMethodIri", "evidenceRefs", "assertedByRef", "assertedAt"]}
+          }
+        ],
         "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]},
         "additionalProperties": false
       }
