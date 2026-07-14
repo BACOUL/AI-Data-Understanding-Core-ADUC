@@ -22,16 +22,39 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Reconstruct and verify redesign bundle
+      - name: Reconstruct and inspect redesign bundle
+        id: reconstruct
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
-          test "$(git merge-base HEAD origin/main)" = "3131ab30987f1f67579cc6db0d6d0f92c49b826f"
+          set -u
+          merge_base="$(git merge-base HEAD origin/main)"
           cat .website-redesign/part*.b64 > /tmp/aduc-website-redesign.b64
           cat .website-redesign/remaining*.hex | xxd -r -p >> /tmp/aduc-website-redesign.b64
           base64 --decode /tmp/aduc-website-redesign.b64 > /tmp/aduc-website-redesign.tar.gz
+          {
+            echo "merge_base=${merge_base}"
+            echo "base64_bytes=$(wc -c < /tmp/aduc-website-redesign.b64 | tr -d ' ')"
+            echo "archive_bytes=$(wc -c < /tmp/aduc-website-redesign.tar.gz | tr -d ' ')"
+            echo "archive_sha256=$(sha256sum /tmp/aduc-website-redesign.tar.gz | awk '{print $1}')"
+            wc -c .website-redesign/part*.b64 .website-redesign/remaining*.hex
+            sha256sum .website-redesign/part*.b64 .website-redesign/remaining*.hex
+          } > /tmp/website-redesign-integrity.txt
+          test "${merge_base}" = "3131ab30987f1f67579cc6db0d6d0f92c49b826f"
           test "$(wc -c < /tmp/aduc-website-redesign.tar.gz | tr -d ' ')" = "55083"
           test "$(sha256sum /tmp/aduc-website-redesign.tar.gz | awk '{print $1}')" = "c3d035bc1144f1360822bac32a77d86360f9cb01d17754ff8b24d168d0f4699d"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: website-redesign-integrity
+          path: /tmp/website-redesign-integrity.txt
+      - name: Reject integrity mismatch
+        if: steps.reconstruct.outcome != 'success'
+        run: exit 1
+      - name: Extract and verify project files
+        shell: bash
+        run: |
+          set -euo pipefail
           mkdir /tmp/aduc-redesign
           tar -xzf /tmp/aduc-website-redesign.tar.gz -C /tmp/aduc-redesign
           python - <<'PY'
