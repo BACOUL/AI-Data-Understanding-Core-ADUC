@@ -2,31 +2,35 @@
 
 ## Single active task
 
-Define and accept the ADUC policy and permitted-use profile before freezing the normative full-Core object model.
+Freeze the normative ADUC Core object model and modular boundaries before implementing the official JSON Schema family.
 
-Create:
+Create or update:
 
 ```text
-docs/decisions/ADR-0013-policy-and-permitted-use.md
-spec/POLICY_PROFILE_0_1.md
-examples/policy/
-tools/aduc_policy.py
-tests/policy/
+docs/decisions/ADR-0014-normative-core-object-model.md
+spec/ADUC_CORE_MODEL_0_1.md
+spec/ADUC_CORE_SPEC_0_1.md
+docs/architecture/CORE_MODULE_BOUNDARIES_0_1.md
+examples/core/complete-model.example.json
 ```
 
 ## Objective
 
-Define how an ADUC contract communicates machine-readable use conditions without pretending that the Core can determine legal validity, consent, ownership, jurisdiction, fairness, or regulatory compliance by itself.
+Turn the accepted domain profiles into one coherent Core model whose objects, ownership boundaries, references, cardinalities, extension points, lifecycle behavior, and compatibility rules are precise enough for an independent implementer to build the schema family without inventing architecture.
 
-The profile must allow a consumer to answer:
+The model must define the normative relationship between:
 
 ```text
-Is this requested purpose permitted?
-Is the requester or recipient allowed?
-Is a required duty satisfied?
-Has the permission expired?
-Does a prohibition or conflict block use?
-Is the policy complete enough for automatic reliance?
+aduc
+resource
+structure
+semantics
+identity
+context
+provenance
+uncertainty
+relations
+policy
 ```
 
 ## Completed dependencies
@@ -40,62 +44,68 @@ ADR-0009  entity identity and safe equivalence
 ADR-0010  provenance and transformation lineage
 ADR-0011  uncertainty and data quality
 ADR-0012  general relation semantics
+ADR-0013  policy and permitted-use conditions
 ```
 
-Every policy must bind its target through ADR-0006, identify parties through ADR-0009, use ADR-0008 for temporal validity, retain ADR-0010 provenance, preserve ADR-0005 authority/conflict/lifecycle, and avoid inventing relation semantics contrary to ADR-0012.
+The object model must compose these accepted decisions rather than restating or weakening them.
 
 ## Required decisions
 
-1. reuse ODRL and relevant established vocabularies instead of creating a competing rights language;
-2. distinguish permission, prohibition, duty, constraint, recommendation, legal notice, and descriptive classification;
-3. define policy, rule, target, assigner, assignee, action, purpose, recipient, spatial scope, temporal scope, duty, remedy, consequence, evidence, provenance, authority, conflict, and lifecycle;
-4. distinguish a machine-evaluable rule from a human-only legal statement;
-5. define deterministic precedence and conflict behavior without claiming universal legal interpretation;
-6. require explicit purpose identifiers instead of free-text purpose matching;
-7. define recipient and requester identity requirements;
-8. define temporal, territorial, organizational, and environment constraints;
-9. define pre-use and post-use duties and how satisfaction evidence is linked;
-10. preserve unknown, partial, redacted, contested, deprecated, and externally governed policy states;
-11. define policy inheritance, composition, versioning, replacement, and target scope;
-12. define safe consumer outcomes such as `permit`, `deny`, `notApplicable`, `indeterminate`, and `requiresHumanReview`;
-13. ensure that absence of a permission does not automatically mean permission or prohibition unless the governing profile explicitly declares a closed policy mode;
-14. define deterministic JSON-LD/RDF export and an offline evaluation subset.
+1. confirm the ten top-level Core blocks and whether each is required, optional, singular, or repeated;
+2. define the contract identity, version, conformance, publication, replacement, and extension mechanism;
+3. define which module owns every normative property and forbid duplicate competing representations;
+4. define stable object identifiers and deterministic cross-module references;
+5. define the minimum resource and structural binding needed before semantic assertions can be consumed;
+6. define how status, authority, evidence, provenance, uncertainty, conflict, and lifecycle qualify assertions across modules;
+7. define how external standards are referenced without embedding complete copies of JSON Schema, Croissant, PROV-O, DQV, ODRL, QUDT, UCUM, SKOS, or OWL;
+8. define JSON and JSON-LD representation boundaries;
+9. define extension namespaces, discovery, collision prevention, and unsupported-extension behavior;
+10. define module versioning, replacement, migration, and backward-compatibility rules;
+11. define the migration boundary from the existing semantic-mapping profile;
+12. define the modular schema family and dependency graph without implementing the schemas yet;
+13. update the complete example so every accepted Core profile has a coherent place;
+14. define deterministic behavior for absent, unknown, incomplete, contested, deprecated, prohibited, or unsupported information.
 
 ## Required counterexamples
 
-The specification must reject or block:
+The decision must reject or block:
 
-- treating a descriptive `public` classification as permission for every purpose;
-- matching a free-text purpose to a controlled purpose identifier;
-- allowing use after policy expiry;
-- allowing an unidentified requester when a named assignee is required;
-- ignoring a prohibition because a permission also exists;
-- claiming consent without evidence and provenance;
-- treating a legal notice as an executable permission;
-- silently dropping attribution, deletion, reporting, or downstream-use duties;
-- considering a duty satisfied without bound evidence;
-- evaluating a redacted or incomplete policy as fully permissive;
-- applying a policy to the wrong resource version;
-- inventing jurisdictional or regulatory compliance;
-- treating absence of a rule as permission in open policy mode;
-- automatically using contested or deprecated policies;
-- accepting local action or purpose labels as global identifiers.
+- the same fact represented differently in multiple Core blocks;
+- local identifiers whose namespace or issuer is unknown;
+- cross-module references that cannot be resolved deterministically;
+- circular mandatory dependencies between modules;
+- an envelope in which every block is optional and no minimum interoperable contract exists;
+- hidden mappings or consumer-specific fields in the Core;
+- embedding complete external standards as duplicated ADUC properties;
+- inferred assertions promoted silently to reviewed, verified, or canonical status;
+- measurement uncertainty reused as semantic confidence;
+- probable identity represented as exact identity;
+- relation semantics inferred from labels;
+- descriptive policy classification represented as executable permission;
+- extensions that overwrite Core terms;
+- unknown extensions treated as understood;
+- version replacement that rewrites published history.
 
 ## Scope boundary
 
-Do not implement the normative full-Core object model, full-Core JSON Schema, compiler, review UI, registry service, MCP adapter, extensions, anticipation engine, or legal-advice system in this task.
+Do not implement the official JSON Schema family, unified validator, comparator, compiler, review UI, registry service, MCP adapter, extensions, anticipation engine, or production access-control system in this task.
 
 ## Completion test
 
 An independent implementer must be able to:
 
-1. represent a permission, prohibition, and duty for an exactly bound resource;
-2. evaluate a request with purpose, requester, recipient, time, place, and environment;
-3. return a deterministic permit, deny, indeterminate, not-applicable, or human-review outcome;
-4. prove that required duties are or are not satisfied using bound evidence;
-5. block expired, contested, incomplete, redacted, or misbound policies;
-6. preserve provenance, authority, lifecycle, versioning, and replacement;
-7. export qualifying policy records deterministically to JSON-LD/RDF.
+1. identify every normative Core object and its owning module;
+2. determine required versus optional content and cardinality;
+3. resolve every Core reference without private conventions;
+4. map all nine accepted domain profiles into the complete envelope;
+5. understand how JSON-LD, external vocabularies, versions, and extensions are represented;
+6. implement modular JSON Schemas without making a new architectural decision;
+7. migrate the current semantic-mapping profile without losing authority, evidence, confidence, or lifecycle information;
+8. explain deterministic consumer behavior for missing, unsafe, prohibited, contested, deprecated, or unsupported information.
+
+## Next action after acceptance
+
+Implement the official modular full-Core JSON Schema family, followed by complete valid and invalid Core examples.
 
 ## Cross-cutting adoption constraint
 
