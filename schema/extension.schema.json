@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/extension.schema.json",
+  "title": "ADUC extension declarations and payloads",
+  "$defs": {
+    "extensionDeclaration": {
+      "type": "object",
+      "properties": {
+        "namespace": {"allOf": [{"$ref": "aduc-metadata.schema.json#/$defs/iri"}, {"not": {"pattern": "^urn:aduc:core:"}}]},
+        "profileIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "version": {"$ref": "aduc-metadata.schema.json#/$defs/semver"},
+        "required": {"type": "boolean"}
+      },
+      "required": ["namespace", "profileIri", "version", "required"],
+      "additionalProperties": false
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {"allOf": [{"format": "uri"}, {"not": {"pattern": "^urn:aduc:core:"}}]},
+      "additionalProperties": {"type": "object"},
+      "minProperties": 1
+    }
+  }
+}
