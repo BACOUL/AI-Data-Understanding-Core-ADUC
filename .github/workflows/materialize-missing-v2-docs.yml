@@ -1,0 +1,62 @@
+name: materialize-missing-v2-docs
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".docs-repair/**"
+      - ".github/workflows/materialize-missing-v2-docs.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: repair/restore-unified-core-engine
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify and extract exact omitted v2 files
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .docs-repair/part*.b64 | base64 --decode > /tmp/aduc-v2-missing-docs.tar.gz
+          test "$(wc -c < /tmp/aduc-v2-missing-docs.tar.gz | tr -d ' ')" = "17113"
+          test "$(sha256sum /tmp/aduc-v2-missing-docs.tar.gz | awk '{print $1}')" = "d1a1d3b45bd7703923e053711bb1563ecc9d0d8109f41af23807a9802531eb2c"
+          tar -xzf /tmp/aduc-v2-missing-docs.tar.gz
+          test "$(wc -c < README.md | tr -d ' ')" = "13892"
+          test "$(sha256sum README.md | awk '{print $1}')" = "d7cc8e6d21a59f70e8d44c2662e09a3cc43a6a1ee0054deb5f55be589d9dab49"
+          test "$(wc -c < schema/README.md | tr -d ' ')" = "7073"
+          test "$(sha256sum schema/README.md | awk '{print $1}')" = "945a1931732839685e3774548279a7a3c6c25095ee1c95ac5a2ffed9d44f1888"
+          test "$(wc -c < spec/ADUC_CORE_SPEC_0_1.md | tr -d ' ')" = "14116"
+          test "$(sha256sum spec/ADUC_CORE_SPEC_0_1.md | awk '{print $1}')" = "eb004e1f4bab01596063cce15c71f7e6d353df45c0f565bf9fd6b8e4182b4479"
+          test "$(wc -c < website/docs.html | tr -d ' ')" = "12698"
+          test "$(sha256sum website/docs.html | awk '{print $1}')" = "f87ec87a23e559276b49a719f0c5ee86e2c3f91881b3f536e860cb47e69af470"
+          test "$(wc -c < website/roadmap.html | tr -d ' ')" = "12034"
+          test "$(sha256sum website/roadmap.html | awk '{print $1}')" = "2bc1067ebaea0e5ca036e71db58674f1f2036c508ffd795b16e39a4bf1a4f2a5"
+          test "$(wc -c < website/specification.html | tr -d ' ')" = "11373"
+          test "$(sha256sum website/specification.html | awk '{print $1}')" = "c9e0bf552249f28176d95e938e916fe4f62b3dc3117a4b2b69aa06f4114bdbef"
+      - name: Validate roadmap and website
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -r requirements-dev.txt
+          python -m unittest discover -s tests/roadmap -p "test_*.py"
+          python -m unittest discover -s tests/website -p "test_*.py"
+          python tools/validate_website.py
+      - name: Commit exact files and cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md schema/README.md spec/ADUC_CORE_SPEC_0_1.md website/docs.html website/roadmap.html website/specification.html
+          git rm -r .docs-repair
+          git rm .github/workflows/materialize-missing-v2-docs.yml
+          git commit -m "Repair: restore omitted audited v2 documentation"
+          git push origin HEAD:repair/restore-unified-core-engine
