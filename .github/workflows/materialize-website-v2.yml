@@ -23,20 +23,33 @@ jobs:
       - name: Reconstruct and verify exact website V2 bundle
         shell: bash
         run: |
-          set -euo pipefail
-          sha256sum .website-v2-bundle/part*.b64 > /tmp/fragment-sha256.txt
+          set -u
+          : > /tmp/website-v2-integrity.txt
+          invalid=0
+          for part in .website-v2-bundle/part*.b64; do
+            if base64 --decode "${part}" > /dev/null 2>&1; then
+              echo "valid_base64 ${part}" >> /tmp/website-v2-integrity.txt
+            else
+              echo "INVALID_BASE64 ${part}" >> /tmp/website-v2-integrity.txt
+              invalid=1
+            fi
+            sha256sum "${part}" >> /tmp/website-v2-integrity.txt
+          done
+          set +e
           cat .website-v2-bundle/part*.b64 | base64 --decode > /tmp/aduc-website-v2-text.tar.gz
+          decode_rc=$?
+          set -e
           actual_size="$(wc -c < /tmp/aduc-website-v2-text.tar.gz | tr -d ' ')"
           actual_sha="$(sha256sum /tmp/aduc-website-v2-text.tar.gz | awk '{print $1}')"
           {
-            cat /tmp/fragment-sha256.txt
+            echo "decode_rc=${decode_rc}"
             echo "actual_size=${actual_size}"
             echo "actual_sha256=${actual_sha}"
             echo "expected_size=68540"
             echo "expected_sha256=fc93fdf6b1b26caef4c21851bb66c99028755838e78db72dc493e969a3716cd3"
-          } > /tmp/website-v2-integrity.txt
+          } >> /tmp/website-v2-integrity.txt
           cat /tmp/website-v2-integrity.txt
-          if [ "${actual_size}" != "68540" ] || [ "${actual_sha}" != "fc93fdf6b1b26caef4c21851bb66c99028755838e78db72dc493e969a3716cd3" ]; then
+          if [ "${invalid}" != "0" ] || [ "${decode_rc}" != "0" ] || [ "${actual_size}" != "68540" ] || [ "${actual_sha}" != "fc93fdf6b1b26caef4c21851bb66c99028755838e78db72dc493e969a3716cd3" ]; then
             cp /tmp/website-v2-integrity.txt .website-v2-integrity.txt
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
