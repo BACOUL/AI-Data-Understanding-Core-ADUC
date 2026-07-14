@@ -7,7 +7,7 @@
 
 ## North-star outcome
 
-A source publisher can attach one portable ADUC contract to JSON or CSV data. Independent AI systems can then identify the same concepts, units, time semantics, identity, provenance, uncertainty, relations, and use conditions without provider-specific semantic mappings.
+A source publisher can attach one portable ADUC contract to JSON or CSV data. Independent AI systems can then identify the same concepts, units, time semantics, identity, provenance, uncertainty, relations and use conditions without provider-specific semantic mappings.
 
 ## Program rules
 
@@ -15,7 +15,7 @@ A source publisher can attach one portable ADUC contract to JSON or CSV data. In
 2. Document every normative decision.
 3. Reuse established standards whenever possible.
 4. Never promote automatic inference silently.
-5. Preserve unknown, unsupported, conflicting, redacted, and prohibited information.
+5. Preserve unknown, unsupported, conflicting, redacted and prohibited information.
 6. Use frozen inputs and reproducible evidence.
 7. Do not claim interoperability before two independent consumers pass.
 8. Keep TimeProofs and the anticipation engine separate.
@@ -27,7 +27,7 @@ A source publisher can attach one portable ADUC contract to JSON or CSV data. In
 
 Implemented reference foundations:
 
-- semantic-mapping assertion model, schema, validator, and comparator;
+- semantic-mapping assertion model, schema, validator and comparator;
 - JSON-LD context and deterministic RDF round-trip;
 - provider-neutral multi-model harness;
 - epistemic lifecycle;
@@ -36,18 +36,18 @@ Implemented reference foundations:
 - temporal semantics and timezone alignment;
 - entity identity and safe equivalence;
 - provenance and transformation lineage;
-- uncertainty, missingness, censoring, propagation, and DQV-compatible quality;
+- uncertainty, missingness, censoring, propagation and DQV-compatible quality;
 - general relation semantics and deterministic graph safeguards;
 - ODRL-aligned policy and permitted-use conditions;
-- governance, CI, execution ledger, English website, GitHub Pages, and Vercel deployment.
-
-These are reference implementations of selected Core behavior, not yet the complete ADUC Core envelope.
+- normative ten-block Core object model and module manifest;
+- complete object-model example and architectural checker;
+- governance, CI, execution ledger, English website, GitHub Pages and Vercel deployment.
 
 # Phase 0 — Full-Core definition
 
 ## Objective
 
-Freeze the mission, boundaries, fundamental profiles, official roadmap, normative Core object model, and one complete example before implementing the full-Core JSON Schema.
+Freeze the mission, boundaries, fundamental profiles, normative Core object model, module dependencies, extension rules and one complete example before implementing the full-Core JSON Schema family.
 
 ## Completed
 
@@ -55,7 +55,6 @@ Freeze the mission, boundaries, fundamental profiles, official roadmap, normativ
 - [x] prior-art matrix;
 - [x] official project structure;
 - [x] full-Core working draft;
-- [x] first informative ten-block example;
 - [x] epistemic lifecycle;
 - [x] source-binding profile;
 - [x] unit profile;
@@ -65,40 +64,42 @@ Freeze the mission, boundaries, fundamental profiles, official roadmap, normativ
 - [x] uncertainty and data-quality profile;
 - [x] general relation profile;
 - [x] policy and permitted-use profile;
+- [x] normative Core object model and modular boundaries;
+- [x] machine-readable module manifest;
+- [x] complete example aligned with the frozen object model;
+- [x] architectural counterexamples and deterministic checker;
 - [x] adoption and value-validation plan;
 - [x] English public website.
 
-## Remaining
+## Remaining external prerequisite
 
-- [ ] normative Core object model and modular boundaries;
-- [ ] complete example aligned with the frozen object model;
 - [ ] name and trademark research before public name freeze.
 
 ## Exit gate
 
-An independent developer can explain every Core block, its relationship to existing standards, its ownership and references, and the deterministic behavior for unknown, unsafe, prohibited, or incomplete information.
+An independent developer can identify every Core block, required cardinality, owning module, reference direction, external-standard boundary, extension behavior and deterministic response to missing or unsafe information.
 
-# Phase 1 — Standard v0.1
+# Phase 1 — Standard v0.1 schema family
 
 ## Objective
 
-Convert the accepted profiles and frozen object model into a coherent, reviewable specification and schema family.
+Translate the accepted profiles and frozen object model into a coherent Draft 2020-12 schema family and complete fixtures.
 
 ## Deliverables
 
-- [ ] normative Core object model;
 - [ ] `schema/aduc-core.schema.json`;
-- [ ] justified modular schemas for resource, semantics, identity, context, provenance, uncertainty, relations, and policy;
-- [ ] Core JSON-LD vocabulary;
-- [ ] versioning and migration rules;
-- [ ] extension discovery rules;
+- [ ] root envelope and metadata schemas;
+- [ ] modular schemas for resource, structure, semantics, identity, context, provenance, uncertainty, relations and policy;
+- [ ] reusable qualification and extension schemas;
 - [ ] ten complete valid examples;
 - [ ] ten intentionally invalid examples;
-- [ ] migration design from the current mapping-profile format.
+- [ ] local schema validator and stable error paths;
+- [ ] documented graph checks beyond JSON Schema;
+- [ ] migration fixtures from the current mapping profile.
 
 ## Exit gate
 
-Every official valid example passes and every official invalid example fails for the documented reason.
+Every official valid example passes and every official invalid example fails for the documented reason. An independent implementer can trace every schema property to ADR-0014 and the module manifest.
 
 # Phase 2 — Reference implementation
 
@@ -108,10 +109,10 @@ Provide deterministic local tooling for the complete Core.
 
 ## Deliverables
 
-- [ ] full-Core CLI validator;
+- [ ] unified full-Core CLI validator;
 - [ ] stable unified error catalogue;
 - [ ] contract formatter;
-- [ ] unified comparator across concepts, units, time, identity, provenance, uncertainty, relations, and policy;
+- [ ] unified comparator across concepts, units, time, identity, provenance, uncertainty, relations and policy;
 - [ ] TypeScript SDK;
 - [ ] Python SDK;
 - [ ] conformance runner;
@@ -120,7 +121,7 @@ Provide deterministic local tooling for the complete Core.
 
 ## Exit gate
 
-A developer can install the tools, validate a complete contract, and compare two example sources without maintainer assistance.
+A developer can install the tools, validate a complete contract and compare two example sources without maintainer assistance.
 
 # Phase 3 — JSON/CSV compiler
 
@@ -161,13 +162,13 @@ Provisional inferred contract
 
 ## Exit gate
 
-The compiler generates valid provisional contracts for the reference JSON and CSV examples and reports every unresolved field and policy gap.
+The compiler generates valid provisional contracts for reference JSON and CSV examples and reports every unresolved field and policy gap.
 
 # Phase 4 — Review interface
 
 ## Objective
 
-Let a reviewer inspect only uncertain, unsupported, conflicting, prohibited, or incomplete parts.
+Let a reviewer inspect only uncertain, unsupported, conflicting, prohibited or incomplete parts.
 
 ## Deliverables
 
@@ -236,7 +237,7 @@ Build Dataset or Live Data only after the Core passes the value and interoperabi
 
 ## Phase 7 — Situation & Action extension
 
-Represent situations, possible developments, actions, constraints, and evidence without turning the Core into a decision engine.
+Represent situations, possible developments, actions, constraints and evidence without turning the Core into a decision engine.
 
 ## Phase 8 — Anticipation engine
 
@@ -269,17 +270,16 @@ ADUC Core
 
 # Immediate execution sequence
 
-1. Freeze the normative Core object model and modular boundaries.
-2. Align the complete example with the frozen model.
-3. Implement the schema family.
-4. Create ten complete valid and ten invalid examples.
-5. Build the unified validator and comparator.
-6. Build compiler and review tooling.
-7. Run value and multi-model proofs.
+1. Implement the official modular schema family.
+2. Create complete valid and invalid schema fixtures.
+3. Build the unified validator and comparator.
+4. Build compiler and review tooling.
+5. Run value and multi-model proofs.
+6. Consider extensions only after the proof gate.
 
 # Stop and pivot rules
 
-Narrow, revise, or stop a feature when:
+Narrow, revise or stop a feature when:
 
 - it duplicates an established standard without measurable integration value;
 - independent implementers cannot use it from the specification;
@@ -292,4 +292,4 @@ Narrow, revise, or stop a feature when:
 
 # Definition of progress
 
-Progress means passing reproducible gates, not adding pages, fields, or claims.
+Progress means passing reproducible gates, not adding pages, fields or claims.
