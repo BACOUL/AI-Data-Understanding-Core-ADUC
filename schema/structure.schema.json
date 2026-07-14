@@ -36,13 +36,8 @@
     "representation": {"enum": ["record", "table", "document", "graph", "array", "scalar", "binary"]},
     "externalSchemaRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
     "records": {"type": "array", "items": {"$ref": "#/$defs/record"}, "minItems": 1},
-    "fields": {"type": "array", "items": {"$ref": "#/$defs/field"}, "minItems": 1},
     "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
   },
-  "required": ["id", "resourceRef", "representation"],
-  "oneOf": [
-    {"required": ["records"], "not": {"required": ["fields"]}},
-    {"required": ["fields"], "not": {"required": ["records"]}}
-  ],
+  "required": ["id", "resourceRef", "representation", "records"],
   "additionalProperties": false
 }
