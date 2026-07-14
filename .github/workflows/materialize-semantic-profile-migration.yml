@@ -33,15 +33,28 @@ jobs:
           rm apply_updates.py
           python -m py_compile tools/aduc_migrate_semantic_profile.py
       - name: Validate migration before commit
+        id: migration_validation
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
-          python -m pip install --disable-pip-version-check -r requirements-dev.txt
-          python -m unittest discover -s tests/core_migration -p "test_*.py"
-          python tools/aduc_migrate_semantic_profile.py examples/migration/inferred.profile.json examples/migration/inferred.manifest.json --output /tmp/migrated.core.json --report /tmp/migration.report.json
-          python tools/aduc_core.py validate /tmp/migrated.core.json
-          python tools/validate_website.py
+          set -o pipefail
+          {
+            python -m pip install --disable-pip-version-check -r requirements-dev.txt
+            python -m unittest discover -s tests/core_migration -p "test_*.py"
+            python tools/aduc_migrate_semantic_profile.py examples/migration/inferred.profile.json examples/migration/inferred.manifest.json --output /tmp/migrated.core.json --report /tmp/migration.report.json
+            python tools/aduc_core.py validate /tmp/migrated.core.json
+            python tools/validate_website.py
+          } 2>&1 | tee /tmp/aduc-migration-validation.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aduc-migration-validation-log
+          path: /tmp/aduc-migration-validation.log
+      - name: Reject failed validation
+        if: steps.migration_validation.outcome != 'success'
+        run: exit 1
       - name: Commit verified migration milestone
+        if: steps.migration_validation.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
