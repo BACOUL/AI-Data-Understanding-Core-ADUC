@@ -1,57 +1,195 @@
 install=0
 contracts=0
-website_tests=0
-roadmap_tests=1
-all_tests=5
+test-validator=0
+test-comparator=0
+test-jsonld=0
+test-conformance=0
+test-epistemic=0
+test-source-binding=0
+test-units=0
+test-time=0
+test-identity=0
+test-provenance=0
+test-uncertainty=0
+test-relations=0
+test-policy=0
+test-core-model=0
+test-core-schema=0
+test-core-validator=0
+test-core-comparator=0
+test-core-migration=1
+test-roadmap=0
+test-website=0
 schema=0
-core_validate=0
-core_compare=0
-website_validator=0
+core-validate=0
+core-compare=0
+website-validator=0
 
-===== /tmp/00-install.log =====
-
-===== /tmp/01-contracts.log =====
+===== /tmp/contracts.log =====
 Validated 4 valid fixtures, 10 invalid fixtures, and 6 published profile examples.
 
-===== /tmp/02-website-tests.log =====
-...........
+===== /tmp/test-comparator.log =====
+.........
 ----------------------------------------------------------------------
-Ran 11 tests in 0.052s
+Ran 9 tests in 0.834s
 
 OK
 
-===== /tmp/03-roadmap-tests.log =====
-F..
-======================================================================
-FAIL: test_complete_contract_formatter_is_the_single_active_task (test_adoption_value_plan.AdoptionValuePlanTests.test_complete_contract_formatter_is_the_single_active_task)
+===== /tmp/test-conformance.log =====
+.........
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/runner/work/AI-Data-Understanding-Core-ADUC/AI-Data-Understanding-Core-ADUC/tests/roadmap/test_adoption_value_plan.py", line 36, in test_complete_contract_formatter_is_the_single_active_task
-    self.assertIn("complete ADUC Core contracts", text)
-AssertionError: 'complete ADUC Core contracts' not found in '# Next Action\n\n## Single active task\n\nDefine and implement the deterministic complete-contract formatter for validated ADUC Core contracts.\n\n## Objective\n\nProduce stable UTF-8 JSON for a complete ADUC Core contract without changing meaning, inventing facts, repairing invalid input or becoming a source-data compiler.\n\nThe formatter must validate the input and output through the accepted Core pipeline, preserve all identifiers, references, values, qualifications, conflicts, uncertainty, provenance and policy content, and emit a stable machine-readable report.\n\n## Completed dependencies\n\n- ADR-0014 normative Core object model and module boundaries;\n- ADR-0015 official modular Core JSON Schema family;\n- ADR-0016 unified Core validation and comparison;\n- ADR-0017 deterministic semantic-profile migration;\n- `tools/aduc_core.py validate` and `tools/aduc_core.py compare`.\n\n## Required work\n\n1. define deterministic object-member ordering while preserving every array order;\n2. reject invalid or duplicate-key JSON instead of repairing it silently;\n3. preserve Unicode, numbers, identifiers, references and all semantic content;\n4. prove byte stability and idempotence;\n5. revalidate formatted output with `tools/aduc_core.py validate`;\n6. emit stable JSON and text reports with explicit exit codes;\n7. provide valid, review-required and rejected fixtures plus focused tests.\n\n## Scope boundary\n\nDo not implement the JSON/CSV compiler, semantic inference, repair UI, registry service, MCP adapter, extensions, anticipation engine, production access control, value benchmark or external multi-model proof in this task.\n\nThe JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.\n\n## Completion test\n\nAn independent implementer must be able to format a complete validated ADUC Core contract twice and obtain identical bytes, confirm semantic preservation, validate the result through `tools/aduc_core.py validate`, compare it through `tools/aduc_core.py compare`, and inspect any failure in a stable report.\n'
+Ran 9 tests in 0.750s
 
+OK
+
+===== /tmp/test-core-comparator.log =====
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 28.036s
+
+OK
+
+===== /tmp/test-core-migration.log =====
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/main.py", line 104, in __init__
+    self.parseArgs(argv)
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/main.py", line 130, in parseArgs
+    self._do_discovery(argv[2:])
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/main.py", line 253, in _do_discovery
+    self.createTests(from_discovery=True, Loader=Loader)
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/main.py", line 160, in createTests
+    self.test = loader.discover(self.start, self.pattern, self.top)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 308, in discover
+    raise ImportError('Start directory is not importable: %r' % start_dir)
+ImportError: Start directory is not importable: 'tests/core_migration'
+
+===== /tmp/test-core-model.log =====
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.151s
+
+OK
+
+===== /tmp/test-core-schema.log =====
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 9.862s
+
+OK
+
+===== /tmp/test-core-validator.log =====
+...............
+----------------------------------------------------------------------
+Ran 15 tests in 12.337s
+
+OK
+
+===== /tmp/test-epistemic.log =====
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.082s
+
+OK
+
+===== /tmp/test-identity.log =====
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.095s
+
+OK
+
+===== /tmp/test-jsonld.log =====
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.712s
+
+OK
+
+===== /tmp/test-policy.log =====
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.068s
+
+OK
+
+===== /tmp/test-provenance.log =====
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.096s
+
+OK
+
+===== /tmp/test-relations.log =====
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 0.054s
+
+OK
+
+===== /tmp/test-roadmap.log =====
+...
 ----------------------------------------------------------------------
 Ran 3 tests in 0.001s
 
-FAILED (failures=1)
+OK
 
-===== /tmp/04-all-tests.log =====
-
+===== /tmp/test-source-binding.log =====
+.......
 ----------------------------------------------------------------------
-Ran 0 tests in 0.000s
+Ran 7 tests in 0.056s
 
-NO TESTS RAN
+OK
 
-===== /tmp/05-schema.log =====
+===== /tmp/test-time.log =====
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.062s
+
+OK
+
+===== /tmp/test-uncertainty.log =====
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 0.053s
+
+OK
+
+===== /tmp/test-units.log =====
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.063s
+
+OK
+
+===== /tmp/test-validator.log =====
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.646s
+
+OK
+
+===== /tmp/test-website.log =====
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.057s
+
+OK
+
+===== /tmp/schema.log =====
 VALID examples/core/complete-model.example.json
 Summary: 1/1 valid
 
-===== /tmp/06-core-validate.log =====
+===== /tmp/core-compare.log =====
+COMPARE UNCHANGED
+
+===== /tmp/core-validate.log =====
 VALID examples/core/complete-model.example.json
 Summary: 0 errors, 0 warnings, 0 human-review
 
-===== /tmp/07-core-compare.log =====
-COMPARE UNCHANGED
-
-===== /tmp/08-website-validator.log =====
+===== /tmp/website-validator.log =====
 Validated 12 public pages, metadata, canonical URLs, sitemap, internal links, Core claims, site-data metrics, and examples.
