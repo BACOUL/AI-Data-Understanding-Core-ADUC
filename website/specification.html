@@ -36,7 +36,7 @@
     <section>
       <div class="container content-layout">
         <article class="prose">
-          <div class="notice"><strong>Status:</strong> This page summarizes a working draft. It is not yet a recognized standard and not all blocks are implemented by the current reference tools.</div>
+          <div class="notice"><strong>Status:</strong> This page summarizes a working draft. It is not yet a recognized standard and the complete Core object model and schema family are not yet implemented.</div>
 
           <h2 id="mission">Mission and promise</h2>
           <p>ADUC defines an open, model-independent contract that allows a data resource to describe its structure, meaning, context, provenance, uncertainty, relations and conditions of use to AI systems, agents and applications.</p>
@@ -49,7 +49,8 @@
             <li>not an AI model or anticipation engine;</li>
             <li>not an agent communication protocol;</li>
             <li>not a replacement for MCP, Croissant, JSON-LD, PROV-O, DQV, ODRL, OpenAPI or CloudEvents;</li>
-            <li>not proof that a declared source or mapping is factually correct.</li>
+            <li>not proof that a declared source or mapping is factually correct;</li>
+            <li>not legal advice, access-control enforcement or a declaration that law permits a requested use.</li>
           </ul>
 
           <h2 id="blocks">The ten Core blocks</h2>
@@ -64,13 +65,13 @@
               <tr><td><code>context</code></td><td>Time, timezone, spatial coverage, jurisdiction and operational scope.</td></tr>
               <tr><td><code>provenance</code></td><td>Producer, method, instrument, generation history and derivation.</td></tr>
               <tr><td><code>uncertainty</code></td><td>Measurement uncertainty, mapping confidence and declared limitations.</td></tr>
-              <tr><td><code>relations</code></td><td>Links between resources, concepts, entities and derivations.</td></tr>
-              <tr><td><code>policy</code></td><td>Declared classification, intended purposes and restrictions.</td></tr>
+              <tr><td><code>relations</code></td><td>Bound links between resources, concepts, entities, versions and derivations.</td></tr>
+              <tr><td><code>policy</code></td><td>ODRL-aligned permissions, prohibitions, duties and safe evaluation outcomes.</td></tr>
             </tbody>
           </table>
 
           <h2 id="status">Epistemic states</h2>
-          <p>ADUC must preserve how strongly a meaning is supported. An AI consumer may not treat an inferred mapping as equivalent to a canonical publication.</p>
+          <p>ADUC preserves how strongly information is supported. A consumer may not treat an inferred claim as equivalent to a canonical publication.</p>
           <table>
             <thead><tr><th>Status</th><th>Meaning</th><th>Required behavior</th></tr></thead>
             <tbody>
@@ -83,7 +84,11 @@
               <tr><td><code>deprecated</code></td><td>Replaced or no longer recommended.</td><td>Follow a compatible replacement link.</td></tr>
             </tbody>
           </table>
-          <p>The current mapping-profile implementation supports only <code>inferred</code>, <code>reviewed</code>, <code>canonical</code> and <code>contested</code>. The complete lifecycle still requires a normative ADR and schema migration.</p>
+          <p>ADR-0005 defines the complete lifecycle. Each accepted domain profile applies the relevant authority, conflict, evidence and lifecycle rules without silently promoting information.</p>
+
+          <h2 id="policy">Policy safety boundary</h2>
+          <p>ADR-0013 reuses ODRL and distinguishes executable permissions, prohibitions and duties from classifications, recommendations and legal notices. A <code>public</code> label is not universal permission, free-text purpose matching is blocked, duties require evidence and incomplete or contested policies require human review.</p>
+          <p>The offline policy evaluator returns only <code>permit</code>, <code>deny</code>, <code>notApplicable</code>, <code>indeterminate</code> or <code>requiresHumanReview</code>. These are profile-evaluation results, not legal permission or enforcement decisions.</p>
 
           <h2 id="obligations">Consumer obligations</h2>
           <ol>
@@ -93,28 +98,30 @@
             <li>Do not convert units without known units and conversion rules.</li>
             <li>Do not align times without declared time semantics and timezone.</li>
             <li>Do not merge entity identities without sufficient evidence.</li>
+            <li>Do not infer relation inverse, transitivity or causality.</li>
+            <li>Do not invent permission, purpose equivalence, duty satisfaction, consent or legal compliance.</li>
             <li>Report dimensions that were not evaluated.</li>
             <li>Expose conformance errors rather than silently repairing a contract.</li>
           </ol>
 
           <h2 id="mvp">Strict MVP</h2>
-          <p>Version 0.1 initially targets JSON and CSV, tabular or record-oriented sources, primitive types, dates, units, identifiers, concepts, elementary provenance, uncertainty, human validation and comparison of two described sources.</p>
+          <p>Version 0.1 initially targets JSON and CSV, tabular or record-oriented sources, primitive types, dates, units, identifiers, concepts, elementary provenance, uncertainty, human validation, policy conditions and comparison of two described sources.</p>
           <p>Documents, images, live streams, agent memory, autonomous actions, public registry federation and the anticipation engine are outside the strict MVP.</p>
 
           <h2 id="completion">Version 0.1 completion gate</h2>
           <p>The release is complete only when all twelve deliverables exist: Core specification, full JSON Schema, ten valid examples, ten invalid examples, CLI validator, JSON/CSV compiler, review interface, Core vocabulary, two-source comparison, two-model demonstration, conformance suite and “Try in 5 minutes” documentation.</p>
 
           <h2 id="reuse">Relationship to existing standards</h2>
-          <p>ADUC composes established capabilities instead of recreating them. Structural descriptions may reuse JSON Schema or Croissant; semantic identifiers and graphs may use JSON-LD/RDF; provenance may use PROV-O; quality may use DQV; policies may use ODRL; relations may use SKOS and domain vocabularies.</p>
+          <p>ADUC composes established capabilities instead of recreating them. Structural descriptions may reuse JSON Schema or Croissant; semantic identifiers and graphs may use JSON-LD/RDF; provenance may use PROV-O; quality may use DQV; policies use ODRL; relations use SKOS, OWL, PROV-O and domain vocabularies.</p>
 
           <h2 id="implementation">Current implementation</h2>
-          <div class="notice success"><strong>Available today:</strong> semantic-mapping schema, CLI validation, authoring lifecycle examples, deterministic semantic comparison, offline JSON-LD/RDF processing and a provider-neutral conformance harness.</div>
-          <div class="notice danger" style="margin-top: 1rem;"><strong>Not yet implemented:</strong> complete Core schema, compiler, review UI, complete units/time/identity comparison and two qualifying external AI runs.</div>
+          <div class="notice success"><strong>Available today:</strong> semantic mapping, source binding, units, time, identity, provenance, uncertainty, relation and policy reference profiles with deterministic local evaluators, fixtures and tests; offline JSON-LD/RDF processing; and a provider-neutral conformance harness foundation.</div>
+          <div class="notice danger" style="margin-top: 1rem;"><strong>Not yet implemented:</strong> frozen normative Core object model, complete Core schema family, unified full-Core validator/comparator, compiler, review UI, value benchmark and two qualifying external AI runs.</div>
         </article>
 
         <aside class="toc" aria-label="On this page">
           <strong>On this page</strong>
-          <a href="#mission">Mission</a><a href="#not">What it is not</a><a href="#blocks">Core blocks</a><a href="#status">Epistemic states</a><a href="#obligations">Consumer obligations</a><a href="#mvp">MVP</a><a href="#completion">Completion gate</a><a href="#reuse">Existing standards</a><a href="#implementation">Implementation</a>
+          <a href="#mission">Mission</a><a href="#not">What it is not</a><a href="#blocks">Core blocks</a><a href="#status">Epistemic states</a><a href="#policy">Policy boundary</a><a href="#obligations">Consumer obligations</a><a href="#mvp">MVP</a><a href="#completion">Completion gate</a><a href="#reuse">Existing standards</a><a href="#implementation">Implementation</a>
         </aside>
       </div>
     </section>
