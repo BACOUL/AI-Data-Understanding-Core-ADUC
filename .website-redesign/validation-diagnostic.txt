@@ -1,0 +1,57 @@
+install=0
+contracts=0
+website_tests=0
+roadmap_tests=1
+all_tests=5
+schema=0
+core_validate=0
+core_compare=0
+website_validator=0
+
+===== /tmp/00-install.log =====
+
+===== /tmp/01-contracts.log =====
+Validated 4 valid fixtures, 10 invalid fixtures, and 6 published profile examples.
+
+===== /tmp/02-website-tests.log =====
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.052s
+
+OK
+
+===== /tmp/03-roadmap-tests.log =====
+F..
+======================================================================
+FAIL: test_complete_contract_formatter_is_the_single_active_task (test_adoption_value_plan.AdoptionValuePlanTests.test_complete_contract_formatter_is_the_single_active_task)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/AI-Data-Understanding-Core-ADUC/AI-Data-Understanding-Core-ADUC/tests/roadmap/test_adoption_value_plan.py", line 36, in test_complete_contract_formatter_is_the_single_active_task
+    self.assertIn("complete ADUC Core contracts", text)
+AssertionError: 'complete ADUC Core contracts' not found in '# Next Action\n\n## Single active task\n\nDefine and implement the deterministic complete-contract formatter for validated ADUC Core contracts.\n\n## Objective\n\nProduce stable UTF-8 JSON for a complete ADUC Core contract without changing meaning, inventing facts, repairing invalid input or becoming a source-data compiler.\n\nThe formatter must validate the input and output through the accepted Core pipeline, preserve all identifiers, references, values, qualifications, conflicts, uncertainty, provenance and policy content, and emit a stable machine-readable report.\n\n## Completed dependencies\n\n- ADR-0014 normative Core object model and module boundaries;\n- ADR-0015 official modular Core JSON Schema family;\n- ADR-0016 unified Core validation and comparison;\n- ADR-0017 deterministic semantic-profile migration;\n- `tools/aduc_core.py validate` and `tools/aduc_core.py compare`.\n\n## Required work\n\n1. define deterministic object-member ordering while preserving every array order;\n2. reject invalid or duplicate-key JSON instead of repairing it silently;\n3. preserve Unicode, numbers, identifiers, references and all semantic content;\n4. prove byte stability and idempotence;\n5. revalidate formatted output with `tools/aduc_core.py validate`;\n6. emit stable JSON and text reports with explicit exit codes;\n7. provide valid, review-required and rejected fixtures plus focused tests.\n\n## Scope boundary\n\nDo not implement the JSON/CSV compiler, semantic inference, repair UI, registry service, MCP adapter, extensions, anticipation engine, production access control, value benchmark or external multi-model proof in this task.\n\nThe JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.\n\n## Completion test\n\nAn independent implementer must be able to format a complete validated ADUC Core contract twice and obtain identical bytes, confirm semantic preservation, validate the result through `tools/aduc_core.py validate`, compare it through `tools/aduc_core.py compare`, and inspect any failure in a stable report.\n'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=1)
+
+===== /tmp/04-all-tests.log =====
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+NO TESTS RAN
+
+===== /tmp/05-schema.log =====
+VALID examples/core/complete-model.example.json
+Summary: 1/1 valid
+
+===== /tmp/06-core-validate.log =====
+VALID examples/core/complete-model.example.json
+Summary: 0 errors, 0 warnings, 0 human-review
+
+===== /tmp/07-core-compare.log =====
+COMPARE UNCHANGED
+
+===== /tmp/08-website-validator.log =====
+Validated 12 public pages, metadata, canonical URLs, sitemap, internal links, Core claims, site-data metrics, and examples.
