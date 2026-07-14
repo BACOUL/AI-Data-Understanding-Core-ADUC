@@ -1,14 +1,8 @@
-# Schemas
+# ADUC Schemas
 
-## Active implemented subset
+## Official experimental Core family
 
-`aduc-mapping-profile.schema.json` is the active schema for the currently implemented semantic-mapping subset. It validates the portable semantic mapping profile defined in `spec/SEMANTIC_MAPPING_ASSERTION_MODEL_0_1.md`.
-
-## Historical bootstrap scaffold
-
-`aduc-core.schema.json` is retained only as an historical bootstrap scaffold. It is not the official full-Core schema, does not implement ADR-0014, does not use `spec/core-module-manifest.json`, and is not used by the reference mapping validator.
-
-The next active task will replace or supersede this scaffold with the official modular Draft 2020-12 family:
+ADR-0015 implements the frozen ADR-0014 object model as a local JSON Schema Draft 2020-12 family:
 
 ```text
 aduc-core.schema.json
@@ -27,22 +21,51 @@ qualification.schema.json
 extension.schema.json
 ```
 
-The official family must implement ADR-0014 and `spec/ADUC_CORE_MODEL_0_1.md` without revisiting module ownership or dependencies.
+`aduc-core.schema.json` is the validation entry point. All operational `$ref` values are relative and resolve from the local schema registry assembled by `tools/aduc_core_validate.py`. No remote schema or JSON-LD context retrieval is required.
+
+The family enforces:
+
+- the ten reserved Core blocks;
+- the minimum `aduc + resource + structure` envelope;
+- module types and top-level cardinalities;
+- closed Core objects;
+- absolute identifiers and vocabulary IRIs;
+- lowercase 64-hex SHA-256 digests;
+- accepted controlled enums;
+- assertion qualification fields;
+- relation endpoint exclusivity;
+- policy rule structure and the policy-to-provenance dependency;
+- collision-safe extension namespaces.
+
+## Semantic-mapping compatibility schema
+
+`aduc-mapping-profile.schema.json` remains the schema for the earlier standalone semantic-mapping profile. It is preserved for compatibility and migration tests; it is not the root schema for full-Core contracts.
+
+## Validation
+
+```bash
+python tools/aduc_core_validate.py examples/core/complete-model.example.json
+python tools/aduc_core_validate.py examples/core/valid/cases.json
+python tools/aduc_core_validate.py examples/core/invalid/cases.json --schema-only
+python -m unittest discover -s tests/core_schema -p "test_*.py"
+```
+
+The CLI reports stable JSON paths and schema error families. By default it also executes the ADR-0014 architecture checker.
 
 ## Rules not enforceable by JSON Schema alone
 
-The complementary reference validator must check at least:
+The complementary architecture and domain validators check:
 
 - uniqueness of Core identifiers across modules;
 - deterministic resolution of `Ref` and `Refs` references;
-- whether a `canonical` assertion was actually published by the recognized source authority;
-- whether replacement or supersession targets exist and do not create cycles;
-- conflicting authoritative assertions across the contract graph;
-- whether source identity and version bindings match actual immutable bytes;
-- whether external vocabulary relations are semantically valid;
-- graph integrity, relation closure and cycle constraints;
-- policy-target digest and evidence consistency where cross-object comparison is required;
-- JSON-LD expansion and RDF round-trip preservation;
+- extension payload namespaces against declarations;
+- one-owner rules across modules;
+- whether a canonical assertion has qualifying authority and evidence;
+- replacement or supersession cycles;
+- conflicting authoritative assertions;
+- source and policy digest equality across objects;
+- identity, relation, provenance, uncertainty and policy semantics;
+- JSON-LD/RDF round-trip behavior;
 - signature and trust verification when introduced.
 
 Passing JSON Schema proves structural conformance only. It does not prove factual truth, authority, legal permission or operational safety.

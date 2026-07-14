@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/resource.schema.json",
+  "title": "ADUC resource module",
+  "type": "object",
+  "properties": {
+    "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+    "kind": {"enum": ["dataset", "document", "api", "stream", "table", "image", "audio", "video", "model", "other"]},
+    "mediaType": {"type": "string", "pattern": "^[^\\s/]+/[^\\s/]+$"},
+    "digest": {"$ref": "aduc-metadata.schema.json#/$defs/digest"},
+    "version": {"type": "string", "minLength": 1},
+    "locator": {"type": "string", "minLength": 1},
+    "descriptorRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "required": ["id", "kind", "mediaType", "digest"],
+  "additionalProperties": false
+}

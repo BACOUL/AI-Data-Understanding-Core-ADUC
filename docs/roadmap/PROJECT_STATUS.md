@@ -1,27 +1,14 @@
 # Project Status
 
 - Project: AI Data Understanding Core — working name
-- Current phase: Phase 0 — Full-Core definition and public foundation
+- Current phase: Phase 1 — Standard v0.1 implementation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: nine domain profiles and the normative Core object model are specified and reference-tested; the official modular JSON Schema family is the single next implementation task
+- Overall status: nine domain profiles, the normative Core object model and the official modular Draft 2020-12 schema family are implemented and reference-tested; unified full-Core validation and comparison are the single next task
 
 ## Official direction
 
-ADUC is an open, model-independent contract intended to let data describe:
-
-```text
-structure
-semantics
-identity
-context
-provenance
-uncertainty
-relations
-policy
-```
-
-to AI systems, agents and applications.
+ADUC is an open, model-independent contract intended to let data describe structure, semantics, identity, context, provenance, uncertainty, relations and policy to AI systems, agents and applications.
 
 The normative envelope is frozen as:
 
@@ -45,18 +32,12 @@ The minimum interoperable envelope is `aduc + resource + structure`.
 - governance, contribution rules, ADR method, roadmap, execution ledger and CI;
 - prior-art matrix and official full-Core program;
 - English website with GitHub Pages and Vercel deployment;
-- semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling and provider-neutral multi-model harness;
+- standalone semantic-mapping schema, validator, comparator and JSON-LD/RDF tooling;
+- provider-neutral multi-model harness foundation;
 - adoption and value-validation gates;
-- ADR-0005 epistemic lifecycle;
-- ADR-0006 source description and immutable binding;
-- ADR-0007 units and deterministic conversion;
-- ADR-0008 temporal semantics and timezone alignment;
-- ADR-0009 entity identity and safe equivalence;
-- ADR-0010 provenance and transformation lineage;
-- ADR-0011 uncertainty and DQV-compatible data quality;
-- ADR-0012 general relation semantics;
-- ADR-0013 policy and permitted-use conditions;
-- ADR-0014 normative Core object model and modular boundaries.
+- ADR-0005 through ADR-0013 domain profiles;
+- ADR-0014 normative Core object model and modular boundaries;
+- ADR-0015 official modular Core JSON Schema family and local reference validator.
 
 ## Accepted evidence
 
@@ -71,29 +52,24 @@ The minimum interoperable envelope is `aduc + resource + structure`.
 | Uncertainty and quality | 14 valid, 24 invalid, 10 tests |
 | General relations | 13 valid, 20 invalid, 10 tests |
 | Policy and permitted use | 20 valid, 32 invalid, 13 tests |
-| Normative Core object model | complete ten-block example, 25 invalid architecture mutations, 11 tests, machine-readable module manifest |
+| Normative Core object model | complete ten-block example, 25 invalid architecture mutations, 11 tests, module manifest |
+| Modular Core schema family | 14 Draft 2020-12 schemas, 11 valid contracts, 15 invalid contracts, 13 schema tests, local validator |
 
-## Normative Core model decision
+## Schema-family decision
 
-ADR-0014, `spec/ADUC_CORE_MODEL_0_1.md` and `spec/core-module-manifest.json` establish that:
+ADR-0015 establishes that:
 
-- the ten top-level block names and cardinalities are frozen;
-- `aduc`, `resource` and `structure` are mandatory;
-- `relations` is the only repeated top-level module;
-- every addressable object uses an absolute-IRI identifier;
-- `Ref` and `Refs` identify deterministic internal references;
-- every normative fact has one owning module;
-- semantic assertions require prior exact resource and structural binding;
-- shared qualification preserves status, authority, evidence, provenance, confidence, uncertainty, conflict and lifecycle without conflation;
-- external standards remain external and are referenced rather than copied;
-- JSON is the canonical authoring representation and JSON-LD is a deterministic projection;
-- extensions are declared, namespaced, collision-safe and never silently understood;
-- hard module dependencies are acyclic;
-- published history is immutable and replacement creates new identifiers;
-- migration from the current semantic-mapping profile preserves authority, evidence, confidence and lifecycle;
-- absent optional information is `notDescribed`, not false, exact, permitted or trusted.
-
-The architecture checker validates these invariants but is not the future full-Core schema validator.
+- `schema/aduc-core.schema.json` is the full-Core validation entry point;
+- all operational `$ref` values resolve locally without remote retrieval;
+- the ten reserved top-level blocks and minimum envelope are enforced;
+- Core objects are closed and extensions use declared external namespaces;
+- identifiers, timestamps, digests, controlled enums and assertion qualification are structurally checked;
+- `structure.records` is mandatory according to ADR-0014;
+- relations use exactly one object endpoint form;
+- descriptive policy rules cannot be made machine executable;
+- policy requires provenance;
+- JSON Schema remains structural and does not claim factual, legal or operational validity;
+- `tools/aduc_core_validate.py` combines schema validation with the ADR-0014 architecture checker.
 
 ## Adoption and value constraints
 
@@ -116,12 +92,14 @@ Before compiler or interoperability success claims, the project must demonstrate
 | Nine domain profiles | Complete |
 | Normative Core object model | Complete |
 | Core module manifest | Complete |
-| Complete ten-block model example | Created; not yet schema-validated |
+| Complete ten-block model example | Schema- and architecture-valid |
 | Architectural counterexamples | 25 implemented |
-| Official modular JSON Schema family | Next action |
-| Ten complete valid schema fixtures | Not implemented |
-| Ten complete invalid schema fixtures | Not implemented |
-| Unified Core validator/comparator | Not implemented |
+| Official modular JSON Schema family | Complete |
+| Complete valid schema fixtures | 11 implemented |
+| Complete invalid schema fixtures | 15 implemented |
+| Local Core schema validator | Complete |
+| Unified Core validator/comparator | Next action |
+| Semantic-profile migration tool | Not implemented |
 | JSON/CSV compiler | Not implemented |
 | Review interface | Not implemented |
 | Value benchmark | Not run |
@@ -129,15 +107,15 @@ Before compiler or interoperability success claims, the project must demonstrate
 
 ## Active blockers
 
-- the official modular full-Core JSON Schema family does not exist;
-- the complete example is not yet schema-validatable;
-- current reference tools are separate rather than unified;
+- current domain evaluators are separate rather than orchestrated by one Core validator;
+- complete deterministic cross-contract comparison does not yet exist;
+- migration from the standalone semantic-mapping profile is not automated;
 - no qualifying value benchmark or external multi-model runs exist;
 - the public name remains provisional.
 
 ## Next gate
 
-Implement the Draft 2020-12 modular JSON Schema family from the frozen model, create complete valid and invalid fixtures, and document the graph-level checks that require the complementary reference validator.
+Build the unified full-Core validator and comparator, preserving every schema, architectural, epistemic and domain-specific diagnostic without weakening accepted safeguards.
 
 ## Rule
 

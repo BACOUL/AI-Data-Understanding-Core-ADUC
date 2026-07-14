@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/structure.schema.json",
+  "title": "ADUC structure module",
+  "$defs": {
+    "field": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "name": {"$ref": "aduc-metadata.schema.json#/$defs/nonEmptyString"},
+        "sourcePath": {"$ref": "aduc-metadata.schema.json#/$defs/nonEmptyString"},
+        "primitiveType": {"$ref": "aduc-metadata.schema.json#/$defs/primitiveType"},
+        "required": {"type": "boolean"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "name", "sourcePath", "primitiveType", "required"],
+      "additionalProperties": false
+    },
+    "record": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "name": {"$ref": "aduc-metadata.schema.json#/$defs/nonEmptyString"},
+        "sourcePath": {"$ref": "aduc-metadata.schema.json#/$defs/nonEmptyString"},
+        "fields": {"type": "array", "items": {"$ref": "#/$defs/field"}, "minItems": 1},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "name", "sourcePath", "fields"],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+    "resourceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+    "representation": {"enum": ["record", "table", "document", "graph", "array", "scalar", "binary"]},
+    "externalSchemaRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+    "records": {"type": "array", "items": {"$ref": "#/$defs/record"}, "minItems": 1},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "required": ["id", "resourceRef", "representation", "records"],
+  "additionalProperties": false
+}

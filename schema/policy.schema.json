@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/policy.schema.json",
+  "title": "ADUC policy module",
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "effect": {"enum": ["permission", "prohibition", "duty", "classification", "recommendation", "legalNotice"]},
+        "machineEvaluable": {"type": "boolean"},
+        "assignerRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assigneeRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "recipientRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "actionIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "purposeIris": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "phase": {"enum": ["preUse", "postUse"]},
+        "duties": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "notice": {"type": "string", "minLength": 1},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "effect", "machineEvaluable"],
+      "allOf": [
+        {
+          "if": {"properties": {"effect": {"enum": ["permission", "prohibition"]}}, "required": ["effect"]},
+          "then": {"properties": {"machineEvaluable": {"const": true}}, "required": ["assignerRef", "actionIri", "purposeIris"]}
+        },
+        {
+          "if": {"properties": {"effect": {"const": "duty"}}, "required": ["effect"]},
+          "then": {"properties": {"machineEvaluable": {"const": true}}, "required": ["assignerRef", "actionIri", "phase"]}
+        },
+        {
+          "if": {"properties": {"effect": {"enum": ["classification", "recommendation", "legalNotice"]}}, "required": ["effect"]},
+          "then": {"properties": {"machineEvaluable": {"const": false}}, "required": ["notice"]}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "policyRecord": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "targetRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "targetDigest": {"$ref": "aduc-metadata.schema.json#/$defs/digest"},
+        "mode": {"enum": ["open", "closed"]},
+        "disclosure": {"$ref": "aduc-metadata.schema.json#/$defs/disclosure"},
+        "validFrom": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "validUntil": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "rules": {"type": "array", "items": {"$ref": "#/$defs/rule"}, "minItems": 1},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "authority": {"$ref": "aduc-metadata.schema.json#/$defs/authority"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "confidenceMethodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "conflict": {"$ref": "aduc-metadata.schema.json#/$defs/conflict"},
+        "lifecycle": {"$ref": "aduc-metadata.schema.json#/$defs/lifecycle"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "targetRef", "targetDigest", "mode", "disclosure", "status", "conflict", "lifecycle", "rules"],
+      "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]},
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "policies": {"type": "array", "items": {"$ref": "#/$defs/policyRecord"}, "minItems": 1},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "required": ["policies"],
+  "additionalProperties": false
+}

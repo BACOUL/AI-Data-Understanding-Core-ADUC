@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/context.schema.json",
+  "title": "ADUC context module",
+  "$defs": {
+    "temporal": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "fieldRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "temporalRoleIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "timezoneIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "precision": {"enum": ["year", "month", "day", "hour", "minute", "second", "millisecond", "microsecond", "nanosecond"]},
+        "uncertaintyRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "fieldRef", "temporalRoleIri"],
+      "additionalProperties": false
+    },
+    "spatial": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "spatialCoverageIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "fieldRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "spatialCoverageIri"],
+      "additionalProperties": false
+    },
+    "operational": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "environmentIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "fieldRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "environmentIri"],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "temporal": {"type": "array", "items": {"$ref": "#/$defs/temporal"}, "minItems": 1},
+    "spatial": {"type": "array", "items": {"$ref": "#/$defs/spatial"}, "minItems": 1},
+    "operational": {"type": "array", "items": {"$ref": "#/$defs/operational"}, "minItems": 1},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}

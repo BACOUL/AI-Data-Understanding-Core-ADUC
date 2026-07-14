@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/identity.schema.json",
+  "title": "ADUC identity module",
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "typeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "label": {"type": "string"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "typeIri"],
+      "additionalProperties": false
+    },
+    "identifier": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "entityRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "fieldRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "schemeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "issuerIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "value": {"$ref": "aduc-metadata.schema.json#/$defs/nonEmptyString"},
+        "validFrom": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "validUntil": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "entityRef", "schemeIri", "issuerIri", "value"],
+      "additionalProperties": false
+    },
+    "identityAssertion": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "subjectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "objectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "identifierRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "identityRelationIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "decision": {"enum": ["exactEntity", "differentEntity", "candidateOnly", "unresolved"]},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "authority": {"$ref": "aduc-metadata.schema.json#/$defs/authority"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "confidenceMethodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "conflict": {"$ref": "aduc-metadata.schema.json#/$defs/conflict"},
+        "lifecycle": {"$ref": "aduc-metadata.schema.json#/$defs/lifecycle"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "subjectRef", "identityRelationIri", "decision", "status", "conflict", "lifecycle"],
+      "oneOf": [
+        {"required": ["objectRef"], "not": {"required": ["identifierRef"]}},
+        {"required": ["identifierRef"], "not": {"required": ["objectRef"]}}
+      ],
+      "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]},
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "entities": {"type": "array", "items": {"$ref": "#/$defs/entity"}, "minItems": 1},
+    "identifiers": {"type": "array", "items": {"$ref": "#/$defs/identifier"}, "minItems": 1},
+    "identityAssertions": {"type": "array", "items": {"$ref": "#/$defs/identityAssertion"}, "minItems": 1},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}

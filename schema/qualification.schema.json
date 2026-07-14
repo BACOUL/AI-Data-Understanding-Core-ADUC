@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/qualification.schema.json",
+  "title": "ADUC shared assertion qualification",
+  "$defs": {
+    "qualificationProperties": {
+      "type": "object",
+      "properties": {
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "authority": {"$ref": "aduc-metadata.schema.json#/$defs/authority"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "confidenceMethodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "uncertaintyRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "conflict": {"$ref": "aduc-metadata.schema.json#/$defs/conflict"},
+        "lifecycle": {"$ref": "aduc-metadata.schema.json#/$defs/lifecycle"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"}
+      },
+      "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]}
+    },
+    "requiredAssertionQualification": {
+      "allOf": [
+        {"$ref": "#/$defs/qualificationProperties"},
+        {"required": ["status", "conflict", "lifecycle"]}
+      ]
+    }
+  }
+}

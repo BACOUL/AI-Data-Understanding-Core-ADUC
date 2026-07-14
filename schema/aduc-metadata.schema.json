@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/aduc-metadata.schema.json",
+  "title": "ADUC shared metadata types",
+  "$defs": {
+    "iri": {"type": "string", "format": "uri", "minLength": 3},
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "semver": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"},
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "iriArray": {"type": "array", "items": {"$ref": "#/$defs/iri"}, "minItems": 1, "uniqueItems": true},
+    "primitiveType": {"enum": ["string", "number", "integer", "boolean", "object", "array", "null"]},
+    "status": {"enum": ["unknown", "inferred", "reviewed", "verified", "canonical"]},
+    "authority": {"enum": ["inferred", "reviewed", "verified", "canonical"]},
+    "conflict": {"enum": ["clear", "contested"]},
+    "lifecycle": {"enum": ["active", "deprecated"]},
+    "disclosure": {"enum": ["complete", "partial", "redacted", "external"]},
+    "jsonScalar": {"type": ["string", "number", "integer", "boolean", "null"]}
+  }
+}

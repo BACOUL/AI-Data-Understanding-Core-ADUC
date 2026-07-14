@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/provenance.schema.json",
+  "title": "ADUC provenance module",
+  "$defs": {
+    "agent": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "typeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "externalIdentityIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "label": {"type": "string"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "typeIri"],
+      "additionalProperties": false
+    },
+    "entity": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "typeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "mediaType": {"type": "string"},
+        "digest": {"$ref": "aduc-metadata.schema.json#/$defs/digest"},
+        "sourceIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "generatedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "typeIri"],
+      "additionalProperties": false
+    },
+    "activity": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "typeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "usedRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "wasAssociatedWithRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "startedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "endedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "softwareIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "modelIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "typeIri"],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "typeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "sourceIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "digest": {"$ref": "aduc-metadata.schema.json#/$defs/digest"},
+        "disclosure": {"$ref": "aduc-metadata.schema.json#/$defs/disclosure"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "typeIri"],
+      "additionalProperties": false
+    },
+    "derivationAssertion": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "generatedRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "usedRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "predicateIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "activityRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "generatedRef", "usedRefs", "predicateIri"],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "agents": {"type": "array", "items": {"$ref": "#/$defs/agent"}, "minItems": 1},
+    "entities": {"type": "array", "items": {"$ref": "#/$defs/entity"}, "minItems": 1},
+    "activities": {"type": "array", "items": {"$ref": "#/$defs/activity"}, "minItems": 1},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}, "minItems": 1},
+    "derivationAssertions": {"type": "array", "items": {"$ref": "#/$defs/derivationAssertion"}, "minItems": 1},
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}

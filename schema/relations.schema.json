@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/relations.schema.json",
+  "title": "ADUC relation assertions",
+  "$defs": {
+    "literalObject": {
+      "type": "object",
+      "properties": {
+        "value": {},
+        "datatypeIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "language": {"type": "string", "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"}
+      },
+      "required": ["value"],
+      "not": {"required": ["datatypeIri", "language"]},
+      "additionalProperties": false
+    },
+    "relation": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "subjectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "predicateIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "objectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "literalObject": {"$ref": "#/$defs/literalObject"},
+        "polarity": {"enum": ["positive", "negative"]},
+        "methodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+        "authority": {"$ref": "aduc-metadata.schema.json#/$defs/authority"},
+        "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "confidenceMethodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "uncertaintyRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "conflict": {"$ref": "aduc-metadata.schema.json#/$defs/conflict"},
+        "lifecycle": {"$ref": "aduc-metadata.schema.json#/$defs/lifecycle"},
+        "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+      },
+      "required": ["id", "subjectRef", "predicateIri", "polarity", "methodIri", "status", "conflict", "lifecycle"],
+      "oneOf": [
+        {"required": ["objectRef"], "not": {"required": ["literalObject"]}},
+        {"required": ["literalObject"], "not": {"required": ["objectRef"]}}
+      ],
+      "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]},
+      "additionalProperties": false
+    }
+  },
+  "type": "array",
+  "items": {"$ref": "#/$defs/relation"},
+  "minItems": 1
+}
