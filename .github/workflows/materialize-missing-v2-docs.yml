@@ -21,10 +21,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Verify and extract exact omitted v2 files
+      - name: Reconstruct archive and record integrity
+        id: reconstruct
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           cat \
             .docs-repair/part00.b64 \
             .docs-repair/part01.b64 \
@@ -32,8 +34,26 @@ jobs:
             .docs-repair/part03a.b64 \
             .docs-repair/part03b.b64 \
             | base64 --decode > /tmp/aduc-v2-missing-docs.tar.gz
+          {
+            wc -c .docs-repair/part00.b64 .docs-repair/part01.b64 .docs-repair/part02.b64 .docs-repair/part03a.b64 .docs-repair/part03b.b64
+            sha256sum .docs-repair/part00.b64 .docs-repair/part01.b64 .docs-repair/part02.b64 .docs-repair/part03a.b64 .docs-repair/part03b.b64
+            wc -c /tmp/aduc-v2-missing-docs.tar.gz
+            sha256sum /tmp/aduc-v2-missing-docs.tar.gz
+          } > /tmp/aduc-v2-docs-integrity.txt
           test "$(wc -c < /tmp/aduc-v2-missing-docs.tar.gz | tr -d ' ')" = "17113"
           test "$(sha256sum /tmp/aduc-v2-missing-docs.tar.gz | awk '{print $1}')" = "d1a1d3b45bd7703923e053711bb1563ecc9d0d8109f41af23807a9802531eb2c"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aduc-v2-docs-integrity
+          path: /tmp/aduc-v2-docs-integrity.txt
+      - name: Reject archive mismatch
+        if: steps.reconstruct.outcome != 'success'
+        run: exit 1
+      - name: Extract and verify exact omitted v2 files
+        shell: bash
+        run: |
+          set -euo pipefail
           tar -xzf /tmp/aduc-v2-missing-docs.tar.gz
           test "$(wc -c < README.md | tr -d ' ')" = "13892"
           test "$(sha256sum README.md | awk '{print $1}')" = "d7cc8e6d21a59f70e8d44c2662e09a3cc43a6a1ee0054deb5f55be589d9dab49"
