@@ -4,7 +4,7 @@
 - Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: nine foundational Core decisions are specified and reference-tested; the normative Core object model and modular boundaries are the final definition task before the official schema family
+- Overall status: nine domain profiles and the normative Core object model are specified and reference-tested; the official modular JSON Schema family is the single next implementation task
 
 ## Official direction
 
@@ -21,32 +21,31 @@ relations
 policy
 ```
 
-to AI systems, agents, and applications.
+to AI systems, agents and applications.
 
-The candidate envelope contains:
+The normative envelope is frozen as:
 
 ```text
-aduc
-resource
-structure
-semantics
-identity
-context
-provenance
-uncertainty
-relations
-policy
+aduc        required object
+resource    required object
+structure   required object
+semantics   optional object
+identity    optional object
+context     optional object
+provenance  optional object
+uncertainty optional object
+relations   optional array
+policy      optional object
 ```
 
-`spec/ADUC_CORE_SPEC_0_1.md` remains the full-Core working draft. Its object ownership and modular boundaries are not yet frozen.
+The minimum interoperable envelope is `aduc + resource + structure`.
 
 ## Completed foundation
 
-- governance, contribution rules, ADR method, roadmap, execution ledger, and CI;
+- governance, contribution rules, ADR method, roadmap, execution ledger and CI;
 - prior-art matrix and official full-Core program;
-- first informative ten-block example;
 - English website with GitHub Pages and Vercel deployment;
-- semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling, and provider-neutral multi-model harness;
+- semantic-mapping profile, validator, comparator, JSON-LD/RDF tooling and provider-neutral multi-model harness;
 - adoption and value-validation gates;
 - ADR-0005 epistemic lifecycle;
 - ADR-0006 source description and immutable binding;
@@ -56,11 +55,12 @@ policy
 - ADR-0010 provenance and transformation lineage;
 - ADR-0011 uncertainty and DQV-compatible data quality;
 - ADR-0012 general relation semantics;
-- ADR-0013 policy and permitted-use conditions.
+- ADR-0013 policy and permitted-use conditions;
+- ADR-0014 normative Core object model and modular boundaries.
 
-## Accepted Core profile evidence
+## Accepted evidence
 
-| Profile | Evidence |
+| Profile or model | Evidence |
 |---|---|
 | Epistemic lifecycle | 9 valid, 8 invalid, deterministic evaluator |
 | Source binding | 3 valid, 10 invalid, 7 tests |
@@ -71,26 +71,29 @@ policy
 | Uncertainty and quality | 14 valid, 24 invalid, 10 tests |
 | General relations | 13 valid, 20 invalid, 10 tests |
 | Policy and permitted use | 20 valid, 32 invalid, 13 tests |
+| Normative Core object model | complete ten-block example, 25 invalid architecture mutations, 11 tests, machine-readable module manifest |
 
-## Policy and permitted-use decision
+## Normative Core model decision
 
-ADR-0013 and `spec/POLICY_PROFILE_0_1.md` establish that:
+ADR-0014, `spec/ADUC_CORE_MODEL_0_1.md` and `spec/core-module-manifest.json` establish that:
 
-- ADUC reuses ODRL rather than creating a competing rights language;
-- exact target identity and SHA-256 version binding are mandatory;
-- executable permissions, prohibitions, and duties remain distinct from classifications, recommendations, and legal notices;
-- actions, purposes, parties, recipients, places, and environments use absolute controlled identifiers;
-- a descriptive `public` classification is not universal permission;
-- free-text purpose matching is blocked;
-- a matching prohibition overrides a matching permission in the deterministic offline subset;
-- pre-use duties require bound satisfaction evidence;
-- post-use duties remain visible as outstanding obligations;
-- open mode yields `indeterminate` when no rule applies, while closed mode denies by default;
-- supported outcomes are `permit`, `deny`, `notApplicable`, `indeterminate`, and `requiresHumanReview`;
-- inferred, partial, redacted, externally governed, contested, or deprecated policies block automatic reliance;
-- consent, ownership, and legal-compliance claims require typed evidence and provenance;
-- ADUC does not grant legal permission, replace legal interpretation, or enforce access control;
-- qualifying policy records export deterministically to JSON-LD/RDF.
+- the ten top-level block names and cardinalities are frozen;
+- `aduc`, `resource` and `structure` are mandatory;
+- `relations` is the only repeated top-level module;
+- every addressable object uses an absolute-IRI identifier;
+- `Ref` and `Refs` identify deterministic internal references;
+- every normative fact has one owning module;
+- semantic assertions require prior exact resource and structural binding;
+- shared qualification preserves status, authority, evidence, provenance, confidence, uncertainty, conflict and lifecycle without conflation;
+- external standards remain external and are referenced rather than copied;
+- JSON is the canonical authoring representation and JSON-LD is a deterministic projection;
+- extensions are declared, namespaced, collision-safe and never silently understood;
+- hard module dependencies are acyclic;
+- published history is immutable and replacement creates new identifiers;
+- migration from the current semantic-mapping profile preserves authority, evidence, confidence and lifecycle;
+- absent optional information is `notDescribed`, not false, exact, permitted or trusted.
+
+The architecture checker validates these invariants but is not the future full-Core schema validator.
 
 ## Adoption and value constraints
 
@@ -109,20 +112,15 @@ Before compiler or interoperability success claims, the project must demonstrate
 
 | Deliverable | Status |
 |---|---|
-| Core working draft | Created |
-| Epistemic lifecycle | Complete |
-| Source binding | Complete |
-| Units and conversions | Complete |
-| Temporal semantics | Complete |
-| Entity identity | Complete |
-| Provenance and lineage | Complete |
-| Uncertainty and quality | Complete |
-| General relations | Complete |
-| Policy and permitted use | Complete |
-| Normative Core object model | Next action |
-| Official full-Core JSON Schema | Not implemented |
-| Ten valid complete examples | Not implemented |
-| Ten invalid complete examples | Not implemented |
+| Core working draft | Updated |
+| Nine domain profiles | Complete |
+| Normative Core object model | Complete |
+| Core module manifest | Complete |
+| Complete ten-block model example | Created; not yet schema-validated |
+| Architectural counterexamples | 25 implemented |
+| Official modular JSON Schema family | Next action |
+| Ten complete valid schema fixtures | Not implemented |
+| Ten complete invalid schema fixtures | Not implemented |
 | Unified Core validator/comparator | Not implemented |
 | JSON/CSV compiler | Not implemented |
 | Review interface | Not implemented |
@@ -131,16 +129,15 @@ Before compiler or interoperability success claims, the project must demonstrate
 
 ## Active blockers
 
-- the normative Core envelope, object ownership, cardinalities, and modular boundaries are not frozen;
-- the complete example is not schema-validatable;
-- the official full-Core JSON Schema family does not exist;
+- the official modular full-Core JSON Schema family does not exist;
+- the complete example is not yet schema-validatable;
 - current reference tools are separate rather than unified;
 - no qualifying value benchmark or external multi-model runs exist;
 - the public name remains provisional.
 
 ## Next gate
 
-Freeze the normative Core object model and modular boundaries, including top-level cardinality, object ownership, deterministic references, qualification patterns, external-standard boundaries, JSON/JSON-LD representation, extension behavior, versioning, migration from the current mapping profile, and deterministic behavior for absent, unsafe, prohibited, contested, deprecated, or unsupported information.
+Implement the Draft 2020-12 modular JSON Schema family from the frozen model, create complete valid and invalid fixtures, and document the graph-level checks that require the complementary reference validator.
 
 ## Rule
 
