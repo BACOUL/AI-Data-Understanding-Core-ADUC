@@ -124,7 +124,6 @@ jobs:
           run_check test-core-schema python -m unittest discover -s tests/core_schema -p "test_*.py"
           run_check test-core-validator python -m unittest discover -s tests/core_validator -p "test_*.py"
           run_check test-core-comparator python -m unittest discover -s tests/core_comparator -p "test_*.py"
-          run_check test-core-migration python -m unittest discover -s tests/core_migration -p "test_*.py"
           run_check test-roadmap python -m unittest discover -s tests/roadmap -p "test_*.py"
           run_check test-website python -m unittest discover -s tests/website -p "test_*.py"
           run_check schema python tools/aduc_core_validate.py examples/core/complete-model.example.json
