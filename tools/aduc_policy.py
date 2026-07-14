@@ -2,218 +2,595 @@
 """Deterministic reference evaluator for ADUC Policy Profile 0.1."""
 
 from __future__ import annotations
-import argparse,copy,hashlib,json,re
-from datetime import datetime,timezone
+
+import argparse
+import copy
+import hashlib
+import json
+import re
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-ROOT=Path(__file__).resolve().parents[1]; DEFAULT=ROOT/"examples"/"policy"
-HEX=re.compile(r"^[0-9a-f]{64}$"); AUTH={"inferred":0,"reviewed":1,"verified":2,"canonical":3}
-EXEC={"permission","prohibition","duty"}; HUMAN={"recommendation","legalNotice","classification"}
-ODRL="http://www.w3.org/ns/odrl/2/"; ADUC="urn:aduc:term:"
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT = ROOT / "examples" / "policy"
+HEX = re.compile(r"^[0-9a-f]{64}$")
+AUTH = {"inferred": 0, "reviewed": 1, "verified": 2, "canonical": 3}
+EXECUTABLE_EFFECTS = {"permission", "prohibition", "duty"}
+HUMAN_ONLY_EFFECTS = {"recommendation", "legalNotice", "classification"}
+ODRL = "http://www.w3.org/ns/odrl/2/"
+ADUC = "urn:aduc:term:"
 
-def load(p:Path)->Any:return json.loads(p.read_text(encoding="utf-8"))
-def iri(v:Any)->bool:return isinstance(v,str) and bool(urlparse(v).scheme)
-def E(c:str,m:str)->dict[str,str]:return {"code":c,"message":m}
-def tm(v:str)->datetime:
-    x=v[:-1]+"+00:00" if isinstance(v,str) and v.endswith("Z") else v
-    d=datetime.fromisoformat(x)
-    if d.tzinfo is None:raise ValueError
-    return d.astimezone(timezone.utc)
 
-def registry(ref:Any,base:Path):
-    if not isinstance(ref,dict) or not isinstance(ref.get("path"),str) or not HEX.fullmatch(str(ref.get("sha256",""))):
-        return None,[E("ADUC-POL-VOCAB-001","pinned registry required")]
-    p=(base/ref["path"]).resolve()
-    try:p.relative_to(base.resolve())
-    except ValueError:return None,[E("ADUC-POL-VOCAB-001","unsafe registry path")]
-    if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest()!=ref["sha256"]:
-        return None,[E("ADUC-POL-VOCAB-001","registry unavailable or changed")]
-    r=load(p)
-    if r.get("registryId")!=ref.get("registryId") or r.get("registryVersion")!=ref.get("registryVersion"):
-        return None,[E("ADUC-POL-VOCAB-001","registry identity mismatch")]
-    return r,[]
+def load(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
 
-def vrequest(q:Any,r:dict)->list[dict[str,str]]:
-    e=[]
-    if not isinstance(q,dict):return [E("ADUC-POL-REQUEST-001","request required")]
-    for k in ("target","requester","recipient","action","purpose","spatial","environment"):
-        if not iri(q.get(k)):e.append(E("ADUC-POL-REQUEST-001",f"{k} must be IRI"))
-    if not HEX.fullmatch(str(q.get("targetDigest",""))):e.append(E("ADUC-POL-TARGET-002","request digest required"))
-    if q.get("action") not in r.get("actions",{}):e.append(E("ADUC-POL-ACTION-002","unknown request action"))
-    if q.get("purpose") not in r.get("purposes",{}):e.append(E("ADUC-POL-PURPOSE-002","unknown request purpose"))
-    if q.get("environment") not in r.get("environments",{}):e.append(E("ADUC-POL-SCOPE-002","unknown environment"))
-    try:tm(q.get("at"))
-    except Exception:e.append(E("ADUC-POL-SCOPE-002","invalid request time"))
-    if not isinstance(q.get("evidence",[]),list) or not all(iri(x) for x in q.get("evidence",[])):
-        e.append(E("ADUC-POL-EVIDENCE-001","invalid request evidence"))
-    return e
 
-def vpolicy(p:Any,objs:Any,ev:Any,r:dict):
-    e=[]
-    if not isinstance(p,dict):return None,[E("ADUC-POL-DOC-001","policy required")]
-    if not isinstance(objs,dict):return None,[E("ADUC-POL-TARGET-001","object table required")]
-    if not isinstance(ev,dict):return None,[E("ADUC-POL-EVIDENCE-001","evidence table required")]
-    pid,t=p.get("id"),p.get("target")
-    if not iri(pid):e.append(E("ADUC-POL-DOC-001","policy id must be IRI"))
-    if not iri(t) or t not in objs:e.append(E("ADUC-POL-TARGET-001","target not bound"))
-    elif objs[t].get("kind") not in {"resource","version"}:e.append(E("ADUC-POL-TARGET-001","invalid target kind"))
-    dg=p.get("targetDigest")
-    if not HEX.fullmatch(str(dg or "")):e.append(E("ADUC-POL-TARGET-002","target digest required"))
-    elif t in objs and objs[t].get("digest")!=dg:e.append(E("ADUC-POL-TARGET-002","target digest mismatch"))
-    if p.get("mode") not in r.get("policyModes",[]):e.append(E("ADUC-POL-DOC-001","invalid mode"))
-    if p.get("disclosure") not in r.get("disclosureStates",[]):e.append(E("ADUC-POL-STATE-001","invalid disclosure"))
-    if p.get("auth") not in AUTH:e.append(E("ADUC-POL-AUTH-001","invalid authority"))
-    for k in ("method","prov","by"):
-        if not iri(p.get(k)):e.append(E("ADUC-POL-AUTH-001",f"{k} must be IRI"))
-    pe=p.get("evidence")
-    if not isinstance(pe,list) or not pe or not all(iri(x) and x in ev for x in pe):
-        e.append(E("ADUC-POL-EVIDENCE-001","bound policy evidence required"))
-    if p.get("auth")=="inferred":
-        c=p.get("confidence")
-        if not isinstance(c,(int,float)) or isinstance(c,bool) or not 0<=c<=1 or not iri(p.get("confidenceMethod")):
-            e.append(E("ADUC-POL-AUTH-002","calibrated confidence required"))
-    if p.get("conflict","clear") not in {"clear","contested"} or p.get("life","active") not in {"active","deprecated"}:
-        e.append(E("ADUC-POL-STATE-001","invalid conflict or lifecycle"))
-    v=p.get("valid")
+def iri(value: Any) -> bool:
+    return isinstance(value, str) and bool(urlparse(value).scheme)
+
+
+def error(code: str, message: str) -> dict[str, str]:
+    return {"code": code, "message": message}
+
+
+def parse_time(value: str) -> datetime:
+    normalized = value[:-1] + "+00:00" if isinstance(value, str) and value.endswith("Z") else value
+    parsed = datetime.fromisoformat(normalized)
+    if parsed.tzinfo is None:
+        raise ValueError("timezone offset required")
+    return parsed.astimezone(timezone.utc)
+
+
+def registry(reference: Any, base: Path):
+    if (
+        not isinstance(reference, dict)
+        or not isinstance(reference.get("path"), str)
+        or not HEX.fullmatch(str(reference.get("sha256", "")))
+    ):
+        return None, [error("ADUC-POL-VOCAB-001", "pinned registry required")]
+
+    path = (base / reference["path"]).resolve()
     try:
-        if not isinstance(v,dict) or tm(v["start"])>=tm(v["end"]):raise ValueError
-    except Exception:e.append(E("ADUC-POL-SCOPE-002","invalid validity interval"))
-    s=p.get("supersedes")
-    if s is not None and (not iri(s) or s==pid):e.append(E("ADUC-POL-COMPOSE-001","invalid supersedes"))
-    inh=p.get("inheritsFrom",[])
-    if inh:
-        if not isinstance(inh,list) or not all(iri(x) and x!=pid for x in inh):e.append(E("ADUC-POL-COMPOSE-001","invalid inheritance"))
-        if p.get("compositionState")!="resolved":e.append(E("ADUC-POL-COMPOSE-001","inheritance unresolved"))
-        ce=p.get("compositionEvidence")
-        if not isinstance(ce,list) or not ce or not all(iri(x) and x in ev for x in ce):
-            e.append(E("ADUC-POL-COMPOSE-001","composition evidence required"))
-    rules=p.get("rules")
-    if not isinstance(rules,list):return None,e+[E("ADUC-POL-RULE-001","rules array required")]
-    ids=[]; norm=[]
-    for x in rules:
-        if not isinstance(x,dict):e.append(E("ADUC-POL-RULE-001","rule object required"));continue
-        rid,fx=x.get("id"),x.get("effect")
-        if not iri(rid):e.append(E("ADUC-POL-RULE-001","rule id must be IRI"))
-        else:ids.append(rid)
-        if fx not in r.get("effects",[]):e.append(E("ADUC-POL-RULE-001","unsupported effect"))
-        if fx in EXEC and x.get("machineEvaluable") is not True:e.append(E("ADUC-POL-RULE-002","executable rule not declared"))
-        if fx in HUMAN and x.get("machineEvaluable") is not False:e.append(E("ADUC-POL-LEGAL-001","human statement made executable"))
-        if fx in EXEC:
-            a=x.get("action")
-            if not iri(a):e.append(E("ADUC-POL-ACTION-001","action must be IRI"))
-            elif a not in r.get("actions",{}):e.append(E("ADUC-POL-ACTION-002","unknown action"))
-            elif fx in {"permission","prohibition"} and r["actions"][a].get("category")!="primary":e.append(E("ADUC-POL-ACTION-002","primary action required"))
-            elif fx=="duty" and r["actions"][a].get("category")!="duty":e.append(E("ADUC-POL-DUTY-001","duty action required"))
-            if not iri(x.get("assigner")):e.append(E("ADUC-POL-PARTY-001","assigner required"))
-        ps=x.get("purposes",[])
-        if fx in {"permission","prohibition"}:
-            if not isinstance(ps,list) or not ps or not all(iri(z) for z in ps):e.append(E("ADUC-POL-PURPOSE-001","controlled purposes required"))
-            elif not all(z in r.get("purposes",{}) for z in ps):e.append(E("ADUC-POL-PURPOSE-002","unknown purpose"))
-        for k in ("assignee","recipient","spatial","environment"):
-            if x.get(k) is not None and not iri(x.get(k)):e.append(E("ADUC-POL-PARTY-001" if k in {"assignee","recipient"} else "ADUC-POL-SCOPE-002",f"invalid {k}"))
-        if x.get("environment") is not None and x["environment"] not in r.get("environments",{}):e.append(E("ADUC-POL-SCOPE-002","unknown rule environment"))
-        if fx=="duty":
-            if x.get("phase") not in {"preUse","postUse"}:e.append(E("ADUC-POL-DUTY-001","invalid duty phase"))
-            if x.get("satisfied") is True and not x.get("satisfiedBy"):e.append(E("ADUC-POL-DUTY-002","satisfaction evidence required"))
-            sb=x.get("satisfiedBy",[])
-            if sb and (not isinstance(sb,list) or not all(iri(z) and z in ev for z in sb)):e.append(E("ADUC-POL-DUTY-002","invalid satisfaction evidence"))
-        claim=x.get("claim")
-        if claim in {"consent","legalCompliance","ownership"}:
-            kind={"consent":"consent","legalCompliance":"legalAssessment","ownership":"ownership"}[claim]; ce=x.get("claimEvidence")
-            if not isinstance(ce,list) or not ce or not all(iri(z) and z in ev and ev[z].get("kind")==kind and iri(ev[z].get("provenance")) for z in ce):
-                e.append(E("ADUC-POL-CLAIM-001",f"{claim} evidence required"))
-        norm.append(copy.deepcopy(x))
-    if len(ids)!=len(set(ids)):e.append(E("ADUC-POL-RULE-003","duplicate rule id"))
-    by={x.get("id"):x for x in norm if iri(x.get("id"))}
-    for x in norm:
-        refs=x.get("duties",[])
-        if x.get("effect")=="permission" and refs and (not isinstance(refs,list) or not all(iri(z) and z in by and by[z].get("effect")=="duty" for z in refs)):
-            e.append(E("ADUC-POL-DUTY-001","unresolved duty reference"))
-    out=copy.deepcopy(p);out["rules"]=norm
-    return out,e
+        path.relative_to(base.resolve())
+    except ValueError:
+        return None, [error("ADUC-POL-VOCAB-001", "unsafe registry path")]
 
-def matches(x:dict,q:dict)->bool:
-    return x.get("effect") in {"permission","prohibition"} and x.get("action")==q.get("action") and q.get("purpose") in x.get("purposes",[]) and (x.get("assignee") is None or x["assignee"]==q.get("requester")) and (x.get("recipient") is None or x["recipient"]==q.get("recipient")) and (x.get("spatial") is None or x["spatial"]==q.get("spatial")) and (x.get("environment") is None or x["environment"]==q.get("environment"))
-def satisfied(x:dict,q:dict,ev:dict)->bool:
-    refs=x.get("satisfiedBy",[]); qe=set(q.get("evidence",[]))
-    if refs:return bool(set(refs)&qe)
-    kind=x.get("requiredEvidenceKind")
-    return bool(kind and any(ev.get(z,{}).get("kind")==kind for z in qe))
+    if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest() != reference["sha256"]:
+        return None, [error("ADUC-POL-VOCAB-001", "registry unavailable or changed")]
 
-def export_policy(p:dict)->dict:
-    g=[{"@id":p["id"],"@type":ODRL+"Policy",ODRL+"target":{"@id":p["target"]},ADUC+"targetDigest":p["targetDigest"],ADUC+"authorityLevel":p["auth"],ADUC+"disclosureState":p["disclosure"],ADUC+"policyMode":p["mode"],ADUC+"provenanceActivity":{"@id":p["prov"]}}]
-    types={"permission":ODRL+"Permission","prohibition":ODRL+"Prohibition","duty":ODRL+"Duty","recommendation":ADUC+"Recommendation","legalNotice":ADUC+"LegalNotice","classification":ADUC+"Classification"}
-    for x in sorted(p["rules"],key=lambda z:z["id"]):
-        n={"@id":x["id"],"@type":types[x["effect"]]}
-        if iri(x.get("action")):n[ODRL+"action"]={"@id":x["action"]}
-        if iri(x.get("assigner")):n[ODRL+"assigner"]={"@id":x["assigner"]}
-        if iri(x.get("assignee")):n[ODRL+"assignee"]={"@id":x["assignee"]}
-        if x.get("purposes"):n[ADUC+"purpose"]=[{"@id":z} for z in sorted(x["purposes"])]
-        if x.get("duties"):n[ODRL+"duty"]=[{"@id":z} for z in sorted(x["duties"])]
-        g.append(n)
-    return {"@graph":g}
+    loaded = load(path)
+    if (
+        loaded.get("registryId") != reference.get("registryId")
+        or loaded.get("registryVersion") != reference.get("registryVersion")
+    ):
+        return None, [error("ADUC-POL-VOCAB-001", "registry identity mismatch")]
+    return loaded, []
 
-def evaluate(c:dict,r:dict)->dict:
-    ev=c.get("evidence",{});p,e=vpolicy(c.get("policy"),c.get("objects",{}),ev,r);q=c.get("request",{});e+=vrequest(q,r);act=c.get("act",{}).get("t")
-    if p is None:return {"valid":False,"errors":e}
-    if act=="export":
-        return {"valid":False,"errors":e} if e else {"valid":True,"errors":[],"result":{"policies":1,"rules":len(p["rules"]),"jsonld":export_policy(p)}}
-    if act!="evaluate":e.append(E("ADUC-POL-ACTION-003","unsupported harness action"))
-    if e:return {"valid":False,"errors":e}
-    if q["target"]!=p["target"]:return {"valid":True,"errors":[],"result":{"outcome":"notApplicable"}}
-    if q["targetDigest"]!=p["targetDigest"]:return {"valid":False,"errors":[E("ADUC-POL-TARGET-002","target versions differ")]}
-    if p.get("conflict","clear")!="clear" or p.get("life","active")!="active":return {"valid":True,"errors":[],"result":{"outcome":"requiresHumanReview","reason":"policyNotReliablyActive"}}
-    if p["disclosure"]!="complete":return {"valid":True,"errors":[],"result":{"outcome":"requiresHumanReview","reason":"incompleteDisclosure"}}
-    if AUTH[p["auth"]]<AUTH["reviewed"]:return {"valid":True,"errors":[],"result":{"outcome":"requiresHumanReview","reason":"insufficientAuthority"}}
-    if not tm(p["valid"]["start"])<=tm(q["at"])<tm(p["valid"]["end"]):return {"valid":True,"errors":[],"result":{"outcome":"deny","reason":"policyOutsideValidity"}}
-    hit=[x for x in p["rules"] if matches(x,q)];deny=[x for x in hit if x["effect"]=="prohibition"]
-    if deny:return {"valid":True,"errors":[],"result":{"outcome":"deny","reason":"prohibition","ruleIds":sorted(x["id"] for x in deny)}}
-    by={x["id"]:x for x in p["rules"] if iri(x.get("id"))}
-    for permission in sorted((x for x in hit if x["effect"]=="permission"),key=lambda z:z["id"]):
-        duties=[by[z] for z in permission.get("duties",[])]
-        pre=sorted(x["id"] for x in duties if x.get("phase")=="preUse" and not satisfied(x,q,ev))
-        if pre:return {"valid":True,"errors":[],"result":{"outcome":"deny","reason":"unsatisfiedPreUseDuty","dutyIds":pre}}
-        post=sorted(x["id"] for x in duties if x.get("phase")=="postUse" and not satisfied(x,q,ev))
-        out={"outcome":"permit","ruleId":permission["id"]}
-        if post:out["outstandingDuties"]=post
-        return {"valid":True,"errors":[],"result":out}
-    if any(x.get("effect")=="legalNotice" for x in p["rules"]):return {"valid":True,"errors":[],"result":{"outcome":"requiresHumanReview","reason":"humanOnlyStatement"}}
-    if p["mode"]=="closed":return {"valid":True,"errors":[],"result":{"outcome":"deny","reason":"closedPolicyDefault"}}
-    return {"valid":True,"errors":[],"result":{"outcome":"indeterminate","reason":"noApplicableRule"}}
 
-def patch(d:Any,ops:list[list[Any]])->Any:
-    d=copy.deepcopy(d)
-    for op,path,*rest in ops:
-        t=d
-        for k in path[:-1]:t=t[k]
-        k=path[-1];v=rest[0] if rest else None
-        if op=="set":t[k]=copy.deepcopy(v)
-        elif op=="remove":t.pop(k,None) if isinstance(t,dict) else t.pop(k)
-        elif op=="append":t[k].append(copy.deepcopy(v))
-        else:raise ValueError(op)
-    return d
-def contains(a:Any,x:Any)->bool:
-    if isinstance(x,dict):return isinstance(a,dict) and all(k in a and contains(a[k],v) for k,v in x.items())
-    return a==x
-def materialize(ref:dict,c:dict)->dict:return patch(ref["base"],c.get("patch",[]))
-def run(rp:Path,ip:Path)->dict:
-    ref,inv=load(rp),load(ip);reg,errs=registry(ref.get("registry"),rp.parent)
-    if not reg:return {"ok":False,"referenceAccepted":0,"invalidRejected":0,"failures":errs}
-    by={c["id"]:materialize(ref,c) for c in ref["cases"]};fail=[];ok=bad=0
-    for c in ref["cases"]:
-        a=evaluate(by[c["id"]],reg)
-        if contains(a,c["expect"]):ok+=1
-        else:fail.append({"id":c["id"],"actual":a,"expected":c["expect"]})
-    for c in inv["cases"]:
-        a=evaluate(patch(by[c["base"]],c["patch"]),reg);codes={x["code"] for x in a.get("errors",[])}
-        if not a["valid"] and c["code"] in codes:bad+=1
-        else:fail.append({"id":c["id"],"actual":a,"expectedCode":c["code"]})
-    return {"ok":not fail,"referenceAccepted":ok,"invalidRejected":bad,"failures":fail}
-def main()->int:
-    p=argparse.ArgumentParser();p.add_argument("reference",nargs="?",type=Path,default=DEFAULT/"reference-cases.json");p.add_argument("invalid",nargs="?",type=Path,default=DEFAULT/"invalid-cases.json");p.add_argument("--format",choices=["text","json"],default="text")
-    a=p.parse_args();r=run(a.reference,a.invalid)
-    print(json.dumps(r,indent=2,sort_keys=True) if a.format=="json" else f"Accepted {r['referenceAccepted']} reference cases.\nRejected {r['invalidRejected']} invalid cases.")
-    return 0 if r["ok"] else 1
-if __name__=="__main__":raise SystemExit(main())
+def validate_request(request: Any, objects: dict[str, Any], policy_registry: dict[str, Any]) -> list[dict[str, str]]:
+    errors: list[dict[str, str]] = []
+    if not isinstance(request, dict):
+        return [error("ADUC-POL-REQUEST-001", "request required")]
+
+    for key in ("target", "requester", "recipient", "action", "purpose", "spatial", "environment"):
+        if not iri(request.get(key)):
+            errors.append(error("ADUC-POL-REQUEST-001", f"{key} must be IRI"))
+
+    target = request.get("target")
+    if target not in objects or objects.get(target, {}).get("kind") not in {"resource", "version"}:
+        errors.append(error("ADUC-POL-TARGET-001", "request target not bound"))
+    if not HEX.fullmatch(str(request.get("targetDigest", ""))):
+        errors.append(error("ADUC-POL-TARGET-002", "request digest required"))
+    if request.get("action") not in policy_registry.get("actions", {}):
+        errors.append(error("ADUC-POL-ACTION-002", "unknown request action"))
+    if request.get("purpose") not in policy_registry.get("purposes", {}):
+        errors.append(error("ADUC-POL-PURPOSE-002", "unknown request purpose"))
+    if request.get("environment") not in policy_registry.get("environments", {}):
+        errors.append(error("ADUC-POL-SCOPE-002", "unknown environment"))
+
+    try:
+        parse_time(request.get("at"))
+    except Exception:
+        errors.append(error("ADUC-POL-SCOPE-002", "invalid request time"))
+
+    evidence = request.get("evidence", [])
+    if not isinstance(evidence, list) or not all(iri(item) for item in evidence):
+        errors.append(error("ADUC-POL-EVIDENCE-001", "invalid request evidence"))
+    return errors
+
+
+def validate_policy(policy: Any, objects: Any, evidence_table: Any, policy_registry: dict[str, Any]):
+    errors: list[dict[str, str]] = []
+    if not isinstance(policy, dict):
+        return None, [error("ADUC-POL-DOC-001", "policy required")]
+    if not isinstance(objects, dict):
+        return None, [error("ADUC-POL-TARGET-001", "object table required")]
+    if not isinstance(evidence_table, dict):
+        return None, [error("ADUC-POL-EVIDENCE-001", "evidence table required")]
+
+    policy_id = policy.get("id")
+    target = policy.get("target")
+    if not iri(policy_id):
+        errors.append(error("ADUC-POL-DOC-001", "policy id must be IRI"))
+    if not iri(target) or target not in objects:
+        errors.append(error("ADUC-POL-TARGET-001", "target not bound"))
+    elif objects[target].get("kind") not in {"resource", "version"}:
+        errors.append(error("ADUC-POL-TARGET-001", "invalid target kind"))
+
+    target_digest = policy.get("targetDigest")
+    if not HEX.fullmatch(str(target_digest or "")):
+        errors.append(error("ADUC-POL-TARGET-002", "target digest required"))
+    elif target in objects and objects[target].get("digest") != target_digest:
+        errors.append(error("ADUC-POL-TARGET-002", "target digest mismatch"))
+
+    if policy.get("mode") not in policy_registry.get("policyModes", []):
+        errors.append(error("ADUC-POL-DOC-001", "invalid mode"))
+    if policy.get("disclosure") not in policy_registry.get("disclosureStates", []):
+        errors.append(error("ADUC-POL-STATE-001", "invalid disclosure"))
+    if policy.get("auth") not in AUTH:
+        errors.append(error("ADUC-POL-AUTH-001", "invalid authority"))
+
+    for key in ("method", "prov", "by"):
+        if not iri(policy.get(key)):
+            errors.append(error("ADUC-POL-AUTH-001", f"{key} must be IRI"))
+
+    policy_evidence = policy.get("evidence")
+    if (
+        not isinstance(policy_evidence, list)
+        or not policy_evidence
+        or not all(iri(item) and item in evidence_table for item in policy_evidence)
+    ):
+        errors.append(error("ADUC-POL-EVIDENCE-001", "bound policy evidence required"))
+
+    if policy.get("auth") == "inferred":
+        confidence = policy.get("confidence")
+        if (
+            not isinstance(confidence, (int, float))
+            or isinstance(confidence, bool)
+            or not 0 <= confidence <= 1
+            or not iri(policy.get("confidenceMethod"))
+        ):
+            errors.append(error("ADUC-POL-AUTH-002", "calibrated confidence required"))
+
+    if (
+        policy.get("conflict", "clear") not in {"clear", "contested"}
+        or policy.get("life", "active") not in {"active", "deprecated"}
+    ):
+        errors.append(error("ADUC-POL-STATE-001", "invalid conflict or lifecycle"))
+
+    validity = policy.get("valid")
+    try:
+        if not isinstance(validity, dict) or parse_time(validity["start"]) >= parse_time(validity["end"]):
+            raise ValueError("invalid bounds")
+    except Exception:
+        errors.append(error("ADUC-POL-SCOPE-002", "invalid validity interval"))
+
+    supersedes = policy.get("supersedes")
+    if supersedes is not None and (not iri(supersedes) or supersedes == policy_id):
+        errors.append(error("ADUC-POL-COMPOSE-001", "invalid supersedes"))
+
+    inherited = policy.get("inheritsFrom", [])
+    if inherited:
+        if not isinstance(inherited, list) or not all(iri(item) and item != policy_id for item in inherited):
+            errors.append(error("ADUC-POL-COMPOSE-001", "invalid inheritance"))
+        if policy.get("compositionState") != "resolved":
+            errors.append(error("ADUC-POL-COMPOSE-001", "inheritance unresolved"))
+        composition_evidence = policy.get("compositionEvidence")
+        if (
+            not isinstance(composition_evidence, list)
+            or not composition_evidence
+            or not all(iri(item) and item in evidence_table for item in composition_evidence)
+        ):
+            errors.append(error("ADUC-POL-COMPOSE-001", "composition evidence required"))
+
+    rules = policy.get("rules")
+    if not isinstance(rules, list):
+        return None, errors + [error("ADUC-POL-RULE-001", "rules array required")]
+
+    rule_ids: list[str] = []
+    normalized_rules: list[dict[str, Any]] = []
+    for rule in rules:
+        if not isinstance(rule, dict):
+            errors.append(error("ADUC-POL-RULE-001", "rule object required"))
+            continue
+
+        rule_id = rule.get("id")
+        effect = rule.get("effect")
+        if not iri(rule_id):
+            errors.append(error("ADUC-POL-RULE-001", "rule id must be IRI"))
+        else:
+            rule_ids.append(rule_id)
+        if effect not in policy_registry.get("effects", []):
+            errors.append(error("ADUC-POL-RULE-001", "unsupported effect"))
+        if effect in EXECUTABLE_EFFECTS and rule.get("machineEvaluable") is not True:
+            errors.append(error("ADUC-POL-RULE-002", "executable rule not declared"))
+        if effect in HUMAN_ONLY_EFFECTS and rule.get("machineEvaluable") is not False:
+            errors.append(error("ADUC-POL-LEGAL-001", "human statement made executable"))
+
+        if effect in EXECUTABLE_EFFECTS:
+            action = rule.get("action")
+            if not iri(action):
+                errors.append(error("ADUC-POL-ACTION-001", "action must be IRI"))
+            elif action not in policy_registry.get("actions", {}):
+                errors.append(error("ADUC-POL-ACTION-002", "unknown action"))
+            elif (
+                effect in {"permission", "prohibition"}
+                and policy_registry["actions"][action].get("category") != "primary"
+            ):
+                errors.append(error("ADUC-POL-ACTION-002", "primary action required"))
+            elif effect == "duty" and policy_registry["actions"][action].get("category") != "duty":
+                errors.append(error("ADUC-POL-DUTY-001", "duty action required"))
+            if not iri(rule.get("assigner")):
+                errors.append(error("ADUC-POL-PARTY-001", "assigner required"))
+
+        purposes = rule.get("purposes", [])
+        if effect in {"permission", "prohibition"}:
+            if not isinstance(purposes, list) or not purposes or not all(iri(item) for item in purposes):
+                errors.append(error("ADUC-POL-PURPOSE-001", "controlled purposes required"))
+            elif not all(item in policy_registry.get("purposes", {}) for item in purposes):
+                errors.append(error("ADUC-POL-PURPOSE-002", "unknown purpose"))
+        elif purposes:
+            if not isinstance(purposes, list) or not all(
+                iri(item) and item in policy_registry.get("purposes", {}) for item in purposes
+            ):
+                errors.append(error("ADUC-POL-PURPOSE-002", "invalid optional purpose restriction"))
+
+        for key in ("assignee", "recipient", "spatial", "environment"):
+            if rule.get(key) is not None and not iri(rule.get(key)):
+                code = "ADUC-POL-PARTY-001" if key in {"assignee", "recipient"} else "ADUC-POL-SCOPE-002"
+                errors.append(error(code, f"invalid {key}"))
+        if (
+            rule.get("environment") is not None
+            and rule["environment"] not in policy_registry.get("environments", {})
+        ):
+            errors.append(error("ADUC-POL-SCOPE-002", "unknown rule environment"))
+
+        if effect == "duty":
+            if rule.get("phase") not in {"preUse", "postUse"}:
+                errors.append(error("ADUC-POL-DUTY-001", "invalid duty phase"))
+            if rule.get("satisfied") is True and not rule.get("satisfiedBy"):
+                errors.append(error("ADUC-POL-DUTY-002", "satisfaction evidence required"))
+            satisfaction_evidence = rule.get("satisfiedBy", [])
+            if satisfaction_evidence and (
+                not isinstance(satisfaction_evidence, list)
+                or not all(iri(item) and item in evidence_table for item in satisfaction_evidence)
+            ):
+                errors.append(error("ADUC-POL-DUTY-002", "invalid satisfaction evidence"))
+
+        claim = rule.get("claim")
+        if claim in {"consent", "legalCompliance", "ownership"}:
+            required_kind = {
+                "consent": "consent",
+                "legalCompliance": "legalAssessment",
+                "ownership": "ownership",
+            }[claim]
+            claim_evidence = rule.get("claimEvidence")
+            if (
+                not isinstance(claim_evidence, list)
+                or not claim_evidence
+                or not all(
+                    iri(item)
+                    and item in evidence_table
+                    and evidence_table[item].get("kind") == required_kind
+                    and iri(evidence_table[item].get("provenance"))
+                    for item in claim_evidence
+                )
+            ):
+                errors.append(error("ADUC-POL-CLAIM-001", f"{claim} evidence required"))
+
+        normalized_rules.append(copy.deepcopy(rule))
+
+    if len(rule_ids) != len(set(rule_ids)):
+        errors.append(error("ADUC-POL-RULE-003", "duplicate rule id"))
+
+    by_id = {rule.get("id"): rule for rule in normalized_rules if iri(rule.get("id"))}
+    for rule in normalized_rules:
+        duty_references = rule.get("duties", [])
+        if rule.get("effect") == "permission" and duty_references and (
+            not isinstance(duty_references, list)
+            or not all(
+                iri(item) and item in by_id and by_id[item].get("effect") == "duty"
+                for item in duty_references
+            )
+        ):
+            errors.append(error("ADUC-POL-DUTY-001", "unresolved duty reference"))
+
+    normalized = copy.deepcopy(policy)
+    normalized["rules"] = normalized_rules
+    return normalized, errors
+
+
+def matches(rule: dict[str, Any], request: dict[str, Any]) -> bool:
+    return (
+        rule.get("effect") in {"permission", "prohibition"}
+        and rule.get("action") == request.get("action")
+        and request.get("purpose") in rule.get("purposes", [])
+        and (rule.get("assignee") is None or rule["assignee"] == request.get("requester"))
+        and (rule.get("recipient") is None or rule["recipient"] == request.get("recipient"))
+        and (rule.get("spatial") is None or rule["spatial"] == request.get("spatial"))
+        and (rule.get("environment") is None or rule["environment"] == request.get("environment"))
+    )
+
+
+def duty_satisfied(rule: dict[str, Any], request: dict[str, Any], evidence_table: dict[str, Any]) -> bool:
+    explicit = rule.get("satisfiedBy", [])
+    request_evidence = set(request.get("evidence", []))
+    if explicit:
+        return bool(set(explicit) & request_evidence)
+    required_kind = rule.get("requiredEvidenceKind")
+    return bool(
+        required_kind
+        and any(evidence_table.get(item, {}).get("kind") == required_kind for item in request_evidence)
+    )
+
+
+def export_policy(policy: dict[str, Any]) -> dict[str, Any]:
+    graph: list[dict[str, Any]] = [
+        {
+            "@id": policy["id"],
+            "@type": ODRL + "Policy",
+            ODRL + "target": {"@id": policy["target"]},
+            ADUC + "targetDigest": policy["targetDigest"],
+            ADUC + "authorityLevel": policy["auth"],
+            ADUC + "disclosureState": policy["disclosure"],
+            ADUC + "policyMode": policy["mode"],
+            ADUC + "provenanceActivity": {"@id": policy["prov"]},
+        }
+    ]
+    types = {
+        "permission": ODRL + "Permission",
+        "prohibition": ODRL + "Prohibition",
+        "duty": ODRL + "Duty",
+        "recommendation": ADUC + "Recommendation",
+        "legalNotice": ADUC + "LegalNotice",
+        "classification": ADUC + "Classification",
+    }
+    for rule in sorted(policy["rules"], key=lambda item: item["id"]):
+        node: dict[str, Any] = {"@id": rule["id"], "@type": types[rule["effect"]]}
+        if iri(rule.get("action")):
+            node[ODRL + "action"] = {"@id": rule["action"]}
+        if iri(rule.get("assigner")):
+            node[ODRL + "assigner"] = {"@id": rule["assigner"]}
+        if iri(rule.get("assignee")):
+            node[ODRL + "assignee"] = {"@id": rule["assignee"]}
+        if rule.get("purposes"):
+            node[ADUC + "purpose"] = [{"@id": item} for item in sorted(rule["purposes"])]
+        if rule.get("duties"):
+            node[ODRL + "duty"] = [{"@id": item} for item in sorted(rule["duties"])]
+        graph.append(node)
+    return {"@graph": graph}
+
+
+def evaluate(case: dict[str, Any], policy_registry: dict[str, Any]) -> dict[str, Any]:
+    evidence_table = case.get("evidence", {})
+    objects = case.get("objects", {})
+    policy, errors = validate_policy(case.get("policy"), objects, evidence_table, policy_registry)
+    request = case.get("request", {})
+    errors += validate_request(request, objects, policy_registry)
+    action = case.get("act", {}).get("t")
+
+    if policy is None:
+        return {"valid": False, "errors": errors}
+    if action == "export":
+        if errors:
+            return {"valid": False, "errors": errors}
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {
+                "policies": 1,
+                "rules": len(policy["rules"]),
+                "jsonld": export_policy(policy),
+            },
+        }
+    if action != "evaluate":
+        errors.append(error("ADUC-POL-ACTION-003", "unsupported harness action"))
+    if errors:
+        return {"valid": False, "errors": errors}
+
+    if request["target"] != policy["target"]:
+        return {"valid": True, "errors": [], "result": {"outcome": "notApplicable"}}
+    if request["targetDigest"] != policy["targetDigest"]:
+        return {
+            "valid": False,
+            "errors": [error("ADUC-POL-TARGET-002", "target versions differ")],
+        }
+    if policy.get("conflict", "clear") != "clear" or policy.get("life", "active") != "active":
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {"outcome": "requiresHumanReview", "reason": "policyNotReliablyActive"},
+        }
+    if policy["disclosure"] != "complete":
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {"outcome": "requiresHumanReview", "reason": "incompleteDisclosure"},
+        }
+    if AUTH[policy["auth"]] < AUTH["reviewed"]:
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {"outcome": "requiresHumanReview", "reason": "insufficientAuthority"},
+        }
+    if not parse_time(policy["valid"]["start"]) <= parse_time(request["at"]) < parse_time(policy["valid"]["end"]):
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {"outcome": "deny", "reason": "policyOutsideValidity"},
+        }
+
+    applicable = [rule for rule in policy["rules"] if matches(rule, request)]
+    prohibitions = [rule for rule in applicable if rule["effect"] == "prohibition"]
+    if prohibitions:
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {
+                "outcome": "deny",
+                "reason": "prohibition",
+                "ruleIds": sorted(rule["id"] for rule in prohibitions),
+            },
+        }
+
+    by_id = {rule["id"]: rule for rule in policy["rules"] if iri(rule.get("id"))}
+    blocked_pre_use_duties: set[str] = set()
+    for permission in sorted(
+        (rule for rule in applicable if rule["effect"] == "permission"),
+        key=lambda item: item["id"],
+    ):
+        duties = [by_id[item] for item in permission.get("duties", [])]
+        unsatisfied_pre = sorted(
+            duty["id"]
+            for duty in duties
+            if duty.get("phase") == "preUse" and not duty_satisfied(duty, request, evidence_table)
+        )
+        if unsatisfied_pre:
+            blocked_pre_use_duties.update(unsatisfied_pre)
+            continue
+
+        outstanding_post = sorted(
+            duty["id"]
+            for duty in duties
+            if duty.get("phase") == "postUse" and not duty_satisfied(duty, request, evidence_table)
+        )
+        result: dict[str, Any] = {"outcome": "permit", "ruleId": permission["id"]}
+        if outstanding_post:
+            result["outstandingDuties"] = outstanding_post
+        return {"valid": True, "errors": [], "result": result}
+
+    if blocked_pre_use_duties:
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {
+                "outcome": "deny",
+                "reason": "unsatisfiedPreUseDuty",
+                "dutyIds": sorted(blocked_pre_use_duties),
+            },
+        }
+    if any(rule.get("effect") == "legalNotice" for rule in policy["rules"]):
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {"outcome": "requiresHumanReview", "reason": "humanOnlyStatement"},
+        }
+    if policy["mode"] == "closed":
+        return {
+            "valid": True,
+            "errors": [],
+            "result": {"outcome": "deny", "reason": "closedPolicyDefault"},
+        }
+    return {
+        "valid": True,
+        "errors": [],
+        "result": {"outcome": "indeterminate", "reason": "noApplicableRule"},
+    }
+
+
+def patch(document: Any, operations: list[list[Any]]) -> Any:
+    document = copy.deepcopy(document)
+    for operation, path, *rest in operations:
+        target = document
+        for key in path[:-1]:
+            target = target[key]
+        key = path[-1]
+        value = rest[0] if rest else None
+        if operation == "set":
+            target[key] = copy.deepcopy(value)
+        elif operation == "remove":
+            target.pop(key, None) if isinstance(target, dict) else target.pop(key)
+        elif operation == "append":
+            target[key].append(copy.deepcopy(value))
+        else:
+            raise ValueError(operation)
+    return document
+
+
+def contains(actual: Any, expected: Any) -> bool:
+    if isinstance(expected, dict):
+        return isinstance(actual, dict) and all(
+            key in actual and contains(actual[key], value)
+            for key, value in expected.items()
+        )
+    return actual == expected
+
+
+def materialize(reference: dict[str, Any], case: dict[str, Any]) -> dict[str, Any]:
+    return patch(reference["base"], case.get("patch", []))
+
+
+def run(reference_path: Path, invalid_path: Path) -> dict[str, Any]:
+    reference = load(reference_path)
+    invalid = load(invalid_path)
+    policy_registry, registry_errors = registry(reference.get("registry"), reference_path.parent)
+    if not policy_registry:
+        return {
+            "ok": False,
+            "referenceAccepted": 0,
+            "invalidRejected": 0,
+            "failures": registry_errors,
+        }
+
+    materialized = {
+        case["id"]: materialize(reference, case)
+        for case in reference["cases"]
+    }
+    failures: list[dict[str, Any]] = []
+    accepted = 0
+    rejected = 0
+
+    for case in reference["cases"]:
+        actual = evaluate(materialized[case["id"]], policy_registry)
+        if contains(actual, case["expect"]):
+            accepted += 1
+        else:
+            failures.append({"id": case["id"], "actual": actual, "expected": case["expect"]})
+
+    for case in invalid["cases"]:
+        actual = evaluate(patch(materialized[case["base"]], case["patch"]), policy_registry)
+        codes = {item["code"] for item in actual.get("errors", [])}
+        if not actual["valid"] and case["code"] in codes:
+            rejected += 1
+        else:
+            failures.append({"id": case["id"], "actual": actual, "expectedCode": case["code"]})
+
+    return {
+        "ok": not failures,
+        "referenceAccepted": accepted,
+        "invalidRejected": rejected,
+        "failures": failures,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "reference",
+        nargs="?",
+        type=Path,
+        default=DEFAULT / "reference-cases.json",
+    )
+    parser.add_argument(
+        "invalid",
+        nargs="?",
+        type=Path,
+        default=DEFAULT / "invalid-cases.json",
+    )
+    parser.add_argument("--format", choices=["text", "json"], default="text")
+    arguments = parser.parse_args()
+    result = run(arguments.reference, arguments.invalid)
+    if arguments.format == "json":
+        print(json.dumps(result, indent=2, sort_keys=True))
+    else:
+        print(
+            f"Accepted {result['referenceAccepted']} reference cases.\n"
+            f"Rejected {result['invalidRejected']} invalid cases."
+        )
+    return 0 if result["ok"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
