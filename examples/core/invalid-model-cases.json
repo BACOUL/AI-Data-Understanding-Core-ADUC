@@ -1,0 +1,139 @@
+{
+  "base": "complete-model.example.json",
+  "cases": [
+    {
+      "id": "missing-aduc-block",
+      "patch": [["remove", ["aduc"]]],
+      "code": "ADUC-CORE-ENVELOPE-001"
+    },
+    {
+      "id": "missing-resource-block",
+      "patch": [["remove", ["resource"]]],
+      "code": "ADUC-CORE-ENVELOPE-001"
+    },
+    {
+      "id": "missing-structure-block",
+      "patch": [["remove", ["structure"]]],
+      "code": "ADUC-CORE-ENVELOPE-001"
+    },
+    {
+      "id": "unknown-top-level-block",
+      "patch": [["set", ["consumerHints"], {"prompt": "hidden mapping"}]],
+      "code": "ADUC-CORE-ENVELOPE-002"
+    },
+    {
+      "id": "singular-module-repeated",
+      "patch": [["set", ["semantics"], []]],
+      "code": "ADUC-CORE-CARDINALITY-001"
+    },
+    {
+      "id": "relations-not-array",
+      "patch": [["set", ["relations"], {}]],
+      "code": "ADUC-CORE-CARDINALITY-001"
+    },
+    {
+      "id": "local-object-identifier",
+      "patch": [["set", ["structure", "records", 0, "fields", 0, "id"], "station"]],
+      "code": "ADUC-CORE-ID-001"
+    },
+    {
+      "id": "duplicate-object-identifier",
+      "patch": [["set", ["structure", "records", 0, "fields", 1, "id"], "urn:example:field:station"]],
+      "code": "ADUC-CORE-ID-002"
+    },
+    {
+      "id": "unresolved-cross-module-reference",
+      "patch": [["set", ["semantics", "assertions", 0, "subjectRef"], "urn:example:field:missing"]],
+      "code": "ADUC-CORE-REF-001"
+    },
+    {
+      "id": "structure-bound-to-wrong-resource",
+      "patch": [["set", ["structure", "resourceRef"], "urn:example:resource:other"]],
+      "code": "ADUC-CORE-REF-002"
+    },
+    {
+      "id": "resource-duplicates-producer",
+      "patch": [["set", ["resource", "producer"], "urn:example:agent:river-agency"]],
+      "code": "ADUC-CORE-OWNER-001"
+    },
+    {
+      "id": "structure-duplicates-unit",
+      "patch": [["set", ["structure", "records", 0, "fields", 1, "unitIri"], "https://qudt.org/vocab/unit/M3-PER-SEC"]],
+      "code": "ADUC-CORE-OWNER-001"
+    },
+    {
+      "id": "semantics-duplicates-measurement-uncertainty",
+      "patch": [["set", ["semantics", "assertions", 1, "measurementUncertainty"], 0.04]],
+      "code": "ADUC-CORE-OWNER-001"
+    },
+    {
+      "id": "embedded-external-schema-copy",
+      "patch": [["set", ["structure", "externalSchema"], {"type": "object"}]],
+      "code": "ADUC-CORE-EXTERNAL-001"
+    },
+    {
+      "id": "inferred-promoted-to-canonical",
+      "patch": [
+        ["set", ["semantics", "assertions", 0, "generationMethod"], "inferred"],
+        ["set", ["semantics", "assertions", 0, "status"], "canonical"]
+      ],
+      "code": "ADUC-CORE-AUTH-001"
+    },
+    {
+      "id": "probable-identity-as-exact",
+      "patch": [
+        ["set", ["identity", "identityAssertions", 0, "identityRelationIri"], "http://www.w3.org/2004/02/skos/core#closeMatch"],
+        ["set", ["identity", "identityAssertions", 0, "decision"], "exactEntity"]
+      ],
+      "code": "ADUC-CORE-IDENTITY-001"
+    },
+    {
+      "id": "relation-predicate-from-label",
+      "patch": [["set", ["relations", 0, "predicateIri"], "derived from"]],
+      "code": "ADUC-CORE-IRI-001"
+    },
+    {
+      "id": "classification-made-executable",
+      "patch": [
+        ["set", ["policy", "policies", 0, "rules", 0, "effect"], "classification"],
+        ["set", ["policy", "policies", 0, "rules", 0, "machineEvaluable"], true]
+      ],
+      "code": "ADUC-CORE-POLICY-001"
+    },
+    {
+      "id": "undeclared-extension-namespace",
+      "patch": [["set", ["semantics", "extensions", "https://unknown.example/ext/"], {"value": 1}]],
+      "code": "ADUC-CORE-EXT-001"
+    },
+    {
+      "id": "extension-overwrites-core-term",
+      "patch": [["set", ["semantics", "extensions", "https://example.org/aduc/ext/hydrology/", "assertions"], []]],
+      "code": "ADUC-CORE-EXT-002"
+    },
+    {
+      "id": "unsupported-required-extension",
+      "patch": [["set", ["aduc", "extensionDeclarations", 0, "required"], true]],
+      "code": "ADUC-CORE-EXT-003"
+    },
+    {
+      "id": "extension-uses-core-namespace",
+      "patch": [["set", ["aduc", "extensionDeclarations", 0, "namespace"], "urn:aduc:core:illegal-extension"]],
+      "code": "ADUC-CORE-EXT-004"
+    },
+    {
+      "id": "published-history-rewritten",
+      "patch": [["set", ["aduc", "supersedes"], "urn:aduc:contract:river-r42:2026-07-14"]],
+      "code": "ADUC-CORE-VERSION-001"
+    },
+    {
+      "id": "hidden-provider-field",
+      "patch": [["set", ["semantics", "consumerPrompt"], "Use private model memory"]],
+      "code": "ADUC-CORE-HIDDEN-001"
+    },
+    {
+      "id": "policy-without-provenance-module",
+      "patch": [["remove", ["provenance"]]],
+      "code": "ADUC-CORE-DEPENDENCY-001"
+    }
+  ]
+}

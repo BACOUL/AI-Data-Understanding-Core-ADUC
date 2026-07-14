@@ -1,0 +1,388 @@
+{
+  "aduc": {
+    "contractId": "urn:aduc:contract:river-r42:2026-07-14",
+    "coreVersion": "0.1.0-alpha.0",
+    "modelVersion": "0.1.0",
+    "status": "reviewed",
+    "createdAt": "2026-07-14T08:30:00Z",
+    "publisher": "https://data.example.org/agency/river-monitoring",
+    "conformsTo": [
+      "urn:aduc:core-model:0.1",
+      "urn:aduc:profile:source-binding:0.1",
+      "urn:aduc:profile:units:0.1",
+      "urn:aduc:profile:temporal:0.1",
+      "urn:aduc:profile:identity:0.1",
+      "urn:aduc:profile:provenance:0.1",
+      "urn:aduc:profile:uncertainty:0.1",
+      "urn:aduc:profile:relations:0.1",
+      "urn:aduc:profile:policy:0.1"
+    ],
+    "extensionDeclarations": [
+      {
+        "namespace": "https://example.org/aduc/ext/hydrology/",
+        "profileIri": "https://example.org/aduc/ext/hydrology/profile/1.0",
+        "version": "1.0.0",
+        "required": false
+      }
+    ]
+  },
+  "resource": {
+    "id": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+    "kind": "dataset",
+    "mediaType": "application/json",
+    "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "version": "2026-07-14T08:00:00Z",
+    "locator": "./river-r42.data.json",
+    "descriptorRefs": [
+      "urn:example:prov-entity:river-r42-json-schema"
+    ]
+  },
+  "structure": {
+    "id": "urn:example:structure:river-r42-observation-record:1",
+    "resourceRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+    "representation": "record",
+    "externalSchemaRef": "urn:example:prov-entity:river-r42-json-schema",
+    "records": [
+      {
+        "id": "urn:example:record:river-observation",
+        "name": "riverObservation",
+        "sourcePath": "$",
+        "fields": [
+          {
+            "id": "urn:example:field:station",
+            "name": "station",
+            "sourcePath": "$.station",
+            "primitiveType": "string",
+            "required": true
+          },
+          {
+            "id": "urn:example:field:flow",
+            "name": "flow",
+            "sourcePath": "$.flow",
+            "primitiveType": "number",
+            "required": true
+          },
+          {
+            "id": "urn:example:field:quality",
+            "name": "quality",
+            "sourcePath": "$.quality",
+            "primitiveType": "integer",
+            "required": true
+          },
+          {
+            "id": "urn:example:field:timestamp",
+            "name": "timestamp",
+            "sourcePath": "$.timestamp",
+            "primitiveType": "string",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "semantics": {
+    "assertions": [
+      {
+        "id": "urn:example:semantic:station",
+        "subjectRef": "urn:example:field:station",
+        "conceptIri": "https://example.org/vocab/env/HydrometricStationIdentifier",
+        "mappingRelationIri": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "status": "canonical",
+        "authority": "canonical",
+        "assertedByRef": "urn:example:agent:river-agency",
+        "assertedAt": "2026-07-14T08:10:00Z",
+        "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+        "provenanceRef": "urn:example:activity:semantic-publication",
+        "conflict": "clear",
+        "lifecycle": "active"
+      },
+      {
+        "id": "urn:example:semantic:flow",
+        "subjectRef": "urn:example:field:flow",
+        "conceptIri": "https://example.org/vocab/env/WaterDischarge",
+        "mappingRelationIri": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "unitIri": "https://qudt.org/vocab/unit/M3-PER-SEC",
+        "status": "reviewed",
+        "authority": "reviewed",
+        "assertedByRef": "urn:example:agent:hydrologist-7",
+        "assertedAt": "2026-07-14T08:10:00Z",
+        "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+        "provenanceRef": "urn:example:activity:semantic-review",
+        "uncertaintyRef": "urn:example:uncertainty:flow-relative",
+        "conflict": "clear",
+        "lifecycle": "active"
+      },
+      {
+        "id": "urn:example:semantic:quality",
+        "subjectRef": "urn:example:field:quality",
+        "conceptIri": "https://example.org/vocab/quality/ObservationQualityCode",
+        "mappingRelationIri": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "valueMap": {
+          "0": "https://example.org/vocab/quality/Unknown",
+          "1": "https://example.org/vocab/quality/Validated",
+          "2": "https://example.org/vocab/quality/Provisional",
+          "3": "https://example.org/vocab/quality/Rejected"
+        },
+        "status": "canonical",
+        "authority": "canonical",
+        "assertedByRef": "urn:example:agent:river-agency",
+        "assertedAt": "2026-07-14T08:10:00Z",
+        "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+        "provenanceRef": "urn:example:activity:semantic-publication",
+        "conflict": "clear",
+        "lifecycle": "active"
+      },
+      {
+        "id": "urn:example:semantic:timestamp",
+        "subjectRef": "urn:example:field:timestamp",
+        "conceptIri": "http://www.w3.org/ns/sosa/resultTime",
+        "mappingRelationIri": "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "status": "reviewed",
+        "authority": "reviewed",
+        "assertedByRef": "urn:example:agent:hydrologist-7",
+        "assertedAt": "2026-07-14T08:10:00Z",
+        "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+        "provenanceRef": "urn:example:activity:semantic-review",
+        "conflict": "clear",
+        "lifecycle": "active"
+      }
+    ],
+    "extensions": {
+      "https://example.org/aduc/ext/hydrology/": {
+        "hydrologicalVariableClassIri": "https://example.org/vocab/hydrology/DischargeObservation"
+      }
+    }
+  },
+  "identity": {
+    "entities": [
+      {
+        "id": "urn:example:entity:station-r42",
+        "typeIri": "https://example.org/vocab/env/HydrometricStation"
+      }
+    ],
+    "identifiers": [
+      {
+        "id": "urn:example:identifier:station-r42-local",
+        "entityRef": "urn:example:entity:station-r42",
+        "fieldRef": "urn:example:field:station",
+        "schemeIri": "urn:example:scheme:river-station-id",
+        "issuerIri": "https://data.example.org/agency/river-monitoring",
+        "value": "R42"
+      }
+    ],
+    "identityAssertions": [
+      {
+        "id": "urn:example:identity-assertion:station-r42",
+        "subjectRef": "urn:example:entity:station-r42",
+        "identifierRef": "urn:example:identifier:station-r42-local",
+        "identityRelationIri": "http://www.w3.org/2002/07/owl#sameAs",
+        "decision": "exactEntity",
+        "status": "canonical",
+        "authority": "canonical",
+        "assertedByRef": "urn:example:agent:river-agency",
+        "evidenceRefs": ["urn:example:evidence:station-register"],
+        "provenanceRef": "urn:example:activity:identity-publication",
+        "conflict": "clear",
+        "lifecycle": "active"
+      }
+    ]
+  },
+  "context": {
+    "temporal": [
+      {
+        "id": "urn:example:context:observation-time",
+        "fieldRef": "urn:example:field:timestamp",
+        "temporalRoleIri": "http://www.w3.org/ns/sosa/resultTime",
+        "timezoneIri": "urn:iana:tz:UTC",
+        "precision": "second",
+        "status": "reviewed",
+        "assertedByRef": "urn:example:agent:hydrologist-7",
+        "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+        "provenanceRef": "urn:example:activity:semantic-review"
+      }
+    ],
+    "spatial": [
+      {
+        "id": "urn:example:context:france",
+        "spatialCoverageIri": "https://sws.geonames.org/3017382/"
+      }
+    ],
+    "operational": [
+      {
+        "id": "urn:example:context:public-hydrology",
+        "environmentIri": "urn:aduc:environment:research"
+      }
+    ]
+  },
+  "provenance": {
+    "agents": [
+      {
+        "id": "urn:example:agent:river-agency",
+        "typeIri": "http://www.w3.org/ns/prov#Organization",
+        "externalIdentityIri": "https://data.example.org/agency/river-monitoring"
+      },
+      {
+        "id": "urn:example:agent:hydrologist-7",
+        "typeIri": "http://www.w3.org/ns/prov#Person"
+      }
+    ],
+    "entities": [
+      {
+        "id": "urn:example:prov-entity:river-r42-json-schema",
+        "typeIri": "http://www.w3.org/ns/prov#Entity",
+        "mediaType": "application/schema+json",
+        "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      {
+        "id": "urn:example:prov-entity:raw-sensor-feed",
+        "typeIri": "http://www.w3.org/ns/prov#Entity",
+        "digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "activities": [
+      {
+        "id": "urn:example:activity:semantic-review",
+        "typeIri": "http://www.w3.org/ns/prov#Activity",
+        "usedRefs": ["urn:example:evidence:river-dictionary"],
+        "wasAssociatedWithRefs": ["urn:example:agent:hydrologist-7"]
+      },
+      {
+        "id": "urn:example:activity:semantic-publication",
+        "typeIri": "http://www.w3.org/ns/prov#Activity",
+        "usedRefs": ["urn:example:evidence:river-dictionary"],
+        "wasAssociatedWithRefs": ["urn:example:agent:river-agency"]
+      },
+      {
+        "id": "urn:example:activity:identity-publication",
+        "typeIri": "http://www.w3.org/ns/prov#Activity",
+        "usedRefs": ["urn:example:evidence:station-register"],
+        "wasAssociatedWithRefs": ["urn:example:agent:river-agency"]
+      },
+      {
+        "id": "urn:example:activity:sensor-calibration",
+        "typeIri": "http://www.w3.org/ns/prov#Activity",
+        "wasAssociatedWithRefs": ["urn:example:agent:river-agency"]
+      },
+      {
+        "id": "urn:example:activity:policy-publication",
+        "typeIri": "http://www.w3.org/ns/prov#Activity",
+        "usedRefs": ["urn:example:evidence:usage-policy"],
+        "wasAssociatedWithRefs": ["urn:example:agent:river-agency"]
+      }
+    ],
+    "evidence": [
+      {
+        "id": "urn:example:evidence:river-dictionary",
+        "typeIri": "http://www.w3.org/ns/prov#Entity",
+        "sourceIri": "https://data.example.org/dictionary/river-observations-v4"
+      },
+      {
+        "id": "urn:example:evidence:station-register",
+        "typeIri": "http://www.w3.org/ns/prov#Entity",
+        "sourceIri": "https://data.example.org/register/stations/v2"
+      },
+      {
+        "id": "urn:example:evidence:usage-policy",
+        "typeIri": "http://www.w3.org/ns/prov#Entity",
+        "sourceIri": "https://data.example.org/policy/river-observations/2026"
+      }
+    ],
+    "derivationAssertions": [
+      {
+        "id": "urn:example:derivation:observations-from-feed",
+        "generatedRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+        "usedRefs": ["urn:example:prov-entity:raw-sensor-feed"],
+        "predicateIri": "http://www.w3.org/ns/prov#wasDerivedFrom"
+      }
+    ]
+  },
+  "uncertainty": {
+    "statements": [
+      {
+        "id": "urn:example:uncertainty:flow-relative",
+        "subjectRef": "urn:example:field:flow",
+        "kind": "relativeStandardUncertainty",
+        "value": 0.04,
+        "methodIri": "urn:example:method:sensor-calibration-2026",
+        "provenanceRef": "urn:example:activity:sensor-calibration",
+        "status": "verified",
+        "authority": "verified",
+        "conflict": "clear",
+        "lifecycle": "active"
+      }
+    ],
+    "qualityMeasurements": [
+      {
+        "id": "urn:example:quality:completeness",
+        "subjectRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+        "qualityMetricIri": "http://www.w3.org/ns/dqv#hasQualityMeasurement",
+        "value": 0.99,
+        "status": "reviewed"
+      }
+    ]
+  },
+  "relations": [
+    {
+      "id": "urn:example:relation:resource-derived-from-feed",
+      "subjectRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+      "predicateIri": "http://www.w3.org/ns/prov#wasDerivedFrom",
+      "objectRef": "urn:example:prov-entity:raw-sensor-feed",
+      "polarity": "positive",
+      "methodIri": "urn:aduc:method:publisher-assertion",
+      "status": "canonical",
+      "authority": "canonical",
+      "assertedByRef": "urn:example:agent:river-agency",
+      "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+      "provenanceRef": "urn:example:activity:semantic-publication",
+      "conflict": "clear",
+      "lifecycle": "active"
+    }
+  ],
+  "policy": {
+    "policies": [
+      {
+        "id": "urn:example:policy:river-r42-public-use:2026",
+        "targetRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+        "targetDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "mode": "open",
+        "disclosure": "complete",
+        "status": "canonical",
+        "authority": "canonical",
+        "assertedByRef": "urn:example:agent:river-agency",
+        "evidenceRefs": ["urn:example:evidence:usage-policy"],
+        "provenanceRef": "urn:example:activity:policy-publication",
+        "conflict": "clear",
+        "lifecycle": "active",
+        "validFrom": "2026-01-01T00:00:00Z",
+        "validUntil": "2027-01-01T00:00:00Z",
+        "rules": [
+          {
+            "id": "urn:example:policy-rule:permit-research",
+            "effect": "permission",
+            "machineEvaluable": true,
+            "assignerRef": "urn:example:agent:river-agency",
+            "actionIri": "http://www.w3.org/ns/odrl/2/use",
+            "purposeIris": ["urn:aduc:purpose:research"],
+            "duties": ["urn:example:policy-rule:attribution-duty"]
+          },
+          {
+            "id": "urn:example:policy-rule:deny-credit-scoring",
+            "effect": "prohibition",
+            "machineEvaluable": true,
+            "assignerRef": "urn:example:agent:river-agency",
+            "actionIri": "http://www.w3.org/ns/odrl/2/use",
+            "purposeIris": ["urn:aduc:purpose:individual-credit-scoring"]
+          },
+          {
+            "id": "urn:example:policy-rule:attribution-duty",
+            "effect": "duty",
+            "machineEvaluable": true,
+            "assignerRef": "urn:example:agent:river-agency",
+            "actionIri": "http://www.w3.org/ns/odrl/2/attribute",
+            "phase": "postUse"
+          }
+        ]
+      }
+    ]
+  }
+}

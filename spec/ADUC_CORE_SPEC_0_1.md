@@ -1,83 +1,53 @@
 # AI Data Understanding Core — Core Specification 0.1
 
-- Status: Working Draft
+- Status: Working Draft with frozen object model
 - Working name: AI Data Understanding Core (ADUC)
-- Version: `0.1.0-draft`
+- Core version target: `0.1.0-alpha.0`
+- Object-model version: `0.1.0`
 - Language: English
-- Date: 2026-07-13
+- Date: 2026-07-14
 - License target: Creative Commons Attribution 4.0
 
-> ADUC is a working name. It must not be treated as a registered, protected, or final public name until naming and trademark checks are complete.
+> ADUC is a working name. It must not be treated as a registered, protected, or recognized standard until naming, trademark, adoption, and governance requirements are met.
 
 ## 1. Mission
 
-ADUC defines an open, model-independent contract that allows a data resource to describe its structure, meaning, context, provenance, uncertainty, relations, and conditions of use to AI systems, agents, and applications.
+ADUC defines an open, model-independent contract allowing a data resource to describe its structure, meaning, identity, context, provenance, uncertainty, relations, and conditions of use to AI systems, agents, analytics and applications.
 
-The initial promise is:
+The initial falsifiable promise is:
 
-> Two incompatible sources described with ADUC can be understood and compared consistently by multiple AI systems without rebuilding a different semantic integration for every model.
+> Two incompatible sources described with ADUC can be interpreted and compared consistently by multiple independent consumers without rebuilding provider-specific hidden mappings.
 
-This specification defines the intended full Core. The repository's existing semantic-mapping profile is the first implemented subset of this Core, not the final complete Core.
+## 2. Normative document set
 
-## 2. Problem statement
+This specification is the Core overview. Normative details are split across:
 
-A machine-readable value is often syntactically readable but semantically incomplete.
+- [`ADUC_CORE_MODEL_0_1.md`](ADUC_CORE_MODEL_0_1.md) — envelope, cardinalities, identifiers, references, ownership, dependencies, extensions and compatibility;
+- [`core-module-manifest.json`](core-module-manifest.json) — machine-readable module and schema-family boundaries;
+- accepted domain profiles for lifecycle, source binding, units, time, identity, provenance, uncertainty, relations and policy;
+- ADR-0014 — architectural decision freezing the Core object model.
 
-Example input:
-
-```json
-{
-  "station": "R42",
-  "flow": 118,
-  "quality": 2
-}
-```
-
-A consumer cannot determine from this object alone:
-
-- what `flow` represents;
-- the unit of `118`;
-- the meaning of `quality = 2`;
-- the observation time;
-- the producing organization or instrument;
-- the reliability and uncertainty of the measurement;
-- whether the value is comparable to another source;
-- the permitted purposes and restrictions.
-
-Organizations repeatedly encode this missing meaning in prompts, ETL pipelines, connector code, data dictionaries, conversion rules, and undocumented domain knowledge. This work is duplicated across systems and model providers.
-
-ADUC makes that meaning portable, inspectable, versioned, and reusable.
+Where this overview conflicts with an accepted domain profile, the domain profile governs its own semantics. Where module placement or ownership is disputed, ADR-0014 and the Core object model govern.
 
 ## 3. What ADUC is not
 
 ADUC is not:
 
-- a replacement for JSON, CSV, Parquet, RDF, or databases;
-- a universal ontology containing all human knowledge;
-- an AI model;
-- an anticipation or decision engine;
-- an agent communication protocol;
-- a replacement for MCP, JSON-LD, Croissant, PROV-O, DQV, ODRL, OpenAPI, or CloudEvents;
-- proof that a declared mapping or source is factually correct;
-- a mechanism that grants legal permission by declaration alone.
+- a replacement for JSON, CSV, JSON Schema, RDF, JSON-LD, Croissant, CSVW, OpenAPI, PROV-O, DQV, ODRL, SKOS, OWL, QUDT or UCUM;
+- a universal ontology;
+- an AI model, agent protocol or anticipation engine;
+- a mechanism that proves factual truth, legal validity, ownership, consent or compliance;
+- a production access-control system;
+- a provider-specific prompt or hidden mapping format;
+- proof of interoperability until independent qualifying runs exist.
 
-ADUC is an additional portable contract layer:
-
-```text
-Original data
-    ↓
-ADUC contract
-    ↓
-Shared machine-readable understanding
-    ↓
-AI systems, agents, analytics and applications
-```
+ADUC composes established standards and adds portable binding, qualification, lifecycle and deterministic safety behavior.
 
 ## 4. Design principles
 
-### 4.1 Preserve the original resource
+### 4.1 Preserve original data
 
-An ADUC contract accompanies a source. It does not require rewriting the source.
+An ADUC contract accompanies a resource. It does not require rewriting the resource.
 
 ```text
 measurements.csv
@@ -86,87 +56,27 @@ measurements.aduc.json
 
 ### 4.2 Reuse established standards
 
-ADUC MUST reuse existing identifiers, vocabularies, units, provenance terms, policy expressions, and data-description standards when they already express the required meaning.
+External standards retain authority for their domain. ADUC references them rather than copying their complete models.
 
-### 4.3 Small Core, extensible profiles
+### 4.3 One normative owner per fact
 
-The Core defines common portable concepts. Domain-specific knowledge belongs in extensions and vocabularies.
+A fact must have one owning Core module. Duplicate competing representations are non-conforming.
 
-### 4.4 Explicit uncertainty
+### 4.4 Explicit uncertainty and authority
 
-Unknown, inferred, reviewed, canonical, contested, and deprecated information MUST remain distinguishable. Consumers MUST NOT silently promote uncertain information to authoritative information.
+Unknown, inferred, reviewed, verified, canonical, contested and deprecated information remain distinguishable. Confidence does not upgrade authority.
 
-### 4.5 Deterministic conformance
+### 4.5 Deterministic local conformance
 
-Structural and semantic rules that can be checked deterministically SHOULD be enforced by machine-readable schemas and reference tools.
+Structural and architectural rules must be checkable without private prompts, proprietary memory or remote context retrieval.
 
 ### 4.6 Provider independence
 
-No Core property may depend on a single AI model, vendor, prompt format, hosted registry, or proprietary embedding.
+No Core property may depend on one model vendor, hosted registry, prompt format or embedding system.
 
-### 4.7 No hidden mappings
+## 5. Normative Core envelope
 
-A conforming comparison or interoperability test MUST NOT rely on undocumented aliases, private memory, browsing, or provider-specific semantic instructions.
-
-## 5. Core architecture
-
-The project has six principal components:
-
-```text
-ADUC
-├── 1. Core Specification
-├── 2. Contract Format
-├── 3. Compiler
-├── 4. Validator
-├── 5. Semantic Registry
-└── 6. Extensions
-```
-
-### 5.1 Core Specification
-
-Defines:
-
-- required and optional objects;
-- identifiers and references;
-- semantic mapping states;
-- uncertainty and confidence;
-- compatibility behavior;
-- versioning and extension rules;
-- minimum consumer obligations.
-
-### 5.2 Contract Format
-
-A portable JSON or JSON-LD document accompanying the resource.
-
-### 5.3 Compiler
-
-A reference implementation that analyses JSON and CSV sources and proposes a provisional contract. Compiler output is inferred until reviewed or canonically published.
-
-### 5.4 Validator
-
-Checks structural conformance, references, status rules, units, version compatibility, and semantic conflicts that can be determined locally.
-
-### 5.5 Semantic Registry
-
-A reusable concept catalogue. The registry stores definitions and relations, not enterprise source data.
-
-### 5.6 Extensions
-
-Planned extension families:
-
-- Dataset Extension;
-- Live Data Extension;
-- Document Extension;
-- Agent Memory Extension;
-- Scientific Data Extension;
-- Situation & Action Extension;
-- domain vocabularies.
-
-The anticipation engine is a later application of ADUC Core plus Live Data and Situation & Action extensions. It is not part of the Core.
-
-## 6. Core document model
-
-A candidate complete Core contract uses nine top-level blocks:
+A Core contract reserves exactly ten top-level blocks:
 
 ```json
 {
@@ -183,456 +93,339 @@ A candidate complete Core contract uses nine top-level blocks:
 }
 ```
 
-During the draft phase, implementations MAY support only a declared profile of these blocks. They MUST state which blocks and properties they implement.
+Required minimum:
+
+```text
+aduc       exactly one object
+resource   exactly one object
+structure  exactly one object
+```
+
+Optional modules:
+
+```text
+semantics   zero or one object
+identity    zero or one object
+context     zero or one object
+provenance  zero or one object
+uncertainty zero or one object
+relations   zero or more assertions in one array
+policy      zero or one object
+```
+
+Unknown top-level blocks are forbidden. Extensions are declared in `aduc` and carried under an `extensions` property of the owning Core object.
+
+## 6. Universal object rules
+
+### 6.1 Stable identity
+
+Every addressable object has an absolute-IRI `id`. The contract itself uses `aduc.contractId`. Identifiers are immutable and unique inside a contract.
+
+### 6.2 Core references
+
+Properties ending in `Ref` or `Refs` identify objects declared in the same contract and must resolve exactly once. External vocabulary identifiers use absolute IRIs and are never inferred from labels.
+
+### 6.3 Published immutability
+
+Published contracts are immutable. Replacement creates a new identifier and explicit replacement link. Migration never rewrites prior published history.
+
+### 6.4 Shared qualification
+
+Domain assertions may use the applicable subset of:
+
+```text
+status
+authority
+assertedByRef
+assertedAt
+evidenceRefs
+provenanceRef
+confidence
+confidenceMethodIri
+uncertaintyRef
+conflict
+lifecycle
+validDuringRef
+```
+
+Their meaning is governed by the accepted lifecycle, provenance and uncertainty profiles.
 
 ## 7. `aduc` block
 
-Describes the contract itself.
+`aduc` owns contract metadata:
 
-```json
-{
-  "version": "0.1.0",
-  "contractId": "urn:aduc:contract:river-r42",
-  "status": "inferred",
-  "createdAt": "2026-07-13T12:00:00Z",
-  "conformsTo": [
-    "urn:aduc:core:0.1"
-  ]
-}
+```text
+contractId
+coreVersion
+modelVersion
+status
+createdAt
+publisher
+conformsTo
+supersedes
+extensionDeclarations
 ```
 
-Candidate properties:
+Required properties are `contractId`, `coreVersion`, `modelVersion`, `status`, `createdAt`, `publisher` and `conformsTo`.
 
-- `version`: ADUC contract version;
-- `contractId`: globally unique contract identifier;
-- `status`: publication or authoring status;
-- `createdAt`: creation timestamp;
-- `updatedAt`: optional new-document publication timestamp;
-- `conformsTo`: implemented Core and extension profiles;
-- `supersedes`: prior contract identifier;
-- `publisher`: contract publisher identifier.
-
-Published contracts are immutable. A corrected contract creates a new identified version.
+A publisher identifier is a claim of publication source, not automatic proof of trust or ownership.
 
 ## 8. `resource` block
 
-Identifies the described data resource.
+`resource` owns exact binding of the described resource:
 
-```json
-{
-  "type": "dataset",
-  "format": "text/csv",
-  "location": "./measurements.csv",
-  "hash": "sha256:..."
-}
+```text
+id
+kind
+mediaType
+digest
+version
+locator
+descriptorRefs
 ```
 
-Candidate properties:
+`id`, `kind`, `mediaType` and `digest` are required. Mutable location is discovery information, not identity. Source-binding rules follow ADR-0006.
 
-- `type`;
-- `format`;
-- `location`;
-- `hash`;
-- `version`;
-- `size`;
-- `encoding`;
-- `schema`;
-- `accessMethod`.
-
-A portable contract SHOULD bind to a version or cryptographic digest of the source or source schema.
+Producer, concepts, units, uncertainty and permissions do not belong here.
 
 ## 9. `structure` block
 
-Describes how to read the source.
+`structure` owns records, fields, source paths, primitive types, keys and external schema references.
 
-```json
-{
-  "representation": "table",
-  "recordType": "observation",
-  "primaryKey": ["station", "timestamp"],
-  "fields": {
-    "station": {"type": "string"},
-    "flow": {"type": "number"},
-    "quality": {"type": "integer"},
-    "timestamp": {"type": "datetime"}
-  }
-}
+Required:
+
+```text
+id
+resourceRef
+representation
+records
 ```
 
-The Core SHOULD reuse JSON Schema, Croissant, CSVW, OpenAPI, or another declared structural description instead of duplicating their complete capabilities.
+Every field has a stable `id`. Semantic, identity, contextual and uncertainty assertions may refer to a field only after it is declared here and bound to the exact resource.
+
+JSON Schema, Croissant, CSVW and OpenAPI descriptions are referenced, not reimplemented as renamed ADUC fields.
 
 ## 10. `semantics` block
 
-Maps local fields to reusable semantic identifiers.
+`semantics.assertions` maps structural objects to reusable concepts and units.
 
-```json
-{
-  "fields": {
-    "flow": {
-      "concept": "https://example.org/env/WaterDischarge",
-      "unit": "https://qudt.org/vocab/unit/M3-PER-SEC",
-      "mappingRelation": "http://www.w3.org/2004/02/skos/core#exactMatch",
-      "mappingStatus": "reviewed",
-      "confidence": 0.96,
-      "confidenceMethod": "urn:aduc:method:human-review-v1",
-      "assertedBy": "urn:person:hydrologist-7",
-      "evidence": ["urn:evidence:river-dictionary-4"]
-    }
-  }
-}
+A semantic assertion preserves:
+
+```text
+id
+subjectRef
+conceptIri
+mappingRelationIri
+unitIri or valueMap when applicable
+status and authority
+asserting agent and time
+evidence and provenance
+confidence and method when probabilistic
+conflict and lifecycle
 ```
 
-The repository's current semantic-mapping assertion model is the first implemented representation of this block.
-
-A semantic mapping MUST preserve:
-
-- the deterministic local field reference;
-- the semantic target;
-- the mapping relation;
-- the epistemic status;
-- the asserting agent or authority;
-- the assertion time;
-- evidence when required;
-- confidence and method when probabilistic;
-- lifecycle links when replaced or contested.
+The existing semantic-mapping profile migrates into this module without losing authority, evidence, confidence or lifecycle information.
 
 ## 11. `identity` block
 
-Describes the entities represented by the data.
+`identity` owns entities, identifiers, schemes, issuers and identity decisions.
 
-```json
-{
-  "subjectField": "station",
-  "subjectType": "https://example.org/env/HydrometricStation",
-  "identifierScheme": "urn:org-river:station-id"
-}
-```
-
-Identity claims MUST distinguish:
-
-- exact identity;
-- probable identity;
-- related entity;
-- unresolved identity;
-- conflicting identity.
-
-A consumer MUST NOT treat probable identity as exact identity without declared evidence.
+It must distinguish exact identity, probable identity, related entities, negative identity, unresolved identity and conflict. Probable identity must not be represented as exact identity. `owl:sameAs` remains restricted by ADR-0009.
 
 ## 12. `context` block
 
-Describes temporal, spatial, jurisdictional, and operational context.
+`context` owns temporal, spatial and operational interpretation.
 
-```json
-{
-  "timeField": "timestamp",
-  "timezone": "Europe/Paris",
-  "spatialCoverage": "France",
-  "timeResolution": "PT15M"
-}
+Recommended collections:
+
+```text
+temporal
+spatial
+operational
 ```
 
-Candidate properties include:
-
-- observation time field;
-- event time versus ingestion time;
-- timezone;
-- interval and resolution;
-- spatial coverage;
-- coordinate reference system;
-- jurisdiction;
-- operational environment;
-- language and locale.
+Primitive field type remains structural. Temporal role, timezone, interval, precision and ambiguity behavior belong to context and follow ADR-0008.
 
 ## 13. `provenance` block
 
-Describes origin and production history.
+`provenance` owns agents, activities, evidence, entities and derivation assertions.
 
-```json
-{
-  "producer": "https://example.org/agency/river-monitoring",
-  "sourceType": "officialSensorNetwork",
-  "method": "ultrasonicMeasurement",
-  "generatedAt": "2026-07-13T12:00:00Z"
-}
+```text
+agents
+activities
+entities
+evidence
+derivationAssertions
 ```
 
-ADUC SHOULD reuse PROV-O and other established provenance terms.
-
-A provenance declaration does not itself prove authenticity. Cryptographic signatures and external trust mechanisms are separate concerns.
+Qualifying references such as `assertedByRef`, `evidenceRefs` and `provenanceRef` resolve to declared objects here when present. PROV-O remains the external vocabulary authority.
 
 ## 14. `uncertainty` block
 
-Describes known uncertainty, quality limitations, and confidence.
+`uncertainty` owns measurement uncertainty, missingness, censoring, detection limits, distributions and DQV-compatible quality measurements.
 
-```json
-{
-  "relativeError": 0.04,
-  "confidenceLevel": 0.95,
-  "appliesTo": ["flow"],
-  "method": "urn:method:sensor-calibration-2026"
-}
+```text
+statements
+qualityMeasurements
 ```
 
-The Core MUST distinguish:
-
-- uncertainty of a measured value;
-- confidence in a semantic mapping;
-- confidence in entity resolution;
-- source quality;
-- factual truth;
-- authority or publication status.
-
-These are not interchangeable values.
+Measurement uncertainty is not semantic confidence, model probability, source authority or factual truth. Propagation follows ADR-0011.
 
 ## 15. `relations` block
 
-Links resources, concepts, entities, and derivations.
+`relations` is one array of qualified general assertions. A relation identifies stable endpoints, an absolute predicate IRI, polarity, method, evidence, provenance, scope, authority, conflict and lifecycle as required by ADR-0012.
 
-```json
-[
-  {
-    "type": "derivedFrom",
-    "target": "urn:dataset:raw-measurements",
-    "status": "canonical"
-  }
-]
-```
-
-Relations SHOULD reuse established vocabularies. Unknown or domain-specific relation types require an explicit namespace and definition.
+Predicate meaning, inverse, symmetry, transitivity and causality are never inferred from labels or examples.
 
 ## 16. `policy` block
 
-Declares intended usage conditions.
+`policy` contains ODRL-aligned policy records. Every policy binds to the exact resource or version and preserves mode, disclosure, authority, evidence, provenance, validity, conflict, lifecycle and rules.
 
-```json
-{
-  "classification": "public",
-  "permittedPurposes": [
-    "research",
-    "floodRiskAnalysis"
-  ],
-  "prohibitedPurposes": [
-    "individualCreditScoring"
-  ]
-}
+Descriptive classification is not executable permission. Safe outcomes remain:
+
+```text
+permit
+deny
+notApplicable
+indeterminate
+requiresHumanReview
 ```
 
-ADUC SHOULD reuse ODRL or another established policy language when full machine-actionable policy is required.
+These outcomes do not replace law, legal advice, access control or enforcement.
 
-Policy declarations inform consumers. They do not override law, contracts, access controls, or technical enforcement.
+## 17. Module ownership constraints
 
-## 17. Epistemic status model
+At minimum, the Core rejects:
 
-Candidate Core statuses:
+- producer information placed in `resource` instead of `provenance`;
+- concepts or units placed in structural field definitions;
+- measurement uncertainty placed in semantic assertions;
+- structural fields redefined in context;
+- embedded Core objects inside relation endpoints;
+- descriptive policy classification made executable;
+- extension payloads overwriting Core-owned properties.
 
-| Status | Meaning | Minimum consumer behavior |
-|---|---|---|
-| `unknown` | No supported interpretation exists | Do not infer a target silently |
-| `inferred` | Produced automatically or heuristically | Preserve confidence and evidence; do not treat as authoritative |
-| `reviewed` | Examined by a human reviewer | Preserve reviewer identity and review evidence |
-| `verified` | Validated by a competent reviewer under a declared process | Preserve process and verifier; do not equate with source ownership |
-| `canonical` | Published by the declared source owner or authority | Prefer when authority is trusted and no conflict exists |
-| `contested` | Multiple supported interpretations exist | Block automatic authoritative selection |
-| `deprecated` | Replaced or no longer recommended | Follow the replacement link when compatible |
+A consumer must report the conflict rather than selecting one representation silently.
 
-The current implemented mapping profile supports `inferred`, `reviewed`, `canonical`, and `contested`. The complete seven-state model is a candidate for the full Core and requires a normative lifecycle ADR before schema implementation.
+## 18. Dependency graph
 
-## 18. Confidence rules
+Hard dependencies are acyclic:
 
-- Confidence MUST be a value from `0` to `1` when used.
-- Confidence MUST name its scoring method.
-- Confidence expresses uncertainty about the declared claim only.
-- `canonical` MUST NOT be assigned a probability merely to imitate authority.
-- `unknown` MUST NOT include a fabricated semantic target.
-- `contested` MUST include evidence or references for the conflict.
-
-## 19. Consumer obligations
-
-A conforming consumer MUST:
-
-1. validate the declared supported profile;
-2. preserve semantic target and mapping relation;
-3. preserve epistemic status;
-4. preserve unresolved and contested information;
-5. avoid hidden target aliases in conformance mode;
-6. avoid unit conversion unless units and conversion rules are known;
-7. avoid temporal alignment unless time semantics and timezone are known;
-8. avoid identity merging unless identity evidence is sufficient;
-9. report dimensions that were not evaluated;
-10. expose conformance errors rather than silently repairing the contract.
-
-## 20. MVP scope
-
-ADUC v0.1 targets:
-
-- JSON;
-- CSV;
-- tabular or record-oriented data;
-- primitive types;
-- dates and times;
-- units;
-- identifiers;
-- semantic concepts;
-- elementary provenance;
-- uncertainty;
-- human validation;
-- comparison of two described sources.
-
-Out of scope for the MVP:
-
-- arbitrary documents and images;
-- live streaming semantics;
-- agent memory;
-- autonomous action policy;
-- public registry federation;
-- anticipation engine behavior.
-
-## 21. Reference operations
-
-### 21.1 `infer`
-
-Analyse a JSON or CSV source and propose:
-
-- field types;
-- probable concepts;
-- probable units;
-- temporal fields;
-- identifiers;
-- possible relations;
-- confidence and evidence.
-
-All proposals begin as `inferred`.
-
-### 21.2 `review`
-
-Prioritize:
-
-- unknown fields;
-- mappings below a confidence threshold;
-- ambiguous units;
-- contradictions;
-- unresolved identifiers;
-- contested interpretations.
-
-### 21.3 `validate`
-
-Check structural and locally determinable semantic conformance.
-
-### 21.4 `compare`
-
-Determine:
-
-- comparable fields;
-- required unit conversions;
-- compatible periods;
-- possible entity matches;
-- unresolved incompatibilities.
-
-### 21.5 `export`
-
-Produce the final portable contract and its versioned manifest.
-
-## 22. Reference demonstration
-
-French source:
-
-```json
-{
-  "machine": "M42",
-  "temp": 89,
-  "unite": "C",
-  "date": "13/07/2026 14:00"
-}
+```text
+aduc: []
+resource: [aduc]
+structure: [resource]
+semantics: [structure]
+identity: [structure]
+context: [structure]
+provenance: [resource]
+uncertainty: [structure]
+relations: [aduc]
+policy: [resource, provenance]
 ```
 
-US source:
+Optional references do not make an optional module globally mandatory, but an operation depending on an unresolved reference is blocked.
 
-```json
-{
-  "equipment_id": "MAIN-B",
-  "motor_heat": 192.2,
-  "unit": "F",
-  "recorded_at": "2026-07-13T12:00:00Z"
-}
+## 19. Extensions
+
+Extensions are declared through:
+
+```text
+namespace
+profileIri
+version
+required
 ```
 
-The target demonstration MUST show that:
+Extension payloads are stored under an `extensions` object on the owning Core object.
 
-- `temp` and `motor_heat` map to a compatible temperature concept;
-- Celsius and Fahrenheit are explicitly convertible;
-- `89 °C` equals `192.2 °F` within declared precision;
-- the timestamps represent the same instant when timezone information is applied;
-- `M42` and `MAIN-B` may represent the same machine;
-- machine identity remains uncertain without sufficient evidence;
-- two independent AI consumers preserve the same conclusions and uncertainty.
+Rules:
 
-## 23. Version 0.1 completion criteria
+- namespace and profile are absolute IRIs;
+- ADUC Core namespaces cannot be claimed by extensions;
+- Core terms cannot be overwritten or redefined;
+- unknown optional extensions are preserved and reported;
+- unknown required extensions block full-conformance processing;
+- unknown extensions are never treated as understood.
 
-Version 0.1 is complete only when all of the following exist:
+## 20. JSON and JSON-LD
 
-1. Core specification;
-2. official JSON Schema;
-3. at least ten valid examples;
-4. at least ten intentionally invalid examples;
-5. CLI validator;
-6. JSON and CSV compiler;
-7. minimal review interface;
-8. Core vocabulary;
-9. comparison of two sources including units, time, and identity uncertainty;
-10. demonstration with two independent AI consumers;
-11. conformance suite;
-12. "Try in 5 minutes" documentation.
+Ordinary JSON is the canonical authoring model. JSON-LD is a deterministic projection using a pinned local context.
 
-Existing tools may satisfy part of these criteria, but the version MUST NOT be declared complete until the full list passes.
+JSON-LD must preserve identifiers, qualification and extension payloads and must not introduce a second property model. Remote context retrieval is not required for validation.
 
-## 24. Construction order
+## 21. Versioning and compatibility
 
-The mandatory order is:
+Compatible evolution may add optional information whose unknown behavior is safe and defined.
 
-1. Core;
-2. Schema;
-3. Validator;
-4. Examples;
-5. JSON/CSV compiler;
-6. multi-model demonstration;
-7. extensions;
-8. anticipation engine.
+A new incompatible model version is required for:
 
-Later implementation work MUST NOT bypass this order without an accepted ADR.
+- property removal or changed meaning;
+- ownership transfer between modules;
+- changed cardinality;
+- changed reference semantics;
+- weaker safety, evidence, lifecycle or authority requirements;
+- changed interpretation of an existing controlled value.
 
-## 25. Governance and licensing
+## 22. Migration from the current mapping profile
 
-- Specification and documentation target: CC BY 4.0.
-- Reference code target: Apache License 2.0.
-- Decisions require public ADRs.
-- Breaking changes require versioned migration notes.
-- No silent normative modifications.
-- The Core must remain separable from commercial products.
+Migration:
 
-## 26. Relationship to the current repository implementation
+1. binds the exact source in `resource`;
+2. creates stable records and fields in `structure`;
+3. creates semantic assertions in `semantics`;
+4. materializes agents and evidence in `provenance` where required;
+5. preserves status, authority, evidence, confidence, conflict and lifecycle;
+6. publishes a new immutable contract.
 
-The repository already contains:
+Migration must not promote inferred content merely because conversion succeeded.
 
-- a semantic-mapping assertion model;
-- a mapping-profile schema;
-- semantic validation;
-- comparison tooling;
-- JSON-LD/RDF representation;
-- a provider-neutral conformance harness.
+## 23. Deterministic consumer behavior
 
-These artifacts are retained as the current experimental implementation of the `semantics` block and its consumer behavior. They do not by themselves implement the complete Core contract described in this document.
+| Condition | Required behavior |
+|---|---|
+| optional module absent | report `notDescribed` |
+| required block absent | reject envelope |
+| unresolved Core reference | block dependent operation |
+| duplicate identifier | reject ambiguous graph |
+| inferred assertion | preserve method and confidence; do not promote |
+| contested assertion | no automatic authoritative selection |
+| deprecated object | follow explicit compatible replacement or block |
+| probable identity | do not merge as exact |
+| unknown relation semantics | do not infer closure or causality |
+| policy `deny` | do not perform governed use |
+| policy `indeterminate` | do not interpret as permission |
+| unknown optional extension | preserve and report |
+| unknown required extension | block full-conformance processing |
 
-## 27. Open normative decisions
+## 24. Reference implementation status
 
-Before `0.1.0-alpha.0`, the project must accept ADRs for:
+Implemented reference profiles currently include lifecycle, source binding, units, time, identity, provenance, uncertainty, relations and policy.
 
-- exact Core block cardinalities;
-- seven-state epistemic lifecycle;
-- unit identifier and conversion strategy;
-- temporal representation and alignment;
-- entity identity and equivalence;
-- Core policy profile;
-- source structural-description profiles;
-- extension discovery;
-- registry governance;
-- migration from the existing mapping-profile document to the full Core envelope.
+ADR-0014 freezes the complete object model and module boundaries. The official modular JSON Schema family, complete schema-valid examples and unified Core validator remain the next implementation stage.
+
+The architectural checker:
+
+```bash
+python tools/aduc_core_model.py
+```
+
+validates the frozen envelope and architecture invariants. It is not the future full-Core schema validator.
+
+## 25. Complete model example
+
+[`../examples/core/complete-model.example.json`](../examples/core/complete-model.example.json) demonstrates all ten blocks, exact bindings, stable identifiers, internal references, external terms, shared qualification and an optional declared extension.
+
+The example demonstrates the object model but cannot claim official JSON Schema conformance until the schema family is implemented.
+
+## 26. Release gate
+
+Version `0.1.0-alpha.0` still requires:
+
+- official modular JSON Schema family;
+- complete valid and invalid schema fixtures;
+- unified Core validator and comparator;
+- JSON/CSV compiler and review workflow;
+- value benchmark;
+- qualifying independent multi-model interoperability evidence;
+- naming and trademark decision.

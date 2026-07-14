@@ -30,14 +30,15 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_core_model_is_the_single_active_task(self) -> None:
+    def test_schema_family_is_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("normative ADUC Core object model", text)
-        self.assertIn("ADR-0013", text)
-        self.assertIn("ADUC_CORE_MODEL_0_1.md", text)
+        self.assertIn("official modular ADUC Core JSON Schema family", text)
+        self.assertIn("ADR-0014", text)
+        self.assertIn("schema/aduc-core.schema.json", text)
+        self.assertIn("tests/core_schema/", text)
         self.assertNotIn("implement the JSON/CSV compiler now", text.lower())
 
-    def test_readme_exposes_cross_cutting_and_completed_profiles(self) -> None:
+    def test_readme_exposes_cross_cutting_completed_profiles_and_core_model(self) -> None:
         text = README.read_text(encoding="utf-8")
         self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
         self.assertIn("manual mapping", text)
@@ -48,6 +49,8 @@ class AdoptionValuePlanTests(unittest.TestCase):
         self.assertIn("UNCERTAINTY_PROFILE_0_1.md", text)
         self.assertIn("RELATION_PROFILE_0_1.md", text)
         self.assertIn("POLICY_PROFILE_0_1.md", text)
+        self.assertIn("ADUC_CORE_MODEL_0_1.md", text)
+        self.assertIn("core-module-manifest.json", text)
         self.assertIn("candidateOnly", text)
         self.assertIn("replayable", text)
         self.assertIn("0.9 °F", text)
