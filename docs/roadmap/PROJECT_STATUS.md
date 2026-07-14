@@ -4,7 +4,7 @@
 - Current phase: Phase 0 — Full-Core definition and public foundation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: eight foundational Core decisions are specified and reference-tested; policy and permitted-use conditions are the final domain profile required before the normative Core object model and schema family can be frozen
+- Overall status: nine foundational Core decisions are specified and reference-tested; the normative Core object model and modular boundaries are the final definition task before the official schema family
 
 ## Official direction
 
@@ -38,7 +38,7 @@ relations
 policy
 ```
 
-`spec/ADUC_CORE_SPEC_0_1.md` remains the full-Core working draft.
+`spec/ADUC_CORE_SPEC_0_1.md` remains the full-Core working draft. Its object ownership and modular boundaries are not yet frozen.
 
 ## Completed foundation
 
@@ -55,7 +55,8 @@ policy
 - ADR-0009 entity identity and safe equivalence;
 - ADR-0010 provenance and transformation lineage;
 - ADR-0011 uncertainty and DQV-compatible data quality;
-- ADR-0012 general relation semantics.
+- ADR-0012 general relation semantics;
+- ADR-0013 policy and permitted-use conditions.
 
 ## Accepted Core profile evidence
 
@@ -69,23 +70,27 @@ policy
 | Provenance | 7 valid, 20 invalid, 8 tests |
 | Uncertainty and quality | 14 valid, 24 invalid, 10 tests |
 | General relations | 13 valid, 20 invalid, 10 tests |
+| Policy and permitted use | 20 valid, 32 invalid, 13 tests |
 
-## General relation decision
+## Policy and permitted-use decision
 
-ADR-0012 and `spec/RELATION_PROFILE_0_1.md` establish that:
+ADR-0013 and `spec/POLICY_PROFILE_0_1.md` establish that:
 
-- vocabulary definitions, relation assertions, and consumer inferences are separate;
-- predicates use absolute IRIs from authoritative vocabularies;
-- endpoints are bound and typed;
-- direction, inverse, symmetry, and transitivity are never guessed;
-- `skos:closeMatch` is not equality;
-- `owl:sameAs` requires a qualifying identity-profile decision;
-- `skos:broader` closure yields `skos:broaderTransitive`;
-- absence means unknown rather than false;
-- negative claims require explicit assertions;
-- correlation, dependency, or temporal order do not prove causation;
-- contested, deprecated, out-of-scope, contradictory, or cyclic relations block automatic use;
-- qualifying assertions export deterministically to JSON-LD/RDF.
+- ADUC reuses ODRL rather than creating a competing rights language;
+- exact target identity and SHA-256 version binding are mandatory;
+- executable permissions, prohibitions, and duties remain distinct from classifications, recommendations, and legal notices;
+- actions, purposes, parties, recipients, places, and environments use absolute controlled identifiers;
+- a descriptive `public` classification is not universal permission;
+- free-text purpose matching is blocked;
+- a matching prohibition overrides a matching permission in the deterministic offline subset;
+- pre-use duties require bound satisfaction evidence;
+- post-use duties remain visible as outstanding obligations;
+- open mode yields `indeterminate` when no rule applies, while closed mode denies by default;
+- supported outcomes are `permit`, `deny`, `notApplicable`, `indeterminate`, and `requiresHumanReview`;
+- inferred, partial, redacted, externally governed, contested, or deprecated policies block automatic reliance;
+- consent, ownership, and legal-compliance claims require typed evidence and provenance;
+- ADUC does not grant legal permission, replace legal interpretation, or enforce access control;
+- qualifying policy records export deterministically to JSON-LD/RDF.
 
 ## Adoption and value constraints
 
@@ -113,8 +118,8 @@ Before compiler or interoperability success claims, the project must demonstrate
 | Provenance and lineage | Complete |
 | Uncertainty and quality | Complete |
 | General relations | Complete |
-| Policy and permitted use | Next action |
-| Normative Core object model | Not implemented |
+| Policy and permitted use | Complete |
+| Normative Core object model | Next action |
 | Official full-Core JSON Schema | Not implemented |
 | Ten valid complete examples | Not implemented |
 | Ten invalid complete examples | Not implemented |
@@ -126,16 +131,16 @@ Before compiler or interoperability success claims, the project must demonstrate
 
 ## Active blockers
 
-- ADR-0013 policy and permitted-use conditions does not exist;
-- normative Core envelope and modular boundaries are not frozen;
+- the normative Core envelope, object ownership, cardinalities, and modular boundaries are not frozen;
 - the complete example is not schema-validatable;
+- the official full-Core JSON Schema family does not exist;
 - current reference tools are separate rather than unified;
 - no qualifying value benchmark or external multi-model runs exist;
 - the public name remains provisional.
 
 ## Next gate
 
-Define the policy and permitted-use profile, including permissions, prohibitions, duties, parties, purposes, temporal and territorial scope, evidence, provenance, disclosure, conflicts, lifecycle, deterministic consumer outcomes, and the boundary between machine evaluation and human legal interpretation.
+Freeze the normative Core object model and modular boundaries, including top-level cardinality, object ownership, deterministic references, qualification patterns, external-standard boundaries, JSON/JSON-LD representation, extension behavior, versioning, migration from the current mapping profile, and deterministic behavior for absent, unsafe, prohibited, contested, deprecated, or unsupported information.
 
 ## Rule
 
