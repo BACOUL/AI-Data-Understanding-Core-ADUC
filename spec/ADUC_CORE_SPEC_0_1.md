@@ -402,7 +402,7 @@ Migration must not promote inferred content merely because conversion succeeded.
 
 Implemented reference profiles currently include lifecycle, source binding, units, time, identity, provenance, uncertainty, relations and policy.
 
-ADR-0014 freezes the complete object model and module boundaries. ADR-0015 implements the official modular JSON Schema family and complete schema-valid fixtures. The unified Core validator and comparator remain the next implementation stage.
+ADR-0014 freezes the complete object model and module boundaries. ADR-0015 implements the official modular JSON Schema family and complete schema-valid fixtures. ADR-0016 implements the unified Core validator and deterministic comparator.
 
 The architectural checker:
 
@@ -410,7 +410,7 @@ The architectural checker:
 python tools/aduc_core_model.py
 ```
 
-validates the frozen envelope and architecture invariants. It complements the official JSON Schema family and is not a replacement for the future unified full-Core validator.
+validates the frozen envelope and architecture invariants. It complements the official JSON Schema family and is orchestrated by the unified full-Core validator.
 
 ## 25. Complete model example
 
@@ -422,7 +422,6 @@ The example validates against the official JSON Schema family and the complement
 
 Version `0.1.0-alpha.0` still requires:
 
-- unified Core validator and comparator;
 - migration from the standalone semantic-mapping profile into full Core;
 - JSON/CSV compiler and review workflow;
 - value benchmark;

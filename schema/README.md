@@ -52,6 +52,17 @@ python -m unittest discover -s tests/core_schema -p "test_*.py"
 
 The CLI reports stable JSON paths and schema error families. By default it also executes the ADR-0014 architecture checker.
 
+For full-Core orchestration across schema, architecture and profile checks, use:
+
+```bash
+python tools/aduc_core.py validate examples/core/complete-model.example.json
+python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
+python -m unittest discover -s tests/core_validator -p "test_*.py"
+python -m unittest discover -s tests/core_comparator -p "test_*.py"
+```
+
+`tools/aduc_core.py` produces the versioned reports documented in `spec/ADUC_CORE_VALIDATION_0_1.md` and `spec/ADUC_CORE_COMPARISON_0_1.md`.
+
 ## Rules not enforceable by JSON Schema alone
 
 The complementary architecture and domain validators check:
