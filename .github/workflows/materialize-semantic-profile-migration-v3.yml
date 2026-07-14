@@ -21,13 +21,35 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Verify and extract migration bundle
+      - name: Reconstruct and inspect migration bundle
+        id: reconstruct
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+          cat .migration-bundle-v3/part*.b64 | base64 --decode > /tmp/aduc-semantic-migration-v3.tar.gz
+          {
+            wc -c .migration-bundle-v3/part*.b64
+            sha256sum .migration-bundle-v3/part*.b64
+            wc -c /tmp/aduc-semantic-migration-v3.tar.gz
+            sha256sum /tmp/aduc-semantic-migration-v3.tar.gz
+          } > /tmp/aduc-semantic-migration-v3-integrity.txt
+          test "$(wc -c < /tmp/aduc-semantic-migration-v3.tar.gz | tr -d ' ')" = "23002"
+          test "$(sha256sum /tmp/aduc-semantic-migration-v3.tar.gz | awk '{print $1}')" = "8c8e85bfb457839360a6753523830f69cb654be3b541a60903cfd854cb2cadcc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aduc-semantic-migration-v3-integrity
+          path: |
+            /tmp/aduc-semantic-migration-v3-integrity.txt
+            .migration-bundle-v3/*.b64
+      - name: Reject bundle mismatch
+        if: steps.reconstruct.outcome != 'success'
+        run: exit 1
+      - name: Extract migration bundle
         shell: bash
         run: |
           set -euo pipefail
-          cat .migration-bundle-v3/part*.b64 | base64 --decode > /tmp/aduc-semantic-migration-v3.tar.gz
-          test "$(wc -c < /tmp/aduc-semantic-migration-v3.tar.gz | tr -d ' ')" = "23002"
-          test "$(sha256sum /tmp/aduc-semantic-migration-v3.tar.gz | awk '{print $1}')" = "8c8e85bfb457839360a6753523830f69cb654be3b541a60903cfd854cb2cadcc"
           tar -xzf /tmp/aduc-semantic-migration-v3.tar.gz
           python apply_updates.py
           rm apply_updates.py
