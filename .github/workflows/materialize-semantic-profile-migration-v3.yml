@@ -1,0 +1,96 @@
+name: materialize-semantic-profile-migration-v3
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".migration-bundle-v3/**"
+      - ".github/workflows/materialize-semantic-profile-migration-v3.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: core/semantic-profile-migration-v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Reconstruct and inspect migration bundle
+        id: reconstruct
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+          cat .migration-bundle-v3/part*.b64 | base64 --decode > /tmp/aduc-semantic-migration-v3.tar.gz
+          {
+            wc -c .migration-bundle-v3/part*.b64
+            sha256sum .migration-bundle-v3/part*.b64
+            wc -c /tmp/aduc-semantic-migration-v3.tar.gz
+            sha256sum /tmp/aduc-semantic-migration-v3.tar.gz
+          } > /tmp/aduc-semantic-migration-v3-integrity.txt
+          test "$(wc -c < /tmp/aduc-semantic-migration-v3.tar.gz | tr -d ' ')" = "23002"
+          test "$(sha256sum /tmp/aduc-semantic-migration-v3.tar.gz | awk '{print $1}')" = "8c8e85bfffef68c04d21d77f95e13ee0a1eb1c963d63019e6eb5edfff227d94b"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aduc-semantic-migration-v3-integrity
+          include-hidden-files: true
+          path: |
+            /tmp/aduc-semantic-migration-v3-integrity.txt
+            .migration-bundle-v3/*.b64
+      - name: Reject bundle mismatch
+        if: steps.reconstruct.outcome != 'success'
+        run: exit 1
+      - name: Extract migration bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -xzf /tmp/aduc-semantic-migration-v3.tar.gz
+          python apply_updates.py
+          rm apply_updates.py
+          python -m py_compile tools/aduc_migrate_semantic_profile.py
+      - name: Validate migration milestone
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -r requirements-dev.txt
+          python tools/validate_contracts.py
+          python -m unittest discover -s tests/core_migration -p "test_*.py"
+          python -m unittest discover -s tests -p "test_*.py"
+          python tools/aduc_migrate_semantic_profile.py \
+            examples/migration/inferred.profile.json \
+            examples/migration/inferred.manifest.json \
+            --output /tmp/migrated.core.json \
+            --report /tmp/migration.report.json
+          set +e
+          python tools/aduc_core.py validate /tmp/migrated.core.json --format json > /tmp/migrated.validation.json
+          core_rc=$?
+          set -e
+          test "${core_rc}" = "0" -o "${core_rc}" = "2"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          migration = json.loads(Path('/tmp/migration.report.json').read_text(encoding='utf-8'))
+          validation = json.loads(Path('/tmp/migrated.validation.json').read_text(encoding='utf-8'))
+          assert migration['outcome'] == 'migrated'
+          assert migration['coreValidation']['outcome'] != 'blocked'
+          assert validation['outcome'] != 'blocked'
+          PY
+          python tools/validate_website.py
+      - name: Commit verified migration and remove transfer files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/validate.yml README.md CHANGELOG.md schema/README.md website/docs.html website/roadmap.html website/specification.html docs spec schema examples tests tools
+          git rm -r .migration-bundle-v3
+          git rm .github/workflows/materialize-semantic-profile-migration-v3.yml
+          git commit -m "Core: implement deterministic semantic-profile migration"
+          git push origin HEAD:core/semantic-profile-migration-v3
