@@ -14,6 +14,7 @@ INVALID = ROOT / "examples" / "core" / "invalid-model-cases.json"
 MANIFEST = ROOT / "spec" / "core-module-manifest.json"
 MODEL = ROOT / "spec" / "ADUC_CORE_MODEL_0_1.md"
 BOUNDARIES = ROOT / "docs" / "architecture" / "CORE_MODULE_BOUNDARIES_0_1.md"
+BOOTSTRAP_SCHEMA = ROOT / "schema" / "aduc-core.schema.json"
 
 SPEC = importlib.util.spec_from_file_location("aduc_core_model", TOOL)
 assert SPEC and SPEC.loader
@@ -113,15 +114,18 @@ class CoreModelTests(unittest.TestCase):
                 result = module.validate_document(module.patch(self.example, case["patch"]), self.manifest)
                 self.assertIn(code, {item["code"] for item in result["errors"]})
 
-    def test_model_documents_freeze_schema_boundaries_without_implementing_schema(self) -> None:
+    def test_model_documents_freeze_boundaries_without_claiming_official_schema(self) -> None:
         model = MODEL.read_text(encoding="utf-8")
         boundaries = BOUNDARIES.read_text(encoding="utf-8")
+        bootstrap = BOOTSTRAP_SCHEMA.read_text(encoding="utf-8")
         self.assertIn("minimum interoperable contract", model)
         self.assertIn("Published immutability", model)
         self.assertIn("Schema-family contract", model)
         self.assertIn("schema/aduc-core.schema.json", boundaries)
         self.assertIn("must not change this dependency graph without a new ADR", boundaries)
-        self.assertFalse((ROOT / "schema" / "aduc-core.schema.json").exists())
+        self.assertIn("Bootstrap schema", bootstrap)
+        self.assertIn("Not a stable standard", bootstrap)
+        self.assertNotIn("core-module-manifest.json", bootstrap)
 
     def test_cli(self) -> None:
         completed = subprocess.run(
