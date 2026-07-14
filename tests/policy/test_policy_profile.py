@@ -150,6 +150,12 @@ class PolicyProfileTests(unittest.TestCase):
             with self.subTest(case_id=case_id):
                 result = module.evaluate(self.invalid_by_id[case_id], self.registry)
                 self.assertIn(code, {item["code"] for item in result["errors"]})
+        for field in ("conflict", "life"):
+            with self.subTest(missing_required_state=field):
+                incomplete = module.patch(self.by_id["permit-research"], [["remove", ["policy", field]]])
+                result = module.evaluate(incomplete, self.registry)
+                self.assertFalse(result["valid"])
+                self.assertIn("ADUC-POL-STATE-001", {item["code"] for item in result["errors"]})
 
     def test_cli(self) -> None:
         completed = subprocess.run(
