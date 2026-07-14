@@ -7,7 +7,7 @@
 
 ## 1. Purpose
 
-This document defines the normative ADUC object model before the official JSON Schema family is implemented. It fixes the envelope, object ownership, identifiers, references, cardinalities, module dependencies, extension rules, lifecycle behavior, compatibility boundaries and migration target.
+This document defines the normative ADUC object model implemented by the official modular JSON Schema family. It fixes the envelope, object ownership, identifiers, references, cardinalities, module dependencies, extension rules, lifecycle behavior, compatibility boundaries and migration target.
 
 The accepted domain profiles remain authoritative for their domain-specific semantics. This model defines where they live and how they compose.
 
@@ -469,12 +469,12 @@ Migration MUST NOT infer reviewed, verified or canonical authority from successf
 
 ## 24. Schema-family contract
 
-The future schema family MUST implement this object model without revisiting architecture. Planned modules are listed in `core-module-manifest.json`.
+The official schema family implements this object model without revisiting architecture. The module list is fixed in `core-module-manifest.json`.
 
-The root schema will enforce the ten-block envelope and delegate to modular schemas. Shared qualification and extension definitions will be reusable `$defs` or referenced schemas. Schema implementation is explicitly outside this task.
+The root schema enforces the ten-block envelope and delegates to modular schemas. Shared qualification and extension definitions are reusable `$defs` or referenced schemas. Cross-object architectural checks remain complementary to JSON Schema.
 
 ## 25. Complete example
 
 [`../examples/core/complete-model.example.json`](../examples/core/complete-model.example.json) demonstrates every Core module, stable identifiers, internal references, external terms, qualification, exact resource binding and an optional declared extension.
 
-The example is an object-model fixture. It does not claim official schema conformance until the schema family exists.
+The example is schema-valid and architecture-valid under the accepted Core schema family and complementary ADR-0014 checker.
