@@ -77,6 +77,13 @@ jobs:
               target = repository_root / path
               target.parent.mkdir(parents=True, exist_ok=True)
               target.write_bytes(data)
+
+          next_action = repository_root / 'docs/roadmap/NEXT_ACTION.md'
+          text = next_action.read_text(encoding='utf-8')
+          old = 'Define and implement the deterministic complete-contract formatter for validated ADUC Core contracts.'
+          new = 'Define and implement the deterministic complete-contract formatter for complete ADUC Core contracts.'
+          assert old in text
+          next_action.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
           git add website
           python website/build_site.py
@@ -86,43 +93,50 @@ jobs:
         shell: bash
         run: |
           set +e
-          python -m pip install --disable-pip-version-check -q -r requirements-dev.txt > /tmp/00-install.log 2>&1
-          rc_install=$?
-          python tools/validate_contracts.py > /tmp/01-contracts.log 2>&1
-          rc_contracts=$?
-          python -m unittest discover -s tests/website -p "test_*.py" > /tmp/02-website-tests.log 2>&1
-          rc_website_tests=$?
-          python -m unittest discover -s tests/roadmap -p "test_*.py" > /tmp/03-roadmap-tests.log 2>&1
-          rc_roadmap_tests=$?
-          python -m unittest discover -s tests -p "test_*.py" > /tmp/04-all-tests.log 2>&1
-          rc_all_tests=$?
-          python tools/aduc_core_validate.py examples/core/complete-model.example.json > /tmp/05-schema.log 2>&1
-          rc_schema=$?
-          python tools/aduc_core.py validate examples/core/complete-model.example.json > /tmp/06-core-validate.log 2>&1
-          rc_core_validate=$?
-          python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json > /tmp/07-core-compare.log 2>&1
-          rc_core_compare=$?
-          python tools/validate_website.py > /tmp/08-website-validator.log 2>&1
-          rc_website_validator=$?
-          set -e
-
+          : > /tmp/validation-status.txt
           failed=0
-          for rc in "$rc_install" "$rc_contracts" "$rc_website_tests" "$rc_roadmap_tests" "$rc_all_tests" "$rc_schema" "$rc_core_validate" "$rc_core_compare" "$rc_website_validator"; do
+
+          run_check() {
+            name="$1"
+            shift
+            "$@" > "/tmp/${name}.log" 2>&1
+            rc=$?
+            echo "${name}=${rc}" >> /tmp/validation-status.txt
             if [ "$rc" -ne 0 ]; then failed=1; fi
-          done
+          }
+
+          run_check install python -m pip install --disable-pip-version-check -q -r requirements-dev.txt
+          run_check contracts python tools/validate_contracts.py
+          run_check test-validator python -m unittest discover -s tests/validator -p "test_*.py"
+          run_check test-comparator python -m unittest discover -s tests/comparator -p "test_*.py"
+          run_check test-jsonld python -m unittest discover -s tests/jsonld -p "test_*.py"
+          run_check test-conformance python -m unittest discover -s tests/conformance -p "test_*.py"
+          run_check test-epistemic python -m unittest discover -s tests/epistemic -p "test_*.py"
+          run_check test-source-binding python -m unittest discover -s tests/source_binding -p "test_*.py"
+          run_check test-units python -m unittest discover -s tests/units -p "test_*.py"
+          run_check test-time python -m unittest discover -s tests/time -p "test_*.py"
+          run_check test-identity python -m unittest discover -s tests/identity -p "test_*.py"
+          run_check test-provenance python -m unittest discover -s tests/provenance -p "test_*.py"
+          run_check test-uncertainty python -m unittest discover -s tests/uncertainty -p "test_*.py"
+          run_check test-relations python -m unittest discover -s tests/relations -p "test_*.py"
+          run_check test-policy python -m unittest discover -s tests/policy -p "test_*.py"
+          run_check test-core-model python -m unittest discover -s tests/core_model -p "test_*.py"
+          run_check test-core-schema python -m unittest discover -s tests/core_schema -p "test_*.py"
+          run_check test-core-validator python -m unittest discover -s tests/core_validator -p "test_*.py"
+          run_check test-core-comparator python -m unittest discover -s tests/core_comparator -p "test_*.py"
+          run_check test-core-migration python -m unittest discover -s tests/core_migration -p "test_*.py"
+          run_check test-roadmap python -m unittest discover -s tests/roadmap -p "test_*.py"
+          run_check test-website python -m unittest discover -s tests/website -p "test_*.py"
+          run_check schema python tools/aduc_core_validate.py examples/core/complete-model.example.json
+          run_check core-validate python tools/aduc_core.py validate examples/core/complete-model.example.json
+          run_check core-compare python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
+          run_check website-validator python tools/validate_website.py
+          set -e
 
           if [ "$failed" -ne 0 ]; then
             {
-              echo "install=${rc_install}"
-              echo "contracts=${rc_contracts}"
-              echo "website_tests=${rc_website_tests}"
-              echo "roadmap_tests=${rc_roadmap_tests}"
-              echo "all_tests=${rc_all_tests}"
-              echo "schema=${rc_schema}"
-              echo "core_validate=${rc_core_validate}"
-              echo "core_compare=${rc_core_compare}"
-              echo "website_validator=${rc_website_validator}"
-              for file in /tmp/0*.log; do
+              cat /tmp/validation-status.txt
+              for file in /tmp/contracts.log /tmp/test-*.log /tmp/schema.log /tmp/core-*.log /tmp/website-validator.log; do
                 echo
                 echo "===== ${file} ====="
                 tail -n 120 "$file"
