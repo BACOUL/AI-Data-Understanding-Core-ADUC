@@ -53,7 +53,7 @@ The minimum interoperable envelope is `aduc + resource + structure`.
 | General relations | 13 valid, 20 invalid, 10 tests |
 | Policy and permitted use | 20 valid, 32 invalid, 13 tests |
 | Normative Core object model | complete ten-block example, 25 invalid architecture mutations, 11 tests, module manifest |
-| Modular Core schema family | 14 Draft 2020-12 schemas, 11 valid contracts, 15 invalid contracts, 10 schema tests, local validator |
+| Modular Core schema family | 14 Draft 2020-12 schemas, 11 valid contracts, 15 invalid contracts, 13 schema tests, local validator |
 
 ## Schema-family decision
 
