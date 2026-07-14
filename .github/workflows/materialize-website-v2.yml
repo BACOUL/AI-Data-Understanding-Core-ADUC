@@ -18,7 +18,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: website/international-standard-redesign-v2
-          fetch-depth: 0
+          fetch-depth: 1
+          show-progress: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -26,6 +27,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          sha256sum .website-v2-bundle/part*.b64
           cat .website-v2-bundle/part*.b64 | base64 --decode > /tmp/aduc-website-v2-text.tar.gz
           actual_size="$(wc -c < /tmp/aduc-website-v2-text.tar.gz | tr -d ' ')"
           actual_sha="$(sha256sum /tmp/aduc-website-v2-text.tar.gz | awk '{print $1}')"
