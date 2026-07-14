@@ -68,16 +68,20 @@ class PolicyProfileTests(unittest.TestCase):
         self.assertEqual(result["result"]["outcome"], "indeterminate")
 
     def test_human_only_and_incomplete_policies_require_review(self) -> None:
-        for case_id in (
+        cases = [self.by_id[case_id] for case_id in (
             "legal-notice-review",
             "partial-policy-review",
             "inferred-policy-review",
             "contested-policy-review",
             "external-governance-review",
-        ):
-            with self.subTest(case_id=case_id):
-                result = module.evaluate(self.by_id[case_id], self.registry)
-                self.assertEqual(result["result"]["outcome"], "requiresHumanReview")
+        )]
+        cases.extend([
+            module.patch(self.by_id["permit-research"], [["set", ["policy", "disclosure"], "redacted"]]),
+            module.patch(self.by_id["permit-research"], [["set", ["policy", "life"], "deprecated"]]),
+        ])
+        for case in cases:
+            result = module.evaluate(case, self.registry)
+            self.assertEqual(result["result"]["outcome"], "requiresHumanReview")
 
     def test_target_and_temporal_scope(self) -> None:
         different = module.evaluate(self.by_id["different-target"], self.registry)
@@ -91,7 +95,16 @@ class PolicyProfileTests(unittest.TestCase):
         result = module.evaluate(self.by_id["named-parties-permit"], self.registry)
         local = module.evaluate(self.invalid_by_id["local-assignee"], self.registry)
         free_text = module.evaluate(self.invalid_by_id["free-text-purpose"], self.registry)
+        scoped = module.patch(self.by_id["permit-research"], [
+            ["set", ["policy", "rules", 0, "spatial"], "urn:place:france"],
+            ["set", ["policy", "rules", 0, "environment"], "urn:aduc:environment:research"],
+        ])
+        wrong_place = module.patch(scoped, [["set", ["request", "spatial"], "urn:place:germany"]])
+        wrong_environment = module.patch(scoped, [["set", ["request", "environment"], "urn:aduc:environment:production"]])
         self.assertEqual(result["result"]["outcome"], "permit")
+        self.assertEqual(module.evaluate(scoped, self.registry)["result"]["outcome"], "permit")
+        self.assertEqual(module.evaluate(wrong_place, self.registry)["result"]["outcome"], "indeterminate")
+        self.assertEqual(module.evaluate(wrong_environment, self.registry)["result"]["outcome"], "indeterminate")
         self.assertIn("ADUC-POL-PARTY-001", {item["code"] for item in local["errors"]})
         self.assertIn("ADUC-POL-PURPOSE-001", {item["code"] for item in free_text["errors"]})
 
