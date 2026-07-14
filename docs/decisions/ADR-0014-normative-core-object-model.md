@@ -3,20 +3,20 @@
 - Status: accepted
 - Date: 2026-07-14
 - Issue: #47
-- Pull request: pending
+- Pull request: #48
 - Decision owners: ADUC maintainers
 
 ## Context
 
-ADR-0005 through ADR-0013 define nine accepted domain profiles, but they do not yet define one normative envelope. Without a frozen object model, separate implementers could choose incompatible top-level blocks, identifiers, references, cardinalities, extension rules, or ownership boundaries while still claiming to implement ADUC.
+ADR-0005 through ADR-0013 define nine accepted domain profiles, but they did not define one normative envelope. Without a frozen object model, independent implementers could choose incompatible top-level blocks, identifiers, references, cardinalities, extension rules or ownership boundaries while still claiming to implement ADUC.
 
-This decision composes the accepted profiles. It does not replace or weaken them and does not implement the JSON Schema family.
+This decision composes the accepted profiles. It does not replace or weaken them and does not implement the official JSON Schema family.
 
 ## Decision
 
-### 1. Ten top-level Core blocks
+### Ten top-level Core blocks
 
-A Core contract has exactly these reserved top-level names, in canonical documentation order:
+A Core contract reserves exactly these top-level names in canonical documentation order:
 
 ```text
 aduc
@@ -31,8 +31,6 @@ relations
 policy
 ```
 
-Cardinalities:
-
 | Block | Required | Cardinality | Representation |
 |---|---:|---:|---|
 | `aduc` | yes | exactly 1 | object |
@@ -43,14 +41,14 @@ Cardinalities:
 | `context` | no | 0..1 | object |
 | `provenance` | no | 0..1 | object |
 | `uncertainty` | no | 0..1 | object |
-| `relations` | no | 0..n | array of assertion objects |
+| `relations` | no | 0..n | array of assertions |
 | `policy` | no | 0..1 | object |
 
-The minimum interoperable envelope is `aduc + resource + structure`. A document containing only `aduc`, or a document in which every domain block is optional, is not a Core contract.
+The minimum interoperable envelope is `aduc + resource + structure`. An absent optional block means `notDescribed`, not false, exact, trusted or permitted.
 
-### 2. Contract identity and publication
+### Contract identity and publication
 
-`aduc` owns contract identity and publication metadata:
+`aduc` owns:
 
 ```text
 contractId
@@ -64,41 +62,37 @@ supersedes
 extensionDeclarations
 ```
 
-`contractId` is an absolute IRI. Published contracts are immutable. Correction or replacement creates a new `contractId` and may identify the prior contract through `supersedes`. Reusing the same identifier for changed published content is non-conforming.
+`contractId` is an absolute IRI. Published contracts are immutable. A correction or replacement creates a new identifier and may link to the earlier contract through `supersedes`. Rewriting published content under the same identifier is non-conforming.
 
-`coreVersion` identifies the ADUC release line. `modelVersion` identifies this object-model version. Module profile versions are declared in `conformsTo` and are not inferred from field presence.
+### One owner for every normative fact
 
-### 3. One owner for every normative fact
+Each normative fact has one owning module:
 
-Each normative fact has one owning module. A consumer must not merge competing representations from different blocks.
-
-Examples:
-
-- source bytes, media type, digest, version and locator belong to `resource`;
-- record layout, fields, source paths and primitive types belong to `structure`;
+- source identity, media type, digest, version and locator belong to `resource`;
+- records, fields, paths and primitive types belong to `structure`;
 - concepts, units and semantic mappings belong to `semantics`;
-- entity identifiers and identity decisions belong to `identity`;
+- entities, identifiers and identity decisions belong to `identity`;
 - temporal, spatial and operational interpretation belongs to `context`;
 - agents, activities, evidence and derivation belong to `provenance`;
 - measurement uncertainty, missingness, censoring and quality belong to `uncertainty`;
 - general graph assertions belong to `relations`;
 - permissions, prohibitions and duties belong to `policy`.
 
-A convenience copy is allowed only when explicitly marked non-normative and derived from a canonical reference. It must never compete with the owning property.
+Competing representations in multiple modules are conflicts. Consumers must not merge or choose between them silently.
 
-### 4. Stable identifiers and references
+### Stable identifiers and deterministic references
 
-Every addressable Core object has an `id` containing an absolute IRI. Local labels, array positions, mutable URLs without version binding, and undocumented JSON Pointers are not portable identities.
+Every addressable Core object has an `id` containing an absolute IRI. Local labels, array positions, mutable locations and undocumented JSON Pointers are not portable identities.
 
-Cross-module references use properties ending in `Ref` or `Refs` and contain exact identifiers of objects declared in the same contract. External vocabulary terms use properties ending in `Iri` or vocabulary-specific names and are not Core object references.
+Internal references use properties ending in `Ref` or `Refs` and resolve to exactly one object in the same contract. External vocabulary terms use absolute IRIs and are never inferred from labels.
 
-A Core reference must resolve deterministically. Missing, ambiguous, or duplicate identifiers block the operation that depends on them.
+Duplicate identifiers, missing references and ambiguous references block the operation that depends on them.
 
-### 5. Structural precondition
+### Structural precondition
 
-Semantic, identity, contextual, uncertainty, relation and policy assertions may refer to a field only after that field is declared by `structure` and the structure is bound to the exact `resource`.
+Semantic, identity, contextual and uncertainty assertions may refer to a field only after it is declared in `structure` and the structure is bound to the exact `resource`.
 
-`structure.resourceRef` is mandatory and resolves to `resource.id`. A field owns:
+`structure.resourceRef` resolves to `resource.id`. A structural field owns:
 
 ```text
 id
@@ -108,11 +102,11 @@ primitiveType
 required
 ```
 
-External JSON Schema, Croissant, CSVW or OpenAPI descriptions are referenced through an identified descriptor reference. ADUC does not embed a renamed copy of those standards.
+External JSON Schema, Croissant, CSVW or OpenAPI descriptions are referenced through identified descriptors. ADUC does not embed renamed copies of those standards.
 
-### 6. Shared assertion qualification
+### Shared assertion qualification
 
-Assertions remain owned by their domain module, but qualifying semantics are consistent across modules. An assertion that claims authority carries the applicable subset of:
+Assertions remain owned by their domain module but use consistent qualification names where applicable:
 
 ```text
 status
@@ -129,9 +123,9 @@ lifecycle
 validDuringRef
 ```
 
-The meaning of these properties is governed by ADR-0005, ADR-0010 and ADR-0011. Measurement uncertainty is not semantic confidence. Confidence never upgrades authority. Inferred assertions are not silently promoted.
+ADR-0005, ADR-0010 and ADR-0011 govern these meanings. Measurement uncertainty is not semantic confidence. Confidence does not upgrade authority. Inferred assertions are never silently promoted.
 
-### 7. External standards boundary
+### External standards boundary
 
 ADUC composes established standards by reference:
 
@@ -143,24 +137,17 @@ ADUC composes established standards by reference:
 - RDF, RDFS, OWL and SKOS for relations and identity;
 - ODRL for policy.
 
-A Core module may add binding, qualification and deterministic consumer rules, but must not embed a competing complete copy of an external standard.
+A module may add exact binding, qualification and deterministic consumer rules but must not create a competing complete copy of an external standard.
 
-### 8. JSON and JSON-LD boundary
+### JSON and JSON-LD boundary
 
-Canonical authoring uses ordinary JSON with absolute identifiers. JSON-LD is a deterministic projection, not a second object model.
+Ordinary JSON with absolute identifiers is the canonical authoring representation. JSON-LD is a deterministic projection, not a second object model.
 
-The Core JSON representation:
+The JSON-LD projection uses a pinned versioned context, preserves Core meaning and qualifications, and does not require remote context retrieval. Aliases must not create duplicate normative properties.
 
-- uses reserved top-level block names;
-- uses absolute IRIs for identifiers and vocabulary terms;
-- does not depend on remote context retrieval;
-- preserves unknown extension payloads.
+### Extensions
 
-The JSON-LD representation uses a pinned, versioned context and must round-trip without changing Core meaning. A JSON-LD alias must not create a second normative property.
-
-### 9. Extensions
-
-Extensions are declared in `aduc.extensionDeclarations`. Each declaration includes:
+Extensions are declared in `aduc.extensionDeclarations` using:
 
 ```text
 namespace
@@ -169,43 +156,38 @@ version
 required
 ```
 
-Extension payloads appear only in an `extensions` object owned by a Core object. Each key is an absolute namespace IRI declared by the contract. An extension must not:
+Payloads appear only in an `extensions` object on the hosting Core object. An extension must not use an ADUC Core namespace, overwrite a Core property, redefine a Core term or create a hidden mandatory dependency.
 
-- use an ADUC Core namespace;
-- overwrite a Core property;
-- redefine a Core term;
-- create a hidden mandatory dependency.
+Unknown optional extensions are preserved and reported as unsupported. Unknown required extensions block conformance-dependent processing. Consumers must not treat unknown extension content as understood.
 
-Unknown optional extensions are preserved and reported as unsupported. Unknown required extensions block conformance-dependent processing. Consumers must not treat an unknown extension as understood.
-
-### 10. Module boundaries and dependency graph
+### Module boundaries and dependency graph
 
 Hard dependencies are acyclic:
 
 ```text
-aduc
-resource -> aduc
-structure -> resource
-provenance -> resource
-context -> structure
-semantics -> structure
-identity -> structure
-uncertainty -> structure
-relations -> aduc
-policy -> resource + provenance
+aduc: []
+resource: [aduc]
+structure: [resource]
+semantics: [structure]
+identity: [structure]
+context: [structure]
+provenance: [resource]
+uncertainty: [structure]
+relations: [aduc]
+policy: [resource, provenance]
 ```
 
-A module may make optional references to another present module without making that module globally mandatory. `relations` may reference any declared Core object, but it does not own or redefine those objects.
+Optional references do not make an optional module globally mandatory, but an unresolved optional reference blocks the operation that requires it. `relations` may reference any declared Core object but never owns or redefines that object.
 
-### 11. Compatibility and replacement
+### Compatibility and replacement
 
-Patch-compatible changes may add optional properties or controlled values when old consumers can preserve them safely. Removing a property, changing its meaning, changing cardinality, changing ownership, or weakening a safety rule requires a new incompatible model version.
+A compatible change may add optional information when older consumers can preserve it safely without changing existing meaning.
 
-Published objects are immutable. Replacement uses new identifiers and explicit replacement links. Migration tools create new documents; they do not rewrite history.
+Removing a property, changing meaning, cardinality, ownership, reference semantics or a safety default requires a new incompatible model version. Migration creates new documents and never rewrites published history.
 
-### 12. Existing semantic-mapping profile migration
+### Existing semantic-mapping profile migration
 
-The current mapping profile migrates into `semantics.assertions`:
+The implemented mapping profile migrates into `structure` and `semantics.assertions`:
 
 ```text
 source.field -> subjectRef
@@ -219,23 +201,26 @@ confidence -> confidence
 confidenceMethod -> confidenceMethodIri
 ```
 
-Source fields first receive stable `structure.fields[].id` values. Existing authority, evidence, confidence, conflict and lifecycle information must be preserved. Missing information remains missing or unknown; migration must not invent it.
+Fields first receive stable structural identifiers. Existing authority, evidence, confidence, conflict and lifecycle information is preserved. Missing information remains missing or unknown; migration must not invent it.
 
-### 13. Deterministic unsafe-information behavior
+### Deterministic unsafe-information behavior
 
-- absent optional module: report the dimension as not described;
-- unknown required Core data: block the dependent operation;
-- incomplete or redacted assertion: preserve and require review where the profile requires it;
-- contested assertion: do not select one authoritative interpretation automatically;
+- absent optional module: report `notDescribed`;
+- missing required Core data: reject the envelope or block the dependent operation;
+- incomplete or redacted assertion: preserve and require review where applicable;
+- contested assertion: do not select an authoritative interpretation automatically;
 - deprecated object: follow an explicit compatible replacement or block;
-- prohibited policy result: do not perform the governed use;
+- probable identity: do not merge as exact;
+- unknown relation semantics: do not infer inverse, transitivity or causality;
+- prohibited policy outcome: do not perform the governed use;
+- indeterminate policy outcome: do not treat it as permission;
 - unsupported required extension: block conformance-dependent processing;
-- unsupported optional extension: preserve and report, but do not interpret.
+- unsupported optional extension: preserve and report without interpretation.
 
 ## Rejected designs
 
-- an envelope where all blocks are optional;
-- multiple competing representations of the same fact;
+- an envelope where every block is optional;
+- multiple competing representations of one fact;
 - local identifiers without issuer or namespace;
 - array-position references;
 - circular mandatory module dependencies;
@@ -253,7 +238,7 @@ Source fields first receive stable `structure.fields[].id` values. Existing auth
 - the Core envelope and minimum contract are unambiguous;
 - every normative fact has one owner;
 - references and module dependencies are deterministic;
-- accepted profiles compose without losing their safety rules;
+- all accepted profiles compose without losing their safety rules;
 - schema implementers have fixed module boundaries;
 - extensions remain possible without weakening Core.
 
@@ -267,20 +252,25 @@ Source fields first receive stable `structure.fields[].id` values. Existing auth
 
 ## Acceptance evidence
 
-Acceptance requires:
+PR #48 provides:
 
 - `spec/ADUC_CORE_MODEL_0_1.md`;
 - `docs/architecture/CORE_MODULE_BOUNDARIES_0_1.md`;
-- a machine-readable module manifest;
-- one complete ten-block example;
-- architectural counterexamples and deterministic checks;
-- updated Core specification, roadmap, website and CI;
-- all repository checks passing in the acceptance pull request.
+- machine-readable `spec/core-module-manifest.json`;
+- one complete ten-block model containing 38 addressable objects with resolved references;
+- twenty-five rejected architectural counterexamples;
+- `tools/aduc_core_model.py`;
+- eleven architecture and CLI tests;
+- updated Core specification, roadmap, schema documentation, website and CI;
+- correction of the review finding that distinguished the existing historical bootstrap schema from the future official modular schema family;
+- every repository validation suite passing on the final reviewed head.
+
+The architectural checker enforces the frozen object-model invariants. It is not the future official full-Core JSON Schema validator.
 
 ## Follow-up
 
-1. implement the official modular JSON Schema family;
-2. create complete valid and invalid Core conformance examples;
-3. build the unified Core validator;
-4. update the complete example against the schemas;
-5. define migration tooling from the current mapping profile.
+1. implement the official modular Draft 2020-12 JSON Schema family;
+2. create complete valid and invalid schema conformance fixtures;
+3. build the unified Core validator and comparator;
+4. validate the complete example against the official schemas;
+5. implement migration tooling from the current mapping profile.
