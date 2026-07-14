@@ -1,92 +1,83 @@
 # Changelog
 
-All notable changes are documented here. The project follows Semantic Versioning after a public interface is defined. During `0.y.z`, breaking changes remain possible and must still be documented.
+All notable changes to this experimental project are recorded here.
+
+The format follows Keep a Changelog loosely. This project is not yet a recognized standard.
 
 ## Unreleased
 
-### Project foundation
+### Added
 
-- Repository governance, contribution rules, ADR method, execution ledger, roadmap, CI, licenses, security policy and agent instructions.
 - Prior-art matrix covering thirteen relevant standards and approaches.
 - Official full-Core program, ten-block object model, complete example and strict construction order.
 - English public website with GitHub Pages and Vercel static deployment.
-- Adoption and value-validation plan requiring manual-versus-assisted and with-versus-without-ADUC evidence.
+- Seven-state epistemic lifecycle with deterministic evaluator.
+- Source description and immutable source-binding profile.
+- Unit identifier, dimensional compatibility and deterministic conversion profile.
+- Temporal semantics, timezone evidence and deterministic alignment profile.
+- Entity identity, issuer authority and safe equivalence profile.
+- Provenance, transformation lineage, disclosure and reproducibility profile.
+- Uncertainty, missingness, propagation and data-quality profile.
+- General relation semantics and deterministic graph behavior profile.
+- Policy and permitted-use profile with deterministic safe outcomes.
+- Normative ten-block Core object model, module manifest and architecture checker.
+- Official modular Draft 2020-12 Core JSON Schema family and local schema-plus-architecture validator.
 
-### Semantic mapping foundation
+### Evidence
 
-- Standalone semantic-mapping assertion model and compatibility schema.
-- Valid and invalid fixtures, semantic validator, stable error catalogue and CLI reports.
-- Authoring and review workflow with immutable publication history.
-- Deterministic semantic comparator and two-source comparison examples.
-- Protected local JSON-LD context, RDF representation, URDNA2015 normalization and offline round-trip tests.
-- Provider-neutral multi-model conformance harness with explicitly non-qualifying illustrative runs.
-
-### Accepted Core profiles, model and schema
-
-- ADR-0005 — epistemic lifecycle: nine valid cases, eight invalid cases, deterministic evaluator.
-- ADR-0006 — immutable source binding: three valid cases, ten invalid cases, seven tests.
-- ADR-0007 — units and conversions: five valid cases, fifteen invalid cases, nine tests.
-- ADR-0008 — temporal semantics: nine valid cases, fifteen invalid cases, seven tests.
-- ADR-0009 — identity and safe equivalence: nine valid cases, seventeen invalid cases, nine tests.
-- ADR-0010 — provenance and transformation lineage: seven valid cases, twenty invalid cases, eight tests.
-- ADR-0011 — uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
-- ADR-0012 — general relation semantics: thirteen valid cases, twenty invalid cases, ten tests.
-- ADR-0013 — policy and permitted-use conditions: twenty valid cases, thirty-two invalid cases, thirteen tests.
+- Semantic mapping profile: 4 valid fixtures, 10 invalid fixtures, 8 validator tests and 9 comparator tests.
+- JSON-LD/RDF projection: 6 deterministic round-trip tests.
+- Provider-neutral conformance harness: 6 scenarios and 9 tests, with illustrative non-qualifying runs.
+- Epistemic lifecycle: 9 valid cases, 8 invalid cases and 7 tests.
+- Source binding: 3 valid cases, 10 invalid cases and 7 tests.
+- Units: 5 valid cases, 15 invalid cases and 9 tests.
+- Time: 9 valid cases, 15 invalid cases and 7 tests.
+- Identity: 9 valid cases, 17 invalid cases and 9 tests.
+- Provenance: 7 valid cases, 20 invalid cases and 8 tests.
+- Uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
+- General relations: thirteen valid cases, twenty invalid cases, ten tests.
+- Policy: twenty valid cases, thirty-two invalid cases, thirteen tests.
 - ADR-0014 — normative Core object model: complete ten-block example, twenty-five invalid architecture mutations, module manifest and eleven tests.
-- ADR-0015 — modular Core JSON Schema family: fourteen schemas, eleven valid contracts, fifteen invalid contracts, local validator and ten tests.
+- ADR-0015 — modular Core JSON Schema family: fourteen schemas, eleven valid contracts, fifteen invalid contracts, local validator and thirteen tests.
 
-### ADR-0012 — General relation semantics
+### Changed
 
-- Reused RDF, OWL, SKOS, PROV-O, Dublin Core Terms and explicit ADUC predicates.
-- Kept vocabulary definitions, relation assertions and consumer inferences separate.
-- Preserved endpoint binding, authority, evidence, provenance, scope, uncertainty, conflict and lifecycle.
-- Blocked unauthorized inverse, transitive and causal inference.
-- Kept `skos:closeMatch` distinct from equality and gated `owl:sameAs` through identity decisions.
-- Applied open-world unknown behavior and explicit negative assertions.
-- Added deterministic qualified JSON-LD/RDF export.
+- README, roadmap and public website now reflect the full-Core program rather than a narrow mapping-only package.
+- Root Vercel configuration now publishes the static website from `website/`.
 
-### ADR-0013 — Policy and permitted-use conditions
+### Not yet done
 
-- Reused the W3C ODRL Information Model and Vocabulary.
-- Bound policies to exact resource identity and SHA-256 version.
-- Separated permissions, prohibitions and duties from recommendations, legal notices and classifications.
-- Controlled actions, purposes, parties, recipients, places and environments.
-- Kept `public` classification distinct from permission.
-- Required bound evidence for pre-use duty satisfaction.
-- Preserved open and closed modes and five safe outcomes.
-- Required evidence for consent, ownership and legal-compliance claims.
-- Explicitly excluded legal advice and access-control enforcement.
+- Unified full-Core validator and deterministic comparator.
+- Migration tooling from the standalone semantic-mapping profile into complete Core contracts.
+- JSON/CSV compiler and review UI.
+- MCP adapter, registry service, extensions and anticipation engine.
+- Qualifying external multi-model interoperability proof.
+- Value benchmark and adoption evidence.
 
-### ADR-0014 — Normative Core object model and boundaries
-
-- Frozen ten top-level blocks and the minimum `aduc + resource + structure` envelope.
-- Kept `relations` as the only repeated top-level module.
-- Required absolute-IRI identifiers and deterministic `Ref` / `Refs` references.
-- Assigned every normative fact to one owning module.
-- Preserved qualification without conflating authority, confidence and measurement uncertainty.
-- Defined an acyclic module dependency graph.
-- Referenced external standards rather than copying them.
-- Defined JSON authoring, JSON-LD projection, namespaced extensions, immutable publication and migration rules.
-- Added a complete ten-block example with 38 addressable objects and twenty-five rejected architecture mutations.
+## 2026-07-14
 
 ### ADR-0015 — Modular Core JSON Schema family
 
 - Replaced the historical Core bootstrap with the official experimental Draft 2020-12 root and envelope.
 - Added module schemas for resource, structure, semantics, identity, context, provenance, uncertainty, relations and policy.
-- Added shared metadata, qualification and extension schemas.
-- Required `structure.records` according to the frozen object model.
-- Closed Core objects and confined extension payloads to declared external namespaces.
-- Enforced absolute IRIs, lowercase SHA-256 digests, controlled enums and qualification dependencies.
-- Enforced exclusive relation endpoint forms and non-executable descriptive policy rules.
-- Required provenance when policy is present.
-- Added eleven complete valid contracts and fifteen intentionally invalid contracts.
-- Added `tools/aduc_core_validate.py` with local schema resolution, stable JSON paths and complementary architecture checks.
-- Added ten schema, fixture, CLI and orchestration tests.
+- Added reusable metadata, qualification and extension schemas.
+- Added 11 valid complete Core contracts and 15 invalid complete Core contracts.
+- Added `tools/aduc_core_validate.py`, combining JSON Schema validation with the ADR-0014 architecture checker.
+- Added schema tests for local refs, offline operation, fixture behavior, closed objects, architecture complementarity and stable JSON error paths.
+- Added CI execution for the Core schema suite and the complete ten-block model.
 
-### Changed
+### ADR-0014 — Normative Core object model
 
-- Required measurable user value, review cost, confidence calibration and controlled baselines before compiler or interoperability success claims.
-- Required exact source, execution, predicate, policy-target, party, purpose, Core-object and evidence binding.
-- Blocked silent assumptions about uncertainty, identity, time, provenance, relations, permissions or authority.
-- Expanded CI through Core-model and modular-schema checks.
-- Advanced the single active task to the unified full-Core validator and deterministic comparator.
+- Added the accepted ten-block Core model and machine-readable module manifest.
+- Added the complete ten-block example and 25 invalid architectural counterexamples.
+- Added `tools/aduc_core_model.py` and Core model tests.
+
+## 2026-07-13
+
+### Initial public foundation
+
+- Repository structure, governance, license and CI.
+- Prior-art and standards boundary.
+- Semantic mapping profile, validator, comparator and JSON-LD/RDF projection.
+- Provider-neutral conformance harness foundation.
+- Public website, roadmap and project status files.
