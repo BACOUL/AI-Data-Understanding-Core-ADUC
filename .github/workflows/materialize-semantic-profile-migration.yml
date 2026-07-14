@@ -1,0 +1,55 @@
+name: materialize-semantic-profile-migration
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".migration-bundle/**"
+      - ".github/workflows/materialize-semantic-profile-migration.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: core/semantic-profile-migration
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify and extract implementation bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .migration-bundle/part*.b64 | base64 --decode > /tmp/aduc-migration-bundle.tar.gz
+          test "$(wc -c < /tmp/aduc-migration-bundle.tar.gz | tr -d ' ')" = "22776"
+          test "$(sha256sum /tmp/aduc-migration-bundle.tar.gz | awk '{print $1}')" = "cd60ed2aa32321b7e7f0a4e3b4bcdfec416b02632f8e326d1b9a8e2ba6d749f6"
+          tar -xzf /tmp/aduc-migration-bundle.tar.gz
+          python apply_updates.py
+          rm apply_updates.py
+          python -m py_compile tools/aduc_migrate_semantic_profile.py
+      - name: Validate migration before commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -r requirements-dev.txt
+          python -m unittest discover -s tests/core_migration -p "test_*.py"
+          python tools/aduc_migrate_semantic_profile.py examples/migration/inferred.profile.json examples/migration/inferred.manifest.json --output /tmp/migrated.core.json --report /tmp/migration.report.json
+          python tools/aduc_core.py validate /tmp/migrated.core.json
+          python tools/validate_website.py
+      - name: Commit verified migration milestone
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/validate.yml README.md CHANGELOG.md schema/README.md website/docs.html website/roadmap.html website/specification.html docs spec schema examples tests tools
+          git rm -r .migration-bundle
+          git rm -r .migration-transfer || true
+          git rm .github/workflows/materialize-semantic-profile-migration.yml
+          git commit -m "Core: implement deterministic semantic-profile migration"
+          git push origin HEAD:core/semantic-profile-migration
