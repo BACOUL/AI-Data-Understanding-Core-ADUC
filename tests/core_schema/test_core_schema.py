@@ -78,7 +78,8 @@ class CoreSchemaTests(unittest.TestCase):
 
     def test_architecture_checker_remains_complementary(self) -> None:
         document = copy.deepcopy(self.valid_cases[0]["document"])
-        document["structure"]["fields"].append(copy.deepcopy(document["structure"]["fields"][0]))
+        fields = document["structure"]["records"][0]["fields"]
+        fields.append(copy.deepcopy(fields[0]))
         schema_only = module.validate_document(document, architecture=False)
         combined = module.validate_document(document, architecture=True)
         self.assertTrue(schema_only["schemaValid"])
