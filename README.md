@@ -12,7 +12,7 @@ ADUC is a model-independent contract intended to let a data resource describe it
 
 > Two incompatible sources described with ADUC can be understood and compared consistently by multiple AI systems without rebuilding a different semantic integration for every model.
 
-ADUC composes established standards rather than replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, CloudEvents, DCAT, QUDT, UCUM, RFC 3339, RFC 9557, IANA TZDB, OWL-Time, OWL identity, DID, GS1, LEI or MCP.
+ADUC composes established standards rather than replacing JSON-LD/RDF, Croissant, PROV-O, DQV, ODRL, JSON Schema, OpenAPI, DCAT, QUDT, UCUM, RFC 3339, RFC 9557, IANA TZDB, OWL-Time, OWL identity, DID, GS1, LEI or MCP.
 
 ## Public website
 
@@ -39,14 +39,29 @@ policy      optional object
 
 The minimum interoperable contract is `aduc + resource + structure`. Every addressable object has an absolute-IRI identifier, every Core reference resolves deterministically and every normative fact has one owning module.
 
-The machine-readable architecture is in [`core-module-manifest.json`](spec/core-module-manifest.json). The complete ten-block example is [`complete-model.example.json`](examples/core/complete-model.example.json).
+The machine-readable architecture is [`core-module-manifest.json`](spec/core-module-manifest.json). The complete ten-block example is [`complete-model.example.json`](examples/core/complete-model.example.json).
 
 ```bash
 python tools/aduc_core_model.py
 python -m unittest discover -s tests/core_model -p "test_*.py"
 ```
 
-The architecture checker enforces the frozen object model. It is not the future official JSON Schema validator.
+# Official modular Core schema
+
+ADR-0015 implements the object model as a local JSON Schema Draft 2020-12 family. [`aduc-core.schema.json`](schema/aduc-core.schema.json) is the entry point; the other module schemas are listed in [`schema/README.md`](schema/README.md).
+
+The schema family enforces the minimum envelope, module shapes, closed Core objects, absolute IRIs, SHA-256 digests, assertion qualification, relation endpoint forms, policy structure and extension namespaces. The complementary architecture checker still handles duplicate identifiers, reference resolution, one-owner rules and graph-level safety.
+
+The official fixture set contains 11 complete valid contracts and 15 intentionally invalid contracts.
+
+```bash
+python tools/aduc_core_validate.py examples/core/complete-model.example.json
+python tools/aduc_core_validate.py examples/core/valid/cases.json
+python tools/aduc_core_validate.py examples/core/invalid/cases.json --schema-only
+python -m unittest discover -s tests/core_schema -p "test_*.py"
+```
+
+Passing schema validation proves structural conformance only. It does not prove factual truth, authority, legal permission or operational safety.
 
 # Accepted foundations
 
@@ -76,13 +91,13 @@ python tools/aduc_source_binding.py examples/source-description/reference-cases.
 
 ## Units and deterministic conversions
 
-ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, dimensions, quantity roles, global unit identity, exact conversions, rounding, uncertainty propagation and provenance.
+ADR-0007 and [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md) define quantity kinds, dimensions, roles, global unit identity, exact conversions, rounding, uncertainty propagation and provenance.
 
 ```text
 89 °C = 192.2 °F
 10 °C difference = 18.0 °F difference
 1.5 m³/s = 1500.0 L/s
-50 % = 0.500 unitless ratio
+0.5 °C standard uncertainty -> 0.9 °F
 ```
 
 ```bash
@@ -93,8 +108,6 @@ python tools/aduc_units.py examples/units/reference-cases.json examples/units/in
 
 ADR-0008 and [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md) distinguish fixed instants, local civil time, intervals, exact durations, calendar periods, temporal roles, precision, uncertainty and timezone evidence.
 
-The reference profile resolves `13/07/2026 14:00` in `Europe/Paris` to `2026-07-13T12:00:00Z`.
-
 ```bash
 python tools/aduc_time.py examples/time/reference-cases.json examples/time/invalid-cases.json
 ```
@@ -104,9 +117,9 @@ python tools/aduc_time.py examples/time/reference-cases.json examples/time/inval
 ADR-0009 and [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md) separate entities, identifiers, labels, relation assertions and merge decisions.
 
 ```text
-canonical M42 / MAIN-B crosswalk -> mergeAllowed
+canonical crosswalk -> mergeAllowed
 inferred similarity -> candidateOnly
-same text in different namespaces -> unresolved
+same label in different namespaces -> unresolved
 reviewed negative identity -> differentEntity
 ```
 
@@ -130,27 +143,19 @@ python tools/aduc_provenance.py examples/provenance/reference-cases.json example
 
 ADR-0011 and [`UNCERTAINTY_PROFILE_0_1.md`](spec/UNCERTAINTY_PROFILE_0_1.md) separate measurement uncertainty, semantic confidence, calibrated model probability, DQV-compatible quality and epistemic authority.
 
-```text
-0.5 °C standard uncertainty -> 0.9 °F
-3 and 4 independent standard uncertainties -> 5
-0.03 and 0.04 independent relative uncertainties -> 0.05
-resolution 0.1 rectangular contribution -> 0.028867513459481
-```
-
 ```bash
 python tools/aduc_uncertainty.py examples/uncertainty/reference-cases.json examples/uncertainty/invalid-cases.json
 ```
 
 ## General relation semantics
 
-ADR-0012 and [`RELATION_PROFILE_0_1.md`](spec/RELATION_PROFILE_0_1.md) preserve endpoint binding, direction, authority, evidence, provenance, temporal and contextual scope, uncertainty, conflict and lifecycle.
+ADR-0012 and [`RELATION_PROFILE_0_1.md`](spec/RELATION_PROFILE_0_1.md) preserve endpoint binding, direction, authority, evidence, provenance, temporal scope, uncertainty, conflict and lifecycle.
 
 ```text
 skos:closeMatch is not equality
-owl:sameAs requires a qualifying identity decision
 inverse relations require an authoritative inverse
 transitivity is never assumed
-correlation and temporal order do not establish causation
+correlation does not establish causation
 absence means unknown, not false
 ```
 
@@ -194,27 +199,30 @@ The provisional alpha target is at least 30% lower median assisted human time wi
 # Mandatory construction order
 
 ```text
-1. Core model
-2. Schema family
-3. Unified validator
-4. Complete examples
-5. JSON/CSV compiler
-6. Multi-model demonstration
-7. Extensions
-8. Anticipation engine
+1. Core model                 complete
+2. Schema family              complete
+3. Unified validator          next
+4. Unified comparator         next
+5. Semantic-profile migration
+6. JSON/CSV compiler
+7. Review interface
+8. Value and multi-model proof
+9. Extensions
+10. Anticipation engine
 ```
 
 TimeProofs and the anticipation engine remain separate projects.
 
 # Current status
 
-- Phase: Phase 0 — complete Core definition and public foundation
+- Phase: Phase 1 — Standard v0.1 implementation
 - Target release: `0.1.0-alpha.0`
 - Nine domain profiles: specified and reference-tested
 - Normative Core object model: frozen and architecture-tested
-- Complete ten-block model example: created, not yet schema-validated
-- Next action: implement the official modular full-Core JSON Schema family
-- Full-Core schema validator: not yet implemented
+- Official modular Core JSON Schema family: implemented
+- Complete ten-block example: schema- and architecture-valid
+- Core schema fixtures: 11 valid and 15 invalid
+- Next action: unified full-Core validator and deterministic comparator
 - External multi-model proof: absent
 
 See [`PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md), [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md) and [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md).
@@ -224,23 +232,15 @@ See [`PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md), [`MASTER_PLAN.md`](do
 1. [`ADUC_CORE_SPEC_0_1.md`](spec/ADUC_CORE_SPEC_0_1.md)
 2. [`ADUC_CORE_MODEL_0_1.md`](spec/ADUC_CORE_MODEL_0_1.md)
 3. [`CORE_MODULE_BOUNDARIES_0_1.md`](docs/architecture/CORE_MODULE_BOUNDARIES_0_1.md)
-4. [`EPISTEMIC_STATUS_MODEL_0_1.md`](spec/EPISTEMIC_STATUS_MODEL_0_1.md)
-5. [`SOURCE_DESCRIPTION_PROFILE_0_1.md`](spec/SOURCE_DESCRIPTION_PROFILE_0_1.md)
-6. [`UNIT_PROFILE_0_1.md`](spec/UNIT_PROFILE_0_1.md)
-7. [`TEMPORAL_PROFILE_0_1.md`](spec/TEMPORAL_PROFILE_0_1.md)
-8. [`IDENTITY_PROFILE_0_1.md`](spec/IDENTITY_PROFILE_0_1.md)
-9. [`PROVENANCE_PROFILE_0_1.md`](spec/PROVENANCE_PROFILE_0_1.md)
-10. [`UNCERTAINTY_PROFILE_0_1.md`](spec/UNCERTAINTY_PROFILE_0_1.md)
-11. [`RELATION_PROFILE_0_1.md`](spec/RELATION_PROFILE_0_1.md)
-12. [`POLICY_PROFILE_0_1.md`](spec/POLICY_PROFILE_0_1.md)
-13. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-14. [`AGENTS.md`](AGENTS.md)
+4. [`aduc-core.schema.json`](schema/aduc-core.schema.json)
+5. [`ADR-0015`](docs/decisions/ADR-0015-modular-core-json-schema-family.md)
+6. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+7. [`AGENTS.md`](AGENTS.md)
 
 # Not yet implemented
 
-- official modular full-Core JSON Schema family;
-- ten complete valid and ten complete invalid schema fixtures;
 - unified full-Core validator and comparator;
+- migration tooling from the standalone semantic-mapping profile;
 - JSON/CSV compiler and review UI;
 - manual mapping versus assisted benchmark;
 - controlled with and without ADUC external-model proof;
@@ -265,6 +265,8 @@ python -m unittest discover -s tests/uncertainty -p "test_*.py"
 python -m unittest discover -s tests/relations -p "test_*.py"
 python -m unittest discover -s tests/policy -p "test_*.py"
 python -m unittest discover -s tests/core_model -p "test_*.py"
+python -m unittest discover -s tests/core_schema -p "test_*.py"
+python tools/aduc_core_validate.py examples/core/complete-model.example.json
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python -m unittest discover -s tests/website -p "test_*.py"
 python tools/validate_website.py
