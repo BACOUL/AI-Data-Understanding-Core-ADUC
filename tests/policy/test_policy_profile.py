@@ -48,9 +48,23 @@ class PolicyProfileTests(unittest.TestCase):
     def test_pre_use_duty_requires_bound_evidence(self) -> None:
         satisfied = module.evaluate(self.by_id["pre-duty-satisfied"], self.registry)
         missing = module.evaluate(self.by_id["pre-duty-unsatisfied"], self.registry)
+        alternative = module.patch(self.by_id["pre-duty-unsatisfied"], [
+            ["set", ["policy", "rules", 1, "id"], "urn:rule:a-blocked"],
+            ["append", ["policy", "rules"], {
+                "action": "http://www.w3.org/ns/odrl/2/use",
+                "assigner": "urn:org:river-agency",
+                "effect": "permission",
+                "id": "urn:rule:z-independent",
+                "machineEvaluable": True,
+                "purposes": ["urn:aduc:purpose:research"],
+            }],
+        ])
+        independent = module.evaluate(alternative, self.registry)
         self.assertEqual(satisfied["result"]["outcome"], "permit")
         self.assertEqual(missing["result"]["outcome"], "deny")
         self.assertEqual(missing["result"]["reason"], "unsatisfiedPreUseDuty")
+        self.assertEqual(independent["result"]["outcome"], "permit")
+        self.assertEqual(independent["result"]["ruleId"], "urn:rule:z-independent")
 
     def test_post_use_duty_remains_visible(self) -> None:
         result = module.evaluate(self.by_id["post-duty-outstanding"], self.registry)
