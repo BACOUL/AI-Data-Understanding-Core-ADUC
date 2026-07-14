@@ -22,6 +22,7 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 - Policy and permitted-use profile with deterministic safe outcomes.
 - Normative ten-block Core object model, module manifest and architecture checker.
 - Official modular Draft 2020-12 Core JSON Schema family and local schema-plus-architecture validator.
+- Unified full-Core validator and deterministic comparator with stable JSON/text reports.
 
 ### Evidence
 
@@ -37,6 +38,7 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 - Uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
 - General relations: thirteen valid cases, twenty invalid cases, ten tests.
 - Policy: twenty valid cases, thirty-two invalid cases, thirteen tests.
+- ADR-0016 - unified Core validation and comparison: 24 official comparison scenarios, evaluator-adapter orchestration, separated change type and semantic assessments, dangerous-index blocking, iterative JSON-depth protection, 15 validator tests and 13 comparator tests.
 - ADR-0014 — normative Core object model: complete ten-block example, twenty-five invalid architecture mutations, module manifest and eleven tests.
 - ADR-0015 — modular Core JSON Schema family: fourteen schemas, eleven valid contracts, fifteen invalid contracts, local validator and thirteen tests.
 
@@ -47,7 +49,6 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 
 ### Not yet done
 
-- Unified full-Core validator and deterministic comparator.
 - Migration tooling from the standalone semantic-mapping profile into complete Core contracts.
 - JSON/CSV compiler and review UI.
 - MCP adapter, registry service, extensions and anticipation engine.
@@ -55,6 +56,15 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 - Value benchmark and adoption evidence.
 
 ## 2026-07-14
+
+### ADR-0016 - Unified Core validation and comparison
+
+- Added `tools/aduc_core.py` with `validate` and `compare` commands.
+- Added stable validation and comparison JSON reports with deterministic diagnostics, summaries and exit codes.
+- Added `spec/ADUC_CORE_VALIDATION_0_1.md`, `spec/ADUC_CORE_COMPARISON_0_1.md`, `docs/architecture/CORE_VALIDATION_PIPELINE_0_1.md` and `docs/errors/CORE_ERROR_CATALOGUE_0_1.md`.
+- Added 24 official comparison scenarios in `examples/core/comparison/cases.json`.
+- Added `tests/core_validator/` and `tests/core_comparator/`.
+- Corrected independent-audit P1 findings: the unified validator now calls accepted ADR-0005 through ADR-0013 evaluator functions where applicable, reports non-evaluable profile rules explicitly, separates comparator `changeType` from normative `assessment`, blocks dangerous architecture diagnostics before indexing, and rejects excessively deep JSON without traceback.
 
 ### ADR-0015 — Modular Core JSON Schema family
 

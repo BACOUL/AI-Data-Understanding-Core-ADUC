@@ -91,7 +91,7 @@ ADUC-SCHEMA-ONEOF
 ADUC-SCHEMA-DEPENDENCY
 ```
 
-These codes classify validation failures; they do not replace the domain-specific error catalogue planned for the unified validator.
+These codes classify validation failures; they are orchestrated with the unified catalogue delivered by ADR-0016.
 
 ## Acceptance evidence
 
@@ -112,4 +112,4 @@ Schema validity still does not prove that an assertion is true, authoritative, l
 
 ## Follow-up
 
-Build the unified full-Core validator and comparator on top of this schema family, then consolidate the existing domain-specific diagnostics without weakening their safety rules.
+ADR-0016 builds the unified full-Core validator and comparator on top of this schema family. The active follow-up is the semantic-profile migration path into complete Core contracts.
