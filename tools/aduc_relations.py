@@ -52,7 +52,7 @@ def expand(a:dict[str,Any],defaults:dict[str,Any])->dict[str,Any]:
       **({"contexts":d["ctx"]} if "ctx" in d else {}),
       **({"uncertaintyRef":d["u"]} if "u" in d else {}),
       **({"identityProfileRef":d["identity"]} if "identity" in d else {}),
-      **({"epistemicConfidence":d.get("confidence",0.8),"confidenceMethod":d.get("confidenceMethod","urn:aduc:method:calibrated-relation-v1")} if d.get("auth")=="inferred" else {})
+      **({"epistemicConfidence":d.get("confidence"),"confidenceMethod":d.get("confidenceMethod")} if d.get("auth")=="inferred" else {})
     }
 
 def validate_assertion(a:dict[str,Any],objects:dict[str,str],r:dict[str,Any])->tuple[dict[str,Any]|None,list[dict[str,str]]]:
@@ -117,6 +117,13 @@ def usable(a:dict[str,Any],at:str|None=None,ctx:str|None=None)->list[dict[str,st
 def graph_errors(items:list[dict[str,Any]],r:dict[str,Any])->list[dict[str,str]]:
     e=[]; ids=[x["id"] for x in items]
     if len(ids)!=len(set(ids)):e.append(error("ADUC-REL-DOC-001","duplicate relationId"))
+    polarities=defaultdict(set)
+    for x in items:
+        if x["conflict"]=="clear" and x["life"]=="active" and AUTH.get(x["auth"],-1)>=AUTH["reviewed"]:
+            o=x["o"] if isinstance(x["o"],str) else json.dumps(x["o"],sort_keys=True,separators=(",",":"))
+            polarities[(x["s"],x["p"],o)].add(x["pol"])
+    if any(v=={"positive","negative"} for v in polarities.values()):
+        e.append(error("ADUC-REL-CONFLICT-004","authoritative positive/negative contradiction"))
     live=[x for x in items if x["conflict"]=="clear" and x["life"]=="active" and isinstance(x["o"],str)]
     byp=defaultdict(list)
     for x in live:byp[x["p"]].append(x)
