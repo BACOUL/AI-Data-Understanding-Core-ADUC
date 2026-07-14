@@ -63,6 +63,24 @@ python -m unittest discover -s tests/core_schema -p "test_*.py"
 
 Passing schema validation proves structural conformance only. It does not prove factual truth, authority, legal permission or operational safety.
 
+# Unified full-Core validation and comparison
+
+ADR-0016 implements one local full-Core interface on top of the schema family, ADR-0014 checker and accepted profile rules.
+
+```bash
+python tools/aduc_core.py validate examples/core/complete-model.example.json
+python tools/aduc_core.py validate examples/core/complete-model.example.json --format json
+python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
+python -m unittest discover -s tests/core_validator -p "test_*.py"
+python -m unittest discover -s tests/core_comparator -p "test_*.py"
+```
+
+The validation report distinguishes schema, architecture and profile diagnostics. The profile pass calls the accepted ADR-0005 through ADR-0013 evaluators when the Core contract contains an applicable shape, and reports missing registry data, local bytes, operational requests or standalone profile records as `unknown`, `notApplicable`, `indeterminate` or `requiresHumanReview`.
+
+The comparison report indexes addressable Core objects by identifiers, not array order. It separates mechanical `changeType` (`added`, `removed`, `modified`, `unchanged`) from semantic `assessment` (`equivalent`, `convertible`, `compatible`, `incompatible`, `unknown`, `contested`, `deprecated`, `prohibited`, `requiresHumanReview`) and the compatibility-risk `classification`.
+
+Official comparison fixtures live in [`examples/core/comparison/cases.json`](examples/core/comparison/cases.json). The report formats and error families are documented in [`ADUC_CORE_VALIDATION_0_1.md`](spec/ADUC_CORE_VALIDATION_0_1.md), [`ADUC_CORE_COMPARISON_0_1.md`](spec/ADUC_CORE_COMPARISON_0_1.md), [`CORE_VALIDATION_PIPELINE_0_1.md`](docs/architecture/CORE_VALIDATION_PIPELINE_0_1.md) and [`CORE_ERROR_CATALOGUE_0_1.md`](docs/errors/CORE_ERROR_CATALOGUE_0_1.md).
+
 # Accepted foundations
 
 ## Epistemic lifecycle
@@ -201,8 +219,8 @@ The provisional alpha target is at least 30% lower median assisted human time wi
 ```text
 1. Core model                 complete
 2. Schema family              complete
-3. Unified validator          next
-4. Unified comparator         next
+3. Unified validator          complete
+4. Unified comparator         complete
 5. Semantic-profile migration
 6. JSON/CSV compiler
 7. Review interface
@@ -215,14 +233,16 @@ TimeProofs and the anticipation engine remain separate projects.
 
 # Current status
 
-- Phase: Phase 1 — Standard v0.1 implementation
+- Phase: Phase 2 — Reference implementation
 - Target release: `0.1.0-alpha.0`
 - Nine domain profiles: specified and reference-tested
 - Normative Core object model: frozen and architecture-tested
 - Official modular Core JSON Schema family: implemented
 - Complete ten-block example: schema- and architecture-valid
 - Core schema fixtures: 11 valid and 15 invalid
-- Next action: unified full-Core validator and deterministic comparator
+- Unified full-Core validator and comparator: implemented
+- Core comparison fixtures: 24 scenarios
+- Next action: migration from the standalone semantic-mapping profile into complete Core contracts
 - External multi-model proof: absent
 
 See [`PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md), [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md) and [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md).
@@ -239,7 +259,6 @@ See [`PROJECT_STATUS.md`](docs/roadmap/PROJECT_STATUS.md), [`MASTER_PLAN.md`](do
 
 # Not yet implemented
 
-- unified full-Core validator and comparator;
 - migration tooling from the standalone semantic-mapping profile;
 - JSON/CSV compiler and review UI;
 - manual mapping versus assisted benchmark;
@@ -266,7 +285,11 @@ python -m unittest discover -s tests/relations -p "test_*.py"
 python -m unittest discover -s tests/policy -p "test_*.py"
 python -m unittest discover -s tests/core_model -p "test_*.py"
 python -m unittest discover -s tests/core_schema -p "test_*.py"
+python -m unittest discover -s tests/core_validator -p "test_*.py"
+python -m unittest discover -s tests/core_comparator -p "test_*.py"
 python tools/aduc_core_validate.py examples/core/complete-model.example.json
+python tools/aduc_core.py validate examples/core/complete-model.example.json
+python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python -m unittest discover -s tests/website -p "test_*.py"
 python tools/validate_website.py
