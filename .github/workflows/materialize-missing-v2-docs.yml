@@ -46,7 +46,9 @@ jobs:
         if: always()
         with:
           name: aduc-v2-docs-integrity
-          path: /tmp/aduc-v2-docs-integrity.txt
+          path: |
+            /tmp/aduc-v2-docs-integrity.txt
+            .docs-repair/part03a.b64
       - name: Reject archive mismatch
         if: steps.reconstruct.outcome != 'success'
         run: exit 1
