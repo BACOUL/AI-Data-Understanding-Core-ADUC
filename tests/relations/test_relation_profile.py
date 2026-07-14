@@ -53,6 +53,17 @@ class RelationProfileTests(unittest.TestCase):
                 r=module.evaluate(self.bad[case],self.reg,self.defaults)
                 self.assertIn(code,{e["code"] for e in r["errors"]})
 
+        inferred=module.patch(self.byid["dependency"],[["set",["a",0,"auth"],"inferred"]])
+        r=module.evaluate(inferred,self.reg,self.defaults)
+        self.assertIn("ADUC-REL-AUTH-002",{e["code"] for e in r["errors"]})
+
+        contradiction=module.patch(self.byid["dependency"],[
+            ["set",["a",0,"auth"],"canonical"],
+            ["append",["a"],{"id":"urn:rel:not-dep","s":"urn:r:a","p":"urn:aduc:predicate:dependsOn","o":"urn:s:b","pol":"negative","auth":"canonical"}]
+        ])
+        r=module.evaluate(contradiction,self.reg,self.defaults)
+        self.assertIn("ADUC-REL-CONFLICT-004",{e["code"] for e in r["errors"]})
+
     def test_scope_and_lifecycle(self):
         for case,code in [("outside-time","ADUC-REL-SCOPE-001"),("outside-context","ADUC-REL-SCOPE-001"),("contested-use","ADUC-REL-LIFE-001"),("deprecated-use","ADUC-REL-LIFE-001")]:
             with self.subTest(case=case):
