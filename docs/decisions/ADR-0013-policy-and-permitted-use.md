@@ -3,12 +3,12 @@
 - Status: accepted
 - Date: 2026-07-14
 - Issue: #45
-- Pull request: pending
+- Pull request: #46
 - Decision owners: ADUC maintainers
 
 ## Context
 
-ADUC already defines source binding, semantic mappings, units, time, identity, provenance, uncertainty, quality, and general relations. The remaining Core domain profile must describe conditions of use without inventing legal authority or pretending that a machine-readable declaration overrides law, contracts, consent requirements, access controls, or jurisdiction-specific interpretation.
+ADUC already defines source binding, semantic mappings, units, time, identity, provenance, uncertainty, quality, and general relations. The remaining Core domain profile must communicate conditions of use without inventing legal authority or pretending that a machine-readable declaration overrides law, contracts, consent requirements, access controls, or jurisdiction-specific interpretation.
 
 A policy layer is unsafe when it silently assumes that:
 
@@ -25,11 +25,11 @@ A policy layer is unsafe when it silently assumes that:
 
 ## Decision
 
-### 1. Reuse ODRL and established identifiers
+### 1. Reuse ODRL
 
-ADUC reuses the W3C ODRL Information Model and Vocabulary for policy, permission, prohibition, duty, target, assigner, assignee, action, and related policy concepts.
+ADUC reuses the W3C ODRL Information Model and Vocabulary for policy, permission, prohibition, duty, target, assigner, assignee, action, and related concepts.
 
-ADUC adds only the qualification needed to integrate policy with the accepted Core profiles:
+ADUC adds only the qualification required to integrate policy with accepted Core profiles:
 
 ```text
 exact target binding and digest
@@ -41,9 +41,9 @@ temporal, spatial, and environment scope
 deterministic consumer outcome
 ```
 
-ADUC does not create a competing general-purpose rights language and does not override ODRL semantics.
+ADUC does not create a competing rights language and does not override ODRL semantics.
 
-### 2. Separate description, rule, and decision
+### 2. Separate description, rule, and result
 
 The profile separates:
 
@@ -55,7 +55,7 @@ consumer evaluation result
 
 A classification, recommendation, or legal notice may inform a person but cannot grant permission or impose an executable duty merely because it appears in a policy document.
 
-### 3. Policy record
+### 3. Bind every policy to an exact target
 
 Every policy identifies:
 
@@ -79,11 +79,11 @@ optional supersedes and inheritance references
 
 The target is bound through ADR-0006. Parties use absolute identifiers consistent with ADR-0009. Time follows ADR-0008. Provenance follows ADR-0010. Authority, conflict, and lifecycle follow ADR-0005.
 
-### 4. Controlled actions and purposes
+A request for the same resource identifier with a different digest is blocked as a target-version mismatch.
 
-Actions and purposes use absolute identifiers from a pinned profile.
+### 4. Use controlled actions, purposes, and parties
 
-A consumer must not equate:
+Actions and purposes use absolute identifiers from a pinned profile. A consumer must not equate:
 
 ```text
 "research"
@@ -92,9 +92,11 @@ urn:aduc:purpose:research
 
 Free-text matching, label similarity, and model guesses do not establish purpose equivalence.
 
-### 5. Executable rule types
+A named assignee requires an identified requester. A named recipient requires an identified recipient. Local labels do not satisfy identity requirements.
 
-The offline Core subset supports:
+### 5. Distinguish executable and human-only effects
+
+The offline Core subset supports executable:
 
 ```text
 permission
@@ -102,7 +104,7 @@ prohibition
 duty
 ```
 
-It also preserves non-executable:
+It preserves as human-only:
 
 ```text
 recommendation
@@ -110,35 +112,22 @@ legalNotice
 classification
 ```
 
-Executable rules must explicitly declare that they are machine-evaluable, identify a controlled action, identify an assigner, and satisfy their type-specific requirements.
+Executable rules must explicitly declare machine evaluability, identify a controlled action and assigner, and satisfy their type-specific requirements.
 
-### 6. Parties and recipients
+### 6. Preserve duty phases and evidence
 
-A rule may restrict:
-
-```text
-assignee
-recipient
-```
-
-A named assignee requires an identified requester. A named recipient requires an identified recipient. Missing or local party labels do not satisfy identity requirements.
-
-### 7. Duties
-
-A permission may reference duties.
-
-Duties are divided into:
+A permission may reference duties divided into:
 
 ```text
 preUse
 postUse
 ```
 
-An unsatisfied pre-use duty blocks permission. A post-use duty may remain visible as an outstanding obligation in a `permit` result.
+An unsatisfied pre-use duty blocks that permission. It does not block a separate qualifying permission. A post-use duty may remain visible as an outstanding obligation in a `permit` result.
 
 Duty satisfaction requires bound evidence. A boolean such as `satisfied: true` is insufficient by itself.
 
-### 8. Open and closed policy modes
+### 7. Make policy mode explicit
 
 In `open` mode, absence of an applicable rule yields:
 
@@ -152,9 +141,9 @@ In `closed` mode, absence of an applicable permission yields:
 deny
 ```
 
-Neither behavior may be inferred without an explicit governing mode.
+Neither behavior may be inferred without an explicit mode.
 
-### 9. Deterministic precedence
+### 8. Use deterministic safe precedence
 
 The reference subset uses:
 
@@ -162,11 +151,11 @@ The reference subset uses:
 matching prohibition overrides matching permission
 ```
 
-This is a deterministic consumer-safety rule for the profile, not a claim of universal legal precedence.
+This is a deterministic consumer-safety rule for this profile, not a claim of universal legal precedence.
 
-A qualifying permission may produce `permit` only when no matching prohibition applies and all pre-use duties are satisfied.
+A qualifying permission may produce `permit` only when no matching prohibition applies and all of that permission's pre-use duties are satisfied.
 
-### 10. Safe outcomes
+### 9. Return only safe outcomes
 
 The evaluator returns one of:
 
@@ -178,17 +167,15 @@ indeterminate
 requiresHumanReview
 ```
 
-Meaning:
-
-- `permit`: a qualifying permission applies, no matching prohibition applies, and pre-use duties are satisfied;
-- `deny`: a prohibition applies, the policy is outside validity, a pre-use duty is unsatisfied, or closed mode denies by default;
+- `permit`: a qualifying permission applies, no matching prohibition applies, and its pre-use duties are satisfied;
+- `deny`: a prohibition applies, the policy is outside validity, every matching permission is blocked by a pre-use duty, or closed mode denies by default;
 - `notApplicable`: the request targets a different bound resource;
 - `indeterminate`: an open policy contains no applicable executable rule;
 - `requiresHumanReview`: the policy is inferred, partial, redacted, externally governed, contested, deprecated, or dependent on a human-only statement.
 
-These results describe profile evaluation. They are not legal advice and do not themselves grant access.
+These are profile-evaluation results. They are not legal advice and do not themselves grant access.
 
-### 11. Claims requiring external evidence
+### 10. Require evidence for sensitive claims
 
 Claims of:
 
@@ -200,7 +187,7 @@ legal compliance
 
 require typed, bound evidence with provenance. ADUC records that evidence; it does not independently determine legal validity.
 
-### 12. Scope
+### 11. Preserve scope
 
 Policy evaluation may restrict:
 
@@ -215,19 +202,19 @@ action
 target version
 ```
 
-A request for the same resource identifier with a different digest is blocked as a target-version mismatch.
+A rule is applicable only when all declared restrictions match the request.
 
-### 13. Composition, versioning, and replacement
+### 12. Resolve composition explicitly
 
 A policy may identify `supersedes` and `inheritsFrom`.
 
-The offline subset automatically evaluates inherited policy only when composition is explicitly resolved and supported by bound composition evidence. Self-reference, unresolved inheritance, and missing composition evidence are blocked.
+The offline subset accepts inherited terms only when the producer has materialized the resolved rule set, marks composition as resolved, and provides bound composition evidence. Self-reference, unresolved inheritance, and missing evidence are blocked.
 
 Published policy records are immutable. Replacement creates a new identified policy.
 
-### 14. Disclosure, conflict, and lifecycle
+### 13. Block unreliable policy states
 
-Automatic reliance is blocked or escalated when a policy is:
+Automatic reliance is blocked or escalated for:
 
 ```text
 partial
@@ -239,7 +226,7 @@ deprecated
 
 An inferred policy requires explicit calibrated confidence and method but still yields `requiresHumanReview` in the reference subset.
 
-### 15. Deterministic JSON-LD/RDF export
+### 14. Export deterministically
 
 The reference exporter emits:
 
@@ -249,7 +236,7 @@ The reference exporter emits:
 4. absolute identifiers;
 5. deterministic rule ordering.
 
-Export does not convert human-only statements into executable rules.
+Export never converts human-only statements into executable rules.
 
 ## Consequences
 
@@ -260,6 +247,7 @@ Export does not convert human-only statements into executable rules.
 - prohibitions, duties, parties, purposes, target versions, and policy states remain explicit;
 - open-world uncertainty is preserved;
 - evidence is required for duty satisfaction and sensitive legal claims;
+- alternative valid permissions are evaluated independently;
 - consumers receive deterministic safe outcomes;
 - JSON-LD/RDF exchange is reproducible.
 
@@ -298,9 +286,9 @@ Export does not convert human-only statements into executable rules.
 - thirty-two invalid counterexamples;
 - thirteen deterministic evaluator and CLI tests;
 - pinned policy-registry identity and SHA-256 validation;
-- permission, prohibition, duty, party, purpose, target, time, disclosure, authority, composition, consent, and open/closed-mode checks;
+- permission, prohibition, alternative-permission, duty, party, purpose, target, time, disclosure, authority, composition, consent, and open/closed-mode checks;
 - deterministic JSON-LD/RDF export;
-- GitHub Actions passed the policy suite and every pre-existing validation suite in the acceptance pull request.
+- GitHub Actions run 140 passed the policy suite and every pre-existing validation suite in PR #46.
 
 ## Follow-up
 
