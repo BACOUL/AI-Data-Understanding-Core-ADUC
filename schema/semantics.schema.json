@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aduc.example/schema/0.1/semantics.schema.json",
+  "title": "ADUC semantics module",
+  "type": "object",
+  "properties": {
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "subjectRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "conceptIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "mappingRelationIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "unitIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "valueMap": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "aduc-metadata.schema.json#/$defs/iri"}},
+          "generationMethod": {"enum": ["publisher", "humanReview", "inferred", "imported"]},
+          "status": {"$ref": "aduc-metadata.schema.json#/$defs/status"},
+          "authority": {"$ref": "aduc-metadata.schema.json#/$defs/authority"},
+          "assertedByRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "assertedAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+          "evidenceRefs": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+          "provenanceRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "confidenceMethodIri": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "uncertaintyRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "conflict": {"$ref": "aduc-metadata.schema.json#/$defs/conflict"},
+          "lifecycle": {"$ref": "aduc-metadata.schema.json#/$defs/lifecycle"},
+          "validDuringRef": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+          "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+        },
+        "required": ["id", "subjectRef", "conceptIri", "mappingRelationIri", "status", "conflict", "lifecycle"],
+        "dependentRequired": {"confidence": ["confidenceMethodIri"], "confidenceMethodIri": ["confidence"]},
+        "additionalProperties": false
+      }
+    },
+    "extensions": {"$ref": "extension.schema.json#/$defs/extensions"}
+  },
+  "required": ["assertions"],
+  "additionalProperties": false
+}
