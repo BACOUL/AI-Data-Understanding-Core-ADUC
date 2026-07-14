@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "0.1.0",
+  "base": "../complete-model.example.json",
+  "description": "Deterministic comparison scenarios. Each operation is applied to a copy of the base ADUC Core contract.",
+  "cases": [
+    {
+      "id": "01-identical-reordered",
+      "description": "Equivalent contracts with different object member and addressable array order.",
+      "left": [],
+      "right": [
+        {"op": "reverse", "path": ["structure", "records", 0, "fields"]},
+        {"op": "reverse", "path": ["semantics", "assertions"]},
+        {"op": "reverse", "path": ["provenance", "activities"]}
+      ],
+      "expectedOverall": "unchanged",
+      "expectedCodes": [],
+      "modules": []
+    },
+    {
+      "id": "02-add-optional-field",
+      "description": "Adding an optional field is compatible for consumers that ignore unknown optional fields.",
+      "left": [],
+      "right": [
+        {
+          "op": "append",
+          "path": ["structure", "records", 0, "fields"],
+          "value": {
+            "id": "urn:example:field:temperature",
+            "name": "temperature",
+            "sourcePath": "$.temperature",
+            "primitiveType": "number",
+            "required": false
+          }
+        }
+      ],
+      "expectedOverall": "compatible",
+      "expectedCodes": ["ADUC-COMPARE-STRUCTURE-FIELD-ADDED-OPTIONAL-001"],
+      "modules": ["structure"]
+    },
+    {
+      "id": "03-add-required-field",
+      "description": "Adding a required field can break consumers that produce or expect the old shape.",
+      "left": [],
+      "right": [
+        {
+          "op": "append",
+          "path": ["structure", "records", 0, "fields"],
+          "value": {
+            "id": "urn:example:field:temperature",
+            "name": "temperature",
+            "sourcePath": "$.temperature",
+            "primitiveType": "number",
+            "required": true
+          }
+        }
+      ],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-STRUCTURE-FIELD-ADDED-REQUIRED-001"],
+      "modules": ["structure"]
+    },
+    {
+      "id": "04-remove-field",
+      "description": "Removing a required field is incompatible even when dependent semantics are also removed.",
+      "left": [],
+      "right": [
+        {"op": "removeAt", "path": ["structure", "records", 0, "fields"], "index": 2},
+        {"op": "removeAt", "path": ["semantics", "assertions"], "index": 2}
+      ],
+      "expectedOverall": "incompatible",
+      "expectedCodes": ["ADUC-COMPARE-STRUCTURE-FIELD-REMOVED-001"],
+      "modules": ["structure", "semantics"]
+    },
+    {
+      "id": "05-change-primitive-type",
+      "description": "Changing a primitive type is incompatible.",
+      "left": [],
+      "right": [
+        {"op": "set", "path": ["structure", "records", 0, "fields", 1, "primitiveType"], "value": "string"}
+      ],
+      "expectedOverall": "incompatible",
+      "expectedCodes": ["ADUC-COMPARE-STRUCTURE-PRIMITIVE-001"],
+      "modules": ["structure"]
+    },
+    {
+      "id": "06-change-digest",
+      "description": "Changing a resource digest means the resources are not simply equal.",
+      "left": [],
+      "right": [
+        {"op": "set", "path": ["resource", "digest"], "value": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"},
+        {"op": "set", "path": ["policy", "policies", 0, "targetDigest"], "value": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+      ],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-RESOURCE-DIGEST-001"],
+      "modules": ["resource", "policy"]
+    },
+    {
+      "id": "07-change-semantic-concept",
+      "description": "Changing the mapped concept is a semantic change.",
+      "left": [],
+      "right": [
+        {"op": "set", "path": ["semantics", "assertions", 1, "conceptIri"], "value": "https://example.org/vocab/env/StreamVelocity"}
+      ],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-CONCEPT-001"],
+      "modules": ["semantics"]
+    },
+    {
+      "id": "08-change-unit",
+      "description": "Changing a unit with a verified pinned registry, matching quantity kind and rounding policy is convertible.",
+      "left": [
+        {
+          "op": "set",
+          "path": ["semantics", "extensions", "https://example.org/aduc/ext/hydrology/", "unitProfiles"],
+          "value": {
+            "urn:example:semantic:flow": {
+              "registry": {
+                "path": "registry.json",
+                "registryId": "urn:aduc:unit-registry:reference:0.1",
+                "registryVersion": "0.1.0",
+                "sha256": "6092b9b67993b2ead4bb9efdfbd36946d8c3aae8dc86b4c1fb2d05afa28a1346"
+              },
+              "quantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
+              "dimensionVector": "http://qudt.org/vocab/dimensionvector/A0E0L3I0M0H0T-1D0",
+              "quantityRole": "ordinary",
+              "rounding": {"roundingMode": "half-even", "decimalPlaces": 1},
+              "uncertaintyPreserved": true
+            }
+          }
+        }
+      ],
+      "right": [
+        {
+          "op": "set",
+          "path": ["semantics", "extensions", "https://example.org/aduc/ext/hydrology/", "unitProfiles"],
+          "value": {
+            "urn:example:semantic:flow": {
+              "registry": {
+                "path": "registry.json",
+                "registryId": "urn:aduc:unit-registry:reference:0.1",
+                "registryVersion": "0.1.0",
+                "sha256": "6092b9b67993b2ead4bb9efdfbd36946d8c3aae8dc86b4c1fb2d05afa28a1346"
+              },
+              "quantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
+              "dimensionVector": "http://qudt.org/vocab/dimensionvector/A0E0L3I0M0H0T-1D0",
+              "quantityRole": "ordinary",
+              "rounding": {"roundingMode": "half-even", "decimalPlaces": 1},
+              "uncertaintyPreserved": true
+            }
+          }
+        },
+        {"op": "set", "path": ["semantics", "assertions", 1, "unitIri"], "value": "https://qudt.org/vocab/unit/L-PER-SEC"}
+      ],
+      "expectedOverall": "compatible",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-UNIT-001"],
+      "expectedAssessments": ["convertible"],
+      "modules": ["semantics"]
+    },
+    {
+      "id": "09-promote-authority",
+      "description": "Promoting reviewed semantics to canonical changes authority, not truth.",
+      "left": [],
+      "right": [
+        {"op": "set", "path": ["semantics", "assertions", 1, "status"], "value": "canonical"},
+        {"op": "set", "path": ["semantics", "assertions", 1, "authority"], "value": "canonical"}
+      ],
+      "expectedOverall": "requiresHumanReview",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-AUTHORITY-001", "ADUC-COMPARE-SEMANTICS-STATUS-001"],
+      "modules": ["semantics"]
+    },
+    {
+      "id": "10-conflict-appears",
+      "description": "A newly contested assertion requires human review.",
+      "left": [],
+      "right": [{"op": "set", "path": ["semantics", "assertions", 1, "conflict"], "value": "contested"}],
+      "expectedOverall": "requiresHumanReview",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-CONFLICT-001"],
+      "modules": ["semantics"]
+    },
+    {
+      "id": "11-possible-identity-to-exact",
+      "description": "Changing an identity decision from candidate to exact requires review.",
+      "left": [{"op": "set", "path": ["identity", "identityAssertions", 0, "decision"], "value": "candidateOnly"}],
+      "right": [],
+      "expectedOverall": "requiresHumanReview",
+      "expectedCodes": ["ADUC-COMPARE-IDENTITY-DECISION-001", "ADUC-COMPARE-IDENTITY-PROMOTION-001"],
+      "modules": ["identity"]
+    },
+    {
+      "id": "12-change-timezone",
+      "description": "Changing temporal timezone changes the context of interpretation.",
+      "left": [],
+      "right": [{"op": "set", "path": ["context", "temporal", 0, "timezoneIri"], "value": "https://www.iana.org/time-zones/Europe/Paris"}],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-CONTEXT-TIMEZONE-001"],
+      "modules": ["context"]
+    },
+    {
+      "id": "13-change-provenance",
+      "description": "Changing provenance activity inputs changes lineage.",
+      "left": [],
+      "right": [{"op": "set", "path": ["provenance", "activities", 0, "usedRefs"], "value": ["urn:example:evidence:station-register"]}],
+      "expectedOverall": "modified",
+      "expectedCodes": ["ADUC-COMPARE-PROVENANCE-MODIFIED-001"],
+      "modules": ["provenance"]
+    },
+    {
+      "id": "14-change-uncertainty",
+      "description": "Changing an uncertainty value changes the quantitative interpretation.",
+      "left": [],
+      "right": [{"op": "set", "path": ["uncertainty", "statements", 0, "value"], "value": 0.08}],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-UNCERTAINTY-VALUE-001"],
+      "modules": ["uncertainty"]
+    },
+    {
+      "id": "15-relation-contradiction",
+      "description": "A new negative relation over the same endpoints contradicts the existing positive relation.",
+      "left": [],
+      "right": [
+        {
+          "op": "append",
+          "path": ["relations"],
+          "value": {
+            "id": "urn:example:relation:resource-not-derived-from-feed",
+            "subjectRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z",
+            "predicateIri": "http://www.w3.org/ns/prov#wasDerivedFrom",
+            "objectRef": "urn:example:prov-entity:raw-sensor-feed",
+            "polarity": "negative",
+            "methodIri": "urn:aduc:method:publisher-assertion",
+            "status": "reviewed",
+            "authority": "reviewed",
+            "assertedByRef": "urn:example:agent:hydrologist-7",
+            "evidenceRefs": ["urn:example:evidence:river-dictionary"],
+            "provenanceRef": "urn:example:activity:semantic-review",
+            "conflict": "clear",
+            "lifecycle": "active"
+          }
+        }
+      ],
+      "expectedOverall": "incompatible",
+      "expectedCodes": ["ADUC-COMPARE-RELATION-CONTRADICTION-001"],
+      "modules": ["relations"]
+    },
+    {
+      "id": "16-add-policy-prohibition",
+      "description": "Adding an applicable prohibition can block automated consumption.",
+      "left": [],
+      "right": [
+        {
+          "op": "append",
+          "path": ["policy", "policies", 0, "rules"],
+          "value": {
+            "id": "urn:example:policy-rule:deny-commercial-resale",
+            "effect": "prohibition",
+            "machineEvaluable": true,
+            "assignerRef": "urn:example:agent:river-agency",
+            "actionIri": "http://www.w3.org/ns/odrl/2/sell",
+            "purposeIris": ["urn:aduc:purpose:commercial-resale"]
+          }
+        }
+      ],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-POLICY-PROHIBITION-ADDED-001"],
+      "modules": ["policy"]
+    },
+    {
+      "id": "17-add-optional-extension",
+      "description": "Adding an optional extension declaration is compatible but extension payloads remain isolated.",
+      "left": [],
+      "right": [
+        {
+          "op": "append",
+          "path": ["aduc", "extensionDeclarations"],
+          "value": {
+            "namespace": "https://example.org/aduc/ext/display/",
+            "profileIri": "https://example.org/aduc/ext/display/profile/1.0",
+            "version": "1.0.0",
+            "required": false
+          }
+        }
+      ],
+      "expectedOverall": "compatible",
+      "expectedCodes": ["ADUC-COMPARE-EXTENSION-DECL-ADDED-001"],
+      "modules": ["extensions"]
+    },
+    {
+      "id": "18-extension-becomes-required",
+      "description": "Making an extension mandatory blocks identifier-based automated comparison until the extension is supported.",
+      "left": [],
+      "right": [{"op": "set", "path": ["aduc", "extensionDeclarations", 0, "required"], "value": true}],
+      "expectedOverall": "notComparable",
+      "expectedCodes": ["ADUC-COMPARE-INPUT-RIGHT-002"],
+      "expectedAssessments": ["unknown"],
+      "modules": ["contract"]
+    },
+    {
+      "id": "19-left-invalid",
+      "description": "Comparison is not comparable when the left contract is structurally invalid.",
+      "left": [{"op": "remove", "path": ["resource", "id"]}],
+      "right": [],
+      "expectedOverall": "notComparable",
+      "expectedCodes": ["ADUC-COMPARE-INPUT-LEFT-001"],
+      "modules": ["contract"]
+    },
+    {
+      "id": "20-right-invalid",
+      "description": "Comparison is not comparable when the right contract is structurally invalid.",
+      "left": [],
+      "right": [{"op": "remove", "path": ["structure", "records"]}],
+      "expectedOverall": "notComparable",
+      "expectedCodes": ["ADUC-COMPARE-INPUT-RIGHT-001"],
+      "modules": ["contract"]
+    },
+    {
+      "id": "21-contract-status-and-version",
+      "description": "Contract-level version, status and replacement metadata are reported separately from module facts.",
+      "left": [],
+      "right": [
+        {"op": "set", "path": ["aduc", "contractId"], "value": "urn:aduc:contract:river-r42:2026-07-15"},
+        {"op": "set", "path": ["aduc", "status"], "value": "canonical"},
+        {"op": "set", "path": ["aduc", "supersedes"], "value": "urn:aduc:contract:river-r42:2026-07-14"}
+      ],
+      "expectedOverall": "requiresHumanReview",
+      "expectedCodes": ["ADUC-COMPARE-CONTRACT-ID-001", "ADUC-COMPARE-CONTRACT-STATUS-001", "ADUC-COMPARE-CONTRACT-SUPERSEDES-001"],
+      "modules": ["aduc"]
+    },
+    {
+      "id": "22-deprecated-semantic-object",
+      "description": "A newly deprecated semantic assertion remains visible as a lifecycle assessment, not as disappearance.",
+      "left": [],
+      "right": [{"op": "set", "path": ["semantics", "assertions", 1, "lifecycle"], "value": "deprecated"}],
+      "expectedOverall": "requiresHumanReview",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-LIFECYCLE-001"],
+      "expectedAssessments": ["deprecated"],
+      "modules": ["semantics"]
+    },
+    {
+      "id": "23-unit-non-convertible",
+      "description": "A registry-backed unit change with incompatible dimensions is not convertible.",
+      "left": [
+        {
+          "op": "set",
+          "path": ["semantics", "extensions", "https://example.org/aduc/ext/hydrology/", "unitProfiles"],
+          "value": {
+            "urn:example:semantic:flow": {
+              "registry": {
+                "path": "registry.json",
+                "registryId": "urn:aduc:unit-registry:reference:0.1",
+                "registryVersion": "0.1.0",
+                "sha256": "6092b9b67993b2ead4bb9efdfbd36946d8c3aae8dc86b4c1fb2d05afa28a1346"
+              },
+              "quantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
+              "dimensionVector": "http://qudt.org/vocab/dimensionvector/A0E0L3I0M0H0T-1D0",
+              "quantityRole": "ordinary",
+              "rounding": {"roundingMode": "half-even", "decimalPlaces": 1},
+              "uncertaintyPreserved": true
+            }
+          }
+        }
+      ],
+      "right": [
+        {
+          "op": "set",
+          "path": ["semantics", "extensions", "https://example.org/aduc/ext/hydrology/", "unitProfiles"],
+          "value": {
+            "urn:example:semantic:flow": {
+              "registry": {
+                "path": "registry.json",
+                "registryId": "urn:aduc:unit-registry:reference:0.1",
+                "registryVersion": "0.1.0",
+                "sha256": "6092b9b67993b2ead4bb9efdfbd36946d8c3aae8dc86b4c1fb2d05afa28a1346"
+              },
+              "quantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
+              "dimensionVector": "http://qudt.org/vocab/dimensionvector/A0E0L3I0M0H0T-1D0",
+              "quantityRole": "ordinary",
+              "rounding": {"roundingMode": "half-even", "decimalPlaces": 1},
+              "uncertaintyPreserved": true
+            }
+          }
+        },
+        {"op": "set", "path": ["semantics", "assertions", 1, "unitIri"], "value": "https://qudt.org/vocab/unit/DEG_C"}
+      ],
+      "expectedOverall": "incompatible",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-UNIT-001"],
+      "expectedAssessments": ["incompatible"],
+      "modules": ["semantics"]
+    },
+    {
+      "id": "24-unit-insufficient-information",
+      "description": "A unit change without pinned registry, rounding and uncertainty metadata remains unknown.",
+      "left": [],
+      "right": [{"op": "set", "path": ["semantics", "assertions", 1, "unitIri"], "value": "https://qudt.org/vocab/unit/L-PER-SEC"}],
+      "expectedOverall": "potentiallyIncompatible",
+      "expectedCodes": ["ADUC-COMPARE-SEMANTICS-UNIT-001"],
+      "expectedAssessments": ["unknown"],
+      "modules": ["semantics"]
+    }
+  ]
+}
