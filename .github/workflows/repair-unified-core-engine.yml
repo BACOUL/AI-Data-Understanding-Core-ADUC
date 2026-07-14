@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - ".engine-repair/**"
       - ".github/workflows/repair-unified-core-engine.yml"
 
 permissions:
@@ -24,22 +25,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          cat .engine-repair/part*.b64 | base64 --decode > /tmp/aduc_core.py.gz
+          test "$(wc -c < /tmp/aduc_core.py.gz | tr -d ' ')" = "20044"
+          test "$(sha256sum /tmp/aduc_core.py.gz | awk '{print $1}')" = "a922c7e6b0b1267a71a078afd3c3a2c59cb75c0c6a3ce64d41eba9d3a7663c38"
           mkdir -p tools
-          cat \
-            .codex-transfer/aduc_core.part01.b64 \
-            .codex-transfer/aduc_core.part02.b64 \
-            .codex-transfer/aduc_core.part03a.b64 \
-            .codex-transfer/aduc_core.part03b.b64 \
-            .codex-transfer/aduc_core.part04.b64 \
-            .codex-transfer/aduc_core.part05.b64 \
-            .codex-transfer/aduc_core.part06.b64 \
-            .codex-transfer/aduc_core.part07.b64 \
-            .codex-transfer/aduc_core.part08.b64 \
-            .codex-transfer/aduc_core.part09.b64 \
-            .codex-transfer/aduc_core.part10.b64 \
-            .codex-transfer/aduc_core.part11.b64 \
-            .codex-transfer/aduc_core.part12.b64 \
-            | base64 --decode > tools/aduc_core.py
+          gzip -dc /tmp/aduc_core.py.gz > tools/aduc_core.py
           test "$(wc -c < tools/aduc_core.py | tr -d ' ')" = "104839"
           test "$(sha256sum tools/aduc_core.py | awk '{print $1}')" = "6c837ce7b7fb6d7cbc0bea3af7553b03a307e385dc7dba4b4645047338a269b2"
           python -m py_compile tools/aduc_core.py
@@ -59,6 +49,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add tools/aduc_core.py
+          git rm -r .engine-repair
           git rm -r .codex-transfer
           git rm .github/workflows/materialize-aduc-core.yml
           git rm .github/workflows/materialize-aduc-core-final.yml
