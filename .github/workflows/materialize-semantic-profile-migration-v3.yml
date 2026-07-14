@@ -40,6 +40,7 @@ jobs:
         if: always()
         with:
           name: aduc-semantic-migration-v3-integrity
+          include-hidden-files: true
           path: |
             /tmp/aduc-semantic-migration-v3-integrity.txt
             .migration-bundle-v3/*.b64
