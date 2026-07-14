@@ -82,17 +82,59 @@ jobs:
           python website/build_site.py
           git diff --exit-code -- website
           git reset
-      - name: Validate complete repository
+      - name: Validate complete repository with diagnostics
         shell: bash
         run: |
-          set -euo pipefail
-          python -m pip install --disable-pip-version-check -r requirements-dev.txt
-          python tools/validate_contracts.py
-          python -m unittest discover -s tests -p "test_*.py"
-          python tools/aduc_core_validate.py examples/core/complete-model.example.json
-          python tools/aduc_core.py validate examples/core/complete-model.example.json
-          python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
-          python tools/validate_website.py
+          set +e
+          python -m pip install --disable-pip-version-check -q -r requirements-dev.txt > /tmp/00-install.log 2>&1
+          rc_install=$?
+          python tools/validate_contracts.py > /tmp/01-contracts.log 2>&1
+          rc_contracts=$?
+          python -m unittest discover -s tests/website -p "test_*.py" > /tmp/02-website-tests.log 2>&1
+          rc_website_tests=$?
+          python -m unittest discover -s tests/roadmap -p "test_*.py" > /tmp/03-roadmap-tests.log 2>&1
+          rc_roadmap_tests=$?
+          python -m unittest discover -s tests -p "test_*.py" > /tmp/04-all-tests.log 2>&1
+          rc_all_tests=$?
+          python tools/aduc_core_validate.py examples/core/complete-model.example.json > /tmp/05-schema.log 2>&1
+          rc_schema=$?
+          python tools/aduc_core.py validate examples/core/complete-model.example.json > /tmp/06-core-validate.log 2>&1
+          rc_core_validate=$?
+          python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json > /tmp/07-core-compare.log 2>&1
+          rc_core_compare=$?
+          python tools/validate_website.py > /tmp/08-website-validator.log 2>&1
+          rc_website_validator=$?
+          set -e
+
+          failed=0
+          for rc in "$rc_install" "$rc_contracts" "$rc_website_tests" "$rc_roadmap_tests" "$rc_all_tests" "$rc_schema" "$rc_core_validate" "$rc_core_compare" "$rc_website_validator"; do
+            if [ "$rc" -ne 0 ]; then failed=1; fi
+          done
+
+          if [ "$failed" -ne 0 ]; then
+            {
+              echo "install=${rc_install}"
+              echo "contracts=${rc_contracts}"
+              echo "website_tests=${rc_website_tests}"
+              echo "roadmap_tests=${rc_roadmap_tests}"
+              echo "all_tests=${rc_all_tests}"
+              echo "schema=${rc_schema}"
+              echo "core_validate=${rc_core_validate}"
+              echo "core_compare=${rc_core_compare}"
+              echo "website_validator=${rc_website_validator}"
+              for file in /tmp/0*.log; do
+                echo
+                echo "===== ${file} ====="
+                tail -n 120 "$file"
+              done
+            } > .website-redesign/validation-diagnostic.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .website-redesign/validation-diagnostic.txt
+            git commit -m "CI: record website redesign validation failure"
+            git push origin HEAD:website/align-with-complete-aduc-core
+            exit 1
+          fi
       - name: Commit verified redesign and remove transfer files
         shell: bash
         run: |
