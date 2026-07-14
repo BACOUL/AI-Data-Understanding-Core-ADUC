@@ -1,161 +1,29 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/aduc/0.1/aduc-core.schema.json",
-  "title": "AI Data Understanding Core Contract",
-  "description": "Bootstrap schema for repository validation. Not a stable standard.",
-  "type": "object",
-  "required": [
-    "aduc",
-    "resource",
-    "semantics"
-  ],
-  "properties": {
+  "$id": "https://aduc.example/schema/0.1/aduc-core.schema.json",
+  "title": "AI Data Understanding Core Contract 0.1",
+  "description": "Official experimental modular Draft 2020-12 schema for the frozen ADUC Core object model.",
+  "$defs": {
     "aduc": {
-      "$ref": "#/$defs/contractMetadata"
-    },
-    "resource": {
-      "$ref": "#/$defs/resource"
-    },
-    "structure": {
-      "type": "object"
-    },
-    "semantics": {
-      "$ref": "#/$defs/semantics"
-    },
-    "identity": {
-      "type": "object"
-    },
-    "context": {
-      "type": "object"
-    },
-    "provenance": {
-      "type": "object"
-    },
-    "uncertainty": {
-      "type": "object"
-    },
-    "relations": {
-      "type": "array",
-      "items": {
-        "type": "object"
-      }
-    },
-    "policy": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "contractId": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "coreVersion": {"$ref": "aduc-metadata.schema.json#/$defs/semver"},
+        "modelVersion": {"const": "0.1.0"},
+        "status": {"enum": ["draft", "inferred", "reviewed", "verified", "canonical", "deprecated"]},
+        "createdAt": {"$ref": "aduc-metadata.schema.json#/$defs/timestamp"},
+        "publisher": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "conformsTo": {"$ref": "aduc-metadata.schema.json#/$defs/iriArray"},
+        "supersedes": {"$ref": "aduc-metadata.schema.json#/$defs/iri"},
+        "extensionDeclarations": {
+          "type": "array",
+          "items": {"$ref": "extension.schema.json#/$defs/extensionDeclaration"},
+          "uniqueItems": true
+        }
+      },
+      "required": ["contractId", "coreVersion", "modelVersion", "status", "createdAt", "publisher", "conformsTo"],
+      "additionalProperties": false
     }
   },
-  "additionalProperties": false,
-  "$defs": {
-    "mappingStatus": {
-      "type": "string",
-      "enum": [
-        "unknown",
-        "inferred",
-        "reviewed",
-        "verified",
-        "canonical",
-        "contested",
-        "deprecated"
-      ]
-    },
-    "contractMetadata": {
-      "type": "object",
-      "required": [
-        "version",
-        "contractId",
-        "status"
-      ],
-      "properties": {
-        "version": {
-          "type": "string",
-          "pattern": "^0\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
-        },
-        "contractId": {
-          "type": "string",
-          "minLength": 1
-        },
-        "status": {
-          "$ref": "#/$defs/mappingStatus"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "additionalProperties": false
-    },
-    "resource": {
-      "type": "object",
-      "required": [
-        "type",
-        "format"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "dataset",
-            "recordSet",
-            "apiResponse"
-          ]
-        },
-        "format": {
-          "type": "string",
-          "minLength": 1
-        },
-        "location": {
-          "type": "string"
-        },
-        "hash": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false
-    },
-    "fieldSemantics": {
-      "type": "object",
-      "required": [
-        "concept",
-        "mappingStatus"
-      ],
-      "properties": {
-        "concept": {
-          "type": "string",
-          "minLength": 1
-        },
-        "unit": {
-          "type": "string",
-          "minLength": 1
-        },
-        "description": {
-          "type": "string"
-        },
-        "mappingStatus": {
-          "$ref": "#/$defs/mappingStatus"
-        },
-        "confidence": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        }
-      },
-      "additionalProperties": false
-    },
-    "semantics": {
-      "type": "object",
-      "required": [
-        "fields"
-      ],
-      "properties": {
-        "fields": {
-          "type": "object",
-          "minProperties": 1,
-          "additionalProperties": {
-            "$ref": "#/$defs/fieldSemantics"
-          }
-        }
-      },
-      "additionalProperties": false
-    }
-  }
+  "$ref": "aduc-envelope.schema.json"
 }
