@@ -46,6 +46,7 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 
 - README, roadmap and public website now reflect the full-Core program rather than a narrow mapping-only package.
 - Root Vercel configuration now publishes the static website from `website/`.
+- Repository repair #57/#58 restored the exact audited ADR-0016 engine, its roadmap test, and the six README/schema/specification/site files omitted by the temporary PR #52 materialization path; all transfer fragments and stale materialization workflows were removed.
 
 ### Not yet done
 
