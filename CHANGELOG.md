@@ -31,6 +31,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - ADR-0010 — provenance and transformation lineage: seven valid cases, twenty invalid cases, eight tests.
 - ADR-0011 — uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
 - ADR-0012 — general relation semantics: thirteen valid cases, twenty invalid cases, ten tests.
+- ADR-0013 — policy and permitted-use conditions: twenty valid cases, thirty-two invalid cases, thirteen tests.
 
 ### ADR-0012 — General relation semantics
 
@@ -43,14 +44,33 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Strict `owl:sameAs` identity-profile gate.
 - Open-world unknown behavior and explicit negative assertions.
 - Causal inference blocked for correlation, dependency, and temporal order.
-- Functional, inverse-functional, disjoint-predicate, and acyclic-graph conflict checks.
+- Functional, inverse-functional, disjoint-predicate, positive/negative, and acyclic-graph conflict checks.
 - Deterministic qualified JSON-LD/RDF export.
+
+### ADR-0013 — Policy and permitted-use conditions
+
+- Pinned policy profile reusing the W3C ODRL Information Model and Vocabulary.
+- Exact policy-target identity and SHA-256 version binding.
+- Separate executable permissions, prohibitions, and duties from recommendations, legal notices, and descriptive classifications.
+- Controlled absolute identifiers for actions, purposes, requesters, recipients, places, and environments.
+- `public` classification kept distinct from permission.
+- Free-text purpose matching blocked.
+- Deterministic prohibition-overrides behavior for the offline reference subset.
+- Pre-use duties require bound satisfaction evidence; post-use duties remain visible.
+- Explicit open and closed policy modes.
+- Five safe outcomes: `permit`, `deny`, `notApplicable`, `indeterminate`, and `requiresHumanReview`.
+- Inferred, partial, redacted, externally governed, contested, and deprecated policy blocks automatic reliance.
+- Consent, ownership, and legal-compliance claims require typed evidence and provenance.
+- Resolved inheritance requires bound composition evidence.
+- Deterministic qualified JSON-LD/RDF export.
+- Explicit boundary: ADUC does not provide legal advice, grant access, or replace enforcement.
 
 ### Changed
 
-- Reused established standards rather than creating competing structure, unit, time, identity, provenance, uncertainty, quality, or relation vocabularies.
+- Reused established standards rather than creating competing structure, unit, time, identity, provenance, uncertainty, quality, relation, or policy vocabularies.
 - Required measurable user value, review cost, confidence calibration, and controlled baselines before compiler or interoperability success claims.
-- Required exact source, execution, predicate, and evidence binding instead of mutable locations, local labels, or model names.
-- Blocked silent assumptions about uncertainty, independence, exactness, identity, time, provenance, relation inverse, transitivity, causality, or authority.
-- Expanded CI through general-relation checks.
-- Advanced the single active task from general relations to policy and permitted-use conditions.
+- Required exact source, execution, predicate, policy-target, party, purpose, and evidence binding instead of mutable locations, local labels, or model names.
+- Blocked silent assumptions about uncertainty, independence, exactness, identity, time, provenance, relation inverse, transitivity, causality, permission, duty satisfaction, consent, ownership, or authority.
+- Removed fabricated confidence defaults for inferred relation assertions and blocked authoritative positive/negative contradictions.
+- Expanded CI through policy and permitted-use checks.
+- Advanced the single active task from policy conditions to the normative Core object model and modular boundaries.

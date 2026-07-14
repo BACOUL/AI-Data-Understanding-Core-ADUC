@@ -2,7 +2,7 @@
 
 - Status: Official execution plan
 - Working name: AI Data Understanding Core — ADUC
-- Date: 2026-07-13
+- Date: 2026-07-14
 - Rule: complete phases in order unless an accepted ADR changes the order
 
 ## North-star outcome
@@ -38,6 +38,7 @@ Implemented reference foundations:
 - provenance and transformation lineage;
 - uncertainty, missingness, censoring, propagation, and DQV-compatible quality;
 - general relation semantics and deterministic graph safeguards;
+- ODRL-aligned policy and permitted-use conditions;
 - governance, CI, execution ledger, English website, GitHub Pages, and Vercel deployment.
 
 These are reference implementations of selected Core behavior, not yet the complete ADUC Core envelope.
@@ -46,7 +47,7 @@ These are reference implementations of selected Core behavior, not yet the compl
 
 ## Objective
 
-Freeze the mission, boundaries, fundamental profiles, official roadmap, and one complete example before implementing the full-Core JSON Schema.
+Freeze the mission, boundaries, fundamental profiles, official roadmap, normative Core object model, and one complete example before implementing the full-Core JSON Schema.
 
 ## Completed
 
@@ -63,25 +64,25 @@ Freeze the mission, boundaries, fundamental profiles, official roadmap, and one 
 - [x] provenance profile;
 - [x] uncertainty and data-quality profile;
 - [x] general relation profile;
+- [x] policy and permitted-use profile;
 - [x] adoption and value-validation plan;
 - [x] English public website.
 
 ## Remaining
 
-- [ ] policy and permitted-use profile;
-- [ ] normative Core object model and modular schema boundaries;
-- [ ] one complete example validated against the candidate Core schema;
+- [ ] normative Core object model and modular boundaries;
+- [ ] complete example aligned with the frozen object model;
 - [ ] name and trademark research before public name freeze.
 
 ## Exit gate
 
-An independent developer can explain every Core block, its relationship to existing standards, and the deterministic behavior for unknown, unsafe, prohibited, or incomplete information.
+An independent developer can explain every Core block, its relationship to existing standards, its ownership and references, and the deterministic behavior for unknown, unsafe, prohibited, or incomplete information.
 
 # Phase 1 — Standard v0.1
 
 ## Objective
 
-Convert the full-Core working draft into a coherent, reviewable specification and schema family.
+Convert the accepted profiles and frozen object model into a coherent, reviewable specification and schema family.
 
 ## Deliverables
 
@@ -153,6 +154,7 @@ Provisional inferred contract
 - [ ] semantic concept proposal interface;
 - [ ] provenance and uncertainty evidence capture;
 - [ ] relation candidates without unsafe closure;
+- [ ] policy evidence capture without invented permission;
 - [ ] method-bound confidence;
 - [ ] deterministic export;
 - [ ] no silent promotion beyond `inferred`.
@@ -165,7 +167,7 @@ The compiler generates valid provisional contracts for the reference JSON and CS
 
 ## Objective
 
-Let a reviewer inspect only uncertain, unsupported, conflicting, or prohibited parts.
+Let a reviewer inspect only uncertain, unsupported, conflicting, prohibited, or incomplete parts.
 
 ## Deliverables
 
@@ -259,6 +261,7 @@ ADUC Core
 
 - no claim that ADUC is recognized or adopted;
 - no claim that multi-model interoperability is already proven;
+- no claim that policy evaluation is legal advice or access-control enforcement;
 - working-name disclaimer remains visible;
 - implementation status remains accurate;
 - mobile-first and accessible;
@@ -266,8 +269,8 @@ ADUC Core
 
 # Immediate execution sequence
 
-1. Accept policy and permitted-use conditions.
-2. Freeze the normative Core object model.
+1. Freeze the normative Core object model and modular boundaries.
+2. Align the complete example with the frozen model.
 3. Implement the schema family.
 4. Create ten complete valid and ten invalid examples.
 5. Build the unified validator and comparator.

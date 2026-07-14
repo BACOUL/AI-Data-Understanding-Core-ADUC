@@ -175,6 +175,43 @@ python tools/aduc_relations.py \
   examples/relations/invalid-cases.json
 ```
 
+## Policy and permitted-use conditions
+
+ADR-0013 and [`POLICY_PROFILE_0_1.md`](spec/POLICY_PROFILE_0_1.md) reuse ODRL while binding policy decisions to exact ADUC resources, controlled actions and purposes, identified parties, evidence, provenance, time, place, environment, authority, disclosure, conflict, and lifecycle.
+
+The reference evaluator preserves five safe outcomes:
+
+```text
+permit
+deny
+notApplicable
+indeterminate
+requiresHumanReview
+```
+
+Core safeguards include:
+
+```text
+public classification is not universal permission
+free-text purpose labels are not controlled identifiers
+a matching prohibition overrides a matching permission
+pre-use duties require bound satisfaction evidence
+post-use duties remain visible
+open-policy absence is indeterminate
+closed-policy absence is deny
+consent, ownership and legal-compliance claims require evidence and provenance
+partial, redacted, externally governed, inferred, contested or deprecated policy requiresHumanReview
+ADUC policy evaluation is not legal advice or access-control enforcement
+```
+
+The reference suite includes 20 valid cases, 32 invalid counterexamples, 13 tests, and deterministic qualified JSON-LD/RDF export.
+
+```bash
+python tools/aduc_policy.py \
+  examples/policy/reference-cases.json \
+  examples/policy/invalid-cases.json
+```
+
 # Adoption and value validation
 
 The mandatory cross-cutting plan is [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md).
@@ -217,8 +254,9 @@ TimeProofs and the anticipation engine remain separate projects.
 - Provenance and lineage: specified and reference-tested
 - Uncertainty and data quality: specified and reference-tested
 - General relations: specified and reference-tested
+- Policy and permitted use: specified and reference-tested
 - Adoption/value validation: defined; benchmarks not yet run
-- Next Core decision: policy and permitted-use conditions
+- Next Core decision: normative Core object model and modular boundaries
 - Full-Core JSON Schema: not yet implemented
 - External multi-model proof: absent
 
@@ -239,13 +277,13 @@ See:
 7. [`PROVENANCE_PROFILE_0_1.md`](spec/PROVENANCE_PROFILE_0_1.md)
 8. [`UNCERTAINTY_PROFILE_0_1.md`](spec/UNCERTAINTY_PROFILE_0_1.md)
 9. [`RELATION_PROFILE_0_1.md`](spec/RELATION_PROFILE_0_1.md)
-10. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
-11. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-12. [`AGENTS.md`](AGENTS.md)
+10. [`POLICY_PROFILE_0_1.md`](spec/POLICY_PROFILE_0_1.md)
+11. [`ADOPTION_AND_VALUE_VALIDATION.md`](docs/roadmap/ADOPTION_AND_VALUE_VALIDATION.md)
+12. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+13. [`AGENTS.md`](AGENTS.md)
 
 # Not yet implemented
 
-- policy and permitted-use profile;
 - normative full-Core object model and JSON Schema family;
 - ten valid and ten invalid complete Core examples;
 - unified full-Core validator and comparator;
@@ -271,6 +309,7 @@ python -m unittest discover -s tests/identity -p "test_*.py"
 python -m unittest discover -s tests/provenance -p "test_*.py"
 python -m unittest discover -s tests/uncertainty -p "test_*.py"
 python -m unittest discover -s tests/relations -p "test_*.py"
+python -m unittest discover -s tests/policy -p "test_*.py"
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python -m unittest discover -s tests/website -p "test_*.py"
 python tools/validate_website.py
