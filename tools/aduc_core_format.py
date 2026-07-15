@@ -155,18 +155,28 @@ def render_number(value: Decimal) -> str:
     if value.is_zero():
         return "-0" if value.is_signed() else "0"
 
-    normalized = value.normalize()
-    adjusted = normalized.adjusted()
-    if -6 <= adjusted < 21:
-        rendered = format(normalized, "f")
-        if "." in rendered:
-            rendered = rendered.rstrip("0").rstrip(".")
-        return rendered
+    sign, coefficient, exponent = value.as_tuple()
+    digits = list(coefficient)
+    while len(digits) > 1 and digits[-1] == 0:
+        digits.pop()
+        exponent += 1
 
-    rendered = format(normalized, "e")
-    mantissa, exponent = rendered.split("e", 1)
-    mantissa = mantissa.rstrip("0").rstrip(".")
-    return f"{mantissa}e{int(exponent)}"
+    digit_text = "".join(str(digit) for digit in digits)
+    adjusted = len(digit_text) + exponent - 1
+    prefix = "-" if sign else ""
+
+    if -6 <= adjusted < 21:
+        point = len(digit_text) + exponent
+        if point <= 0:
+            return f"{prefix}0.{('0' * -point)}{digit_text}"
+        if point >= len(digit_text):
+            return f"{prefix}{digit_text}{'0' * (point - len(digit_text))}"
+        return f"{prefix}{digit_text[:point]}.{digit_text[point:]}"
+
+    mantissa = digit_text[0]
+    if len(digit_text) > 1:
+        mantissa += f".{digit_text[1:]}"
+    return f"{prefix}{mantissa}e{adjusted}"
 
 
 def render_json(value: Any, *, level: int = 0, top_level: bool = False) -> str:
@@ -206,15 +216,15 @@ def render_json(value: Any, *, level: int = 0, top_level: bool = False) -> str:
     )
 
 
-def array_snapshot(value: Any, path: str = "$") -> dict[str, Any]:
-    arrays: dict[str, Any] = {}
+def array_snapshot(value: Any, path: tuple[Any, ...] = ()) -> dict[tuple[Any, ...], Any]:
+    arrays: dict[tuple[Any, ...], Any] = {}
     if isinstance(value, list):
         arrays[path] = value
         for index, child in enumerate(value):
-            arrays.update(array_snapshot(child, f"{path}[{index}]"))
+            arrays.update(array_snapshot(child, path + (("index", index),)))
     elif isinstance(value, dict):
         for key, child in value.items():
-            arrays.update(array_snapshot(child, f"{path}.{key}"))
+            arrays.update(array_snapshot(child, path + (("key", key),)))
     return arrays
 
 
@@ -290,12 +300,13 @@ def format_loaded(
 
     try:
         output_document = parse_json_text(rendered)
+        decimal_output_document = parse_json_text(rendered, decimal_numbers=True)
     except FormatterError as exc:
         report["diagnostics"].append(diagnostic("ADUC-FMT-INTERNAL-002", exc.message, path=exc.path))
         return None, report, EXIT_BLOCKED
 
-    semantic_equal = document == output_document
-    arrays_equal = array_snapshot(document) == array_snapshot(output_document)
+    semantic_equal = decimal_document == decimal_output_document
+    arrays_equal = array_snapshot(decimal_document) == array_snapshot(decimal_output_document)
     report["preservation"]["semanticEqual"] = semantic_equal
     report["preservation"]["arrayOrderPreserved"] = arrays_equal
     if not semantic_equal or not arrays_equal:
@@ -353,7 +364,7 @@ def format_path(input_path: Path, output_path: Path, *, force: bool = False) -> 
         )
         if encoded is None:
             return report, exit_code
-        write_atomic(output_path, encoded)
+        write_atomic(output_path, encoded, force=force)
         return report, exit_code
     except FormatterError as exc:
         report["outcome"] = "usageError" if exc.usage else "blocked"
@@ -361,7 +372,7 @@ def format_path(input_path: Path, output_path: Path, *, force: bool = False) -> 
         return report, EXIT_USAGE if exc.usage else EXIT_BLOCKED
 
 
-def write_atomic(path: Path, payload: bytes) -> None:
+def write_atomic(path: Path, payload: bytes, *, force: bool) -> None:
     fd = -1
     temp_name = ""
     try:
@@ -371,7 +382,22 @@ def write_atomic(path: Path, payload: bytes) -> None:
             stream.write(payload)
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(temp_name, path)
+        if force:
+            os.replace(temp_name, path)
+            temp_name = ""
+        else:
+            try:
+                os.link(temp_name, path, follow_symlinks=False)
+            except FileExistsError as exc:
+                raise FormatterError(
+                    "ADUC-FMT-OUTPUT-002",
+                    "Output file appeared during formatting; pass --force to replace it.",
+                    usage=True,
+                ) from exc
+            os.unlink(temp_name)
+            temp_name = ""
+    except FormatterError:
+        raise
     except OSError as exc:
         raise FormatterError("ADUC-FMT-OUTPUT-001", f"Unable to write formatted output: {exc}") from exc
     finally:
