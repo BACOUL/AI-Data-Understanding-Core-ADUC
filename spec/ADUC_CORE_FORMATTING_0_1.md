@@ -32,7 +32,7 @@ Replacing an existing destination requires `--force`. Input and output paths mus
 6. Stop without output when validation is blocked.
 7. Serialize using ADR-0018 ordering and numeric rules.
 8. Parse the formatted bytes again.
-9. Prove complete JSON-value equality and recursive array-order preservation.
+9. Prove exact-decimal JSON-value equality and recursive array-order preservation using structural paths.
 10. Revalidate the formatted document.
 11. Write atomically.
 12. Emit the stable report.
@@ -67,7 +67,7 @@ Nested objects use Unicode code-point order. Arrays preserve source order exactl
 - one final LF;
 - non-ASCII characters are preserved directly;
 - finite JSON numbers only;
-- deterministic decimal normalization defined by ADR-0018.
+- deterministic arbitrary-precision decimal normalization defined by ADR-0018, independent of binary floating point and runtime decimal context.
 
 ## Report
 
@@ -102,7 +102,9 @@ A conforming implementation must prove:
 - Unicode preservation;
 - deterministic number rendering;
 - byte-level idempotence;
-- identical semantic JSON value before and after formatting;
+- identical exact-decimal JSON value before and after formatting;
+- collision-safe structural array-path comparison, including extension member names containing dots or brackets;
+- race-safe refusal to overwrite a destination created during formatting;
 - full-Core validity before and after formatting;
 - stable reports and exit codes;
 - bounded local processing with no remote resolution.
