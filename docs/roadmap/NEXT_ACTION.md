@@ -2,13 +2,13 @@
 
 ## Single active task
 
-Define and implement the provider-neutral full-Core conformance runner.
+Define the public SDK and package publication boundary for the accepted Core CLI tools.
 
 ## Objective
 
-Provide a deterministic local runner that executes frozen ADUC conformance cases against validator, comparator and formatter implementations and produces a stable implementation report.
+Define the narrow public API, package threat model and publication controls for future TypeScript and Python packages without changing the existing Core CLI behavior.
 
-The runner must test declared behavior without treating the Python reference engine as the specification or presenting a self-test as independent interoperability proof.
+The task must make package boundaries, compatibility expectations, SBOM/signing requirements and installation-test obligations explicit before any public PyPI/npm or SDK availability claim.
 
 ## Completed dependencies
 
@@ -17,25 +17,24 @@ The runner must test declared behavior without treating the Python reference eng
 - ADR-0016 unified Core validation and comparison;
 - ADR-0017 deterministic semantic-profile migration;
 - ADR-0018 deterministic complete-contract formatting;
-- stable validator, comparator, migration and formatter reports.
+- ADR-0019 provider-neutral full-Core conformance runner;
+- stable validator, comparator, migration, formatter and conformance reports.
 
 ## Required work
 
-1. define versioned conformance classes for contracts, validators, comparators and formatters;
-2. create a frozen machine-readable test manifest with required, optional and unsupported capabilities;
-3. provide a local runner and an explicit adapter contract for non-reference implementations;
-4. compare actual reports and exit behavior with normative expected outcomes without requiring byte-identical implementation internals;
-5. preserve unknown, contested, prohibited and `requiresHumanReview` outcomes in conformance evidence;
-6. emit deterministic JSON and text implementation reports with stable diagnostics;
-7. include positive, negative, adversarial, resource-limit and repeatability fixtures;
-8. document the boundary between reference self-conformance, independent implementation evidence and external AI-consumer proof.
+1. define the supported SDK surface for validation, comparison, formatting and conformance invocation;
+2. define package names, versioning, compatibility and deprecation rules without publishing packages yet;
+3. define the package threat model, dependency policy, SBOM expectations and signing or attestation plan;
+4. define installation tests for Windows, Linux and macOS;
+5. define how SDK behavior maps to existing CLI exit codes and stable reports;
+6. define documentation and Try in 5 minutes updates needed before package publication.
 
 ## Scope boundary
 
-Do not implement the JSON/CSV compiler, TypeScript or Python public SDK packages, review UI, hosted service, MCP adapter, registry, extensions, anticipation engine or external multi-model proof in this task.
+Do not implement the JSON/CSV compiler, review UI, hosted service, MCP adapter, registry, extensions, anticipation engine or external multi-model proof in this task.
 
-Do not claim independent conformance until a genuinely separate implementation executes the frozen suite. The JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.
+Do not publish public packages or claim stable SDK availability until the package boundary and release controls are accepted. Do not claim independent conformance until a genuinely separate implementation executes the frozen suite. The JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.
 
 ## Completion test
 
-An independent implementer must be able to declare supported conformance classes, run the frozen suite locally through the adapter contract, inspect every pass, failure, unsupported capability and review-required result in a deterministic report, and reproduce the same assessment without hidden network access or provider-specific logic.
+An implementer must be able to identify the planned SDK API boundary, package names, versioning rules, installation-test matrix, signing/SBOM expectations and compatibility policy before any package is published.

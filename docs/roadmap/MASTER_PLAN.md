@@ -409,7 +409,7 @@ Provide deterministic local tooling for the complete Core.
 - [x] stable unified error catalogue;
 - [x] contract formatter;
 - [x] unified comparator across concepts, units, time, identity, provenance, uncertainty, relations and policy;
-- [ ] conformance runner;
+- [x] conformance runner;
 - [ ] TypeScript SDK;
 - [ ] Python SDK;
 - [ ] package publication plan;
@@ -608,6 +608,6 @@ Cross-cutting gate: registry trust, package provenance, certification independen
 
 ## Current single active task
 
-The only active technical task is the provider-neutral full-Core conformance runner for validator, comparator and formatter implementations, as defined in `docs/roadmap/NEXT_ACTION.md`.
+The only active technical task is the public SDK and package publication boundary for the accepted Core CLI tools, as defined in `docs/roadmap/NEXT_ACTION.md`.
 
-The conformance runner must not be presented as independent proof merely because it passes the reference implementation. This Master Plan does not authorize the compiler, review UI, SaaS, MCP adapter, extensions, anticipation engine or external multi-model proof ahead of their gates.
+The completed conformance runner must not be presented as independent proof merely because it passes the reference implementation. This Master Plan does not authorize the compiler, review UI, SaaS, MCP adapter, extensions, anticipation engine or external multi-model proof ahead of their gates.

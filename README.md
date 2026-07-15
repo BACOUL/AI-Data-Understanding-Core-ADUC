@@ -42,14 +42,14 @@ Available now:
 - provider-neutral conformance infrastructure foundation;
 - deterministic migration from the standalone semantic-mapping profile into complete ADUC Core contracts;
 - deterministic formatting of complete validated Core contracts with exact-decimal preservation, stable reports and byte idempotence.
+- provider-neutral full-Core conformance runner for validators, comparators and formatters.
 
 Single active technical task:
 
-- provider-neutral full-Core conformance runner for validators, comparators and formatters.
+- public SDK and package publication boundary for the accepted Core CLI tools.
 
 Not yet available:
 
-- provider-neutral full-Core conformance runner;
 - TypeScript and Python SDKs;
 - JSON/CSV compiler;
 - graphical review interface;
@@ -126,6 +126,15 @@ python tools/aduc_core_format.py examples/core/complete-model.example.json --out
 
 The formatter validates before and after serialization, preserves exact decimal values and every array order, rejects duplicate JSON members, writes atomically and produces identical bytes when run repeatedly. Exit code `2` means the valid contract still requires human review; formatting never removes that state.
 
+## Run Full-Core Conformance
+
+```bash
+python tools/aduc_conformance.py run --suite conformance/full-core/0.1 --adapter python tools/aduc_conformance_reference_adapter.py
+python tools/aduc_conformance.py run --suite conformance/full-core/0.1 --format json --adapter python tools/aduc_conformance_reference_adapter.py
+```
+
+The conformance runner executes a frozen local suite through a provider-neutral adapter contract. Passing the reference adapter is self-conformance only; independent conformance requires a genuinely separate implementation and explicit independence attestation.
+
 ## Run Checks
 
 ```bash
@@ -149,9 +158,11 @@ python -m unittest discover -s tests/core_schema -p "test_*.py"
 python -m unittest discover -s tests/core_validator -p "test_*.py"
 python -m unittest discover -s tests/core_comparator -p "test_*.py"
 python -m unittest discover -s tests/core_formatter -p "test_*.py"
+python -m unittest discover -s tests/core_conformance -p "test_*.py"
 python tools/aduc_core_validate.py examples/core/complete-model.example.json
 python tools/aduc_core.py validate examples/core/complete-model.example.json
 python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
+python tools/aduc_conformance.py run --suite conformance/full-core/0.1 --format json --adapter python tools/aduc_conformance_reference_adapter.py
 python -m unittest discover -s tests/roadmap -p "test_*.py"
 python -m unittest discover -s tests/website -p "test_*.py"
 python tools/validate_website.py
@@ -163,9 +174,10 @@ python tools/validate_website.py
 2. [`ADUC_CORE_MODEL_0_1.md`](spec/ADUC_CORE_MODEL_0_1.md)
 3. [`ADUC_CORE_VALIDATION_0_1.md`](spec/ADUC_CORE_VALIDATION_0_1.md)
 4. [`ADUC_CORE_COMPARISON_0_1.md`](spec/ADUC_CORE_COMPARISON_0_1.md)
-5. [`schema/aduc-core.schema.json`](schema/aduc-core.schema.json)
-6. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
-7. [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
+5. [`ADUC_CONFORMANCE_RUNNER_0_1.md`](spec/ADUC_CONFORMANCE_RUNNER_0_1.md)
+6. [`schema/aduc-core.schema.json`](schema/aduc-core.schema.json)
+7. [`MASTER_PLAN.md`](docs/roadmap/MASTER_PLAN.md)
+8. [`NEXT_ACTION.md`](docs/roadmap/NEXT_ACTION.md)
 
 ## Licensing
 

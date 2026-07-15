@@ -1,0 +1,75 @@
+{
+  "aduc": {
+    "conformsTo": [
+      "urn:aduc:core-model:0.1"
+    ],
+    "contractId": "urn:aduc:contract:formatter:review:1",
+    "coreVersion": "0.1.0-alpha.0",
+    "createdAt": "2026-07-15T10:00:00Z",
+    "modelVersion": "0.1.0",
+    "publisher": "https://example.org/publisher",
+    "status": "reviewed"
+  },
+  "policy": {
+    "policies": [
+      {
+        "conflict": "clear",
+        "disclosure": "redacted",
+        "id": "urn:example:policy:formatter:review:1",
+        "lifecycle": "active",
+        "mode": "open",
+        "rules": [
+          {
+            "actionIri": "http://www.w3.org/ns/odrl/2/use",
+            "assignerRef": "urn:example:agent:formatter:assigner",
+            "effect": "permission",
+            "id": "urn:example:rule:formatter:permit",
+            "machineEvaluable": true,
+            "purposeIris": [
+              "urn:aduc:purpose:research"
+            ]
+          }
+        ],
+        "status": "canonical",
+        "targetDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "targetRef": "urn:example:resource:formatter:review:1"
+      }
+    ]
+  },
+  "provenance": {
+    "agents": [
+      {
+        "id": "urn:example:agent:formatter:assigner",
+        "typeIri": "http://www.w3.org/ns/prov#Organization"
+      }
+    ]
+  },
+  "resource": {
+    "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "id": "urn:example:resource:formatter:review:1",
+    "kind": "dataset",
+    "mediaType": "application/json",
+    "version": "1"
+  },
+  "structure": {
+    "id": "urn:example:structure:formatter:review:1",
+    "records": [
+      {
+        "fields": [
+          {
+            "id": "urn:example:field:formatter:review:value",
+            "name": "value",
+            "primitiveType": "string",
+            "required": true,
+            "sourcePath": "$.value"
+          }
+        ],
+        "id": "urn:example:record:formatter:review:row",
+        "name": "row",
+        "sourcePath": "$"
+      }
+    ],
+    "representation": "record",
+    "resourceRef": "urn:example:resource:formatter:review:1"
+  }
+}

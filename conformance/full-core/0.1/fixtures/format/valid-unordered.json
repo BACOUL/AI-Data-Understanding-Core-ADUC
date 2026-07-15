@@ -1,0 +1,41 @@
+{
+  "aduc": {
+    "conformsTo": [
+      "urn:aduc:core-model:0.1"
+    ],
+    "contractId": "urn:aduc:contract:formatter:valid:1",
+    "coreVersion": "0.1.0-alpha.0",
+    "createdAt": "2026-07-15T10:00:00Z",
+    "modelVersion": "0.1.0",
+    "publisher": "https://example.org/publisher",
+    "status": "reviewed"
+  },
+  "resource": {
+    "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "id": "urn:example:resource:formatter:1",
+    "kind": "dataset",
+    "mediaType": "application/json",
+    "version": "1"
+  },
+  "structure": {
+    "id": "urn:example:structure:formatter:1",
+    "records": [
+      {
+        "fields": [
+          {
+            "id": "urn:example:field:formatter:value",
+            "name": "value",
+            "primitiveType": "number",
+            "required": true,
+            "sourcePath": "$.value"
+          }
+        ],
+        "id": "urn:example:record:formatter:row",
+        "name": "row",
+        "sourcePath": "$"
+      }
+    ],
+    "representation": "record",
+    "resourceRef": "urn:example:resource:formatter:1"
+  }
+}

@@ -30,13 +30,15 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_conformance_runner_is_the_single_active_task(self) -> None:
+    def test_sdk_package_boundary_is_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("provider-neutral full-Core conformance runner", text)
-        self.assertIn("validators, comparators and formatters", text)
-        self.assertIn("frozen machine-readable test manifest", text)
-        self.assertIn("reference engine as the specification", text)
+        self.assertIn("public SDK and package publication boundary", text)
+        self.assertIn("TypeScript and Python packages", text)
+        self.assertIn("package threat model", text)
+        self.assertIn("SBOM/signing", text)
         self.assertIn("JSON/CSV compiler remains blocked", text)
+        self.assertIn("ADR-0019 provider-neutral full-Core conformance runner", text)
+        self.assertNotIn("Define and implement the provider-neutral full-Core conformance runner", text)
         self.assertNotIn("Define and implement the deterministic complete-contract formatter", text)
         self.assertNotIn("migration path from the standalone semantic-mapping profile", text)
 
