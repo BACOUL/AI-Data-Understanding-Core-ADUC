@@ -1,3 +1,4 @@
+# Final exact-fragment materialization pass.
 name: materialize-website-v2
 
 on:
