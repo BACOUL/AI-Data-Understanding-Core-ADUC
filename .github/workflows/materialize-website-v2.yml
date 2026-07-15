@@ -1,4 +1,4 @@
-# Final exact-fragment materialization pass — split 10b verified.
+# Final exact-fragment materialization pass — split 10b2 verified.
 name: materialize-website-v2
 
 on:
