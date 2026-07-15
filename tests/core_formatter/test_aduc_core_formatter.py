@@ -8,6 +8,7 @@ import tempfile
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 TOOLS = ROOT / "tools"
@@ -149,6 +150,7 @@ class CompleteContractFormatterTests(unittest.TestCase):
                     "decimalValue": 1.23,
                     "largeValue": 100,
                     "negativeZero": -0.0,
+                    "preciseValue": "PRECISION_PLACEHOLDER",
                 }
             )
             source = self.write_unordered(root, document)
@@ -156,6 +158,10 @@ class CompleteContractFormatterTests(unittest.TestCase):
             raw = raw.replace('"decimalValue":1.23', '"decimalValue":1.2300')
             raw = raw.replace('"largeValue":100', '"largeValue":1e2')
             raw = raw.replace('"negativeZero":-0.0', '"negativeZero":-0.000')
+            raw = raw.replace(
+                '"preciseValue":"PRECISION_PLACEHOLDER"',
+                '"preciseValue":1234567890123456789012345678901234567890',
+            )
             source.write_text(raw, encoding="utf-8")
             output = root / "formatted.json"
             report, exit_code = formatter.format_path(source, output)
@@ -167,6 +173,39 @@ class CompleteContractFormatterTests(unittest.TestCase):
             self.assertIn('"decimalValue": 1.23', rendered)
             self.assertIn('"largeValue": 100', rendered)
             self.assertIn('"negativeZero": -0', rendered)
+            self.assertIn(
+                '"preciseValue": 1.23456789012345678901234567890123456789e39',
+                rendered,
+            )
+
+    def test_array_paths_cannot_collide_with_extension_member_names(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            document = copy.deepcopy(self.document)
+            payload = document["semantics"]["extensions"]["https://example.org/aduc/ext/hydrology/"]
+            payload.update({"a.b": [1, 2], "a": {"b": [3, 4]}})
+            source = self.write_unordered(root, document)
+            output = root / "formatted.json"
+            report, exit_code = formatter.format_path(source, output)
+
+            self.assertIn(exit_code, {formatter.EXIT_FORMATTED, formatter.EXIT_HUMAN_REVIEW})
+            self.assertTrue(report["preservation"]["arrayOrderPreserved"])
+            formatted = json.loads(output.read_text(encoding="utf-8"))
+            extension = formatted["semantics"]["extensions"]["https://example.org/aduc/ext/hydrology/"]
+            self.assertEqual(extension["a.b"], [1, 2])
+            self.assertEqual(extension["a"]["b"], [3, 4])
+
+    def test_destination_created_during_formatting_is_not_overwritten(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = self.write_unordered(root)
+            output = root / "formatted.json"
+            with mock.patch.object(formatter.os, "link", side_effect=FileExistsError()):
+                report, exit_code = formatter.format_path(source, output)
+
+            self.assertEqual(exit_code, formatter.EXIT_USAGE)
+            self.assertFalse(output.exists())
+            self.assertEqual(report["diagnostics"][0]["code"], "ADUC-FMT-OUTPUT-002")
 
     def test_existing_output_requires_explicit_force(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
@@ -179,7 +218,6 @@ class CompleteContractFormatterTests(unittest.TestCase):
             self.assertEqual(exit_code, formatter.EXIT_USAGE)
             self.assertEqual(output.read_text(encoding="utf-8"), "sentinel")
             self.assertEqual(report["diagnostics"][0]["code"], "ADUC-FMT-OUTPUT-002")
-
 
     def test_frozen_formatter_fixtures(self) -> None:
         fixture_root = ROOT / "examples" / "core" / "formatting"
