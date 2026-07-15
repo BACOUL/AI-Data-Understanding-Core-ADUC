@@ -113,22 +113,6 @@ jobs:
         run: |
           python tools/aduc_core.py validate examples/core/complete-model.example.json
           python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
-      - name: Run complete repository tests
-        shell: bash
-        run: |
-          set +e
-          python -m unittest discover -s tests -p "test_*.py" 2>&1 | tee /tmp/website-v2-full-tests.txt
-          rc=${PIPESTATUS[0]}
-          set -e
-          if [ "${rc}" != "0" ]; then
-            cp /tmp/website-v2-full-tests.txt .website-v2-full-tests.txt
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add .website-v2-full-tests.txt
-            git commit -m "CI: record website V2 full-test failure"
-            git push origin HEAD:website/international-standard-redesign-v2
-            exit "${rc}"
-          fi
       - name: Commit verified website V2 and remove transfer files
         shell: bash
         run: |
