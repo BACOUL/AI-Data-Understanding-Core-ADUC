@@ -1,3 +1,4 @@
+# Trigger the reviewed formatter milestone closure.
 name: finalize-formatter-docs
 
 on:
@@ -233,7 +234,9 @@ An independent implementer must be able to declare supported conformance classes
           python -m unittest discover -s tests/roadmap -p "test_*.py"
           python -m unittest discover -s tests/website -p "test_*.py"
           python tools/validate_website.py
-          python tools/aduc_core_format.py examples/core/complete-model.example.json --output /tmp/aduc-finalized.json --report-format json >/tmp/aduc-format-report.json || test "$?" = "2"
+          formatter_rc=0
+          python tools/aduc_core_format.py examples/core/complete-model.example.json --output /tmp/aduc-finalized.json --report-format json >/tmp/aduc-format-report.json || formatter_rc=$?
+          test "${formatter_rc}" = "0" -o "${formatter_rc}" = "2"
           python tools/aduc_core.py validate /tmp/aduc-finalized.json
 
       - name: Commit synchronized milestone documentation
