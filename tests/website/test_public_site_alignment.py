@@ -190,6 +190,27 @@ class PublicSiteAlignmentTests(unittest.TestCase):
         self.assertIn("@media(max-width:700px)", css)
         self.assertIsNone(re.search(r"overflow-x\s*:\s*hidden", css))
 
+    def test_mobile_navigation_is_collapsible_and_accessible(self) -> None:
+        for page in PAGES:
+            with self.subTest(page=page):
+                text = page_text(page)
+                self.assertIn('data-nav-toggle', text)
+                self.assertIn('aria-controls="primary-navigation"', text)
+                self.assertIn('aria-expanded="false"', text)
+                self.assertIn('id="primary-navigation"', text)
+        script = (WEBSITE / "assets" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("Escape", script)
+        self.assertIn("aria-expanded", script)
+        self.assertIn("returnFocus", script)
+        self.assertIn("pointerdown", script)
+
+    def test_mobile_css_uses_closed_overlay_navigation(self) -> None:
+        css = (WEBSITE / "assets" / "styles.css").read_text(encoding="utf-8")
+        self.assertIn('.js .nav-toggle', css)
+        self.assertIn('.js .site-nav[data-open="true"]', css)
+        self.assertIn('max-height: calc(100dvh - 68px)', css)
+        self.assertNotIn('14vw', css)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,7 +3,7 @@
   "shortName": "ADUC",
   "status": "Working Draft",
   "coreVersion": "0.1.0-alpha.0",
-  "lastUpdated": "2026-07-14",
+  "lastUpdated": "2026-07-15",
   "canonicalBase": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
   "activeTask": "deterministic complete-Core contract formatter",
   "availableNow": {
@@ -22,8 +22,8 @@
   ],
   "planned": [
     "JSON/CSV compiler",
-    "review interface",
-    "public packages",
+    "graphical review interface",
+    "stabilized public packages",
     "production registry",
     "MCP adapter",
     "official extensions",

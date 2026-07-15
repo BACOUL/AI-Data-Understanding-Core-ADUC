@@ -1,83 +1,93 @@
-# ADUC Public Website Quality Audit
+# ADUC Public Website V2 — Quality Audit
 
-- Date: 2026-07-14
-- Branch target: `website/align-with-complete-aduc-core`
-- Base checked: remote `main` at `3131ab30987f1f67579cc6db0d6d0f92c49b826f`
-- Canonical URL used: `https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/`
-- Status: Working Draft, not a recognized standard
-- Verified materialization: GitHub Actions run 9 passed bundle integrity, internal file hashes, generator reproducibility, every official repository test suite, Core validation, deterministic self-comparison and website validation.
-- Final CI: GitHub Actions `validate` run 251 passed on review commit `760d3acbc5c1597080af49b32d1c095e6023d5a7`.
-- Vercel: both configured Preview deployments reported Ready for PR #61.
-- Remaining release gate: manual responsive review of the final Vercel Preview and measured Lighthouse results before the draft PR can advance.
+Audit date: 2026-07-15  
+Branch: `website/international-standard-redesign-v2`  
+Base: `2f069b5c3f9c1b8e1159e02eb46f00a25ea7d094`  
+Status: **draft-quality candidate, not authorized for merge**
 
-## Visual Review
+## Score
 
-| Area | Result |
-|---|---|
-| Grid coherence | Consistent shell width, two-column layouts, evidence ledgers, trace steps and responsive one-column collapse. |
-| Typography | System fonts only; large editorial hero headings, smaller dense technical blocks, monospace only for commands and contract excerpts. |
-| Contrast | Dark graphite background with mint and amber accents; text and focus states designed for WCAG 2.2 AA target. |
-| Line length | Narrative sections constrained; code wraps on mobile to avoid page-level horizontal scroll. |
-| Spacing | Generous section spacing on desktop, reduced but readable spacing on mobile. |
-| Hero quality | Answers what ADUC is, the problem, what exists now and the next action. Includes a faithful contract-flow visual. |
-| CTA hierarchy | Primary CTA to Try in 5 minutes, secondary CTA to validation, GitHub as supporting action. |
-| Diagrams | Uses semantic HTML/CSS diagrams for contract flow, validation/comparison trace, status ledgers and assessment states. |
-| Mobile quality | Browser-rendered at 360x800, 390x844, 768x1024, 1024x768, 1440x900 and 1920x1080. No real horizontal scroll; nav remains keyboard-accessible as normal links. |
-| Repetition | Pages have distinct search intent and role: Why, Core, Validate, Compare, Trust, Evidence, Roadmap, Docs. |
-| Generic components | Avoids stock images, fake testimonials, invented metrics and generic AI SaaS hero patterns. |
+| Dimension | Maximum | Score | Evidence and limits |
+|---|---:|---:|---|
+| Positioning and comprehension | 15 | 15 | Hero answers what ADUC is, the problem, current availability and the next action. The four-step promise and concrete comparison states appear on Home. |
+| Technical accuracy | 15 | 14 | Uses the ten-block Core, current schema/fixture/scenario counts, real CLI commands and current formatter task. External interoperability remains explicitly unproven. Final repository CI is still required. |
+| Design and visual identity | 15 | 13 | New contract-layer visual language, custom mark, protocol rails, evidence trails and state vocabulary. No stock imagery or generic gradient-card layout. Final maintainer taste approval remains open. |
+| UX and user journeys | 10 | 9 | Non-technical story is visible within the first minute; developer commands are reachable in two clicks. Mobile menu and CTA hierarchy are corrected. Real-device review remains open. |
+| Performance | 10 | 9 | Static HTML/CSS, no framework, no external font, minimal JavaScript and no image dependency above the fold. Production Lighthouse measurement remains open. |
+| Accessibility | 10 | 9 | Semantic landmarks, skip link, visible focus, 46–50 px controls, reduced motion, keyboard menu behavior, text state labels and no document overflow in 72 checks. Independent screen-reader/axe review remains open. |
+| SEO | 8 | 8 | Unique titles/descriptions, canonical URLs, sitemap, robots, one H1, internal links, Open Graph, Twitter metadata and factual JSON-LD. |
+| AEO/GEO | 7 | 6 | Explicit definition, capabilities, limits, comparisons, commands, evidence and FAQ distinctions. No ranking or citation promise. External retrieval testing remains open. |
+| Trust and evidence | 5 | 5 | Available/in-progress/planned/not-proven states are separated; schemas, fixtures, scenarios, CI and unsupported claims are linked or stated. |
+| Maintainability and tests | 5 | 5 | Shared dependency-free generator, centralized site data, readable unminified CSS, focused navigation tests and machine-readable visual report. |
+| **Total** | **100** | **93** | Provisional until Preview, CI and production Lighthouse checks are complete. |
 
-## Browser Render Checks
+No critical dimension is below 8/10. The site must still remain in draft because the final manual Preview gate has not been completed.
 
-Rendered in the originating Codex environment from `http://127.0.0.1:8766/` against:
+## Automated evidence
 
-- `index.html`
-- `why-aduc.html`
-- `core.html`
-- `validate.html`
-- `compare.html`
-- `architecture.html`
-- `trust.html`
-- `evidence.html`
-- `docs.html`
-- `example.html`
-- `roadmap.html`
-- `specification.html`
+- Website alignment tests: 11 passed locally.
+- Website validator: passed locally against the current generated pages and official Core shape expectations.
+- Responsive matrix: 72 checks, 0 failures.
+- Horizontal page overflow: 0 failures across all tested pages/viewports.
+- Mobile navigation: closed initial state, focus transfer, Escape close and focus return verified.
+- Generator: Python syntax compilation passed.
 
-Viewport matrix:
+## Page-by-page review
 
-- 360 x 800
-- 390 x 844
-- 768 x 1024
-- 1024 x 768
-- 1440 x 900
-- 1920 x 1080
+### Home
 
-Result:
+- Short product promise and exact canonical definition.
+- Informative source → contract → checks → consumers diagram.
+- Implemented evidence, ten-block map, real Core syntax, comparison states and honest status lanes.
 
-- 72 page/viewport combinations checked.
-- H1 present on every rendered page.
-- Primary navigation contained all 10 public links including GitHub.
-- No visible offscreen elements detected.
-- Horizontal scroll probe returned `scrollX = 0` after attempted horizontal scroll.
-- Code blocks wrap on mobile rather than widening the document.
+### Why ADUC
 
-The originating browser audit reported only unrelated host telemetry warnings. The final status correction changes text only; a final manual pass on the Vercel Preview remains required.
+- Leads with the difference between readability and understanding.
+- Explains syntax limits, prompt limits, proprietary lock-in and the shift to a portable contract.
+- Includes hydrometry, unit conversion and policy examples plus standards composition.
 
-## Scoring Matrix
+### Core
 
-| Dimension | Max | Score | Evidence | Limits / improvements |
-|---|---:|---:|---|---|
-| Positioning and comprehension | 15 | 14 | Home states canonical definition, problem, flow, available/in-progress/planned/not-proven states and non-goals. | Could improve with a future real-world case study after the formatter and adoption gates. |
-| Technical accuracy | 15 | 15 | Site mirrors Core, 14 schemas, 11/15 fixtures, validator/comparator, 24 scenarios, profile evaluators, implemented semantic-profile migration and active formatter task. `tools/aduc_core.py`, schemas, specs, examples and evaluators were verified unchanged from current `main`. | Production deployment still needs post-merge verification. |
-| Design and visual identity | 15 | 13 | Contract-ledger visual system, dark technical palette, status colors for equivalent/unknown/contested/prohibited/review. | No professional visual-design review or brand/trademark decision yet. |
-| UX and pathways | 10 | 9 | Non-technical path on home/Why; developer path reaches command, Core, validation, comparison, schema and GitHub within three clicks. | Future playground could reduce developer friction after safety gates. |
-| Performance | 10 | 9 | Static HTML/CSS/JS, no remote fonts, no framework, minimal JS, no stock media. | Lighthouse remains unmeasured on the deployed Preview. |
-| Accessibility | 10 | 9 | Semantic landmarks, skip link, visible focus, keyboard-accessible nav, reduced-motion guard, responsive reflow and no color-only critical state. | No independent axe or screen-reader pass has been recorded on the final Preview. |
-| SEO | 8 | 8 | Unique titles/descriptions, canonical URLs, sitemap, robots, H1 discipline, Open Graph, Twitter cards, JSON-LD and descriptive internal links. | Search-engine validation requires the eventual canonical production deployment. |
-| AEO/GEO | 7 | 7 | Definition blocks, FAQ-like distinctions, capabilities, limits, commands, evidence and non-goals are explicit and crawlable without JS. | Future external evidence pages will strengthen answer-engine retrieval. |
-| Trust and evidence | 5 | 5 | Evidence page separates implemented artifacts, future conformance classes, no external proof and no first-world claim. |
-| Maintainability and tests | 5 | 5 | `website/assets/site-data.json`, `website/build_site.py`, strengthened `tools/validate_website.py`, 11 website tests and roadmap tests. |
+- Shows required versus optional responsibilities.
+- Gives each block a role, example and non-goal boundary.
 
-Total: 94 / 100.
+### Validate
 
-No critical dimension is below 8/10 equivalent. The site is acceptable as a durable Working Draft public reference, with the explicit caveat that Lighthouse, final manual Preview review, production deployment and external proof remain unverified release gates.
+- Real command, explicit pipeline, stable report excerpt and validation limits.
+
+### Compare
+
+- Visually separates `changeType` from `assessment`.
+- Includes every normative assessment and conservative evidence rules.
+
+### Architecture
+
+- Separates resource, Core, schema, deterministic tools, migration and future tooling.
+
+### Trust
+
+- Centers unknown-safe behavior, provider neutrality, human review, local operation and authority boundaries.
+
+### Evidence
+
+- Connects claims to schema, fixture, scenario and CI evidence.
+- States that external two-consumer proof and first-world claims are not established.
+
+### Roadmap
+
+- Shows Core/schema/migration as complete, formatter as active and compiler/review UI as blocked or planned.
+
+### Docs
+
+- Provides clone, install, validation, comparison, test and website-validation commands.
+
+### Example and specification
+
+- Use real Core vocabulary and link to authoritative repository artifacts.
+
+## Release blockers
+
+- Final Vercel Preview manual approval.
+- Measured Lighthouse mobile scores on the deployed Preview/production environment.
+- Optional independent axe and screen-reader review.
+- No merge until the maintainer explicitly approves the visual result.

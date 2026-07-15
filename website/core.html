@@ -3,147 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC Core - Ten blocks for portable data understanding</title>
-  <meta name="description" content="The ADUC Core model defines ten blocks for structure, semantics, identity, context, provenance, uncertainty, relations and policy.">
-  <meta name="theme-color" content="#0b0e12">
+  <meta name="color-scheme" content="dark light">
+  <title>ADUC Core — The ten-block AI-readable data contract</title>
+  <meta name="description" content="Explore the ten normative ADUC Core blocks, their responsibilities, required status and safety boundaries.">
+  <meta name="theme-color" content="#071018">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ADUC Core - Ten blocks for portable data understanding">
-  <meta property="og:description" content="The ADUC Core model defines ten blocks for structure, semantics, identity, context, provenance, uncertainty, relations and policy.">
+  <meta property="og:title" content="ADUC Core — The ten-block AI-readable data contract">
+  <meta property="og:description" content="Explore the ten normative ADUC Core blocks, their responsibilities, required status and safety boundaries.">
   <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html">
   <meta property="og:site_name" content="ADUC">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ADUC Core - Ten blocks for portable data understanding">
-  <meta name="twitter:description" content="The ADUC Core model defines ten blocks for structure, semantics, identity, context, provenance, uncertainty, relations and policy.">
+  <meta name="twitter:title" content="ADUC Core — The ten-block AI-readable data contract">
+  <meta name="twitter:description" content="Explore the ten normative ADUC Core blocks, their responsibilities, required status and safety boundaries.">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
-  <script type="application/ld+json">[
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AI Data Understanding Core",
-    "alternateName": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "sameAs": [
-      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "description": "Working Draft documentation for AI-readable data understanding contracts."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "ADUC Core - Ten blocks for portable data understanding",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "ADUC Core - Ten blocks for portable data understanding",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html",
-    "dateModified": "2026-07-14",
-    "isAccessibleForFree": true,
-    "about": [
-      "AI data interoperability",
-      "AI-readable data contract",
-      "portable data understanding",
-      "semantic interoperability for AI",
-      "deterministic AI data validation",
-      "AI data provenance",
-      "multi-model data consistency"
-    ]
-  }
-]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","name":"AI Data Understanding Core","alternateName":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","sameAs":["https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"]},{"@context":"https://schema.org","@type":"WebSite","name":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","description":"Working Draft documentation for portable AI data understanding contracts."},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"},{"@type":"ListItem","position":2,"name":"ADUC Core — The ten-block AI-readable data contract","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html"}]},{"@context":"https://schema.org","@type":"TechArticle","headline":"ADUC Core — The ten-block AI-readable data contract","description":"Explore the ten normative ADUC Core blocks, their responsibilities, required status and safety boundaries.","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/core.html","dateModified":"2026-07-15","isAccessibleForFree":true,"about":["AI data interoperability","AI-readable data contract","portable data understanding","deterministic AI data validation","AI data provenance","multi-model data consistency"]}]</script>
 </head>
 <body data-page="core.html">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="shell nav-shell">
+<header class="site-header" data-site-header>
+  <div class="shell header-row">
     <a class="brand" href="index.html" aria-label="ADUC home">
-      <span class="brand-mark" aria-hidden="true">AD</span>
-      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+      <svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg>
+      <span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span>
     </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="why-aduc.html">Why ADUC</a>
-        <a href="core.html" aria-current="page">Core</a>
-        <a href="validate.html">Validate</a>
-        <a href="compare.html">Compare</a>
-        <a href="trust.html">Trust</a>
-        <a href="evidence.html">Evidence</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="docs.html">Docs</a>
-        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    <div class="header-status" aria-label="Project status">
+      <span class="status-pulse" aria-hidden="true"></span>
+      Working Draft 0.1
+    </div>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
+      <span class="sr-only">Open navigation</span>
+      <span class="nav-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" data-site-nav>
+      <a href="index.html">Home</a><a href="why-aduc.html">Why ADUC</a><a href="core.html" aria-current="page">Core</a><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="trust.html">Trust</a><a href="evidence.html">Evidence</a><a href="roadmap.html">Roadmap</a><a href="docs.html">Docs</a><a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
 <main id="main">
-<section class="page-hero"><div class="shell"><p class="kicker">Core</p><h1>The ten-block ADUC Core model.</h1><p class="lead">The Core separates contract metadata, source resource, structure, semantics, identity, context, provenance, uncertainty, relations and policy so each normative fact has one owner.</p></div></section>
-<section><div class="shell"><div class="core-detail-list">
-<article id="aduc"><h2>aduc <span>required object</span></h2><p>Owns contract identity, Core version, status, publisher, profile declarations and extension declarations.</p><pre class="code-block"><code>"aduc": {"contractId": "urn:aduc:contract:river-r42:2026-07-14", "coreVersion": "0.1.0-alpha.0"}</code></pre></article>
-<article id="resource"><h2>resource <span>required object</span></h2><p>Describes the original resource being accompanied: kind, media type, digest, locator and version. ADUC accompanies the resource; it does not replace it.</p><pre class="code-block"><code>"resource": {"id": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z", "mediaType": "application/json"}</code></pre></article>
-<article id="structure"><h2>structure <span>required object</span></h2><p>Owns records, fields, primitive types, source paths and links from structure to the described resource. <code>structure.records</code> is the normative form.</p><pre class="code-block"><code>"structure": {"resourceRef": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z", "records": [...]}</code></pre></article>
-<article id="semantics"><h2>semantics <span>optional object</span></h2><p>Owns assertions that bind fields or objects to concepts, mapping relations, units, value maps, authority, evidence and lifecycle state.</p><pre class="code-block"><code>"semantics": {"assertions": [{"subjectRef": "urn:example:field:flow", "conceptIri": "https://example.org/vocab/env/WaterDischarge"}]}</code></pre></article>
-<article id="identity"><h2>identity <span>optional object</span></h2><p>Owns entities, identifiers and identity assertions. Exact identity requires qualifying evidence; similar labels or inferred matches do not silently merge entities.</p><pre class="code-block"><code>"identity": {"entities": [{"id": "urn:example:entity:station-r42"}], "identityAssertions": [...]}</code></pre></article>
-<article id="context"><h2>context <span>optional object</span></h2><p>Owns temporal, spatial and operational context such as timestamp roles, timezone evidence, precision and operating environment.</p><pre class="code-block"><code>"context": {"temporal": [{"fieldRef": "urn:example:field:timestamp", "timezoneIri": "urn:iana:tz:UTC"}]}</code></pre></article>
-<article id="provenance"><h2>provenance <span>optional object</span></h2><p>Owns agents, entities, activities, evidence and derivation assertions. It preserves lineage without claiming that replayable means perfectly reproducible.</p><pre class="code-block"><code>"provenance": {"agents": [...], "activities": [...], "evidence": [...]}</code></pre></article>
-<article id="uncertainty"><h2>uncertainty <span>optional object</span></h2><p>Owns measurement uncertainty, missingness and quality measurements. Missing data is not silently converted into false, safe or exact.</p><pre class="code-block"><code>"uncertainty": {"statements": [{"subjectRef": "urn:example:field:flow", "kind": "relativeStandardUncertainty"}]}</code></pre></article>
-<article id="relations"><h2>relations <span>optional array</span></h2><p>Owns graph assertions with explicit subject, predicate, object endpoint, polarity, authority and evidence. Relations are an array; other top-level modules are single objects.</p><pre class="code-block"><code>"relations": [{"subjectRef": "urn:example:resource:...", "predicateIri": "http://www.w3.org/ns/prov#wasDerivedFrom", "objectRef": "urn:example:prov-entity:raw-sensor-feed"}]</code></pre></article>
-<article id="policy"><h2>policy <span>optional object</span></h2><p>Owns use-condition descriptions and machine-evaluable rules when evidence allows. Policy requires provenance and does not grant automatic legal permission.</p><pre class="code-block"><code>"policy": {"policies": [{"targetRef": "urn:example:resource:...", "rules": [{"effect": "prohibition"}]}]}</code></pre></article>
-</div></div></section>
-<section class="section-band"><div class="shell"><h2>Responsibility boundary</h2><div class="boundary-grid"><div><h3>JSON Schema validates structure</h3><p>Types, required properties, cardinality, enums, formats, absolute IRIs, SHA-256 digests, closed objects and exclusive object forms.</p></div><div><h3>Architecture and profiles validate cross-cutting rules</h3><p>Identifier uniqueness, reference resolution, binding consistency, extension use, graph safety, profile-specific uncertainty, identity, relation and policy constraints.</p></div></div></div></section>
+<section class="page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">The Core model</p><h1>Ten responsibilities, separated on purpose.</h1><p class="page-lead">The Core is a normative envelope for complete data understanding. Required source binding stays distinct from optional meaning, identity, evidence, uncertainty, relations and policy.</p></div><div class="core-orbit" aria-label="ADUC Core overview"><div class="orbit-center">ADUC<br><small>contract</small></div><span>source</span><span>meaning</span><span>identity</span><span>context</span><span>evidence</span><span>limits</span><span>relations</span><span>policy</span></div></div></section>
+<section class="section core-detail-section"><div class="shell"><div class="minimum-envelope"><span>Minimum interoperable envelope</span><strong><code>aduc</code> + <code>resource</code> + <code>structure</code></strong><p>Optional modules are included when their facts are available and relevant. Missing evidence remains visible rather than being guessed.</p></div><div class="core-detail-list"><article class="core-detail" id="aduc"><div class="core-detail-key"><span>01</span><code>aduc</code><small>required</small></div><div><h2>Contract identity</h2><p>Version, publisher, status and declared profiles.</p><div class="core-mini-example"><code>&quot;coreVersion&quot;: &quot;0.1.0-alpha.0&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Identifies the contract; it does not certify the truth of every assertion.</p></div></article><article class="core-detail" id="resource"><div class="core-detail-key"><span>02</span><code>resource</code><small>required</small></div><div><h2>Original resource</h2><p>Kind, media type, digest, version and locator.</p><div class="core-mini-example"><code>&quot;digest&quot;: &quot;aaaaaaaa…&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Binds the source; it does not embed or replace the source bytes.</p></div></article><article class="core-detail" id="structure"><div class="core-detail-key"><span>03</span><code>structure</code><small>required</small></div><div><h2>Addressable shape</h2><p>Records, fields, types and source paths.</p><div class="core-mini-example"><code>&quot;sourcePath&quot;: &quot;$.flow&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Describes addressable shape; it does not define domain meaning.</p></div></article><article class="core-detail" id="semantics"><div class="core-detail-key"><span>04</span><code>semantics</code><small>optional</small></div><div><h2>Declared meaning</h2><p>Concept IRIs, units, mappings and qualifications.</p><div class="core-mini-example"><code>&quot;conceptIri&quot;: &quot;…/WaterDischarge&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Declares meaning; it does not create a universal vocabulary.</p></div></article><article class="core-detail" id="identity"><div class="core-detail-key"><span>05</span><code>identity</code><small>optional</small></div><div><h2>Entity decisions</h2><p>Identifiers, entities and evidence-backed equivalence.</p><div class="core-mini-example"><code>&quot;decision&quot;: &quot;exactEntity&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Records evidence-backed identity decisions; matching labels are insufficient.</p></div></article><article class="core-detail" id="context"><div class="core-detail-key"><span>06</span><code>context</code><small>optional</small></div><div><h2>Interpretation frame</h2><p>Temporal, spatial and operational conditions.</p><div class="core-mini-example"><code>&quot;timezoneIri&quot;: &quot;urn:iana:tz:UTC&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Defines interpretation conditions; it does not infer missing operational facts.</p></div></article><article class="core-detail" id="provenance"><div class="core-detail-key"><span>07</span><code>provenance</code><small>optional</small></div><div><h2>Evidence trail</h2><p>Agents, activities, entities and derivation.</p><div class="core-mini-example"><code>&quot;typeIri&quot;: &quot;http://www.w3.org/ns/prov#Activity&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Records agents and activities; it does not prove trustworthiness automatically.</p></div></article><article class="core-detail" id="uncertainty"><div class="core-detail-key"><span>08</span><code>uncertainty</code><small>optional</small></div><div><h2>Limits and quality</h2><p>Measurement uncertainty, confidence and quality.</p><div class="core-mini-example"><code>&quot;uncertaintyType&quot;: &quot;relative&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Preserves limits and quality; it does not convert confidence into authority.</p></div></article><article class="core-detail" id="relations"><div class="core-detail-key"><span>09</span><code>relations</code><small>optional</small></div><div><h2>Typed connections</h2><p>Dependencies, mappings, derivations and correlations.</p><div class="core-mini-example"><code>&quot;relationIri&quot;: &quot;http://www.w3.org/2004/02/skos/core#closeMatch&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Declares typed connections; transitivity and causality are never assumed.</p></div></article><article class="core-detail" id="policy"><div class="core-detail-key"><span>10</span><code>policy</code><small>optional</small></div><div><h2>Use conditions</h2><p>Permit, deny, indeterminate and human-review outcomes.</p><div class="core-mini-example"><code>&quot;effect&quot;: &quot;deny&quot;</code></div><p class="boundary-note"><strong>Boundary:</strong> Describes use conditions; it is not legal advice or an access-control engine.</p></div></article></div></div></section>
+<section class="section section-ink"><div class="shell boundary-layout"><div class="section-heading"><p class="eyebrow">Responsibility boundaries</p><h2>One fact should have one owner.</h2></div><div class="boundary-rules"><p><span>01</span> A field path belongs to <code>structure</code>; its domain meaning belongs to <code>semantics</code>.</p><p><span>02</span> An entity identifier belongs to <code>identity</code>; the activity that asserted it belongs to <code>provenance</code>.</p><p><span>03</span> Measurement uncertainty belongs to <code>uncertainty</code>; semantic authority remains a separate qualification.</p><p><span>04</span> Use conditions belong to <code>policy</code>; access to the bytes does not imply permission.</p></div></div></section>
 </main>
 <footer class="site-footer">
+  <div class="shell footer-callout">
+    <div>
+      <p class="eyebrow">Open Working Draft</p>
+      <h2>Make understanding portable, not proprietary.</h2>
+    </div>
+    <div class="footer-actions">
+      <a class="button primary" href="docs.html">Run the validator</a>
+      <a class="button quiet" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">Open GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
   <div class="shell footer-grid">
-    <section>
-      <a class="brand footer-brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">AD</span>
-        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
-      </a>
-      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
-    </section>
-    <section>
-      <h2>Reference</h2>
-      <a href="core.html">Core model</a>
-      <a href="validate.html">Validation</a>
-      <a href="compare.html">Comparison</a>
-      <a href="architecture.html">Architecture</a>
-    </section>
-    <section>
-      <h2>Evidence</h2>
-      <a href="evidence.html">Conformance evidence</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="example.html">Core example</a>
-      <a href="docs.html">Try in 5 minutes</a>
-    </section>
-    <section>
-      <h2>Governance</h2>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
-    </section>
+    <div class="footer-intro">
+      <a class="brand" href="index.html"><svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg><span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span></a>
+      <p>ADUC is not yet a recognized standard. It does not grant legal permission and does not claim universal interoperability.</p>
+    </div>
+    <div><h2>Understand</h2><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core model</a><a href="architecture.html">Architecture</a></div>
+    <div><h2>Use</h2><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="docs.html">Try in 5 minutes</a></div>
+    <div><h2>Verify</h2><a href="evidence.html">Evidence</a><a href="trust.html">Trust model</a><a href="roadmap.html">Roadmap</a></div>
   </div>
-  <div class="shell footer-bottom">
-    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
-    <span>Provider-neutral, local-first, unknown-safe.</span>
-  </div>
+  <div class="shell footer-bottom"><span>Updated 2026-07-15. Canonical public URL: GitHub Pages.</span><span>Provider-neutral · local-first · unknown-safe</span></div>
 </footer>
 </body>
 </html>

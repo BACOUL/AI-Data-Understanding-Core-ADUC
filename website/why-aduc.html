@@ -3,138 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Why ADUC - Portable understanding beyond JSON, CSV and prompts</title>
-  <meta name="description" content="Why AI-readable data contracts are needed when syntax, prompts and proprietary mappings do not preserve portable data understanding.">
-  <meta name="theme-color" content="#0b0e12">
+  <meta name="color-scheme" content="dark light">
+  <title>Why ADUC — The missing data-understanding layer for AI</title>
+  <meta name="description" content="Why JSON, CSV, prompts and proprietary mappings do not preserve portable understanding across AI systems.">
+  <meta name="theme-color" content="#071018">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Why ADUC - Portable understanding beyond JSON, CSV and prompts">
-  <meta property="og:description" content="Why AI-readable data contracts are needed when syntax, prompts and proprietary mappings do not preserve portable data understanding.">
+  <meta property="og:title" content="Why ADUC — The missing data-understanding layer for AI">
+  <meta property="og:description" content="Why JSON, CSV, prompts and proprietary mappings do not preserve portable understanding across AI systems.">
   <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html">
   <meta property="og:site_name" content="ADUC">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Why ADUC - Portable understanding beyond JSON, CSV and prompts">
-  <meta name="twitter:description" content="Why AI-readable data contracts are needed when syntax, prompts and proprietary mappings do not preserve portable data understanding.">
+  <meta name="twitter:title" content="Why ADUC — The missing data-understanding layer for AI">
+  <meta name="twitter:description" content="Why JSON, CSV, prompts and proprietary mappings do not preserve portable understanding across AI systems.">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
-  <script type="application/ld+json">[
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AI Data Understanding Core",
-    "alternateName": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "sameAs": [
-      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "description": "Working Draft documentation for AI-readable data understanding contracts."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Why ADUC - Portable understanding beyond JSON, CSV and prompts",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "headline": "Why ADUC - Portable understanding beyond JSON, CSV and prompts",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html",
-    "dateModified": "2026-07-14",
-    "isAccessibleForFree": true,
-    "about": [
-      "AI data interoperability",
-      "AI-readable data contract",
-      "portable data understanding",
-      "semantic interoperability for AI",
-      "deterministic AI data validation",
-      "AI data provenance",
-      "multi-model data consistency"
-    ]
-  }
-]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","name":"AI Data Understanding Core","alternateName":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","sameAs":["https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"]},{"@context":"https://schema.org","@type":"WebSite","name":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","description":"Working Draft documentation for portable AI data understanding contracts."},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"},{"@type":"ListItem","position":2,"name":"Why ADUC — The missing data-understanding layer for AI","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html"}]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Why ADUC — The missing data-understanding layer for AI","description":"Why JSON, CSV, prompts and proprietary mappings do not preserve portable understanding across AI systems.","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/why-aduc.html","dateModified":"2026-07-15","isAccessibleForFree":true,"about":["AI data interoperability","AI-readable data contract","portable data understanding","deterministic AI data validation","AI data provenance","multi-model data consistency"]}]</script>
 </head>
 <body data-page="why-aduc.html">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="shell nav-shell">
+<header class="site-header" data-site-header>
+  <div class="shell header-row">
     <a class="brand" href="index.html" aria-label="ADUC home">
-      <span class="brand-mark" aria-hidden="true">AD</span>
-      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+      <svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg>
+      <span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span>
     </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="why-aduc.html" aria-current="page">Why ADUC</a>
-        <a href="core.html">Core</a>
-        <a href="validate.html">Validate</a>
-        <a href="compare.html">Compare</a>
-        <a href="trust.html">Trust</a>
-        <a href="evidence.html">Evidence</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="docs.html">Docs</a>
-        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    <div class="header-status" aria-label="Project status">
+      <span class="status-pulse" aria-hidden="true"></span>
+      Working Draft 0.1
+    </div>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
+      <span class="sr-only">Open navigation</span>
+      <span class="nav-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" data-site-nav>
+      <a href="index.html">Home</a><a href="why-aduc.html" aria-current="page">Why ADUC</a><a href="core.html">Core</a><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="trust.html">Trust</a><a href="evidence.html">Evidence</a><a href="roadmap.html">Roadmap</a><a href="docs.html">Docs</a><a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
 <main id="main">
-<section class="page-hero"><div class="shell"><p class="kicker">Why ADUC</p><h1>Portable understanding should not live in prompts and private glue.</h1><p class="lead">Data pipelines usually preserve values. They rarely preserve the exact interpretation that makes those values safe to compare, transform or use.</p></div></section>
-<section><div class="shell comparison-table"><div><h2>JSON and CSV are necessary, not sufficient.</h2><p>They tell a consumer that a value is present and maybe that it is a string or number. They do not reliably say what the value means, what unit or time role applies, what identity decision was made, what uncertainty applies, or which policy condition blocks a use.</p></div><table><thead><tr><th>Carrier</th><th>What travels</th><th>What is usually missing</th></tr></thead><tbody><tr><td>JSON/CSV</td><td>Fields and values</td><td>Meaning, evidence, authority, policy</td></tr><tr><td>Prompt</td><td>Instruction for one model or workflow</td><td>Stable contract, testable diagnostics, portability</td></tr><tr><td>ETL mapping</td><td>Operational transformation</td><td>Open semantic evidence and consumer-neutral rules</td></tr><tr><td>ADUC</td><td>Explicit understanding contract</td><td>Source bytes remain external and authoritative</td></tr></tbody></table></div></section>
-<section class="section-band"><div class="shell"><div class="section-head"><p class="kicker">Lock-in problem</p><h2>Hidden mappings make every consumer re-learn the same source.</h2><p>A proprietary connector may know that <code>flow</code> means water discharge in cubic meters per second. A prompt may explain it differently. A second AI system may never see either explanation. ADUC creates a shared, versioned object that can be carried with the resource and checked independently.</p></div><div class="principle-grid"><article><h3>Meaning becomes inspectable</h3><p>Concepts, units, mappings and qualifications are explicit fields, not prose hidden in a prompt.</p></article><article><h3>Provenance travels</h3><p>Agents, evidence, activities and derivation chains remain attached to the understanding, not only to the raw source.</p></article><article><h3>Uncertainty survives</h3><p>Unknown, contested, deprecated and review-required states stay visible to downstream consumers.</p></article><article><h3>Policy is bounded</h3><p>Usage conditions can be evaluated when the required request and evidence exist; otherwise the result remains indeterminate or human-review-required.</p></article></div></div></section>
-<section><div class="shell two-column"><div><p class="kicker">What changes</p><h2>ADUC lets multiple consumers receive the same explanation and the same tests.</h2></div><div class="answer-block"><p>The practical shift is small and powerful: the understanding no longer has to be reconstructed for every model, vendor, connector or prompt. Consumers can validate the same contract, compare versions deterministically and expose the exact places where evidence is missing.</p><p>ADUC is therefore an AI-readable data contract, not an AI model, database, ontology, access-control system or agent protocol.</p></div></div></section>
-<section class="section-band"><div class="shell faq"><h2>Quick distinctions</h2><details open><summary>Is ADUC the same as MCP?</summary><p>No. MCP is a communication adapter pattern for tools and agents. ADUC is a portable understanding contract attached to data. A future MCP adapter may transport ADUC, but MCP is not part of the Core.</p></details><details><summary>Is ADUC a data contract?</summary><p>It overlaps with data contracts, but it also carries semantics, identity, provenance, uncertainty, relations and usage policy so AI consumers can preserve more than schema shape.</p></details><details><summary>Is ADUC an ontology?</summary><p>No. It references external vocabularies and ontologies where useful, but it does not try to become a universal ontology.</p></details></div></section>
+<section class="page-hero page-hero-why"><div class="shell page-hero-grid"><div><p class="eyebrow">Why ADUC</p><h1>The missing layer between data and AI.</h1><p class="page-lead">Data can be machine-readable and still machine-ambiguous. ADUC turns the interpretation hidden in prompts, code and private mappings into a portable contract.</p></div><div class="hero-thesis"><span>Readable</span><b>≠</b><span>Understood</span><i>ADUC makes the difference explicit.</i></div></div></section>
+
+<section class="section"><div class="shell narrative-grid"><aside class="narrative-index" aria-label="Page sections"><a href="#syntax">01 Syntax</a><a href="#prompts">02 Prompts</a><a href="#lock-in">03 Lock-in</a><a href="#changes">04 What changes</a></aside><div class="narrative-flow">
+  <article id="syntax"><p class="eyebrow">01 · Syntax</p><h2>JSON and CSV carry values, not a shared interpretation.</h2><p>A field named <code>flow</code> may be a discharge rate, a business process or a boolean state. A number does not identify its quantity kind, unit, timestamp role, authority or uncertainty.</p><div class="contrast-line"><span>Data alone</span><code>{"flow": 1.5}</code><strong>multiple plausible meanings</strong></div></article>
+  <article id="prompts"><p class="eyebrow">02 · Prompts</p><h2>A prompt explains one interaction. It is not a portable contract.</h2><p>Prompt text is difficult to version, validate, compare and audit across models. It may be omitted from the next integration or interpreted differently by another provider.</p><div class="contrast-line"><span>Prompt</span><code>“flow means water discharge”</code><strong>workflow-specific and hard to test</strong></div></article>
+  <article id="lock-in"><p class="eyebrow">03 · Lock-in</p><h2>Private mappings make every consumer relearn the same source.</h2><p>ETL jobs and connectors often know the real meaning, but that knowledge stays trapped in proprietary code. The next AI system must rebuild it, trust undocumented assumptions or guess.</p></article>
+  <article id="changes"><p class="eyebrow">04 · What changes</p><h2>ADUC makes understanding a versioned object.</h2><p>Structure, semantics, identity, context, provenance, uncertainty, relations and use conditions can travel together and be checked by the same deterministic rules.</p><div class="before-after"><div><small>Before</small><strong>Prompts · code · mappings · docs</strong><span>fragmented, implicit, provider-specific</span></div><div><small>With ADUC</small><strong>One explicit understanding contract</strong><span>portable, comparable, reviewable</span></div></div></article>
+</div></div></section>
+
+<section class="section section-ink"><div class="shell"><div class="section-heading wide"><p class="eyebrow">Concrete consequences</p><h2>Small ambiguities become large operational errors.</h2></div><div class="case-studies">
+  <article><span class="case-number">01</span><div><h3>Two station identifiers</h3><p><strong>Without ADUC:</strong> systems may merge <code>R42</code> and <code>897</code> because labels look similar.</p><p><strong>With ADUC:</strong> identity remains unknown until qualifying evidence supports equivalence. Correlation does not become identity.</p></div></article>
+  <article><span class="case-number">02</span><div><h3>Celsius and Fahrenheit</h3><p><strong>Without ADUC:</strong> values can be combined as if their units were identical.</p><p><strong>With ADUC:</strong> quantity kind, unit identity and conversion evidence make a deterministic conversion possible.</p></div></article>
+  <article><span class="case-number">03</span><div><h3>Conditions of use</h3><p><strong>Without ADUC:</strong> permission may be assumed from access to the bytes.</p><p><strong>With ADUC:</strong> policy evaluation can return permit, deny, indeterminate or requiresHumanReview. It still does not grant legal permission by itself.</p></div></article>
+</div></div></section>
+
+<section class="section standards-section"><div class="shell"><div class="section-heading wide"><p class="eyebrow">Composition, not replacement</p><h2>ADUC connects responsibilities that existing standards already handle well.</h2><p>It can reference JSON Schema, RDF/OWL, PROV-O, DQV, ODRL, QUDT, UCUM and other established vocabularies. The Core provides one contract boundary for AI consumers.</p></div><div class="standards-matrix"><div><strong>JSON Schema</strong><span>structure</span></div><div><strong>RDF / OWL</strong><span>semantic vocabularies</span></div><div><strong>PROV-O</strong><span>provenance</span></div><div><strong>DQV</strong><span>quality</span></div><div><strong>ODRL</strong><span>use policies</span></div><div class="matrix-aduc"><strong>ADUC</strong><span>portable understanding contract</span></div></div></div></section>
+
+<section class="section section-paper"><div class="shell faq-layout"><div class="section-heading"><p class="eyebrow">Quick distinctions</p><h2>What ADUC is — and is not.</h2></div><div class="faq">
+<details open><summary>Is ADUC an AI model?</summary><p>No. It is a machine-readable contract consumed by AI systems, tools and applications.</p></details>
+<details><summary>Is ADUC the same as MCP?</summary><p>No. MCP transports tool and agent interactions. A future adapter could transport an ADUC contract, but MCP is not the Core.</p></details>
+<details><summary>Is ADUC a universal ontology?</summary><p>No. It references external vocabularies and ontologies instead of replacing them.</p></details>
+<details><summary>Does ADUC reveal private model reasoning?</summary><p>No. It makes declared consumer behavior and contract handling auditable; it does not expose private chain-of-thought.</p></details>
+</div></div></section>
 </main>
 <footer class="site-footer">
+  <div class="shell footer-callout">
+    <div>
+      <p class="eyebrow">Open Working Draft</p>
+      <h2>Make understanding portable, not proprietary.</h2>
+    </div>
+    <div class="footer-actions">
+      <a class="button primary" href="docs.html">Run the validator</a>
+      <a class="button quiet" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">Open GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
   <div class="shell footer-grid">
-    <section>
-      <a class="brand footer-brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">AD</span>
-        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
-      </a>
-      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
-    </section>
-    <section>
-      <h2>Reference</h2>
-      <a href="core.html">Core model</a>
-      <a href="validate.html">Validation</a>
-      <a href="compare.html">Comparison</a>
-      <a href="architecture.html">Architecture</a>
-    </section>
-    <section>
-      <h2>Evidence</h2>
-      <a href="evidence.html">Conformance evidence</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="example.html">Core example</a>
-      <a href="docs.html">Try in 5 minutes</a>
-    </section>
-    <section>
-      <h2>Governance</h2>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
-    </section>
+    <div class="footer-intro">
+      <a class="brand" href="index.html"><svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg><span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span></a>
+      <p>ADUC is not yet a recognized standard. It does not grant legal permission and does not claim universal interoperability.</p>
+    </div>
+    <div><h2>Understand</h2><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core model</a><a href="architecture.html">Architecture</a></div>
+    <div><h2>Use</h2><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="docs.html">Try in 5 minutes</a></div>
+    <div><h2>Verify</h2><a href="evidence.html">Evidence</a><a href="trust.html">Trust model</a><a href="roadmap.html">Roadmap</a></div>
   </div>
-  <div class="shell footer-bottom">
-    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
-    <span>Provider-neutral, local-first, unknown-safe.</span>
-  </div>
+  <div class="shell footer-bottom"><span>Updated 2026-07-15. Canonical public URL: GitHub Pages.</span><span>Provider-neutral · local-first · unknown-safe</span></div>
 </footer>
 </body>
 </html>
