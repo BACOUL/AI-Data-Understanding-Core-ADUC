@@ -3,136 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC roadmap - Completed Core, migration available and formatter next</title>
-  <meta name="description" content="ADUC roadmap status synchronized with the current repository: Core foundations and semantic migration complete, deterministic formatter active, compiler and review UI not started.">
-  <meta name="theme-color" content="#0b0e12">
+  <meta name="color-scheme" content="dark light">
+  <title>ADUC roadmap — From Core foundations to independent proof</title>
+  <meta name="description" content="The evidence-gated ADUC roadmap for deterministic tooling, adoption, review workflows and external interoperability proof.">
+  <meta name="theme-color" content="#071018">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ADUC roadmap - Completed Core, migration available and formatter next">
-  <meta property="og:description" content="ADUC roadmap status synchronized with the current repository: Core foundations and semantic migration complete, deterministic formatter active, compiler and review UI not started.">
+  <meta property="og:title" content="ADUC roadmap — From Core foundations to independent proof">
+  <meta property="og:description" content="The evidence-gated ADUC roadmap for deterministic tooling, adoption, review workflows and external interoperability proof.">
   <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html">
   <meta property="og:site_name" content="ADUC">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ADUC roadmap - Completed Core, migration available and formatter next">
-  <meta name="twitter:description" content="ADUC roadmap status synchronized with the current repository: Core foundations and semantic migration complete, deterministic formatter active, compiler and review UI not started.">
+  <meta name="twitter:title" content="ADUC roadmap — From Core foundations to independent proof">
+  <meta name="twitter:description" content="The evidence-gated ADUC roadmap for deterministic tooling, adoption, review workflows and external interoperability proof.">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
-  <script type="application/ld+json">[
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AI Data Understanding Core",
-    "alternateName": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "sameAs": [
-      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "description": "Working Draft documentation for AI-readable data understanding contracts."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "ADUC roadmap - Completed Core, migration available and formatter next",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "ADUC roadmap - Completed Core, migration available and formatter next",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html",
-    "dateModified": "2026-07-14",
-    "isAccessibleForFree": true,
-    "about": [
-      "AI data interoperability",
-      "AI-readable data contract",
-      "portable data understanding",
-      "semantic interoperability for AI",
-      "deterministic AI data validation",
-      "AI data provenance",
-      "multi-model data consistency"
-    ]
-  }
-]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","name":"AI Data Understanding Core","alternateName":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","sameAs":["https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"]},{"@context":"https://schema.org","@type":"WebSite","name":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","description":"Working Draft documentation for portable AI data understanding contracts."},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"},{"@type":"ListItem","position":2,"name":"ADUC roadmap — From Core foundations to independent proof","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html"}]},{"@context":"https://schema.org","@type":"TechArticle","headline":"ADUC roadmap — From Core foundations to independent proof","description":"The evidence-gated ADUC roadmap for deterministic tooling, adoption, review workflows and external interoperability proof.","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/roadmap.html","dateModified":"2026-07-15","isAccessibleForFree":true,"about":["AI data interoperability","AI-readable data contract","portable data understanding","deterministic AI data validation","AI data provenance","multi-model data consistency"]}]</script>
 </head>
 <body data-page="roadmap.html">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="shell nav-shell">
+<header class="site-header" data-site-header>
+  <div class="shell header-row">
     <a class="brand" href="index.html" aria-label="ADUC home">
-      <span class="brand-mark" aria-hidden="true">AD</span>
-      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+      <svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg>
+      <span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span>
     </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="why-aduc.html">Why ADUC</a>
-        <a href="core.html">Core</a>
-        <a href="validate.html">Validate</a>
-        <a href="compare.html">Compare</a>
-        <a href="trust.html">Trust</a>
-        <a href="evidence.html">Evidence</a>
-        <a href="roadmap.html" aria-current="page">Roadmap</a>
-        <a href="docs.html">Docs</a>
-        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    <div class="header-status" aria-label="Project status">
+      <span class="status-pulse" aria-hidden="true"></span>
+      Working Draft 0.1
+    </div>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
+      <span class="sr-only">Open navigation</span>
+      <span class="nav-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" data-site-nav>
+      <a href="index.html">Home</a><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core</a><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="trust.html">Trust</a><a href="evidence.html">Evidence</a><a href="roadmap.html" aria-current="page">Roadmap</a><a href="docs.html">Docs</a><a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
 <main id="main">
-<section class="page-hero"><div class="shell"><p class="kicker">Roadmap</p><h1>The roadmap separates completed Core foundations from future product gates.</h1><p class="lead">Semantic-profile migration is available. The active technical task is a deterministic formatter for complete ADUC Core contracts.</p></div></section>
-<section><div class="shell roadmap-list"><article class="done"><h2>Phase 0 - Core foundations</h2><p>Complete: mission, non-goals, profiles ADR-0005 through ADR-0013, normative ten-block Core object model, module manifest, complete example and architecture checker.</p></article><article class="done"><h2>Phase 1 - Schema family and migration</h2><p>Complete: 14 local Draft 2020-12 schemas, valid and invalid Core fixtures, local schema-plus-architecture validator, and deterministic migration from the old semantic profile.</p></article><article class="mixed"><h2>Phase 2 - Reference implementation</h2><p>Validator, comparator and semantic-profile migration are complete. Remaining tools include the formatter, SDKs, conformance runner, package publication plan and updated developer distribution work.</p></article><article class="active"><h2>Active task - Deterministic Core formatter</h2><p>Define and implement stable UTF-8 formatting for complete validated Core contracts without inferring, repairing or changing semantic content.</p></article><article class="blocked"><h2>Blocked until gates pass</h2><p>JSON/CSV compiler, review UI, external multi-model proof, registry, MCP adapter, extensions and anticipation engine are not current implementation tasks.</p></article></div></section>
-<section class="section-band"><div class="shell"><h2>Cross-cutting tracks</h2><div class="principle-grid"><article><h3>AI-first and human-first</h3><p>Provider-neutral machine reports and understandable human diagnostics.</p></article><article><h3>Privacy and security</h3><p>Local defaults, no silent upload, safe graph and input limits.</p></article><article><h3>Visibility</h3><p>Stable URLs, crawlable docs, honest SEO/AEO/GEO content and no ranking promises.</p></article><article><h3>Novelty proof</h3><p>No first-world claim without prior-art boundary, independent review and reproducible evidence.</p></article></div></div></section>
+<section class="page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">Roadmap</p><h1>Build the contract first. Prove adoption before scaling the tooling.</h1><p class="page-lead">The roadmap follows the repository Master Plan and keeps one active technical task at a time.</p></div><div class="roadmap-now"><small>Active task - Deterministic Core formatter</small><strong>Stable bytes without changing meaning.</strong><span>Issue #60 · open</span></div></div></section>
+<section class="section"><div class="shell roadmap-track"><article class="complete"><span>Phase 0</span><div><h2>Core foundations</h2><p>Normative ten-block model, responsibility boundaries and complete example.</p></div><strong>Complete</strong></article><article class="complete"><span>Phase 1</span><div><h2>Schema and migration</h2><p>14 local schemas, valid/invalid fixtures and deterministic semantic-profile migration.</p></div><strong>Complete</strong></article><article class="active"><span>Phase 2</span><div><h2>Deterministic Core tools</h2><p>Unified validator and comparator complete. Contract formatter is the single active task.</p></div><strong>Active</strong></article><article class="blocked"><span>Phase 3</span><div><h2>Compiler and review workflow</h2><p>JSON/CSV compiler remains blocked until adoption, value and review-tax gates are ready.</p></div><strong>Blocked</strong></article><article><span>Phase 4</span><div><h2>Packages, registry and adapters</h2><p>Public packages, registry, MCP adapter and official extensions.</p></div><strong>Planned</strong></article><article><span>Phase 5</span><div><h2>Independent interoperability proof</h2><p>Two external consumers, controlled evaluation and published evidence.</p></div><strong>Foundations only</strong></article></div></section>
+<section class="section section-paper"><div class="shell boundary-layout"><div class="section-heading"><p class="eyebrow">Release discipline</p><h2>Roadmap language follows evidence.</h2></div><div class="boundary-rules"><p><span>01</span> A future compiler is not described as available.</p><p><span>02</span> A preview deployment is not treated as adoption proof.</p><p><span>03</span> A passing schema does not establish factual truth.</p><p><span>04</span> A global novelty claim waits for independent prior-art and interoperability evidence.</p></div></div></section>
 </main>
 <footer class="site-footer">
+  <div class="shell footer-callout">
+    <div>
+      <p class="eyebrow">Open Working Draft</p>
+      <h2>Make understanding portable, not proprietary.</h2>
+    </div>
+    <div class="footer-actions">
+      <a class="button primary" href="docs.html">Run the validator</a>
+      <a class="button quiet" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">Open GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
   <div class="shell footer-grid">
-    <section>
-      <a class="brand footer-brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">AD</span>
-        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
-      </a>
-      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
-    </section>
-    <section>
-      <h2>Reference</h2>
-      <a href="core.html">Core model</a>
-      <a href="validate.html">Validation</a>
-      <a href="compare.html">Comparison</a>
-      <a href="architecture.html">Architecture</a>
-    </section>
-    <section>
-      <h2>Evidence</h2>
-      <a href="evidence.html">Conformance evidence</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="example.html">Core example</a>
-      <a href="docs.html">Try in 5 minutes</a>
-    </section>
-    <section>
-      <h2>Governance</h2>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
-    </section>
+    <div class="footer-intro">
+      <a class="brand" href="index.html"><svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg><span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span></a>
+      <p>ADUC is not yet a recognized standard. It does not grant legal permission and does not claim universal interoperability.</p>
+    </div>
+    <div><h2>Understand</h2><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core model</a><a href="architecture.html">Architecture</a></div>
+    <div><h2>Use</h2><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="docs.html">Try in 5 minutes</a></div>
+    <div><h2>Verify</h2><a href="evidence.html">Evidence</a><a href="trust.html">Trust model</a><a href="roadmap.html">Roadmap</a></div>
   </div>
-  <div class="shell footer-bottom">
-    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
-    <span>Provider-neutral, local-first, unknown-safe.</span>
-  </div>
+  <div class="shell footer-bottom"><span>Updated 2026-07-15. Canonical public URL: GitHub Pages.</span><span>Provider-neutral · local-first · unknown-safe</span></div>
 </footer>
 </body>
 </html>

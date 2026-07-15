@@ -3,141 +3,116 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC example - A conformant Core contract excerpt</title>
-  <meta name="description" content="A conformant ADUC Core example showing aduc, resource, structure and semantics from the complete model fixture.">
-  <meta name="theme-color" content="#0b0e12">
+  <meta name="color-scheme" content="dark light">
+  <title>ADUC complete Core example — River observation contract</title>
+  <meta name="description" content="Read an official ten-block ADUC Core contract excerpt with source binding, semantics, identity, provenance, uncertainty and policy.">
+  <meta name="theme-color" content="#071018">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ADUC example - A conformant Core contract excerpt">
-  <meta property="og:description" content="A conformant ADUC Core example showing aduc, resource, structure and semantics from the complete model fixture.">
+  <meta property="og:title" content="ADUC complete Core example — River observation contract">
+  <meta property="og:description" content="Read an official ten-block ADUC Core contract excerpt with source binding, semantics, identity, provenance, uncertainty and policy.">
   <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html">
   <meta property="og:site_name" content="ADUC">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ADUC example - A conformant Core contract excerpt">
-  <meta name="twitter:description" content="A conformant ADUC Core example showing aduc, resource, structure and semantics from the complete model fixture.">
+  <meta name="twitter:title" content="ADUC complete Core example — River observation contract">
+  <meta name="twitter:description" content="Read an official ten-block ADUC Core contract excerpt with source binding, semantics, identity, provenance, uncertainty and policy.">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
-  <script type="application/ld+json">[
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AI Data Understanding Core",
-    "alternateName": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "sameAs": [
-      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "description": "Working Draft documentation for AI-readable data understanding contracts."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "ADUC example - A conformant Core contract excerpt",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "ADUC example - A conformant Core contract excerpt",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html",
-    "dateModified": "2026-07-14",
-    "isAccessibleForFree": true,
-    "about": [
-      "AI data interoperability",
-      "AI-readable data contract",
-      "portable data understanding",
-      "semantic interoperability for AI",
-      "deterministic AI data validation",
-      "AI data provenance",
-      "multi-model data consistency"
-    ]
-  }
-]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","name":"AI Data Understanding Core","alternateName":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","sameAs":["https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"]},{"@context":"https://schema.org","@type":"WebSite","name":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","description":"Working Draft documentation for portable AI data understanding contracts."},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"},{"@type":"ListItem","position":2,"name":"ADUC complete Core example — River observation contract","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html"}]},{"@context":"https://schema.org","@type":"TechArticle","headline":"ADUC complete Core example — River observation contract","description":"Read an official ten-block ADUC Core contract excerpt with source binding, semantics, identity, provenance, uncertainty and policy.","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/example.html","dateModified":"2026-07-15","isAccessibleForFree":true,"about":["AI data interoperability","AI-readable data contract","portable data understanding","deterministic AI data validation","AI data provenance","multi-model data consistency"]}]</script>
 </head>
 <body data-page="example.html">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="shell nav-shell">
+<header class="site-header" data-site-header>
+  <div class="shell header-row">
     <a class="brand" href="index.html" aria-label="ADUC home">
-      <span class="brand-mark" aria-hidden="true">AD</span>
-      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+      <svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg>
+      <span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span>
     </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="why-aduc.html">Why ADUC</a>
-        <a href="core.html">Core</a>
-        <a href="validate.html">Validate</a>
-        <a href="compare.html">Compare</a>
-        <a href="trust.html">Trust</a>
-        <a href="evidence.html">Evidence</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="docs.html">Docs</a>
-        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    <div class="header-status" aria-label="Project status">
+      <span class="status-pulse" aria-hidden="true"></span>
+      Working Draft 0.1
+    </div>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
+      <span class="sr-only">Open navigation</span>
+      <span class="nav-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" data-site-nav>
+      <a href="index.html">Home</a><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core</a><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="trust.html">Trust</a><a href="evidence.html">Evidence</a><a href="roadmap.html">Roadmap</a><a href="docs.html">Docs</a><a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
 <main id="main">
-<section class="page-hero"><div class="shell"><p class="kicker">Example</p><h1>A complete Core contract explains more than field names.</h1><p class="lead">The official example describes a river observation resource with structure, semantics, identity, context, provenance, uncertainty, relations and policy.</p></div></section>
-<section><div class="shell example-layout"><div><h2>What the source alone says</h2><pre class="code-block"><code>{"station":"R42","flow":1.5,"quality":1,"timestamp":"2026-07-14T08:00:00Z"}</code></pre><p>The values are readable. Their shared meaning is not guaranteed without extra context.</p></div><div><h2>What ADUC adds</h2><ul class="plain-list"><li><code>flow</code> is water discharge.</li><li>The unit is <code>https://qudt.org/vocab/unit/M3-PER-SEC</code>.</li><li>The timestamp role is SOSA result time.</li><li>The station identity has an issuer and authority state.</li><li>Provenance, uncertainty and policy remain visible.</li></ul></div></div></section>
-<section class="section-band"><div class="shell"><h2>Core excerpt</h2><pre class="code-block"><code>{
-  "aduc": {"contractId": "urn:aduc:contract:river-r42:2026-07-14", "coreVersion": "0.1.0-alpha.0"},
-  "resource": {"id": "urn:example:resource:river-r42-observations:2026-07-14T08:00Z", "mediaType": "application/json"},
-  "structure": {"records": [{"fields": [{"id": "urn:example:field:flow", "sourcePath": "$.flow", "primitiveType": "number"}]}]},
-  "semantics": {"assertions": [{"subjectRef": "urn:example:field:flow", "conceptIri": "https://example.org/vocab/env/WaterDischarge", "unitIri": "https://qudt.org/vocab/unit/M3-PER-SEC"}]}
-}</code></pre><p><a class="button secondary" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/examples/core/complete-model.example.json">Open the full example on GitHub</a></p></div></section>
+<section class="page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">Complete example</p><h1>A ten-block contract bound to one exact resource.</h1><p class="page-lead">The official river-observation example demonstrates source binding, field structure, semantics, identity, temporal context, provenance, uncertainty, relations and policy.</p></div><div class="example-summary"><span>contract</span><strong>river-r42 · 2026-07-14</strong><span>coreVersion</span><strong>0.1.0-alpha.0</strong><span>status</span><strong>reviewed</strong></div></div></section>
+<section class="section"><div class="shell example-grid"><div class="section-heading"><p class="eyebrow">Source binding</p><h2>The contract identifies the source before describing it.</h2><p>The resource block carries media type, version, locator and SHA-256 digest. The structure block then exposes addressable records and fields.</p></div><div class="code-frame"><pre class="code-block"><code>{{
+  &quot;aduc&quot;: {{
+    &quot;contractId&quot;: &quot;urn:aduc:contract:river-r42:2026-07-14&quot;,
+    &quot;coreVersion&quot;: &quot;0.1.0-alpha.0&quot;,
+    &quot;status&quot;: &quot;reviewed&quot;
+  }},
+  &quot;resource&quot;: {{
+    &quot;id&quot;: &quot;urn:example:resource:river-r42-observations:2026-07-14T08:00Z&quot;,
+    &quot;kind&quot;: &quot;dataset&quot;,
+    &quot;mediaType&quot;: &quot;application/json&quot;,
+    &quot;digest&quot;: &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;
+  }},
+  &quot;structure&quot;: {{
+    &quot;representation&quot;: &quot;record&quot;,
+    &quot;records&quot;: [{{
+      &quot;fields&quot;: [
+        {{&quot;name&quot;: &quot;station&quot;, &quot;sourcePath&quot;: &quot;$.station&quot;, &quot;primitiveType&quot;: &quot;string&quot;}},
+        {{&quot;name&quot;: &quot;flow&quot;, &quot;sourcePath&quot;: &quot;$.flow&quot;, &quot;primitiveType&quot;: &quot;number&quot;}}
+      ]
+    }}]
+  }}
+}}</code></pre></div></div></section>
+<section class="section section-paper"><div class="shell example-grid"><div class="section-heading"><p class="eyebrow">Qualified meaning</p><h2>Meaning includes evidence and limits.</h2><p>The assertion points to a concept and unit while preserving status, authority, evidence, provenance, conflict and lifecycle.</p></div><div class="code-frame"><pre class="code-block"><code>{{
+  &quot;id&quot;: &quot;urn:example:semantic:flow&quot;,
+  &quot;subjectRef&quot;: &quot;urn:example:field:flow&quot;,
+  &quot;conceptIri&quot;: &quot;https://example.org/vocab/env/WaterDischarge&quot;,
+  &quot;mappingRelationIri&quot;: &quot;http://www.w3.org/2004/02/skos/core#exactMatch&quot;,
+  &quot;unitIri&quot;: &quot;https://qudt.org/vocab/unit/M3-PER-SEC&quot;,
+  &quot;status&quot;: &quot;reviewed&quot;,
+  &quot;authority&quot;: &quot;reviewed&quot;,
+  &quot;evidenceRefs&quot;: [&quot;urn:example:evidence:river-dictionary&quot;],
+  &quot;provenanceRef&quot;: &quot;urn:example:activity:semantic-review&quot;,
+  &quot;uncertaintyRef&quot;: &quot;urn:example:uncertainty:flow-relative&quot;,
+  &quot;conflict&quot;: &quot;clear&quot;,
+  &quot;lifecycle&quot;: &quot;active&quot;
+}}</code></pre></div></div></section>
+<section class="section"><div class="shell"><div class="section-heading wide"><p class="eyebrow">Open the source</p><h2>The website excerpt is informative. The repository file is authoritative.</h2></div><a class="button primary" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/examples/core/complete-model.example.json">View complete-model.example.json <span aria-hidden="true">↗</span></a></div></section>
 </main>
 <footer class="site-footer">
+  <div class="shell footer-callout">
+    <div>
+      <p class="eyebrow">Open Working Draft</p>
+      <h2>Make understanding portable, not proprietary.</h2>
+    </div>
+    <div class="footer-actions">
+      <a class="button primary" href="docs.html">Run the validator</a>
+      <a class="button quiet" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">Open GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
   <div class="shell footer-grid">
-    <section>
-      <a class="brand footer-brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">AD</span>
-        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
-      </a>
-      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
-    </section>
-    <section>
-      <h2>Reference</h2>
-      <a href="core.html">Core model</a>
-      <a href="validate.html">Validation</a>
-      <a href="compare.html">Comparison</a>
-      <a href="architecture.html">Architecture</a>
-    </section>
-    <section>
-      <h2>Evidence</h2>
-      <a href="evidence.html">Conformance evidence</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="example.html">Core example</a>
-      <a href="docs.html">Try in 5 minutes</a>
-    </section>
-    <section>
-      <h2>Governance</h2>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
-    </section>
+    <div class="footer-intro">
+      <a class="brand" href="index.html"><svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg><span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span></a>
+      <p>ADUC is not yet a recognized standard. It does not grant legal permission and does not claim universal interoperability.</p>
+    </div>
+    <div><h2>Understand</h2><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core model</a><a href="architecture.html">Architecture</a></div>
+    <div><h2>Use</h2><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="docs.html">Try in 5 minutes</a></div>
+    <div><h2>Verify</h2><a href="evidence.html">Evidence</a><a href="trust.html">Trust model</a><a href="roadmap.html">Roadmap</a></div>
   </div>
-  <div class="shell footer-bottom">
-    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
-    <span>Provider-neutral, local-first, unknown-safe.</span>
-  </div>
+  <div class="shell footer-bottom"><span>Updated 2026-07-15. Canonical public URL: GitHub Pages.</span><span>Provider-neutral · local-first · unknown-safe</span></div>
 </footer>
 </body>
 </html>

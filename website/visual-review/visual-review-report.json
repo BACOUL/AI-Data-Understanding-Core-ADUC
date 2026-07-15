@@ -1,0 +1,1374 @@
+{
+  "checks": 72,
+  "failures": 0,
+  "results": [
+    {
+      "page": "index.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 13074,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "why-aduc.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 8172,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "core.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 7655,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "validate.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 5282,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "compare.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 5560,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "trust.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 5261,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "evidence.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 4924,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "roadmap.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 4370,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "docs.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 4625,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "architecture.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 4316,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "example.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 4166,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "specification.html",
+      "viewport": [
+        360,
+        800
+      ],
+      "metrics": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "scrollHeight": 4044,
+        "headerHeight": 69,
+        "h1FontSize": 41.04,
+        "h1Width": 332.015625,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "index.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 12898,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "why-aduc.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 8044,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "core.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 7659,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "validate.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 5235,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "compare.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 5510,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "trust.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 5243,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "evidence.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 4907,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "roadmap.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 4371,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "docs.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 4662,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "architecture.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 4209,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "example.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 4193,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "specification.html",
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 4077,
+        "headerHeight": 69,
+        "h1FontSize": 44.46,
+        "h1Width": 359.703125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "index.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 9253,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 358.8125,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "why-aduc.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 5729,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "core.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 6843,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "validate.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 4161,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "compare.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3493,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "trust.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3655,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "evidence.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3529,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "roadmap.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3292,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "docs.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3481,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "architecture.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3165,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "example.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 3558,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "specification.html",
+      "viewport": [
+        768,
+        1024
+      ],
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 2660,
+        "headerHeight": 69,
+        "h1FontSize": 48.384,
+        "h1Width": 391.4375,
+        "toggleDisplay": "grid",
+        "navVisibility": "hidden",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "index.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 8950,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 478.421875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "why-aduc.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 5875,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "core.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 6469,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "validate.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 4028,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "compare.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3473,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "trust.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3566,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "evidence.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3292,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "roadmap.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3033,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "docs.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3640,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "architecture.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3138,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "example.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 3217,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "specification.html",
+      "viewport": [
+        1024,
+        768
+      ],
+      "metrics": {
+        "scrollWidth": 1024,
+        "clientWidth": 1024,
+        "scrollHeight": 2726,
+        "headerHeight": 77,
+        "h1FontSize": 64.512,
+        "h1Width": 521.90625,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "index.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 8787,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 516.796875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "why-aduc.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 6555,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "core.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 6327,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "validate.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 4786,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "compare.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 3937,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "trust.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 3498,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "evidence.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 3636,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "roadmap.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 3407,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "docs.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 4089,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "architecture.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 3219,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "example.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 3745,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "specification.html",
+      "viewport": [
+        1440,
+        900
+      ],
+      "metrics": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "scrollHeight": 2959,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "index.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 8826,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 516.796875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "why-aduc.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 6574,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "core.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 6337,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "validate.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 4805,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "compare.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 3956,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "trust.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 3513,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "evidence.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 3651,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "roadmap.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 3416,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "docs.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 4104,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "architecture.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 3229,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "example.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 3760,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    },
+    {
+      "page": "specification.html",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "metrics": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "scrollHeight": 2969,
+        "headerHeight": 77,
+        "h1FontSize": 88,
+        "h1Width": 509.1875,
+        "toggleDisplay": "none",
+        "navVisibility": "visible",
+        "h1Count": 1
+      },
+      "errors": []
+    }
+  ]
+}

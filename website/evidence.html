@@ -3,138 +3,82 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADUC evidence - schemas, fixtures, tests and limits</title>
-  <meta name="description" content="Current ADUC evidence includes schemas, fixtures, profile evaluators, deterministic reports and comparison scenarios, with explicit limits.">
-  <meta name="theme-color" content="#0b0e12">
+  <meta name="color-scheme" content="dark light">
+  <title>ADUC conformance evidence — Schemas, fixtures, tests and limits</title>
+  <meta name="description" content="Inspect implemented ADUC schemas, fixtures, comparison scenarios, deterministic reports, CI evidence and unproven claims.">
+  <meta name="theme-color" content="#071018">
   <link rel="canonical" href="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ADUC evidence - schemas, fixtures, tests and limits">
-  <meta property="og:description" content="Current ADUC evidence includes schemas, fixtures, profile evaluators, deterministic reports and comparison scenarios, with explicit limits.">
+  <meta property="og:title" content="ADUC conformance evidence — Schemas, fixtures, tests and limits">
+  <meta property="og:description" content="Inspect implemented ADUC schemas, fixtures, comparison scenarios, deterministic reports, CI evidence and unproven claims.">
   <meta property="og:url" content="https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html">
   <meta property="og:site_name" content="ADUC">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ADUC evidence - schemas, fixtures, tests and limits">
-  <meta name="twitter:description" content="Current ADUC evidence includes schemas, fixtures, profile evaluators, deterministic reports and comparison scenarios, with explicit limits.">
+  <meta name="twitter:title" content="ADUC conformance evidence — Schemas, fixtures, tests and limits">
+  <meta name="twitter:description" content="Inspect implemented ADUC schemas, fixtures, comparison scenarios, deterministic reports, CI evidence and unproven claims.">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/app.js"></script>
-  <script type="application/ld+json">[
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AI Data Understanding Core",
-    "alternateName": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "sameAs": [
-      "https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ADUC",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/",
-    "description": "Working Draft documentation for AI-readable data understanding contracts."
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "ADUC evidence - schemas, fixtures, tests and limits",
-        "item": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "ADUC evidence - schemas, fixtures, tests and limits",
-    "url": "https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html",
-    "dateModified": "2026-07-14",
-    "isAccessibleForFree": true,
-    "about": [
-      "AI data interoperability",
-      "AI-readable data contract",
-      "portable data understanding",
-      "semantic interoperability for AI",
-      "deterministic AI data validation",
-      "AI data provenance",
-      "multi-model data consistency"
-    ]
-  }
-]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Organization","name":"AI Data Understanding Core","alternateName":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","sameAs":["https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC"]},{"@context":"https://schema.org","@type":"WebSite","name":"ADUC","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/","description":"Working Draft documentation for portable AI data understanding contracts."},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/"},{"@type":"ListItem","position":2,"name":"ADUC conformance evidence — Schemas, fixtures, tests and limits","item":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html"}]},{"@context":"https://schema.org","@type":"TechArticle","headline":"ADUC conformance evidence — Schemas, fixtures, tests and limits","description":"Inspect implemented ADUC schemas, fixtures, comparison scenarios, deterministic reports, CI evidence and unproven claims.","url":"https://bacoul.github.io/AI-Data-Understanding-Core-ADUC/evidence.html","dateModified":"2026-07-15","isAccessibleForFree":true,"about":["AI data interoperability","AI-readable data contract","portable data understanding","deterministic AI data validation","AI data provenance","multi-model data consistency"]}]</script>
 </head>
 <body data-page="evidence.html">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="shell nav-shell">
+<header class="site-header" data-site-header>
+  <div class="shell header-row">
     <a class="brand" href="index.html" aria-label="ADUC home">
-      <span class="brand-mark" aria-hidden="true">AD</span>
-      <span class="brand-copy">ADUC<span>Working Draft 0.1</span></span>
+      <svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg>
+      <span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span>
     </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="why-aduc.html">Why ADUC</a>
-        <a href="core.html">Core</a>
-        <a href="validate.html">Validate</a>
-        <a href="compare.html">Compare</a>
-        <a href="trust.html">Trust</a>
-        <a href="evidence.html" aria-current="page">Evidence</a>
-        <a href="roadmap.html">Roadmap</a>
-        <a href="docs.html">Docs</a>
-        <a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub</a>
+    <div class="header-status" aria-label="Project status">
+      <span class="status-pulse" aria-hidden="true"></span>
+      Working Draft 0.1
+    </div>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
+      <span class="sr-only">Open navigation</span>
+      <span class="nav-toggle-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" data-site-nav>
+      <a href="index.html">Home</a><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core</a><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="trust.html">Trust</a><a href="evidence.html" aria-current="page">Evidence</a><a href="roadmap.html">Roadmap</a><a href="docs.html">Docs</a><a class="nav-github" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
 <main id="main">
-<section class="page-hero"><div class="shell"><p class="kicker">Conformance and evidence</p><h1>Evidence is tied to artifacts, not marketing claims.</h1><p class="lead">ADUC is a Working Draft with implemented Core foundations, deterministic fixtures and tests. It is not yet a recognized standard or a proven first-world claim.</p></div></section>
-<section><div class="shell evidence-ledger"><div><strong>10</strong><span>normative Core blocks</span></div><div><strong>14</strong><span>Draft 2020-12 schema files</span></div><div><strong>11</strong><span>valid complete Core contracts</span></div><div><strong>15</strong><span>invalid complete Core contracts</span></div><div><strong>24</strong><span>comparison scenarios</span></div><div><strong>9</strong><span>domain profile evaluators</span></div></div></section>
-<section class="section-band"><div class="shell"><h2>What is evidenced now</h2><div class="principle-grid"><article><h3>Schemas</h3><p>The Core schema family validates structure locally using the Draft 2020-12 entry point <code>schema/aduc-core.schema.json</code>.</p></article><article><h3>Fixtures</h3><p>Official valid and invalid Core fixtures exercise the envelope, modules, references, extensions and architecture checker.</p></article><article><h3>Reports</h3><p>Validator and comparator reports are stable JSON/text outputs with deterministic diagnostic ordering.</p></article><article><h3>CI path</h3><p>The validation workflow runs profile suites, Core model checks, schema checks, website checks and full-Core commands.</p></article></div></div></section>
-<section><div class="shell two-column"><div><h2>What is not yet proven</h2></div><div class="answer-block"><ul class="plain-list"><li>No independent full conformance implementation has been published.</li><li>No external two-consumer AI proof has completed.</li><li>No absolute first-world claim is made.</li><li>Conformance classes for producers, validators, comparators, compilers, consumers and extensions remain future work.</li></ul></div></div></section>
-<section class="section-band"><div class="shell"><h2>Before stronger public claims</h2><ol class="trace-steps compact"><li><strong>Freeze a reproducible package</strong><span>Inputs, contracts, reports and hashes.</span></li><li><strong>Run independent consumers</strong><span>At least two consumers or implementations must preserve meaning without hidden mappings.</span></li><li><strong>Publish failures too</strong><span>Unknowns, disagreements and limitations remain part of the evidence.</span></li><li><strong>Review prior art</strong><span>Novelty boundaries require dated prior-art and independent review.</span></li></ol></div></section>
+<section class="page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">Conformance and evidence</p><h1>Claims should point to executable evidence.</h1><p class="page-lead">ADUC separates implemented artifacts, automated conformance evidence and future external proof. Green tests do not prove universal adoption.</p></div><div class="evidence-counter"><div><strong>14</strong><span>local schemas</span></div><div><strong>11</strong><span>valid fixtures</span></div><div><strong>15</strong><span>invalid fixtures</span></div><div><strong>24</strong><span>comparison scenarios</span></div></div></div></section>
+<section class="section"><div class="shell evidence-timeline"><article><span>01</span><div><h2>Normative artifacts</h2><p>Ten-block Core model, modular Draft 2020-12 schema family and documented validation/comparison contracts.</p></div><a href="core.html">Inspect Core</a></article><article><span>02</span><div><h2>Reference fixtures</h2><p>11 complete valid contracts, 15 intentionally invalid contracts and 24 comparison scenarios.</p></div><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/tree/main/examples/core">Open fixtures</a></article><article><span>03</span><div><h2>Deterministic reports</h2><p>JSON and text reports expose schema, architecture, profile and comparison outcomes.</p></div><a href="validate.html">See validation</a></article><article><span>04</span><div><h2>Continuous integration</h2><p>Repository workflows execute contract, evaluator, roadmap and public-site checks.</p></div><a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/actions">Open CI</a></article></div></section>
+<section class="section section-paper"><div class="shell proof-boundary"><div><p class="eyebrow">What evidence does not exist yet</p><h2>No external two-consumer AI proof has completed.</h2><p>No absolute first-world claim is made. A credible external claim requires two independent consumers, frozen inputs, controlled with/without-ADUC tests, published reports and reproducible failure analysis.</p></div><div class="proof-checklist"><span>Independent consumers</span><span>Frozen contracts</span><span>Controlled baseline</span><span>Published diagnostics</span><span>Repeatable results</span></div></div></section>
+<section class="section section-ink"><div class="shell"><div class="section-heading wide"><p class="eyebrow">Future conformance</p><h2>Conformance classes remain roadmap work.</h2><p>Schema conformance, complete-Core validation, comparison behavior and consumer-behavior audits may become distinct classes. They are not yet presented as a mature certification program.</p></div></div></section>
 </main>
 <footer class="site-footer">
+  <div class="shell footer-callout">
+    <div>
+      <p class="eyebrow">Open Working Draft</p>
+      <h2>Make understanding portable, not proprietary.</h2>
+    </div>
+    <div class="footer-actions">
+      <a class="button primary" href="docs.html">Run the validator</a>
+      <a class="button quiet" href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC">Open GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
   <div class="shell footer-grid">
-    <section>
-      <a class="brand footer-brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">AD</span>
-        <span class="brand-copy">ADUC<span>AI Data Understanding Core</span></span>
-      </a>
-      <p>ADUC is a Working Draft. It is not yet a recognized standard, does not grant legal permission, and does not prove universal interoperability.</p>
-    </section>
-    <section>
-      <h2>Reference</h2>
-      <a href="core.html">Core model</a>
-      <a href="validate.html">Validation</a>
-      <a href="compare.html">Comparison</a>
-      <a href="architecture.html">Architecture</a>
-    </section>
-    <section>
-      <h2>Evidence</h2>
-      <a href="evidence.html">Conformance evidence</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="example.html">Core example</a>
-      <a href="docs.html">Try in 5 minutes</a>
-    </section>
-    <section>
-      <h2>Governance</h2>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/GOVERNANCE.md">Governance</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/SECURITY.md">Security</a>
-      <a href="https://github.com/BACOUL/AI-Data-Understanding-Core-ADUC/blob/main/LICENSES.md">Licensing</a>
-    </section>
+    <div class="footer-intro">
+      <a class="brand" href="index.html"><svg class="brand-symbol" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="currentColor" opacity=".12"/>
+  <path d="M13 14h22M13 20h16M13 26h22M13 32h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="35" cy="20" r="2.8" fill="currentColor"/>
+  <circle cx="29" cy="32" r="2.8" fill="currentColor"/>
+</svg><span class="brand-wordmark"><strong>ADUC</strong><small>AI Data Understanding Core</small></span></a>
+      <p>ADUC is not yet a recognized standard. It does not grant legal permission and does not claim universal interoperability.</p>
+    </div>
+    <div><h2>Understand</h2><a href="why-aduc.html">Why ADUC</a><a href="core.html">Core model</a><a href="architecture.html">Architecture</a></div>
+    <div><h2>Use</h2><a href="validate.html">Validate</a><a href="compare.html">Compare</a><a href="docs.html">Try in 5 minutes</a></div>
+    <div><h2>Verify</h2><a href="evidence.html">Evidence</a><a href="trust.html">Trust model</a><a href="roadmap.html">Roadmap</a></div>
   </div>
-  <div class="shell footer-bottom">
-    <span>Updated 2026-07-14. Canonical public URL: GitHub Pages.</span>
-    <span>Provider-neutral, local-first, unknown-safe.</span>
-  </div>
+  <div class="shell footer-bottom"><span>Updated 2026-07-15. Canonical public URL: GitHub Pages.</span><span>Provider-neutral · local-first · unknown-safe</span></div>
 </footer>
 </body>
 </html>
