@@ -1,9 +1,19 @@
 # ADR-0002: ADUC as an AI semantic mapping and conformance profile
 
-- Status: accepted
+- Status: partially superseded
 - Date: 2026-07-13
 - Issue: #5
-- Supersedes: the broad standalone universal-data-model hypothesis in the bootstrap draft
+- Originally superseded: the broad standalone universal-data-model hypothesis in the bootstrap draft
+- Superseded for global project scope by: ADR-0004 and ADR-0004A
+- Retained scope: semantic-mapping lifecycle, authority, evidence, consumer behavior, interoperability tests and stop/pivot rules
+
+## Decision relationship clarification
+
+ADR-0004 restores the broader ten-block AI Data Understanding Core as the official global project direction. ADR-0004A makes the precedence explicit.
+
+Therefore, this ADR no longer governs statements that limit ADUC permanently to a narrow semantic-mapping profile or reject the broader Core as the global project. Those statements remain part of the historical Gate 0 reasoning.
+
+This ADR remains authoritative for the standalone semantic-mapping profile and for the safeguards it introduced: reuse of established standards, mapping authority, evidence, method-bound confidence, preservation of uncertainty and conflict, deterministic consumer behavior, prohibition of hidden provider-specific mappings, independent-consumer testing and stop/pivot conditions.
 
 ## Context
 
@@ -31,9 +41,9 @@ A narrower gap remains: independent AI systems lack a small, deterministic profi
 
 ## Decision
 
-ADUC will continue as a lightweight **AI semantic mapping and conformance profile over established standards**.
+ADUC will continue as a lightweight **AI semantic mapping and conformance profile over established standards** for the bounded experimental profile defined by this ADR.
 
-ADUC will not define a new universal data model or ontology. Its purpose is to make semantic mappings portable, reviewable and consistently consumed by independent AI systems.
+This profile does not define a new universal data model or ontology. Its purpose is to make semantic mappings portable, reviewable and consistently consumed by independent AI systems. The broader project scope is now governed by ADR-0004 and ADR-0004A.
 
 ### Exact bounded problem
 
@@ -55,7 +65,7 @@ The initial target users are:
 
 ### v0.1 resource boundary
 
-Version 0.1 is limited to:
+Version 0.1 of this standalone profile is limited to:
 
 - JSON and CSV datasets;
 - tabular or record-oriented data;
@@ -63,7 +73,7 @@ Version 0.1 is limited to:
 - existing source descriptions represented through Croissant and/or JSON Schema;
 - local references expressed as a Croissant field identifier, JSON Pointer, or an equivalent deterministic field reference defined by the selected source profile.
 
-The following are outside v0.1:
+The following are outside this standalone profile's v0.1 boundary:
 
 - arbitrary PDFs, images, audio and video;
 - live events and sensor streams;
@@ -73,6 +83,8 @@ The following are outside v0.1:
 - domain ontologies;
 - automatic policy enforcement;
 - the anticipation engine.
+
+These exclusions do not define the permanent limits of the broader full-Core program. Future source horizons remain gated by ADR-0004A and `docs/project/SOURCE_AND_EXTENSION_HORIZONS.md`.
 
 ### Standards that must be reused
 
@@ -152,7 +164,7 @@ The claim fails if:
 
 ### Stop or pivot condition
 
-ADUC must stop defining a separate profile and become tooling or an upstream contribution to an existing standard if any of the following becomes true:
+The standalone semantic-mapping profile must stop defining a separate profile and become tooling or an upstream contribution to an existing standard if any of the following becomes true:
 
 1. Croissant, a recognized JSON-LD profile or another maintained standard provides equivalent mapping status, authority, evidence, consumer behavior and conformance semantics.
 2. The profile does not reduce provider-specific remapping in the reference demonstration.
@@ -160,21 +172,23 @@ ADUC must stop defining a separate profile and become tooling or an upstream con
 4. The required profile becomes more complex than directly using the underlying standards.
 5. No external developer can author or consume a basic profile from the documentation without maintainer assistance.
 
+These conditions continue to govern the profile and relevant full-Core claims. They do not by themselves cancel the broader Core when another Core dimension remains distinct and justified.
+
 ### Consequences for the bootstrap schema
 
-The current `schema/aduc-core.schema.json` remains a repository-validation scaffold only. Its broad top-level objects are not accepted as the future normative model.
+The historical bootstrap `schema/aduc-core.schema.json` was a repository-validation scaffold only. Its broad top-level objects were not accepted by this ADR as the immediate mapping-profile model.
 
-Gate 1 must replace or sharply reduce the bootstrap model around semantic mapping assertions and references to existing source descriptions. No compatibility guarantee applies to the bootstrap schema.
+Subsequent ADRs, beginning with ADR-0004, later established and implemented the normative full-Core object model and schema family. The historical Gate 0 statement must not be read as invalidating those later accepted decisions.
 
 ### Consequences for the project name
 
-`AI Data Understanding Core` and `ADUC` remain working names during research. The name may overstate the narrowed scope. Renaming is deferred until the Gate 1 information model and demonstration language are stable.
+`AI Data Understanding Core` and `ADUC` remained working names during the original profile research. ADR-0004 restored the broader project meaning while retaining the requirement for naming and trademark review before any public name freeze.
 
-## Options rejected
+## Options rejected during Gate 0
 
-### Build the original universal Core
+### Build the original universal Core as the immediate Gate 1 implementation
 
-Rejected because it would duplicate established specifications and require unnecessary new vocabulary.
+Rejected at that stage because it would duplicate established specifications and require unnecessary new vocabulary before the mapping and conformance gap was tested. ADR-0004 later restored the broader Core program with explicit composition boundaries and sequential gates.
 
 ### Build only a proprietary SaaS mapper
 
@@ -188,21 +202,21 @@ Not yet selected because the mapping lifecycle and consumer conformance rules mu
 
 ### Positive
 
-- The project has a precise and testable problem.
+- The semantic-mapping profile has a precise and testable problem.
 - Existing standards remain authoritative for their own domains.
-- The implementation surface becomes much smaller.
-- The project can fail early instead of spending years on a broad ontology.
+- The initial implementation surface becomes much smaller.
+- The project can test the mapping gap early instead of spending years on a broad ontology.
 - A future commercial compiler or review service can remain compatible with an open profile.
+- The profile remains a validated subset of the broader Core.
 
 ### Negative
 
-- The project is less expansive than the original vision.
-- Its value depends on proving behavior across independent consumers, not merely publishing a schema.
-- The project may ultimately become an extension or tool rather than a standalone standard.
-- The current bootstrap schema will probably be replaced.
+- The profile's value depends on proving behavior across independent consumers, not merely publishing a schema.
+- The profile may ultimately become an extension or upstream contribution even while the broader Core continues.
+- Readers must follow ADR-0004 and ADR-0004A for the current global project scope.
 
 ## Gate decision
 
-Gate 0 passes with the narrowed profile hypothesis.
+Gate 0 passed with the narrowed profile hypothesis as the first implementation experiment.
 
-The next gate is Gate 1 — Core information model. Its first task is to define and test the minimal semantic mapping assertion and status transition model without adding dataset, provenance, quality or policy models already covered by existing standards.
+The subsequent Gate 1 work defined and tested the minimal semantic mapping assertion and status transition model. The broader full-Core direction is governed by ADR-0004, ADR-0004A and the current Core specification.
