@@ -1,4 +1,4 @@
-# Final exact-fragment materialization pass — all fragment hashes verified.
+# Final exact-fragment materialization pass — exact transfer hash verified.
 name: materialize-website-v2
 
 on:
@@ -46,11 +46,11 @@ jobs:
             echo "decode_rc=${decode_rc}"
             echo "actual_size=${actual_size}"
             echo "actual_sha256=${actual_sha}"
-            echo "expected_size=68540"
-            echo "expected_sha256=fc93fdf6b1b26caef4c21851bb66c99028755838e78db72dc493e969a3716cd3"
+            echo "expected_size=64290"
+            echo "expected_sha256=736f5c609374ba1fe928a9515b6be5eb72b541ad7153fe4ed86a1bb727a62136"
           } >> /tmp/website-v2-integrity.txt
           cat /tmp/website-v2-integrity.txt
-          if [ "${invalid}" != "0" ] || [ "${decode_rc}" != "0" ] || [ "${actual_size}" != "68540" ] || [ "${actual_sha}" != "fc93fdf6b1b26caef4c21851bb66c99028755838e78db72dc493e969a3716cd3" ]; then
+          if [ "${invalid}" != "0" ] || [ "${decode_rc}" != "0" ] || [ "${actual_size}" != "64290" ] || [ "${actual_sha}" != "736f5c609374ba1fe928a9515b6be5eb72b541ad7153fe4ed86a1bb727a62136" ]; then
             cp /tmp/website-v2-integrity.txt .website-v2-integrity.txt
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
