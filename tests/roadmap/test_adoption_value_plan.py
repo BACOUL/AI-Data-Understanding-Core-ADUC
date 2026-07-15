@@ -30,16 +30,17 @@ class AdoptionValuePlanTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, text)
 
-    def test_complete_contract_formatter_is_the_single_active_task(self) -> None:
+    def test_conformance_runner_is_the_single_active_task(self) -> None:
         text = NEXT_ACTION.read_text(encoding="utf-8")
-        self.assertIn("deterministic complete-contract formatter", text)
-        self.assertIn("complete ADUC Core contracts", text)
-        self.assertIn("tools/aduc_core.py validate", text)
-        self.assertIn("tools/aduc_core.py compare", text)
+        self.assertIn("provider-neutral full-Core conformance runner", text)
+        self.assertIn("validators, comparators and formatters", text)
+        self.assertIn("frozen machine-readable test manifest", text)
+        self.assertIn("reference engine as the specification", text)
         self.assertIn("JSON/CSV compiler remains blocked", text)
+        self.assertNotIn("Define and implement the deterministic complete-contract formatter", text)
         self.assertNotIn("migration path from the standalone semantic-mapping profile", text)
 
-    def test_readme_exposes_cross_cutting_core_schema_validator_and_comparator_status(self) -> None:
+    def test_readme_exposes_cross_cutting_core_schema_validator_comparator_and_formatter_status(self) -> None:
         text = README.read_text(encoding="utf-8")
         self.assertIn("ADOPTION_AND_VALUE_VALIDATION.md", text)
         self.assertIn("manual mapping", text)
@@ -48,10 +49,12 @@ class AdoptionValuePlanTests(unittest.TestCase):
         self.assertIn("aduc-core.schema.json", text)
         self.assertIn("tools/aduc_core.py validate", text)
         self.assertIn("tools/aduc_core.py compare", text)
+        self.assertIn("tools/aduc_core_format.py", text)
         self.assertIn("changeType", text)
         self.assertIn("assessment", text)
         self.assertIn("requiresHumanReview", text)
         self.assertIn("semantic-mapping profile", text)
+        self.assertIn("provider-neutral full-Core conformance runner", text)
 
 
 if __name__ == "__main__":

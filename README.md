@@ -40,14 +40,17 @@ Available now:
 - profile evaluators for epistemic lifecycle, source binding, units, time, identity, provenance, uncertainty and quality, relations and policy;
 - deterministic JSON and text reports;
 - provider-neutral conformance infrastructure foundation;
-- deterministic migration from the standalone semantic-mapping profile into complete ADUC Core contracts.
+- deterministic migration from the standalone semantic-mapping profile into complete ADUC Core contracts;
+- deterministic formatting of complete validated Core contracts with exact-decimal preservation, stable reports and byte idempotence.
 
 Single active technical task:
 
-- deterministic formatting of complete validated Core contracts without inference or silent repair.
+- provider-neutral full-Core conformance runner for validators, comparators and formatters.
 
 Not yet available:
 
+- provider-neutral full-Core conformance runner;
+- TypeScript and Python SDKs;
 - JSON/CSV compiler;
 - graphical review interface;
 - stabilized public PyPI/npm packages;
@@ -114,6 +117,15 @@ requiresHumanReview
 
 Unsafe inputs with duplicate identifiers, unresolved references, ownership violations, resource-binding errors, namespace conflicts or unsupported required extensions are not indexed as trustworthy comparable contracts.
 
+## Format A Complete Core Contract
+
+```bash
+python tools/aduc_core_format.py examples/core/complete-model.example.json --output complete-model.formatted.json
+python tools/aduc_core_format.py examples/core/complete-model.example.json --output complete-model.formatted.json --report-format json
+```
+
+The formatter validates before and after serialization, preserves exact decimal values and every array order, rejects duplicate JSON members, writes atomically and produces identical bytes when run repeatedly. Exit code `2` means the valid contract still requires human review; formatting never removes that state.
+
 ## Run Checks
 
 ```bash
@@ -136,6 +148,7 @@ python -m unittest discover -s tests/core_model -p "test_*.py"
 python -m unittest discover -s tests/core_schema -p "test_*.py"
 python -m unittest discover -s tests/core_validator -p "test_*.py"
 python -m unittest discover -s tests/core_comparator -p "test_*.py"
+python -m unittest discover -s tests/core_formatter -p "test_*.py"
 python tools/aduc_core_validate.py examples/core/complete-model.example.json
 python tools/aduc_core.py validate examples/core/complete-model.example.json
 python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
