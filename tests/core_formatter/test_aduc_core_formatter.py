@@ -178,6 +178,27 @@ class CompleteContractFormatterTests(unittest.TestCase):
                 rendered,
             )
 
+    def test_oversized_integer_is_reported_without_traceback(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            document = copy.deepcopy(self.document)
+            payload = document["semantics"]["extensions"]["https://example.org/aduc/ext/hydrology/"]
+            payload["oversizedInteger"] = "OVERSIZED_INTEGER_PLACEHOLDER"
+            source = self.write_unordered(root, document)
+            raw = source.read_text(encoding="utf-8").replace(
+                '"OVERSIZED_INTEGER_PLACEHOLDER"',
+                "1" * 5000,
+            )
+            source.write_text(raw, encoding="utf-8")
+            output = root / "formatted.json"
+
+            report, exit_code = formatter.format_path(source, output)
+
+            self.assertEqual(exit_code, formatter.EXIT_USAGE)
+            self.assertFalse(report["formatted"])
+            self.assertFalse(output.exists())
+            self.assertEqual(report["diagnostics"][0]["code"], "ADUC-FMT-INPUT-006")
+
     def test_array_paths_cannot_collide_with_extension_member_names(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -204,6 +225,9 @@ class CompleteContractFormatterTests(unittest.TestCase):
                 report, exit_code = formatter.format_path(source, output)
 
             self.assertEqual(exit_code, formatter.EXIT_USAGE)
+            self.assertFalse(report["formatted"])
+            self.assertIsNone(report["bytes"]["output"])
+            self.assertIsNone(report["bytes"]["sha256"])
             self.assertFalse(output.exists())
             self.assertEqual(report["diagnostics"][0]["code"], "ADUC-FMT-OUTPUT-002")
 

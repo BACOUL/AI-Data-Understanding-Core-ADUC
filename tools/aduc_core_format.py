@@ -105,6 +105,12 @@ def parse_json_text(text: str, *, decimal_numbers: bool = False) -> Any:
             f"Invalid JSON at line {exc.lineno}, column {exc.colno}: {exc.msg}",
             usage=True,
         ) from exc
+    except ValueError as exc:
+        raise FormatterError(
+            "ADUC-FMT-INPUT-006",
+            "JSON numeric value exceeds the supported parser limit.",
+            usage=True,
+        ) from exc
     except RecursionError as exc:
         raise FormatterError(
             "ADUC-FMT-INPUT-005",
@@ -367,6 +373,10 @@ def format_path(input_path: Path, output_path: Path, *, force: bool = False) -> 
         write_atomic(output_path, encoded, force=force)
         return report, exit_code
     except FormatterError as exc:
+        if report.get("formatted"):
+            report["formatted"] = False
+            report["bytes"]["output"] = None
+            report["bytes"]["sha256"] = None
         report["outcome"] = "usageError" if exc.usage else "blocked"
         report["diagnostics"].append(diagnostic(exc.code, exc.message, path=exc.path))
         return report, EXIT_USAGE if exc.usage else EXIT_BLOCKED
