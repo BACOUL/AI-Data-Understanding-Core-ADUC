@@ -47,10 +47,10 @@ jobs:
             echo "actual_size=${actual_size}"
             echo "actual_sha256=${actual_sha}"
             echo "expected_size=64290"
-            echo "expected_sha256=736f5c609374ba1fe928a9515b6be5eb72b541ad7153fe4ed86a1bb727a62136"
+            echo "expected_sha256=736f5c0f4f3294bc41319adbbce5fc242059505b8e85d90d863dee6bf73675e3"
           } >> /tmp/website-v2-integrity.txt
           cat /tmp/website-v2-integrity.txt
-          if [ "${invalid}" != "0" ] || [ "${decode_rc}" != "0" ] || [ "${actual_size}" != "64290" ] || [ "${actual_sha}" != "736f5c609374ba1fe928a9515b6be5eb72b541ad7153fe4ed86a1bb727a62136" ]; then
+          if [ "${invalid}" != "0" ] || [ "${decode_rc}" != "0" ] || [ "${actual_size}" != "64290" ] || [ "${actual_sha}" != "736f5c0f4f3294bc41319adbbce5fc242059505b8e85d90d863dee6bf73675e3" ]; then
             cp /tmp/website-v2-integrity.txt .website-v2-integrity.txt
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
