@@ -95,20 +95,26 @@ jobs:
           if changed:
               raise SystemExit("Generator output differs from reviewed bundle: " + ", ".join(changed))
           PY
-      - name: Run website and repository validation
-        shell: bash
+      - name: Install validation dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
+      - name: Check Python and JavaScript syntax
         run: |
-          set -euo pipefail
-          python -m pip install --disable-pip-version-check -r requirements-dev.txt
           python -m py_compile website/build_site.py tools/validate_website.py tests/website/test_public_site_alignment.py
           node --check website/assets/app.js
-          python -m unittest discover -s tests/website -p "test_*.py"
-          python tools/validate_website.py
-          python -m unittest discover -s tests/roadmap -p "test_*.py"
-          python tools/validate_contracts.py
+      - name: Run focused website tests
+        run: python -m unittest discover -s tests/website -p "test_*.py"
+      - name: Run website validator
+        run: python tools/validate_website.py
+      - name: Run roadmap tests
+        run: python -m unittest discover -s tests/roadmap -p "test_*.py"
+      - name: Validate official contracts
+        run: python tools/validate_contracts.py
+      - name: Validate and compare complete Core example
+        run: |
           python tools/aduc_core.py validate examples/core/complete-model.example.json
           python tools/aduc_core.py compare examples/core/complete-model.example.json examples/core/complete-model.example.json
-          python -m unittest discover -s tests -p "test_*.py"
+      - name: Run complete repository tests
+        run: python -m unittest discover -s tests -p "test_*.py"
       - name: Commit verified website V2 and remove transfer files
         shell: bash
         run: |
