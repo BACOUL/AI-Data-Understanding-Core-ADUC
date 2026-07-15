@@ -1,0 +1,23 @@
+{
+  "suite": "ADUC Core deterministic formatter fixtures 0.1",
+  "cases": [
+    {
+      "id": "valid-unordered",
+      "input": "valid-unordered.json",
+      "expectedOutput": "valid-unordered.formatted.json",
+      "expectedOutcome": "formatted"
+    },
+    {
+      "id": "review-required-unordered",
+      "input": "review-required-unordered.json",
+      "expectedOutput": "review-required-unordered.formatted.json",
+      "expectedOutcome": "formattedRequiresHumanReview"
+    },
+    {
+      "id": "rejected-duplicate-key",
+      "input": "rejected-duplicate-key.json",
+      "expectedCode": "ADUC-FMT-INPUT-002",
+      "expectedOutcome": "usageError"
+    }
+  ]
+}
