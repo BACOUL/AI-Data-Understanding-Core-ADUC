@@ -1,0 +1,300 @@
+{
+  "adapterProtocol": "urn:aduc:full-core-conformance-adapter:0.1",
+  "adversarialAdapters": [
+    {
+      "expectedRunnerResult": "unsupported",
+      "id": "unsupported"
+    },
+    {
+      "expectedRunnerResult": "invalidAdapterResponse",
+      "id": "invalid-json"
+    },
+    {
+      "expectedRunnerResult": "invalidAdapterResponse",
+      "id": "incomplete-response"
+    },
+    {
+      "expectedRunnerResult": "timeout",
+      "id": "timeout"
+    },
+    {
+      "expectedRunnerResult": "resourceFailure",
+      "id": "too-large-output"
+    }
+  ],
+  "cases": [
+    {
+      "class": "fullCoreValidator",
+      "description": "A complete ten-block Core contract validates without remote loading.",
+      "expected": {
+        "exitCode": 0,
+        "outcome": "valid",
+        "valid": true
+      },
+      "id": "validate-valid-complete",
+      "inputs": {
+        "contract": "fixtures/contracts/validate-valid-complete.json"
+      },
+      "operation": "validate",
+      "requiredCapability": "validate",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreValidator",
+      "description": "A contract missing the required structure block is blocked.",
+      "expected": {
+        "diagnosticCodes": [
+          "ADUC-SCHEMA-REQUIRED"
+        ],
+        "exitCode": 1,
+        "outcome": "blocked",
+        "valid": false
+      },
+      "id": "validate-invalid-missing-structure",
+      "inputs": {
+        "contract": "fixtures/contracts/validate-invalid-missing-structure.json"
+      },
+      "operation": "validate",
+      "requiredCapability": "validate",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreValidator",
+      "description": "Human review remains visible and is not converted into success.",
+      "expected": {
+        "exitCode": 2,
+        "outcome": "requiresHumanReview",
+        "preserveOutcomes": [
+          "requiresHumanReview",
+          "unknown"
+        ],
+        "valid": true
+      },
+      "id": "validate-review-required",
+      "inputs": {
+        "contract": "fixtures/contracts/validate-review-required.json"
+      },
+      "operation": "validate",
+      "requiredCapability": "validate",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreValidator",
+      "description": "A profile that cannot be fully evaluated is reported as unknown, not assumed valid.",
+      "expected": {
+        "exitCode": 2,
+        "outcome": "requiresHumanReview",
+        "preserveOutcomes": [
+          "unknown"
+        ],
+        "valid": true
+      },
+      "id": "validate-profile-unknown",
+      "inputs": {
+        "contract": "fixtures/contracts/validate-profile-unknown.json"
+      },
+      "operation": "validate",
+      "requiredCapability": "validate",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreComparator",
+      "description": "Comparator scenario compare-identical.",
+      "expected": {
+        "exitCode": 0,
+        "overall": "unchanged",
+        "overallAssessment": "equivalent"
+      },
+      "id": "compare-identical",
+      "inputs": {
+        "left": "fixtures/compare/compare-identical-left.json",
+        "right": "fixtures/compare/compare-identical-right.json"
+      },
+      "operation": "compare",
+      "requiredCapability": "compare",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreComparator",
+      "description": "Comparator scenario compare-convertible-unit.",
+      "expected": {
+        "assessments": [
+          "convertible"
+        ],
+        "changeCodes": [
+          "ADUC-COMPARE-SEMANTICS-UNIT-001"
+        ],
+        "exitCode": 0,
+        "overall": "compatible",
+        "overallAssessment": "convertible"
+      },
+      "id": "compare-convertible-unit",
+      "inputs": {
+        "left": "fixtures/compare/compare-convertible-unit-left.json",
+        "right": "fixtures/compare/compare-convertible-unit-right.json"
+      },
+      "operation": "compare",
+      "requiredCapability": "compare",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreComparator",
+      "description": "Comparator scenario compare-contested.",
+      "expected": {
+        "assessments": [
+          "contested"
+        ],
+        "changeCodes": [
+          "ADUC-COMPARE-SEMANTICS-CONFLICT-001"
+        ],
+        "exitCode": 2,
+        "overall": "requiresHumanReview",
+        "overallAssessment": "contested",
+        "preserveOutcomes": [
+          "contested",
+          "requiresHumanReview"
+        ]
+      },
+      "id": "compare-contested",
+      "inputs": {
+        "left": "fixtures/compare/compare-contested-left.json",
+        "right": "fixtures/compare/compare-contested-right.json"
+      },
+      "operation": "compare",
+      "requiredCapability": "compare",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreComparator",
+      "description": "Comparator scenario compare-prohibited.",
+      "expected": {
+        "assessments": [
+          "prohibited"
+        ],
+        "changeCodes": [
+          "ADUC-COMPARE-POLICY-PROHIBITION-ADDED-001"
+        ],
+        "exitCode": 2,
+        "overall": "potentiallyIncompatible",
+        "overallAssessment": "prohibited",
+        "preserveOutcomes": [
+          "prohibited"
+        ]
+      },
+      "id": "compare-prohibited",
+      "inputs": {
+        "left": "fixtures/compare/compare-prohibited-left.json",
+        "right": "fixtures/compare/compare-prohibited-right.json"
+      },
+      "operation": "compare",
+      "requiredCapability": "compare",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreComparator",
+      "description": "Comparator scenario compare-deprecated.",
+      "expected": {
+        "assessments": [
+          "deprecated"
+        ],
+        "changeCodes": [
+          "ADUC-COMPARE-SEMANTICS-LIFECYCLE-001"
+        ],
+        "exitCode": 2,
+        "overall": "requiresHumanReview",
+        "overallAssessment": "deprecated",
+        "preserveOutcomes": [
+          "requiresHumanReview"
+        ]
+      },
+      "id": "compare-deprecated",
+      "inputs": {
+        "left": "fixtures/compare/compare-deprecated-left.json",
+        "right": "fixtures/compare/compare-deprecated-right.json"
+      },
+      "operation": "compare",
+      "requiredCapability": "compare",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreComparator",
+      "description": "Comparator scenario compare-unknown-unit.",
+      "expected": {
+        "assessments": [
+          "unknown"
+        ],
+        "changeCodes": [
+          "ADUC-COMPARE-SEMANTICS-UNIT-001"
+        ],
+        "exitCode": 2,
+        "overall": "potentiallyIncompatible",
+        "overallAssessment": "unknown",
+        "preserveOutcomes": [
+          "unknown"
+        ]
+      },
+      "id": "compare-unknown-unit",
+      "inputs": {
+        "left": "fixtures/compare/compare-unknown-unit-left.json",
+        "right": "fixtures/compare/compare-unknown-unit-right.json"
+      },
+      "operation": "compare",
+      "requiredCapability": "compare",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreFormatter",
+      "description": "Formatter canonicalizes an unordered valid contract.",
+      "expected": {
+        "exitCode": 0,
+        "formatted": true,
+        "outcome": "formatted"
+      },
+      "id": "format-valid-unordered",
+      "inputs": {
+        "contract": "fixtures/format/valid-unordered.json"
+      },
+      "operation": "format",
+      "requiredCapability": "format",
+      "version": "0.1.0"
+    },
+    {
+      "class": "fullCoreFormatter",
+      "description": "Formatter preserves review-required validation status.",
+      "expected": {
+        "exitCode": 2,
+        "formatted": true,
+        "outcome": "formattedRequiresHumanReview",
+        "preserveOutcomes": [
+          "requiresHumanReview"
+        ]
+      },
+      "id": "format-review-required",
+      "inputs": {
+        "contract": "fixtures/format/review-required-unordered.json"
+      },
+      "operation": "format",
+      "requiredCapability": "format",
+      "version": "0.1.0"
+    }
+  ],
+  "conformanceClasses": [
+    "fullCoreValidator",
+    "fullCoreComparator",
+    "fullCoreFormatter"
+  ],
+  "coreVersion": "0.1.0-alpha.0",
+  "normativeOutcomesPreserved": [
+    "unknown",
+    "contested",
+    "prohibited",
+    "requiresHumanReview"
+  ],
+  "protocol": "urn:aduc:full-core-conformance-suite:0.1",
+  "resourceLimits": {
+    "maxStdoutBytes": 200000,
+    "timeoutSeconds": 3
+  },
+  "suiteId": "urn:aduc:full-core-conformance:0.1",
+  "suiteVersion": "0.1.0"
+}

@@ -1,0 +1,20 @@
+{
+  "aduc": {
+    "conformsTo": [
+      "urn:aduc:core-model:0.1"
+    ],
+    "contractId": "urn:aduc:contract:fixture:minimum:1",
+    "coreVersion": "0.1.0-alpha.0",
+    "createdAt": "2026-07-14T10:00:00Z",
+    "modelVersion": "0.1.0",
+    "publisher": "https://example.org/publisher",
+    "status": "reviewed"
+  },
+  "resource": {
+    "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "id": "urn:example:resource:minimum:1",
+    "kind": "dataset",
+    "mediaType": "application/json",
+    "version": "1"
+  }
+}

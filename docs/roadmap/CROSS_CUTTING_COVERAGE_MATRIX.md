@@ -129,4 +129,4 @@ Before a phase is closed:
 
 The ADR-0018 formatter assessment is recorded in `docs/roadmap/reviews/ADR-0018_CROSS_CUTTING_REVIEW.md`.
 
-The matrix does not change the active technical task. The current task is the provider-neutral full-Core conformance runner for validators, comparators and formatters.
+The matrix does not change the active technical task. The current task is the public SDK and package publication boundary for the accepted Core CLI tools.

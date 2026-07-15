@@ -1,0 +1,126 @@
+{
+  "$id": "urn:aduc:schema:conformance-manifest:0.1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "adapterProtocol": {
+      "const": "urn:aduc:full-core-conformance-adapter:0.1"
+    },
+    "cases": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "class": {
+            "enum": [
+              "fullCoreValidator",
+              "fullCoreComparator",
+              "fullCoreFormatter"
+            ]
+          },
+          "expected": {
+            "type": "object"
+          },
+          "id": {
+            "pattern": "^[a-z0-9][a-z0-9-]*$",
+            "type": "string"
+          },
+          "inputs": {
+            "type": "object"
+          },
+          "operation": {
+            "enum": [
+              "validate",
+              "compare",
+              "format"
+            ]
+          },
+          "requiredCapability": {
+            "enum": [
+              "validate",
+              "compare",
+              "format"
+            ]
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "class",
+          "operation",
+          "requiredCapability",
+          "inputs",
+          "expected"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "conformanceClasses": {
+      "items": {
+        "enum": [
+          "fullCoreValidator",
+          "fullCoreComparator",
+          "fullCoreFormatter"
+        ]
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "coreVersion": {
+      "type": "string"
+    },
+    "normativeOutcomesPreserved": {
+      "items": {
+        "enum": [
+          "unknown",
+          "contested",
+          "prohibited",
+          "requiresHumanReview"
+        ]
+      },
+      "type": "array"
+    },
+    "protocol": {
+      "const": "urn:aduc:full-core-conformance-suite:0.1"
+    },
+    "resourceLimits": {
+      "additionalProperties": false,
+      "properties": {
+        "maxStdoutBytes": {
+          "minimum": 1024,
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "timeoutSeconds",
+        "maxStdoutBytes"
+      ],
+      "type": "object"
+    },
+    "suiteId": {
+      "type": "string"
+    },
+    "suiteVersion": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "protocol",
+    "suiteId",
+    "suiteVersion",
+    "adapterProtocol",
+    "resourceLimits",
+    "conformanceClasses",
+    "cases"
+  ],
+  "title": "ADUC full-Core conformance manifest 0.1",
+  "type": "object"
+}
