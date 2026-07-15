@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: materialize-core-formatter-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   materialize:
     if: github.event.pull_request.head.repo.full_name == github.repository
@@ -18,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: core/deterministic-complete-contract-formatter
-          fetch-depth: 1
+          fetch-depth: 0
           show-progress: false
 
       - name: Reconstruct and verify formatter bundle
@@ -41,12 +45,6 @@ jobs:
             sha256sum .formatter-bundle/part*.b64
           } | tee /tmp/formatter-integrity.txt
           if [ "${decode_rc}" != "0" ] || [ "${actual_size}" != "11438" ] || [ "${actual_sha}" != "56390a2a6d74f772dcb14e09d4f289f0dc1bbc81ae2928876aa5c6efd13ad3f9" ]; then
-            cp /tmp/formatter-integrity.txt .formatter-integrity.txt
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add .formatter-integrity.txt
-            git commit -m "CI: record formatter bundle integrity mismatch" || true
-            git push origin HEAD:core/deterministic-complete-contract-formatter || true
             exit 1
           fi
           python - <<'PY'
@@ -141,4 +139,5 @@ jobs:
           git rm -f .formatter-integrity.txt || true
           git rm .github/workflows/materialize-core-formatter.yml
           git commit -m "Core: add deterministic complete-contract formatter"
+          git pull --rebase origin core/deterministic-complete-contract-formatter
           git push origin HEAD:core/deterministic-complete-contract-formatter
