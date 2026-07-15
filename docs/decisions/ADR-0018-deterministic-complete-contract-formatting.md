@@ -25,17 +25,17 @@ ADUC defines a local deterministic complete-contract formatter with the followin
 6. Members of every nested JSON object are emitted in Unicode code-point order.
 7. Array elements are never reordered. Array order is preserved recursively, including arrays that might appear set-like to one implementation.
 8. Strings are emitted as UTF-8 JSON strings without mandatory ASCII escaping.
-9. Numbers are normalized from their exact parsed decimal value:
+9. Numbers are normalized from their exact parsed decimal value without binary floating-point conversion or runtime decimal-context rounding:
    - finite values only;
    - trailing fractional zeros are removed;
    - `-0` remains negative zero;
    - plain notation is used for adjusted exponents from -6 through 20;
    - otherwise lowercase scientific notation is used without a plus sign or exponent padding.
 10. Output uses two-space indentation, `: ` member separators, `,` separators and exactly one final LF.
-11. The complete JSON value must compare equal after formatting, and every array path and element order must remain equal.
+11. The complete exact-decimal JSON value must compare equal after formatting, and every array path and element order must remain equal. Array paths are represented structurally, not by concatenated member-name strings.
 12. The formatted output is validated again through the same full-Core pipeline.
 13. Formatting reports are deterministic JSON or text with stable fields, codes and exit statuses.
-14. Output is written atomically. Existing files are not replaced without explicit `--force`, and input is never overwritten in place.
+14. Output is written atomically. Existing files are not replaced without explicit `--force`, including when a destination appears concurrently, and input is never overwritten in place.
 
 ## Outcomes and exit codes
 
