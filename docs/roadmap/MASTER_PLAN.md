@@ -2,7 +2,7 @@
 
 - Status: Official execution plan
 - Working name: AI Data Understanding Core — ADUC
-- Date: 2026-07-14
+- Date: 2026-07-15
 - Rule: complete technical phases in order unless an accepted ADR changes the order
 - Program rule: every phase is also subject to the cross-cutting coverage matrix and evidence gates
 
@@ -320,6 +320,8 @@ Implemented reference foundations:
 - complete object-model example and architectural checker;
 - official modular Core JSON Schema family;
 - unified full-Core validator and deterministic comparator;
+- deterministic semantic-profile migration into complete Core contracts;
+- deterministic complete-contract formatter;
 - governance, CI, execution ledger, English website, GitHub Pages and Vercel deployment.
 
 # Phase 0 — Full-Core definition
@@ -381,7 +383,7 @@ Translate the accepted profiles and frozen object model into a coherent Draft 20
 - [x] at least ten intentionally invalid examples;
 - [x] local schema validator and stable error paths;
 - [x] documented graph checks beyond JSON Schema;
-- [ ] migration fixtures from the current mapping profile.
+- [x] migration fixtures from the standalone semantic-mapping profile.
 
 ## Cross-cutting requirements
 
@@ -405,11 +407,11 @@ Provide deterministic local tooling for the complete Core.
 
 - [x] unified full-Core CLI validator;
 - [x] stable unified error catalogue;
-- [ ] contract formatter;
+- [x] contract formatter;
 - [x] unified comparator across concepts, units, time, identity, provenance, uncertainty, relations and policy;
+- [ ] conformance runner;
 - [ ] TypeScript SDK;
 - [ ] Python SDK;
-- [ ] conformance runner;
 - [ ] package publication plan;
 - [ ] updated “Try in 5 minutes” guide.
 
@@ -606,6 +608,6 @@ Cross-cutting gate: registry trust, package provenance, certification independen
 
 ## Current single active task
 
-The only active technical task remains the deterministic migration path from the standalone semantic-mapping profile into complete Core contracts, as defined in `docs/roadmap/NEXT_ACTION.md`.
+The only active technical task is the provider-neutral full-Core conformance runner for validator, comparator and formatter implementations, as defined in `docs/roadmap/NEXT_ACTION.md`.
 
-This Master Plan expansion does not authorize the compiler, review UI, SaaS, MCP adapter, extensions, anticipation engine or external multi-model proof ahead of their gates.
+The conformance runner must not be presented as independent proof merely because it passes the reference implementation. This Master Plan does not authorize the compiler, review UI, SaaS, MCP adapter, extensions, anticipation engine or external multi-model proof ahead of their gates.

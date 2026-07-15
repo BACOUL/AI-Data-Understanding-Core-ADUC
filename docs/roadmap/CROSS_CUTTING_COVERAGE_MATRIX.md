@@ -127,4 +127,6 @@ Before a phase is closed:
 
 ## Current priority
 
-The matrix does not change the active technical task. The current task remains migration from the standalone semantic-mapping profile into complete Core contracts.
+The ADR-0018 formatter assessment is recorded in `docs/roadmap/reviews/ADR-0018_CROSS_CUTTING_REVIEW.md`.
+
+The matrix does not change the active technical task. The current task is the provider-neutral full-Core conformance runner for validators, comparators and formatters.

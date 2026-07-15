@@ -4,7 +4,7 @@
 - Current phase: Phase 2 - Reference implementation
 - Current release: unreleased
 - Target release: `0.1.0-alpha.0`
-- Overall status: nine domain profiles, the normative Core object model, the official modular Draft 2020-12 schema family and the unified full-Core validator/comparator are implemented and reference-tested; the deterministic semantic-profile migration is implemented and reference-tested; the public website now presents that state directly; deterministic complete-contract formatting is the single next task
+- Overall status: nine domain profiles, the normative Core object model, the official modular Draft 2020-12 schema family, the unified full-Core validator/comparator, deterministic semantic-profile migration and deterministic complete-contract formatter are implemented and reference-tested; the provider-neutral full-Core conformance runner is the single next engine task
 
 ## Official direction
 
@@ -39,7 +39,8 @@ The minimum interoperable envelope is `aduc + resource + structure`.
 - ADR-0014 normative Core object model and modular boundaries;
 - ADR-0015 official modular Core JSON Schema family and local reference validator;
 - ADR-0016 unified Core validator and deterministic comparator;
-- ADR-0017 deterministic semantic-profile migration into complete Core contracts.
+- ADR-0017 deterministic semantic-profile migration into complete Core contracts;
+- ADR-0018 deterministic complete-contract formatting with exact-decimal and array-order preservation.
 
 ## Accepted evidence
 
@@ -58,6 +59,7 @@ The minimum interoperable envelope is `aduc + resource + structure`.
 | Modular Core schema family | 14 Draft 2020-12 schemas, 11 valid contracts, 15 invalid contracts, 13 schema tests, local validator |
 | Unified Core validation and comparison | `tools/aduc_core.py`, 24 comparison scenarios, 15 validator tests, 13 comparator tests, evaluator-adapter orchestration, separated change type and semantic assessments, stable report specs |
 | Deterministic semantic-profile migration | explicit migration manifest, conservative status mapping, complete Core revalidation, three frozen end-to-end scenarios and 19 focused tests |
+| Deterministic complete-contract formatter | strict UTF-8 JSON parser, duplicate-key rejection, exact-decimal preservation, frozen Core ordering, unchanged arrays, atomic writes, stable reports, frozen fixtures and 13 focused tests |
 | Public website alignment | canonical GitHub Pages URL, dedicated Core/Validate/Compare/Trust/Evidence pages, site-data metrics, sitemap/canonical checks and obsolete-claim regression tests |
 
 ## Schema-family decision
@@ -105,7 +107,8 @@ Before compiler or interoperability success claims, the project must demonstrate
 | Local Core schema validator | Complete |
 | Unified Core validator/comparator | Complete |
 | Semantic-profile migration tool | Complete |
-| Deterministic complete-contract formatter | Next action |
+| Deterministic complete-contract formatter | Complete |
+| Provider-neutral full-Core conformance runner | Next action |
 | JSON/CSV compiler | Not implemented |
 | Review interface | Not implemented |
 | Value benchmark | Not run |
@@ -113,13 +116,14 @@ Before compiler or interoperability success claims, the project must demonstrate
 
 ## Active blockers
 
-- deterministic formatting for complete validated Core contracts is not yet implemented;
+- a provider-neutral full-Core conformance runner is not yet implemented;
+- public TypeScript/Python SDKs and package-release controls are not yet implemented;
 - no qualifying value benchmark or external multi-model runs exist;
 - the public name remains provisional.
 
 ## Next gate
 
-Define and implement deterministic formatting for complete validated Core contracts without inference, repair or semantic change. The JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.
+Define and implement the provider-neutral full-Core conformance runner for validator, comparator and formatter implementations. The runner must produce reproducible implementation reports without treating the reference engine as the specification. The JSON/CSV compiler remains blocked until the adoption and review-tax gates are ready to run.
 
 ## Rule
 

@@ -27,6 +27,7 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 - Normative ten-block Core object model, module manifest and architecture checker.
 - Official modular Draft 2020-12 Core JSON Schema family and local schema-plus-architecture validator.
 - Unified full-Core validator and deterministic comparator with stable JSON/text reports.
+- ADR-0018 deterministic complete-contract formatter with strict JSON parsing, exact-decimal preservation, frozen Core ordering, unchanged array order, atomic output, stable reports and byte idempotence.
 
 ### Evidence
 
@@ -42,6 +43,7 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 - Uncertainty and data quality: fourteen valid cases, twenty-four invalid cases, ten tests.
 - General relations: thirteen valid cases, twenty invalid cases, ten tests.
 - Policy: twenty valid cases, thirty-two invalid cases, thirteen tests.
+- ADR-0018 - deterministic complete-contract formatting: valid, review-required and rejected fixtures; exact-decimal and Unicode preservation; duplicate-key, path-collision and overwrite-race regressions; 13 focused tests.
 - ADR-0017 - deterministic semantic-profile migration: explicit manifest, conservative mappings, stable reports, complete Core revalidation and 19 focused tests.
 - ADR-0016 - unified Core validation and comparison: 24 official comparison scenarios, evaluator-adapter orchestration, separated change type and semantic assessments, dangerous-index blocking, iterative JSON-depth protection, 15 validator tests and 13 comparator tests.
 - ADR-0014 — normative Core object model: complete ten-block example, twenty-five invalid architecture mutations, module manifest and eleven tests.
@@ -49,13 +51,14 @@ The format follows Keep a Changelog loosely. This project is not yet a recognize
 
 ### Changed
 
-- README, roadmap and public website now reflect the full-Core program, the implemented unified validator/comparator and semantic-profile migration, plus the active deterministic formatter task rather than a narrow mapping-only package or outdated validator/comparator roadmap.
+- README and roadmap now reflect the implemented validator, comparator, migration and deterministic formatter, with the provider-neutral conformance runner as the single next engine task. Website redesign remains isolated in PR #63.
 - Public website navigation, visual hierarchy, code examples, SEO metadata, sitemap, robots file and structured data now use the GitHub Pages canonical base already declared by the repository.
 - Root Vercel configuration now publishes the static website from `website/`.
 
 ### Not yet done
 
-- Deterministic complete-contract formatter.
+- Provider-neutral full-Core conformance runner.
+- TypeScript and Python SDKs.
 - JSON/CSV compiler and review UI.
 - MCP adapter, registry service, extensions and anticipation engine.
 - Qualifying external multi-model interoperability proof.
