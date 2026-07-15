@@ -24,6 +24,8 @@ valid_base64 .website-v2-bundle/part10b1.b64
 bdc5aece9d911988fbaa794a337321c67b0a6c97f8be76bb59941ad60e1ac1ec  .website-v2-bundle/part10b1.b64
 INVALID_BASE64 .website-v2-bundle/part10b2.b64
 13404a0a794b491add166de59dbff88ce5bf282cc3128e2394984eabd48363a6  .website-v2-bundle/part10b2.b64
+INVALID_BASE64 .website-v2-bundle/part10b2a.b64
+818e49e14bb2934edbaa0a477af88de0b4b32d7b8514ab362990d5a7317e3f7b  .website-v2-bundle/part10b2a.b64
 valid_base64 .website-v2-bundle/part11.b64
 894b019b2f8ec5949d8c62533767c7117369b4cd02d907ef202ee51733585059  .website-v2-bundle/part11.b64
 valid_base64 .website-v2-bundle/part12.b64
@@ -32,8 +34,8 @@ valid_base64 .website-v2-bundle/part13.b64
 f753b1f7f165899c3b2b0db9edac90282c2dd0b123a772ce13b448f6d94013db  .website-v2-bundle/part13.b64
 valid_base64 .website-v2-bundle/part14.b64
 cdba345ffa245aeafd6badbec2227967fe0454a6ddf4ab9b78f0b1903a3f13f7  .website-v2-bundle/part14.b64
-decode_rc=1
-actual_size=65087
-actual_sha256=719fd3168a058655c5dda0c53aa50288ecee6fc1a8974ba9a94cddb02a9fc5d9
+decode_rc=0
+actual_size=65649
+actual_sha256=0b3d0591e411c08a7fc8d46a4cd359c06c4c56d6854102222a4f6743b42fcafe
 expected_size=68540
 expected_sha256=fc93fdf6b1b26caef4c21851bb66c99028755838e78db72dc493e969a3716cd3
