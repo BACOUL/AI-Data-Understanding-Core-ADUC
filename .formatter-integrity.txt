@@ -1,0 +1,10 @@
+decode_rc=0
+actual_size=11438
+actual_sha256=fed7f83b97bdbbc76efad1ae7befe31bf96b1c55642171325a44c92d2f97f62f
+expected_size=11438
+expected_sha256=56390a2a6d74f772dcb14e09d4f289f0dc1bbc81ae2928876aa5c6efd13ad3f9
+12000 .formatter-bundle/part00.b64
+ 3252 .formatter-bundle/part01.b64
+15252 total
+ca6b0c9104151491ca746b5abe0d0acb5fc840989c1c16e05413c413ccb0f988  .formatter-bundle/part00.b64
+bd28b7d2ab1e9bccb60d287f71cfcf0cbd91868dc486614ce3fff9b0a9f191f3  .formatter-bundle/part01.b64
